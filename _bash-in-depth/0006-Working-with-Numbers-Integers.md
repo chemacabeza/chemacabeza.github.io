@@ -230,7 +230,7 @@ In this section we are going to take a look at how to work with Integers with tw
 * `let`: Which is new to us and we will talk about in a bit.
 
 
-### declare
+### `declare`
 
 As we mentioned already, “`declare`” can be used to give to the declared variables some specific behavior (specific semantics). In our case, we are going to use the “`declare`” built-in command to declare integer numbers.
 
@@ -286,7 +286,7 @@ However, when we remove the "*integer semantic*" on line 6, the variable “`myi
 
 You can also invoke the command "`declare`" without any arguments. This invocation will show the attributes and values of all the variables and functions available.
 
-### let
+### `let`
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
