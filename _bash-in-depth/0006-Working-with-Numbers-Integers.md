@@ -158,6 +158,106 @@ $ ./expr_modulo.sh
 Result of 8 % 3 is 2
 ```
 
+### Comparison
+
+“`expr`” supports the comparison operators (“`=`”, “`>`”, “`>=`”, “`<`”, “`<=`”, “`!=`”, will call them “`<op>`”). You need to call “`expr`” as follows:
+
+```bash
+expr <expression_1> <op> <expression_2> [<op> ...]
+```
+
+The comparison operators give as result either “`1`“ (if the result of the comparison was `true`) or “`0`” (if the result of the comparison was `false`).
+
+Same as with the multiplication character, with the character “`<`” we have to escape it to avoid Bash confusing it with a redirection character (which we will speak about later in another chapter).
+
+Let’s see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: expr_comparison.sh
+ 3 NUM1=8
+ 4 NUM2=3
+ 5 echo -n "Result of $NUM1 < $NUM2 is "
+ 6 expr $NUM1 \< $NUM2
+```
+
+When you run the previous script you will get the following result in the terminal.
+
+```txt
+$ ./comparison.sh
+Result of 8 < 3 is 0
+```
+
+The result of the script is `0`, which means that the number `8` is not smaller than the number `3`.
+
+
+### Boolean
+
+“`expr`” has support for the boolean operands **AND** (“`&`” character) and **OR** (“`|`” character) that we can use to compose logical operations.
+
+These boolean operands allow you combine the comparison expressions that we saw in the previous section.
+
+Pay attention that the operands AND and OR, when passed to the “`expr`” command, need to be between double quotes. 
+
+Let’s see how it works with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: expr_boolean.sh
+ 3 NUM1=8
+ 4 NUM2=3
+ 5 echo -n "Result of $NUM1 > $NUM2 & $NUM2 >= 3 is "
+ 6 expr  $NUM1 \> $NUM2 "&" $NUM2 \>= 3
+ 7 #                    ^^^
+```
+
+When you execute the previous script you will get the following result:
+
+```txt
+$ ./expr_boolean.sh
+Result of 8 > 3 & 3 >= 3 is 1
+```
+
+As you can see in the execution of the script, the result is `1`. The result `1` means that the two comparisons resulted to be `true`.
+
+If you pay attention to the line 7 of the previous script you will see that the AND operator is within double quotes.
+
+
+## Working with the “`let`/`declare`” builtin commands
+
+In this section we are going to take a look at how to work with Integers with two builtin commands of Bash:
+* `declare`: We already mentioned it in a previous chapter.
+* `let`: Which is new to us and we will talk about in a bit.
+
+
+### `declare`
+
+As we mentioned already, “`declare`” can be used to give to the declared variables some specific behavior (specific semantics). In our case, we are going to use the “`declare`” built-in command to declare integer numbers.
+
+In our current case, we need to use the option “`-i`” to indicate the declaration of an integer variable.
+
+In the following script we use the “`-i`” flag to declare a new integer variable named “`myIntVar`”.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: declare_integer.sh
+ 3 declare -i myIntVar=45
+ 4 myIntVar=$myIntVar+1
+ 5 echo $myIntVar
+```
+
+When you execute the previous script you will get the following result in the terminal.
+
+```txt
+$ ./declare_integer.sh
+46
+```
+
+In this case the builtin command “`declare`” is specifying that the new variable “`myIntVar`” should behave as an integer number (remember that, by default, variables in Bash behave like STRINGs).
+
+Something to mention is that, in the same way that “`declare`” can add specific behaviors to variables (like the previous one with integer and “`-i`”), it can remove it (setting it back to the default one) by using the “*negated*” option “`+i`”. Let’s see it with an example.
+
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
 <p id="footnote-1" style="font-size:10pt">
