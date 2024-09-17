@@ -30,6 +30,7 @@ This book is not intended to give you a full detailed tutorial on “`expr`”. 
 
 ### Addition
 “`expr`” supports the addition operator “`+`”. You need to call “`expr`” as follows.
+
 ```bash
 expr <integer/expression_1> + <integer/expression_2> [+ ...]
 ```
@@ -53,7 +54,109 @@ $ ./expr_addition.sh
 Result of 3 + 4 is 7
 ```
 
+### Substraction
+“`expr`” supports the subtraction operator “-”. You need to call “expr” as follows:
 
+```bash
+expr <integer/expression_1> - <integer/expression_2> [- ...]
+```
+
+Let’s see the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: expr_substraction.sh
+ 3 NUM1=3
+ 4 NUM2=4
+ 5 echo -n "Result of $NUM1 - $NUM2 is "
+ 6 expr $NUM1 - $NUM2
+```
+
+When you run the previous script you will get the following output.
+
+```txt
+$ ./subtraction.sh
+Result of 3 - 4 is -1
+```
+
+### Division
+“`expr`” supports the division operator “`/`”. You need to call “`expr`” as follows:
+
+```bash
+expr <integer/expression_1> / <integer/expression_2> [/ ...]
+```
+
+Let’s see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: expr_division.sh
+ 3 NUM1=9
+ 4 NUM2=3
+ 5 echo -n "Result of $NUM1 / $NUM2 is "
+ 6 expr $NUM1 / $NUM2
+```
+
+When you run the previous script you will get the following output.
+
+```txt
+$ ./expr_division.sh
+Result of 9 / 3 is 3
+```
+
+In the case of using operands whose result is a decimal number, **only the integer part will be given as result**. You can see the result by modifying the value of the “`NUM2`” variable in the previous script (“`expr_division.sh`”) to 2. The result will be `4.5` but the script will print only `4`.
+
+### Multiplication
+“`expr`” supports the multiplication operator “`*`”. You need to call “`expr`” as follows:
+
+```bash
+expr <integer/expression_1> \* <integer/expression_2> [\* ...]
+```
+
+Pay attention to the detail of “*escaping*” the “`*`” character. We do this to avoid bash interpreting such a character as a globbing character so that expansion does not happen. With the escaping character we are forcing a literal interpretation of the character “`*`” without expansion.
+
+Let's see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: expr_multiplication.sh
+ 3 NUM1=9
+ 4 NUM2=3
+ 5 echo -n "Result of $NUM1 * $NUM2 is "
+ 6 expr $NUM1 \* $NUM2
+```
+
+Whe you execute the previous script you will get the following as result.
+
+```txt
+$ ./expr_multiplication.sh
+Result of 9 * 3 is 27
+```
+
+### Modulo
+“`expr`” also supports the modulo operator “`%`”. You need to call “`expr`” as follows:
+
+```bash
+expr <integer/expression_1> % <integer/expression_2> [% ...]
+```
+
+Let’s see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: expr_modulo.sh
+ 3 NUM1=8
+ 4 NUM2=3
+ 5 echo -n "Result of $NUM1 % $NUM2 is "
+ 6 expr $NUM1 % $NUM2
+```
+
+When you execute the previous script you will get the following result.
+
+```txt
+$ ./expr_modulo.sh
+Result of 8 % 3 is 2
+```
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
