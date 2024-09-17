@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 1: Introduction | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 1: Introduction" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction If you go into the Internet and ask around you will see that several terms appear when asking about Bash. Some of them are: Terminal Terminal Window Console Shell" />
+<meta property="og:description" content="Introduction If you go into the Internet and ask around you will see that several terms appear when asking about Bash. Some of them are: Terminal Terminal Window Console Shell" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0001-Introduction.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0001-Introduction.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-17T07:48:01+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 1: Introduction" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T07:48:01+02:00","datePublished":"2024-09-17T07:48:01+02:00","description":"Introduction If you go into the Internet and ask around you will see that several terms appear when asking about Bash. Some of them are: Terminal Terminal Window Console Shell","headline":"Chapter 1: Introduction","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0001-Introduction.html"},"url":"http://localhost:4000/bash-in-depth/0001-Introduction.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="introduction">Introduction</h1>
+<p>If you go into the Internet and ask around you will see that several terms appear when asking about Bash. Some of them are:</p>
+<ul>
+  <li>Terminal</li>
+  <li>Terminal Window</li>
+  <li>Console</li>
+  <li>Shell</li>
+</ul>
+
+<p>In this section we are going to learn the important terms for us and how they are related to each other. So let’s start!</p>
+
+<h2 id="what-is-a-terminal-or-console">What is a Terminal or Console?</h2>
+<p>Back in the days before personal computers, there were time-sharing systems (computers so big that occupied complete rooms). Users needed to connect to them via special dedicated devices. These devices were typically composed of a keyboard (that allowed the user to input instructions to the computer) and a text-only display monitor (that would show the input coming from the user and the output coming from the computer).</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0001-Introduction/Terminal.png" width="400px" />
+</div>
+
+<p>This kind of device received a couple of names that were inspired by electronics and furniture. These terms are “<em>terminal</em>” and “<em>console</em>”.</p>
+
+<p>The “<strong>terminal</strong>” word came by analogy to electrical engineering where a terminal is a connector on the end of a wire that lets you access electrical signals with some kind of test equipment.</p>
+
+<p>The “<strong>console</strong>” word came by analogy to a console table.</p>
+
+<p>Both of these terms are typically used to refer to physical devices.</p>
+
+<p>In January 1984, Apple released the <strong>Macintosh 128K</strong> (aka “<em>Apple Macintosh</em>”) and it opened a new world to computer users. Prior to this release, virtually all computer displays were consoles. Starting from this point we can start talking about Terminal Windows and Shells.</p>
+
+<h2 id="what-is-a-terminal-window">What is a Terminal Window?</h2>
+<p>With the arrival of a GUI (Graphic User Interface) for an OS (Operating System) comes the term “Terminal Window”.</p>
+
+<p>A Terminal Window is a text-only window in the GUI that emulates a console.</p>
+
+<p>A terminal window lets you interact with a Shell.</p>
+
+<h2 id="what-is-a-shell">What is a Shell?</h2>
+<p>In software engineering, a shell is a program or environment that provides an interface for users to interact with an operating system (OS). It acts as a command-line interpreter, allowing users to execute commands and run programs by typing text-based commands.</p>
+
+<p>The shell acts as a user’s primary interface to the operating system, facilitating the execution of various tasks, such as running programs, managing files and directories, manipulating data, and controlling system resources.</p>
+
+<p>A shell typically provides features such as command parsing, command execution, input/output redirection, piping, scripting capabilities, and variable management. It interprets the commands entered by the user and translates them into system calls or executable programs.</p>
+
+<p>Different operating systems have different shells. For example, Unix-based systems like Linux often use the Bash (Bourne Again SHell) as the default shell, while other popular shells include Zsh (Z Shell) and Fish (Friendly Interactive SHell). Windows operating systems commonly use the Command Prompt (cmd.exe) or PowerShell as shells.</p>
+
+<p>Shells are powerful tools for automating tasks, performing system administration, writing scripts, and managing software applications. They provide a flexible and efficient way to interact with the underlying operating system, making them essential components for software engineers, system administrators, and power users.</p>
+
+<h2 id="what-is-bash-bourne-again-shell">What is Bash (Bourne Again Shell)?</h2>
+<p>Bash (Bourne Again Shell) is the free and enhanced version of the Bourne shell distributed with Linux and GNU operating systems.</p>
+
+<p>This Bash shell comes with a very powerful scripting language that allows you to deal with tasks of your Linux/GNU operating system in a very efficient way, when known BASH Scripting properly.</p>
+
+<h2 id="why-learning-bash">Why learning Bash?</h2>
+
+<p>Learning Bash can be very useful for multiple reasons.</p>
+
+<p>Bash scripting allows you to <strong>automate</strong> repetitive tasks, saving time and effort. You can write scripts to perform complex tasks, execute a series of commands, or handle file operations, making it easier to manage and control your system.</p>
+
+<p>Bash is widely used in <strong>system administration</strong> tasks on Linux and Unix-based systems. With Bash, you can write scripts to configure and manage servers, monitor system resources, handle backups, and perform various administrative tasks.</p>
+
+<p>Bash provides a <strong>powerful command-line interface</strong> (CLI) that allows you to navigate the file system, manipulate files and directories, execute commands, and perform text processing. By learning Bash, you can become more efficient and productive when working in a command-line environment.</p>
+
+<p>Bash is <strong>available</strong> on most Unix-based systems, including Linux<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, macOS, and even Windows through tools like WSL (Windows Subsystem for Linux). By learning Bash, you acquire a portable skill set that can be applied across different platforms, making it easier to work with a variety of systems.</p>
+
+<p>Bash scripting allows you to create complex scripts by combining control structures, variables, loops, conditional statements, and functions. This <strong>flexibility</strong> enables you to solve problems and automate tasks in creative ways.</p>
+
+<p>Bash seamlessly <strong>integrates with other command-line tools and utilities</strong>, such as grep, sed, awk, and many others. By combining Bash with these tools, you can build powerful command-line pipelines and perform complex data manipulation and analysis tasks.</p>
+
+<p>Bash has a <strong>large and active community of users</strong>, which means there is an abundance of resources, tutorials, forums, and examples available online. Learning Bash provides access to this wealth of knowledge and support, making it easier to troubleshoot issues, expand your skills, and collaborate with others.</p>
+
+<p>Proficiency in Bash scripting is <strong>highly valued in various fields</strong>, including system administration, DevOps, software development, and cybersecurity. By learning Bash, you open up opportunities for career advancement and increase your marketability in the job market.</p>
+
+<p>Overall, learning Bash empowers you with the ability to automate tasks, efficiently manage systems, navigate the command line, and leverage a wide range of tools and resources. It is a valuable skill for anyone working with Linux or Unix-based systems and provides a solid foundation for further exploration of scripting and automation.</p>
+
+<h2 id="is-bash-easy-to-learn">Is Bash easy to Learn?</h2>
+<p>Bash is generally considered to be relatively easy to learn, especially for individuals with prior experience in command-line environments or programming concepts. There are, of course, a few factors that contribute to the perceived ease of learning Bash.</p>
+
+<p>Bash has a <strong>straightforward and readable syntax</strong>. Its syntax is closer to natural language and does not require complex constructs or punctuation. Basic Bash commands and constructs are often intuitive and easy to understand.</p>
+
+<p>Bash is a <strong>widely used shell</strong> with a large user base and extensive documentation available. There are numerous tutorials, guides, forums, and examples online that can assist beginners in learning Bash and solving common problems.</p>
+
+<p>If you are already familiar with working in a command-line environment, learning Bash can be even easier. Many concepts and commands used in Bash are similar to those found in other Unix-like shells, making the transition smoother.</p>
+
+<p>Bash provides <strong>immediate feedback</strong> on the command line. You can execute commands directly and observe their results immediately, allowing for quick iterations and learning by experimentation.</p>
+
+<p>Bash allows you to <strong>start with simple commands and gradually progress</strong> to more complex scripts as you gain proficiency. You can begin by executing commands interactively and then move on to writing simple scripts, gradually adding more advanced features and constructs.</p>
+
+<p>Bash is <strong>available on most Unix-like systems</strong>, including Linux and macOS, which makes it highly versatile and widely used. Its ubiquity means that learning Bash opens up opportunities to work with a vast range of systems and environments.</p>
+
+<p>While Bash itself is generally considered easy to learn, mastery of more advanced scripting concepts and techniques may require additional time and practice. However, for basic command execution and simple scripting tasks, Bash can be a user-friendly and accessible language to start with.</p>
+
+<p>In the next section we are going to see the classical example of software engineering. The “Hello World!” for Bash.</p>
+
+<h2 id="hello-world">Hello world!</h2>
+<p>The following script contains 3 lines of code that prints on the screen the message “Hello World!”. Just bear in mind that the numbers that appear at the beginning of each line are not required. Those numbers are added to be able to refer to specific lines inside the script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/bin/bash</span>
+ 2 <span class="c">#Script: hello_world.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Hello World!"</span>
+</code></pre></div></div>
+
+<p>Once you have the previous script saved to a file named “<code class="language-plaintext highlighter-rouge">hello_world.sh</code>” you need to give them permissions to be able to execute it without the “bash” command.</p>
+
+<p>In order to give permissions to execute you need to run the following command.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">chmod</span> +x hello_world.sh
+</code></pre></div></div>
+
+<p>Once the previous command is executed you will be able to execute the script as follows.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./hello_world.sh
+Hello World!
+<span class="err">$</span>
+</code></pre></div></div>
+
+<p>If you do not give permissions for execution to your script you will have to execute it with the “bash” command, like the following.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>bash hello_world.sh
+Hello World!
+<span class="err">$</span>
+</code></pre></div></div>
+
+<p>For the rest of the book we are going to assume that you are going to give permissions for execution to your scripts.</p>
+
+<h2 id="summary">Summary</h2>
+<p>In this chapter we learnt what the motivations are to learn Bash.</p>
+
+<p>Bash is a widely used shell and can be valuable for different positions like (but not limited to) software engineer, DevOps engineer, system administrator, data scientist and many more.</p>
+
+<p>Bash, if learnt properly, will make you more effective as you will be able to automate tasks efficiently.</p>
+
+<p>Along the rest of the book we are going to learn the ins and out of Bash and its associated scripting language.</p>
+
+<p>I hope you will enjoy the rest of the book. Have fun!</p>
+
+<h2 id="references">References</h2>
+<ol>
+  <li><a href="http://www.linfo.org/console.html">http://www.linfo.org/console.html</a></li>
+  <li><a href="http://www.linfo.org/terminal_window.html">http://www.linfo.org/terminal_window.html</a></li>
+  <li><a href="http://www.linfo.org/shell.html">http://www.linfo.org/shell.html</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>The following list of Linux distributions come by default with Bash: Ubuntu, Debian, CentOS, Fedora, openSUSE, Arch Linux, Linux Mint, Red Hat Enterprise Linux (RHEL), Oracle Linux, Gentoo, Slackware, Kali Linux, Elementary OS, Zorin OS, Manjaro, Mageia, and many more <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 6: Working with Numbers: Integers | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 6: Working with Numbers: Integers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Working with Numbers: Integers Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks." />
+<meta property="og:description" content="Working with Numbers: Integers Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks." />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-17T07:48:01+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 6: Working with Numbers: Integers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T07:48:01+02:00","datePublished":"2024-09-17T07:48:01+02:00","description":"Working with Numbers: Integers Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks.","headline":"Chapter 6: Working with Numbers: Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="working-with-numbers-integers">Working with Numbers: Integers</h1>
+<p>Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks.</p>
+
+<p>However, Bash does not provide native support for floating-point arithmetic by default. Floating-point numbers include decimal fractions and are used to represent real numbers with high precision. These numbers are essential in scientific computing, financial calculations, and various other domains where precise numerical representations are required. Bash’s omission of native support for floating-point arithmetic is largely because it is designed as a lightweight, text-based shell scripting language, and the inclusion of floating-point arithmetic would introduce complexity and potentially slow down the execution of scripts.</p>
+
+<p>To perform floating-point arithmetic in Bash, one often relies on external tools like the “bc” command-line calculator or other scripting languages like Python<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> or Perl<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[2]</a>, which provides native support for floating-point operations. These tools offer greater precision and flexibility when working with real numbers, but they come at the cost of additional complexity compared to Bash’s integer arithmetic operations. Bash’s focus on simplicity and efficiency in handling text and system-level operations remains a significant reason why it doesn’t natively support floating-point arithmetic.</p>
+
+<p>In this chapter we will focus specifically on working with integer numbers.</p>
+
+<p>In Bash there are 3 different ways to work with integer numbers.</p>
+<ul>
+  <li>Using the “<code class="language-plaintext highlighter-rouge">expr</code>” command line</li>
+  <li>Using the “<code class="language-plaintext highlighter-rouge">let</code>/<code class="language-plaintext highlighter-rouge">declare</code>” builtin commands</li>
+  <li>Using the Bash Arithmetic Expansion <code class="language-plaintext highlighter-rouge">((...))</code></li>
+</ul>
+
+<p>In the following sections we will explore each one of them.</p>
+
+<h2 id="working-with-the-expr-command-line">Working with the “<code class="language-plaintext highlighter-rouge">expr</code>” command line</h2>
+
+<p>This is the legacy way to work with arithmetic. It works with <strong>ONLY</strong> Integers.</p>
+
+<p>First of all, it is worth mentioning that “<code class="language-plaintext highlighter-rouge">expr</code>” is not a builtin command within Bash. It’s a binary apart. This means that for every execution, a child process will be created, making the whole execution significantly slower.</p>
+
+<p>This book is not intended to give you a full detailed tutorial on “<code class="language-plaintext highlighter-rouge">expr</code>”. The main idea is to explain how it works with a few examples, leaving the full content out of here.</p>
+
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” utility is in charge of evaluating an expression and writing the result on standard output.</p>
+
+<h3 id="addition">Addition</h3>
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the addition operator “<code class="language-plaintext highlighter-rouge">+</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; + &lt;integer/expression_2&gt; <span class="o">[</span>+ ...]
+</code></pre></div></div>
+
+<p>Let’s see how it works with an example.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_addition.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>3
+ 4 <span class="nv">NUM2</span><span class="o">=</span>4
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> + </span><span class="nv">$NUM2</span><span class="s2"> is "</span>
+ 6 <span class="nb">expr</span> <span class="nv">$NUM1</span> + <span class="nv">$NUM2</span>
+</code></pre></div></div>
+
+<p>In the previous script you can see that we declared two integer variables on lines 3 and 4. The you see that in line number 6 we use the operator <code class="language-plaintext highlighter-rouge">expr</code> to perform the calculation.</p>
+
+<p>When you run the script you will have the following output in the terminal.</p>
+
+<pre><code class="language-txt">$ ./expr_addition.sh
+Result of 3 + 4 is 7
+</code></pre>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. https://www.python.org <a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. https://www.perl.org <a href="#footnote-2-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

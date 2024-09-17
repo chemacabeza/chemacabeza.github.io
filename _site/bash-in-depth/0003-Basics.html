@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 3: Basics | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 3: Basics" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Basics In this chapter we are going to introduce the basics of Bash scripting. We will first introduce you to the structure of a Bash script." />
+<meta property="og:description" content="Basics In this chapter we are going to introduce the basics of Bash scripting. We will first introduce you to the structure of a Bash script." />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0003-Basics.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0003-Basics.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-17T07:48:01+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 3: Basics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T07:48:01+02:00","datePublished":"2024-09-17T07:48:01+02:00","description":"Basics In this chapter we are going to introduce the basics of Bash scripting. We will first introduce you to the structure of a Bash script.","headline":"Chapter 3: Basics","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0003-Basics.html"},"url":"http://localhost:4000/bash-in-depth/0003-Basics.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="basics">Basics</h1>
+<p>In this chapter we are going to introduce the basics of Bash scripting. We will first introduce you to the structure of a Bash script.</p>
+
+<p>After that you will learn your first 3 commands to read from and write information to the screen.</p>
+
+<p>Last but not least you will learn about two commands that will allow you to read what is the purpose of the commands and how to use them.</p>
+
+<p>Let’s begin!</p>
+
+<h2 id="structure-of-a-script">Structure of a script</h2>
+<p>The typical structure of a Bash script is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 <span class="c">#!&lt;hashbang&gt;</span>
+2 
+3 <span class="c"># My comment</span>
+4 command1
+5 command2
+6 ...
+</code></pre></div></div>
+
+<p>There is no need to add comments to your script, but it’s a good practice as it will be easier for you to read your script in the future.</p>
+
+<p>Another thing to know about bash scripts is that every command returns a status when it terminates normally or abnormally. This exit status can be used in either the terminal or other bash scripts to determine how to continue.</p>
+
+<p>The possible values of the exit status are:</p>
+<ul>
+  <li>Zero (0) when the command or script is successful</li>
+  <li>Non-Zero (1-255) when there was some failure in the script
+    <ul>
+      <li>Special case for exit status with value 126: Command found but not executable</li>
+      <li>Special case for exit status with value 127: The command was not found</li>
+    </ul>
+  </li>
+</ul>
+
+<p>When the script is executed, the exit status of the script is stored in a variable called “<code class="language-plaintext highlighter-rouge">$?</code>” (Don’t worry about this variable for now, we will revisit it later).</p>
+
+<p>The exit status of a given script is determined by the last command that will be executed in the script. Let’s see a couple of examples.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#Script: fail.sh</span>
+dodo <span class="c"># &lt;&lt; This command does not exist</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script and check for the value of the variable you will see the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./fail.sh
+./fail.sh: line 2: dodo: <span class="nb">command </span>not found
+<span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$?</span>
+127
+</code></pre></div></div>
+
+<p>As mentioned previously the exit status is <code class="language-plaintext highlighter-rouge">127</code> because the command <code class="language-plaintext highlighter-rouge">dodo</code> does not exist.</p>
+
+<p>However, if we modify the script and add a succesful command at the bottom, the exit status of the script will be successful.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#Script: fail.sh</span>
+dodo <span class="c"># &lt;&lt; This command does not exist</span>
+<span class="nb">echo</span> <span class="s2">"hello"</span>
+</code></pre></div></div>
+
+<p>And then you execute the script same as before.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./fail.sh
+./fail.sh: line 2: dodo: <span class="nb">command </span>not found
+hello
+<span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$?</span>
+0
+</code></pre></div></div>
+
+<p>With this information you can assume that a script whose exit status is “<code class="language-plaintext highlighter-rouge">0</code>” is a correct execution and that if the exit status is different then you can assume that the execution was a failure.</p>
+
+<h2 id="command-terminator-characters">Command terminator characters</h2>
+
+<p>Each command in a bash script must finish with a “terminator character”. Depending on the terminator character, a different behavior will happen. What are the possible terminator characters?</p>
+<ul>
+  <li>Newline character: It means that the command is finished and the shell should execute it (provided the newline is not escaped).</li>
+  <li>Semicolon (<strong>;</strong>) is used to separate different commands <strong>in one line</strong>. Useful when working at an interactive terminal, not from a script.</li>
+  <li>An ampersand (<strong>&amp;</strong>) denotes an asynchronous execution. The shell will execute the command but it will not wait for it to finish. We will take a deep look at it later in the book.</li>
+</ul>
+
+<h2 id="echo-and-read-commands"><code class="language-plaintext highlighter-rouge">echo</code> and <code class="language-plaintext highlighter-rouge">read</code> commands</h2>
+
+<p>As we are going to be writing some scripts along this course, what we are going to do is to arm ourselves with a couple of commands (our first 2 commands! 🥳 ) to be able to follow and interact with our scripts.</p>
+
+<h3 id="echo-command"><code class="language-plaintext highlighter-rouge">echo</code> command</h3>
+<p>This <code class="language-plaintext highlighter-rouge">echo</code> command is going to be our command to print messages so that we can follow our script.</p>
+
+<p>An example can be the same <code class="language-plaintext highlighter-rouge">echo “Hello World”</code> that  we saw before.</p>
+
+<p>By default the <code class="language-plaintext highlighter-rouge">echo</code> command adds a newline character at the end of the line.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">echo</code> command comes with the <code class="language-plaintext highlighter-rouge">-n</code> option. If that option is used the message passed will be printed without a newline character at the end of the line.</p>
+
+<p>This <code class="language-plaintext highlighter-rouge">-n</code> option could be very useful for prompts and to interact with the user.</p>
+
+<h3 id="read-command"><code class="language-plaintext highlighter-rouge">read</code> command</h3>
+<p>This command is used to get information from the input. Typically from interacting with the user.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">read</code>” command can be used in two different ways.</p>
+
+<p>The first way is to read information into a variable. In the following example you see that the script is saving the information provided through the standard input inside the variable “<code class="language-plaintext highlighter-rouge">myAnswer</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#Script: read.sh</span>
+<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Write something: "</span>
+<span class="nb">read </span>myAnswer
+
+<span class="nb">echo</span> <span class="s2">"You wrote: </span><span class="nv">$myAnswer</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>The second way is by using <strong>the default variable</strong> where the “<code class="language-plaintext highlighter-rouge">read</code>” command stores information if no variable name is provided. In the following example you will see that the “<code class="language-plaintext highlighter-rouge">read</code>” command receives no parameter. In this case, the command will store the information provided via the standard input in the variable “<code class="language-plaintext highlighter-rouge">REPLY</code>” that can be accessed with “<code class="language-plaintext highlighter-rouge">$REPLY</code>“<a id="footnote-1-ref" href="#footnote-1">[1]</a>” as you will see in the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Write something: "</span>
+<span class="nb">read 
+
+echo</span> <span class="s2">"You wrote: </span><span class="nv">$REPLY</span><span class="s2">"</span>
+</code></pre></div></div>
+<h2 id="printf-builtin-command"><code class="language-plaintext highlighter-rouge">printf</code> builtin command</h2>
+<p>“<code class="language-plaintext highlighter-rouge">printf</code>” is a command that is a bit more advanced than the “<code class="language-plaintext highlighter-rouge">echo</code>” command, that we already learnt in the previous section, and that allows more control on the formatting of the output.</p>
+
+<p>According to the man page<a id="footnote-2-ref" href="#footnote-2">[2]</a> its syntax is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>printf [-v var] format [arguments...]
+</code></pre></div></div>
+
+<p>It prints the <code class="language-plaintext highlighter-rouge">arguments</code> provided according to the format passed.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">format</code> is the part of the command that will give you more control on the output. It accepts many types like the following:</p>
+<ul>
+  <li>Alphabetical and numerical characters that are just printed out as they are</li>
+  <li>Octal characters in the format “<code class="language-plaintext highlighter-rouge">\XXX</code>” (e.g: <code class="language-plaintext highlighter-rouge">\007</code>). “<code class="language-plaintext highlighter-rouge">printf</code>” will print the character associated with the octal code. You can see the map between the octal code and the associated character by consulting the man page for ascii (“<code class="language-plaintext highlighter-rouge">man ascii</code>”).</li>
+  <li>Hexadecimal characters in the format “<code class="language-plaintext highlighter-rouge">\xHH</code>” (e.g: <code class="language-plaintext highlighter-rouge">\x41</code>). “<code class="language-plaintext highlighter-rouge">printf</code>” will print the character associated with the hexadecimal code. You can see the map between the hexadecimal code and the associated character by consulting the man page for ascii (again “<code class="language-plaintext highlighter-rouge">man ascii</code>”).</li>
+  <li>Numbers in scientific notation (<code class="language-plaintext highlighter-rouge">1234e-2</code>, <code class="language-plaintext highlighter-rouge">1234e3</code>, <code class="language-plaintext highlighter-rouge">123.4e-2</code>, etc)</li>
+  <li>Backslash-escaped characters that are first interpreted and then printed.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">\a</code> - Produces a bell sound.</li>
+      <li><code class="language-plaintext highlighter-rouge">\\</code> - Displays a backslash character.</li>
+      <li><code class="language-plaintext highlighter-rouge">\b</code> - Displays a backspace character.</li>
+      <li><code class="language-plaintext highlighter-rouge">\n</code> - Displays a new line.</li>
+      <li><code class="language-plaintext highlighter-rouge">\r</code> - Displays a carriage return.</li>
+      <li><code class="language-plaintext highlighter-rouge">\t</code> - Displays a horizontal tab.</li>
+      <li><code class="language-plaintext highlighter-rouge">\v</code> - Displays a vertical tab.</li>
+    </ul>
+  </li>
+  <li>Conversion specifications<a id="footnote-3-ref" href="#footnote-3">[3]</a>. They begin with a percent sign “<code class="language-plaintext highlighter-rouge">%</code>” followed by a character that specifies the type of data to be formatted.
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">%[flags][width][.precision]specifier</code>
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">flags</code>
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">-</code> : Left align the printed text within the field. By default, the text is right-aligned.</li>
+              <li><code class="language-plaintext highlighter-rouge">+</code> : Prefix the numbers with a + or - signs. By default, only negative numbers are prefixed with a negative sign.</li>
+              <li><code class="language-plaintext highlighter-rouge">0</code> : Pads numbers with leading zeros rather than space.</li>
+              <li>blank (<code class="language-plaintext highlighter-rouge"> </code>) : Prefix the positive numbers with a blank space and negative numbers with a minus (<code class="language-plaintext highlighter-rouge">-</code>).</li>
+            </ul>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">width</code>
+            <ul>
+              <li>Placed after any flag characters and specifies the minimum number of characters the conversion should result in.</li>
+              <li>If the outputted text width is less than the specified width, it’s padded with spaces. The width can be specified as a non-negative decimal integer or an asterisk (*).</li>
+              <li>By default, it’s right justified. To justify left you need to add “<code class="language-plaintext highlighter-rouge">-</code>” at the beginning of “<code class="language-plaintext highlighter-rouge">width</code>”.</li>
+              <li>If it’s specified as an asterisk, the corresponding argument should indicate the width. The asterisk acts as another placeholder.</li>
+            </ul>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">.precision</code>
+            <ul>
+              <li>The precision can be either a positive integer or an asterisk.</li>
+              <li>If the conversion type is an integer, the precision specifies the minimum number of digits to be printed. If the number of digits in the argument is less than precision, leading zeros are printed.</li>
+              <li>If the conversion type is a floating-point, the precision specifies the number of digits that follow the decimal-point character. The default precision is 6.</li>
+              <li>When precision is set to an asterisk (<code class="language-plaintext highlighter-rouge">*</code>), its value is set by the precision argument that precedes the argument that’s being formatted.</li>
+            </ul>
+          </li>
+          <li><code class="language-plaintext highlighter-rouge">specifier</code>
+            <ul>
+              <li><code class="language-plaintext highlighter-rouge">%b</code> : Print the argument while expanding backslash escape sequences.</li>
+              <li><code class="language-plaintext highlighter-rouge">%q</code> : Print the argument shell-quoted, reusable as input.</li>
+              <li><code class="language-plaintext highlighter-rouge">%d</code>, <code class="language-plaintext highlighter-rouge">%i</code> : Print the argument as a signed decimal integer.</li>
+              <li><code class="language-plaintext highlighter-rouge">%u</code> : Print the argument as an unsigned decimal integer.</li>
+              <li><code class="language-plaintext highlighter-rouge">%o</code> : Print the argument as an unsigned octal integer.</li>
+              <li><code class="language-plaintext highlighter-rouge">%x</code>, <code class="language-plaintext highlighter-rouge">%X</code> : Print the argument as an unsigned hexadecimal integer. <code class="language-plaintext highlighter-rouge">%x</code> prints lower-case and <code class="language-plaintext highlighter-rouge">%X</code> prints upper-case.</li>
+              <li><code class="language-plaintext highlighter-rouge">%e</code>, <code class="language-plaintext highlighter-rouge">%E</code> : Print the argument as a floating-point number in exponential notation. <code class="language-plaintext highlighter-rouge">%e</code> prints lower-case and <code class="language-plaintext highlighter-rouge">%E</code> prints upper-case.</li>
+              <li><code class="language-plaintext highlighter-rouge">%a</code>, <code class="language-plaintext highlighter-rouge">%A</code> : Print the argument as a floating-point number in hexadecimal fractional notation. <code class="language-plaintext highlighter-rouge">%a</code> prints lower-case and <code class="language-plaintext highlighter-rouge">%A</code> prints upper-case.</li>
+              <li><code class="language-plaintext highlighter-rouge">%g</code>, <code class="language-plaintext highlighter-rouge">%G</code> : Print the argument as a floating-point number in normal or exponential notation, whichever is more appropriate for the given value and precision. <code class="language-plaintext highlighter-rouge">%g</code> prints lower-case and <code class="language-plaintext highlighter-rouge">%G</code> prints upper-case.</li>
+              <li><code class="language-plaintext highlighter-rouge">%c</code> : Print the argument as a single character.</li>
+              <li><code class="language-plaintext highlighter-rouge">%f</code> : Print the argument as a floating-point number.</li>
+              <li><code class="language-plaintext highlighter-rouge">%s</code> : Print the argument as a string.</li>
+              <li><code class="language-plaintext highlighter-rouge">%%</code> : Print a literal % symbol.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>The “<code class="language-plaintext highlighter-rouge">arguments</code>” operand is what is used along with “<code class="language-plaintext highlighter-rouge">format</code>” to print a rich text. It will be treated as a string if the specifier is “<code class="language-plaintext highlighter-rouge">b</code>”, “<code class="language-plaintext highlighter-rouge">c</code>” or “<code class="language-plaintext highlighter-rouge">s</code>”. Otherwise, it will be treated as an unsuffixed C integer constant, with the following extensions:</p>
+<ul>
+  <li>A leading “<code class="language-plaintext highlighter-rouge">+</code>” or “<code class="language-plaintext highlighter-rouge">-</code>” is allowed (e.g: “<code class="language-plaintext highlighter-rouge">printf “%d” -3</code>”)</li>
+  <li>If the leading character is a single-quote or double-quote, the value shall be the numeric value in the underlying codeset of <strong>the character</strong> following the single-quote or double-quote (e.g: “<code class="language-plaintext highlighter-rouge">printf “%d” “‘A”</code>” would print “<code class="language-plaintext highlighter-rouge">65</code>”).</li>
+</ul>
+
+<p>As usual, let’s take a look at a few examples to have a better understanding.</p>
+
+<p>First we are going to write the following script where you will see several examples of characters being printed:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: different_formats.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"Message with normal characters and numbers (1,2,3...)</span><span class="se">\n</span><span class="s2">"</span>
+ 4 <span class="nb">printf</span> <span class="s2">"</span><span class="se">\1</span><span class="s2">15</span><span class="se">\1</span><span class="s2">45</span><span class="se">\1</span><span class="s2">63</span><span class="se">\1</span><span class="s2">63</span><span class="se">\1</span><span class="s2">41</span><span class="se">\1</span><span class="s2">47</span><span class="se">\1</span><span class="s2">45</span><span class="se">\0</span><span class="s2">40</span><span class="se">\1</span><span class="s2">67</span><span class="se">\1</span><span class="s2">51</span><span class="se">\1</span><span class="s2">64</span><span class="se">\1</span><span class="s2">50</span><span class="se">\0</span><span class="s2">40</span><span class="se">\1</span><span class="s2">57</span><span class="se">\1</span><span class="s2">43</span><span class="se">\1</span><span class="s2">64</span><span class="se">\1</span><span class="s2">41</span><span class="se">\1</span><span class="s2">54</span><span class="se">\0</span><span class="s2">40</span><span class="se">\1</span><span class="s2">43</span><span class="se">\1</span><span class="s2">50</span><span class="se">\1</span><span class="s2">41</span><span class="se">\1</span><span class="s2">62</span><span class="se">\1</span><span class="s2">41</span><span class="se">\1</span><span class="s2">43</span><span class="se">\1</span><span class="s2">64</span><span class="se">\1</span><span class="s2">45</span><span class="se">\1</span><span class="s2">62</span><span class="se">\1</span><span class="s2">63</span><span class="se">\n</span><span class="s2">"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"</span><span class="se">\x</span><span class="s2">4d</span><span class="se">\x</span><span class="s2">65</span><span class="se">\x</span><span class="s2">73</span><span class="se">\x</span><span class="s2">73</span><span class="se">\x</span><span class="s2">61</span><span class="se">\x</span><span class="s2">67</span><span class="se">\x</span><span class="s2">65</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">77</span><span class="se">\x</span><span class="s2">69</span><span class="se">\x</span><span class="s2">74</span><span class="se">\x</span><span class="s2">68</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">48</span><span class="se">\x</span><span class="s2">45</span><span class="se">\x</span><span class="s2">58</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">63</span><span class="se">\x</span><span class="s2">68</span><span class="se">\x</span><span class="s2">61</span><span class="se">\x</span><span class="s2">72</span><span class="se">\x</span><span class="s2">61</span><span class="se">\x</span><span class="s2">63</span><span class="se">\x</span><span class="s2">74</span><span class="se">\x</span><span class="s2">65</span><span class="se">\x</span><span class="s2">72</span><span class="se">\x</span><span class="s2">73</span><span class="se">\n</span><span class="s2">"</span>
+ 6 <span class="nb">printf</span> <span class="s2">"New line character: 12345</span><span class="se">\n</span><span class="s2">6789</span><span class="se">\n</span><span class="s2">"</span>
+ 7 <span class="nb">printf</span> <span class="s2">"Backslash character: </span><span class="se">\\</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span>
+ 8 <span class="nb">printf</span> <span class="s2">"Backspace character: 1</span><span class="se">\b</span><span class="s2">2 </span><span class="se">\n</span><span class="s2">"</span>
+ 9 <span class="nb">printf</span> <span class="s2">"Horizontal</span><span class="se">\t</span><span class="s2">tab</span><span class="se">\n</span><span class="s2">"</span>
+10 <span class="nb">printf</span> <span class="s2">"Vertical</span><span class="se">\v</span><span class="s2">tab</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./different_formats.sh
+Message with normal characters and numbers <span class="o">(</span>1,2,3...<span class="o">)</span>
+Message with octal characters
+Message with HEX characters
+New line character: 12345
+6789
+Backslash character: <span class="se">\</span>
+Backspace character: 2
+Horizontal      tab
+Vertical
+        tab
+</code></pre></div></div>
+
+<p>In the output of the previous script please notice:</p>
+<ul>
+  <li>How the octal numbers are interpreted as characters.</li>
+  <li>How the hexadecimal numbers are interpreted as characters.</li>
+  <li>That although the vertical tab looks like a new line, it’s not a new line (you can check it by yourself by using of the commands that shows the ASCII codes underneath, like “<code class="language-plaintext highlighter-rouge">hexdump</code>”).</li>
+</ul>
+
+<p>As it was already mentioned in the Introduction, there is a difference between the terminal and the shell (in our case, Bash). The main difference is the interpretation of the escape sequences.</p>
+
+<p>On one side, Bash will work with the escape sequences mentioned earlier without applying any special behavior. It will be up to the terminal to interpret the escape sequences and produce the wanted effect.</p>
+
+<h3 id="bell-character">Bell character</h3>
+<p>Let’s play with the bell character “<code class="language-plaintext highlighter-rouge">\a</code>”.</p>
+
+<p>This special character will make a sound when the script is executed. Let’s see a simple example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: alarm.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"A little alarm will sound next</span><span class="se">\n</span><span class="s2">"</span>
+ 4 <span class="nb">printf</span> <span class="s2">"ALARM</span><span class="se">\a\n</span><span class="s2">"</span> <span class="c"># &lt;&lt;&lt; Bell character used here</span>
+ 5 <span class="nb">printf</span> <span class="s2">"End of alarm</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output and a little bell will sound.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./alarm.sh
+A little alarm will sound next
+ALARM
+End of alarm
+</code></pre></div></div>
+
+<p>As you can see, there is no special character printed. The only thing you will notice, when executing this script, is that a small bell (or alarm) will sound briefly.</p>
+
+<h3 id="carriage-return-character">Carriage return character</h3>
+<p>The carriage return character (“<code class="language-plaintext highlighter-rouge">\r</code>”) can be easily misunderstood. In this section we will explain and provide several examples to leave this character as clear as possible.</p>
+
+<p>The carriage return is telling the terminal to move the cursor to the beginning of the current line and to continue writing from there.</p>
+
+<p>In the following script we illustrate with a very simple example what is the behavior of this character.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: carriage_return_1.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"Beginning of example</span><span class="se">\n</span><span class="s2">"</span>
+ 4 <span class="nb">printf</span> <span class="s2">"This part of the line will NOT appear</span><span class="se">\r</span><span class="s2">This part of the line WILL BE appearing</span><span class="se">\n</span><span class="s2">"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"End of example</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will have the following output.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./carriage_return_1.sh
+Beginning of example
+This part of the line WILL BE appearing
+End of example
+</code></pre></div></div>
+
+<p>This does not mean that carriage return gets rid of the present line. The cursor will be moved to the beginning of the line and the next text will be written on top of the old one.</p>
+
+<p>In the following example we will use different letters to show how the override happens.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: carriage_return_2.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"Beginning of example</span><span class="se">\n</span><span class="s2">"</span>
+ 4 <span class="nb">printf</span> <span class="s2">"WWWWWWWWWWWW</span><span class="se">\r</span><span class="s2">XXXXXXXXXX</span><span class="se">\r</span><span class="s2">YYYYYYYY</span><span class="se">\r</span><span class="s2">ZZZZZZ</span><span class="se">\r</span><span class="s2">VVVV</span><span class="se">\r</span><span class="s2">UU</span><span class="se">\n</span><span class="s2">"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"End of example</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>The output of the previous script is as follows.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./carriage_return_2.sh
+Beginning of example
+UUVVZZYYXXWW
+End of example
+</code></pre></div></div>
+
+<p>So… what is happenning in the “<code class="language-plaintext highlighter-rouge">printf</code>” of line 4?</p>
+<ul>
+  <li>It prints “<code class="language-plaintext highlighter-rouge">WWWWWWWWWWWW</code>” and moves the cursor to the beginning of the line.</li>
+  <li>It then prints “<code class="language-plaintext highlighter-rouge">XXXXXXXXXX</code>” on top, resulting in “<code class="language-plaintext highlighter-rouge">XXXXXXXXXXWW</code>” and moves the cursor to the beginning of the line.</li>
+  <li>It then prints “<code class="language-plaintext highlighter-rouge">YYYYYYYY</code>” on top, resulting in “<code class="language-plaintext highlighter-rouge">YYYYYYYYXXWW</code>” and moves the cursor to the beginning of the line.</li>
+  <li>It then prints “<code class="language-plaintext highlighter-rouge">ZZZZZZ</code>” on top, resulting in “<code class="language-plaintext highlighter-rouge">ZZZZZZYYXXWW</code>” and moves the cursor to the beginning of the line.</li>
+  <li>It then prints “<code class="language-plaintext highlighter-rouge">VVVV</code>” on top, resulting in “<code class="language-plaintext highlighter-rouge">VVVVZZYYXXWW</code>” and moves the cursor to the beginning of the line.</li>
+  <li>It then prints “<code class="language-plaintext highlighter-rouge">UU</code>” on top, resulting in “<code class="language-plaintext highlighter-rouge">UUVVZZYYXXWW</code>” as the final result.</li>
+</ul>
+
+<p>As you can see, the carriage return character allows us to overwrite the content previously written in the same line.</p>
+
+<p>One way to show another proof that is the terminal the one interpreting the carriage return character is by using the “<code class="language-plaintext highlighter-rouge">xclip</code>” command. The “<code class="language-plaintext highlighter-rouge">xclip</code>” command allows us to store some content in the clipboard of the system (similar to selecting a text and making “Control+C”).</p>
+
+<p>We are going to save the previous script in a file named “<code class="language-plaintext highlighter-rouge">carriage_return_2.sh</code>”. Then we are going to execute it like follows:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./carriage_return_2.sh | xclip <span class="nt">-sel</span> clip
+</code></pre></div></div>
+
+<p>This command will store the output to the clipboard. If you go to a plain text editor and do “Control+V” you will see the following:</p>
+
+<pre><code class="language-txt">Beginning of example
+WWWWWWWWWWWW
+XXXXXXXXXX
+YYYYYYYY
+ZZZZZZ
+VVVV
+UU
+End of example
+</code></pre>
+
+<p>If you go back to the command line and execute the equivalent of a “Control+V” you will see the following:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>xclip <span class="nt">-sel</span> clip <span class="nt">-o</span>
+Beginning of example
+UUVVZZYYXXWW
+End of example
+</code></pre></div></div>
+
+<p>The reason for these different behaviors is because of something we already mentioned. It’s because the terminal will interpret the escaped characters (carriage return in our example) producing the desired effect.</p>
+
+<p>The same would happen if we would redirect the output to a file. In the following script we send<a id="footnote-4-ref" href="#footnote-4">[4]</a> the information to the file called “<code class="language-plaintext highlighter-rouge">output.txt</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: carriage_return_3.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"Beginning of example</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> output.txt
+ 4 <span class="nb">printf</span> <span class="s2">"WWWWWWWWWWWW</span><span class="se">\r</span><span class="s2">XXXXXXXXXX</span><span class="se">\r</span><span class="s2">YYYYYYYY</span><span class="se">\r</span><span class="s2">ZZZZZZ</span><span class="se">\r</span><span class="s2">VVVV</span><span class="se">\r</span><span class="s2">UU</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> output.txt
+ 5 <span class="nb">printf</span> <span class="s2">"End of example</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> output.txt
+</code></pre></div></div>
+
+<p>When we execute the script and do a “<code class="language-plaintext highlighter-rouge">cat</code>”<a id="footnote-5-ref" href="#footnote-5">[5]</a> of the file generated we will see the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./carriage_return_3.sh
+<span class="nv">$ </span><span class="nb">cat </span>output.txt
+Beginning of example
+UUVVZZYYXXWW
+End of example
+</code></pre></div></div>
+
+<p>Then, if you open the “<code class="language-plaintext highlighter-rouge">output.txt</code>” file with a standard text editor you will see the following.</p>
+
+<pre><code class="language-txt">Beginning of example
+WWWWWWWWWWWW
+XXXXXXXXXX
+YYYYYYYY
+ZZZZZZ
+VVVV
+UU
+End of example
+</code></pre>
+
+<p>Which proves again that it’s the terminal that interprets the escaped characters.</p>
+
+<h3 id="specifiers">Specifiers</h3>
+
+<p>The “<code class="language-plaintext highlighter-rouge">printf</code>” command, as we saw previously, supports the so called “<em>specifiers</em>”. These special characters tell the command how to interpret the arguments passed, allowing us to print them with different representations (decimal, octal, hexadecimal, etc), different widths, different precisions and alignments.</p>
+
+<p>In this section we are going to play a bit with these elements to have a better understanding of how to use them.</p>
+
+<p>First of all we are going to create a script called “<code class="language-plaintext highlighter-rouge">specifiers.sh</code>” that we are going to use to try different things.</p>
+
+<p>We will start by adding to our script a few lines with every value of “<em>flag</em>” to see the differences. We are added a vertical bar “<code class="language-plaintext highlighter-rouge">|</code>” at the beginning and end of every example to be able to see the differences more clearly.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: specifiers.sh</span>
+ 3 <span class="c"># Flags</span>
+ 4 <span class="nb">printf</span> <span class="s2">"Examples with Flags</span><span class="se">\n</span><span class="s2">"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"|%f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 6 <span class="nb">printf</span> <span class="s2">"|%-f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 7 <span class="nb">printf</span> <span class="s2">"|%+f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 8 <span class="nb">printf</span> <span class="s2">"|%0f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 9 <span class="nb">printf</span> <span class="s2">"|% f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+</code></pre></div></div>
+
+<p>When the script is executed it produces the following output.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./specifiers.sh
+Examples with Flags
+|12.345000|
+|12.345000|
+|+12.345000|
+|12.345000|
+| 12.345000|
+</code></pre></div></div>
+
+<p>With the exception of a space and a plus sign at the beginning, after the first vertical bar, we do not see a lot of difference between the different lines. To be able to see a bit more, we are going to add the a few more lines to the script adding the “width” to each one of the previous lines setting it to 20.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: specifiers_2.sh</span>
+ 3 <span class="c"># Flags</span>
+ 4 <span class="nb">printf</span> <span class="s2">"Examples with Flags</span><span class="se">\n</span><span class="s2">"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"|%f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 6 <span class="nb">printf</span> <span class="s2">"|%-f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 7 <span class="nb">printf</span> <span class="s2">"|%+f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 8 <span class="nb">printf</span> <span class="s2">"|%0f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 9 <span class="nb">printf</span> <span class="s2">"|% f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+10 <span class="nb">printf</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+11 <span class="c"># Flags + width</span>
+12 <span class="nb">printf</span> <span class="s2">"Examples with Flags &amp; Width</span><span class="se">\n</span><span class="s2">"</span>
+13 <span class="nb">printf</span> <span class="s2">"|%20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+14 <span class="nb">printf</span> <span class="s2">"|%-20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+15 <span class="nb">printf</span> <span class="s2">"|%+20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+16 <span class="nb">printf</span> <span class="s2">"|%020f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+17 <span class="nb">printf</span> <span class="s2">"|% 20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./specifiers_2.sh
+Examples with Flags
+|12.345000|
+|12.345000|
+|+12.345000|
+|12.345000|
+| 12.345000|
+
+Examples with Flags &amp; Width
+|           12.345000|
+|12.345000           |
+|          +12.345000|
+|0000000000012.345000|
+|           12.345000|
+
+</code></pre></div></div>
+
+<p>This output gives us more information. Setting the “width” to 20 characters between the two vertical bars gives us a better visualization of how the flags affect the text passed as argument.</p>
+
+<p>With this last example we can see the effect of “flags” and “width”. Let’s evolve our example to use precision.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: specifiers_3.sh</span>
+ 3 <span class="c"># Flags</span>
+ 4 <span class="nb">printf</span> <span class="s2">"Examples with Flags</span><span class="se">\n</span><span class="s2">"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"|%f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 6 <span class="nb">printf</span> <span class="s2">"|%-f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 7 <span class="nb">printf</span> <span class="s2">"|%+f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 8 <span class="nb">printf</span> <span class="s2">"|%0f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+ 9 <span class="nb">printf</span> <span class="s2">"|% f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+10 <span class="nb">printf</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+11 <span class="c"># Flags + width</span>
+12 <span class="nb">printf</span> <span class="s2">"Examples with Flags &amp; Width</span><span class="se">\n</span><span class="s2">"</span>
+13 <span class="nb">printf</span> <span class="s2">"|%20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+14 <span class="nb">printf</span> <span class="s2">"|%-20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+15 <span class="nb">printf</span> <span class="s2">"|%+20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+16 <span class="nb">printf</span> <span class="s2">"|%020f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+17 <span class="nb">printf</span> <span class="s2">"|% 20f|</span><span class="se">\n</span><span class="s2">"</span> 12.345
+18 <span class="nb">printf</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+19 <span class="c"># Flags + width + precision</span>
+20 <span class="nb">printf</span> <span class="s2">"Examples with Flags &amp; Width &amp; Precision</span><span class="se">\n</span><span class="s2">"</span>
+21 <span class="nb">printf</span> <span class="s2">"|%20.2f|</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"12.345"</span>
+22 <span class="nb">printf</span> <span class="s2">"|%-20.2f|</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"12.345"</span>
+23 <span class="nb">printf</span> <span class="s2">"|%+20.2f|</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"12.345"</span>
+24 <span class="nb">printf</span> <span class="s2">"|%020.2f|</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"12.345"</span>
+25 <span class="nb">printf</span> <span class="s2">"|% 20.2f|</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"12.345"</span>
+</code></pre></div></div>
+
+<p>When you execute the last version of the script you will get the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./specifiers_3.sh
+Examples with Flags
+|12.345000|
+|12.345000|
+|+12.345000|
+|12.345000|
+| 12.345000|
+
+Examples with Flags &amp; Width
+|           12.345000|
+|12.345000           |
+|          +12.345000|
+|0000000000012.345000|
+|           12.345000|
+
+Examples with Flags &amp; Width &amp; Precision
+|               12.35|
+|12.35               |
+|              +12.35|
+|00000000000000012.35|
+|               12.35|
+</code></pre></div></div>
+
+<p>With this output we can extract some information out of the specifiers used:</p>
+<ul>
+  <li>The “<code class="language-plaintext highlighter-rouge">f</code>” specifier is used for floating point numbers (numbers with decimal part) and will show, by default, 6 decimal digits</li>
+  <li>The “<code class="language-plaintext highlighter-rouge">-</code>” flag will align the text to the left, being alignment to the right the default one.</li>
+  <li>The “<code class="language-plaintext highlighter-rouge">+</code>” flag will add the sign to the number. “<code class="language-plaintext highlighter-rouge">+</code>” for positive numbers and “<code class="language-plaintext highlighter-rouge">-</code>” for negative numbers.</li>
+  <li>The “<code class="language-plaintext highlighter-rouge">0</code>” flag will pad the space not occupied by the number with zeroes.</li>
+  <li>The “<code class="language-plaintext highlighter-rouge"> </code>“ flag will pad the space not occupied by the number with spaces.</li>
+  <li>The precision will keep the number of decimals specified and will round the last decimal to the next unit if the decimal following it is bigger than or equal to “<code class="language-plaintext highlighter-rouge">5</code>”. In our previous example “<code class="language-plaintext highlighter-rouge">12.345</code>” becomes “<code class="language-plaintext highlighter-rouge">12.35</code>”.</li>
+  <li>The width specified is the minimum space to be used for the field. If fewer characters are used, the minimum space will be used. If more characters are used, that amount of characters will be used.</li>
+</ul>
+
+<p>As you can see, “<code class="language-plaintext highlighter-rouge">printf</code>” comes with a long list of special characters and flags that we can use to create a rich output.</p>
+
+<h3 id="variables--v-option">Variables (<code class="language-plaintext highlighter-rouge">-v</code> option)</h3>
+
+<p>By default, “<code class="language-plaintext highlighter-rouge">printf</code>” sends the text to the standard output. The “<code class="language-plaintext highlighter-rouge">printf</code>” builtin command allows us to store the content generated into a variable by using the “<code class="language-plaintext highlighter-rouge">-v</code>” option. The way to use it is as follows.</p>
+
+<pre><code class="language-txt">printf -v VAR “&lt;Text with rich format&gt;” &lt;arguments…&gt;
+</code></pre>
+
+<p>The effect of this would be the declaration of a new variable “<code class="language-plaintext highlighter-rouge">VAR</code>” whose content will be the text with rich format with the arguments applied.</p>
+
+<p>Let’s see it with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: printf_v_option.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"Beginning of example</span><span class="se">\n</span><span class="s2">"</span>
+ 4 <span class="nb">printf</span> <span class="nt">-v</span> MY_VAR <span class="s2">"First line of the variable</span><span class="se">\n</span><span class="s2">Second line of the variable</span><span class="se">\n</span><span class="s2">Third line"</span>
+ 5 <span class="nb">printf</span> <span class="s2">"Content of the variable:</span><span class="se">\n</span><span class="s2">###</span><span class="se">\n</span><span class="nv">$MY_VAR</span><span class="se">\n</span><span class="s2">###</span><span class="se">\n</span><span class="s2">"</span>
+ 6 <span class="nb">printf</span> <span class="s2">"End of example</span><span class="se">\n</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script it will give you the following output.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./printf_v_option.sh
+Beginning of example
+Content of the variable:
+<span class="c">###</span>
+First line of the variable
+Second line of the variable
+Third line
+<span class="c">###</span>
+End of example
+</code></pre></div></div>
+
+<p>As you can see in this example, line 4 declares a variable called “<code class="language-plaintext highlighter-rouge">MY_VAR</code>” that contains 3 lines. Then the variable “<code class="language-plaintext highlighter-rouge">MY_VAR</code>” is used on line 5 to print its contents between two blocks of “<code class="language-plaintext highlighter-rouge">###</code>”.</p>
+
+<h2 id="man-and-help"><code class="language-plaintext highlighter-rouge">man</code> and <code class="language-plaintext highlighter-rouge">help</code></h2>
+
+<p>In this section we are going to learn about two commands that we are going to use regularly to consult what other commands can do.</p>
+
+<p>These commands are “<code class="language-plaintext highlighter-rouge">man</code>” and “<code class="language-plaintext highlighter-rouge">help</code>”.</p>
+
+<h3 id="man-command"><code class="language-plaintext highlighter-rouge">man</code> command</h3>
+<p>What is the “<code class="language-plaintext highlighter-rouge">man</code>” command? The “<code class="language-plaintext highlighter-rouge">man</code>” is a command used to consult the system’s manual pager.</p>
+
+<p>For every command that we will learn about later, there is a “man page” (manual page) that gives an explanation of the purpose of the command, how to use it, the different options admitted and, in some cases, examples of how to use the command in the local system.</p>
+
+<p>The man pages come with 2 different descriptions. The first one is the “short description” which gives a very high level overview of what the command does. The second one is a more in depth description of the topic/command that is structured in different subsections named “<code class="language-plaintext highlighter-rouge">NAME</code>”, “<code class="language-plaintext highlighter-rouge">DESCRIPTION</code>”, “<code class="language-plaintext highlighter-rouge">OPTIONS</code>”, “<code class="language-plaintext highlighter-rouge">ERRORS</code>”, “<code class="language-plaintext highlighter-rouge">ENVIRONMENT</code>”, “<code class="language-plaintext highlighter-rouge">FILES</code>” and so on.</p>
+
+<p>These “<em>man pages</em>” give us the needed knowledge so that we can understand and play with a command without the need to google the command. There are, of course, exceptions like the “<code class="language-plaintext highlighter-rouge">sed</code>” command whose man page can be a bit cryptic<a id="footnote-6-ref" href="#footnote-6">[6]</a>.</p>
+
+<p>The “man pages” are divided into sections where each section contains information about a particular topic. The following table gives an overview of the content in each section.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Section number</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: left">Executable programs, user commands or shell commands</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">2</td>
+      <td style="text-align: left">Functions provided by the Kernel (System calls)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: left">Library functions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4</td>
+      <td style="text-align: left">Special device files which are usually found in “<code class="language-plaintext highlighter-rouge">/dev</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td style="text-align: left">File formats and conventions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">6</td>
+      <td style="text-align: left">Games</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">7</td>
+      <td style="text-align: left">Miscellaneous (including macro packages and conventions)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">8</td>
+      <td style="text-align: left">Linux system admin commands (commands used by admin user)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9</td>
+      <td style="text-align: left">Kernel routines</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The section number is something we can use when consulting the manual page of a command/topic, although it’s not mandatory.</p>
+
+<p>There are different ways to use this command and here we are going to learn of the ones that, I think, are the most useful. We are going to present the different ways to use “<code class="language-plaintext highlighter-rouge">man</code>” with some use cases.</p>
+
+<p>Typically we start wondering how to use a command or want to get more information about a topic (it could be a system call, something about Linux…). For this we do have the option “<code class="language-plaintext highlighter-rouge">-k</code>”.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">-k</code>” option accepts as argument a term that is used to do a search in the short description of the man pages. Let’s see an example with “<code class="language-plaintext highlighter-rouge">printf</code>”.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>man <span class="nt">-k</span> <span class="nb">printf
+</span>PA_CHAR <span class="o">(</span>3const<span class="o">)</span>     - define custom behavior <span class="k">for </span>printf-like functions
+PA_DOUBLE <span class="o">(</span>3const<span class="o">)</span>   - define custom behavior <span class="k">for </span>printf-like functions
+PA_FLAG_LONG <span class="o">(</span>3const<span class="o">)</span> - define custom behavior <span class="k">for </span>printf-like functions
+PA_FLAG_LONG_DOUBLE <span class="o">(</span>3const<span class="o">)</span> - define custom behavior <span class="k">for </span>printf-like functions
+PA_FLAG_LONG_LONG <span class="o">(</span>3const<span class="o">)</span> - define custom behavior <span class="k">for </span>printf-like functions
+PA_FLAG_PTR <span class="o">(</span>3const<span class="o">)</span> - define custom behavior <span class="k">for </span>printf-like functions
+PA_FLAG_SHORT <span class="o">(</span>3const<span class="o">)</span> - define custom behavior <span class="k">for </span>printf-like functions
+PA_FLOAT <span class="o">(</span>3const<span class="o">)</span>    - define custom behavior <span class="k">for </span>printf-like functions
+PA_INT <span class="o">(</span>3const<span class="o">)</span>      - define custom behavior <span class="k">for </span>printf-like functions
+PA_LAST <span class="o">(</span>3const<span class="o">)</span>     - define custom behavior <span class="k">for </span>printf-like functions
+PA_POINTER <span class="o">(</span>3const<span class="o">)</span>  - define custom behavior <span class="k">for </span>printf-like functions
+PA_STRING <span class="o">(</span>3const<span class="o">)</span>   - define custom behavior <span class="k">for </span>printf-like functions
+PA_WCHAR <span class="o">(</span>3const<span class="o">)</span>    - define custom behavior <span class="k">for </span>printf-like functions
+PA_WSTRING <span class="o">(</span>3const<span class="o">)</span>  - define custom behavior <span class="k">for </span>printf-like functions
+asprintf <span class="o">(</span>3<span class="o">)</span>         - print to allocated string
+dprintf <span class="o">(</span>3<span class="o">)</span>          - formatted output conversion
+fprintf <span class="o">(</span>3<span class="o">)</span>          - formatted output conversion
+fwprintf <span class="o">(</span>3<span class="o">)</span>         - formatted wide-character output conversion
+<span class="nb">printf</span> <span class="o">(</span>1<span class="o">)</span>           - format and print data
+...
+vsprintf <span class="o">(</span>3<span class="o">)</span>         - formatted output conversion
+vswprintf <span class="o">(</span>3<span class="o">)</span>        - formatted wide-character output conversion
+vwprintf <span class="o">(</span>3<span class="o">)</span>         - formatted wide-character output conversion
+wprintf <span class="o">(</span>3<span class="o">)</span>          - formatted wide-character output conversion
+XtAsprintf <span class="o">(</span>3<span class="o">)</span>       - memory management functions
+</code></pre></div></div>
+
+<p>In this example we are asking “<code class="language-plaintext highlighter-rouge">man</code>” for information about the term “<code class="language-plaintext highlighter-rouge">printf</code>”. The result is giving back the actual terms we can use (<code class="language-plaintext highlighter-rouge">asprintf</code>, <code class="language-plaintext highlighter-rouge">dprintf</code>, <code class="language-plaintext highlighter-rouge">fprintf</code>, etc), the section number between parenthesis and a short description of the topic.</p>
+
+<p>If you pay attention, you will notice there are two entries for “<code class="language-plaintext highlighter-rouge">printf</code>”, one of them in section 1 (Executable programs, user commands or shell commands) and the other in section 3 (Library functions). We can use the section numbers to consult the corresponding manual page as follows.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>man 1 <span class="nb">printf</span>
+</code></pre></div></div>
+
+<p>Or.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>man 3 <span class="nb">printf</span>
+</code></pre></div></div>
+
+<p>These executions of the “<code class="language-plaintext highlighter-rouge">man</code>” command will print to the terminal the corresponding manual page for “<code class="language-plaintext highlighter-rouge">printf</code>”. Just give it a try! Don’t be afraid to fail as failure is a way of learning.</p>
+
+<p>Sometimes you know the command/topic you want to read about but you do not remember the section. For this case, the “<code class="language-plaintext highlighter-rouge">-f</code>” option comes in handy. The way to use it is as follows.</p>
+
+<pre><code class="language-txt">man -f &lt;term&gt;
+</code></pre>
+
+<p>For example, using it with “<code class="language-plaintext highlighter-rouge">printf</code>” would give the following as result.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>man <span class="nt">-f</span> <span class="nb">printf
+printf</span> <span class="o">(</span>1<span class="o">)</span>           - format and print data
+<span class="nb">printf</span> <span class="o">(</span>3<span class="o">)</span>           - formatted output conversion
+</code></pre></div></div>
+
+<p>With the knowledge of these options we are set to learn by ourselves using the man pages. If you want to know more about this command, be curious and type the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>man man
+</code></pre></div></div>
+
+<h3 id="help-command"><code class="language-plaintext highlighter-rouge">help</code> command</h3>
+
+<p>The “<code class="language-plaintext highlighter-rouge">help</code>” built-in command is like the previously learnt “<code class="language-plaintext highlighter-rouge">man</code>” command but targeting built-in commands in Bash.</p>
+
+<p>The way to use this command is as follows.</p>
+
+<pre><code class="language-txt">help [-dms] [pattern ...]
+</code></pre>
+
+<p>When used without arguments it prints a generic overview of all the keywords and built-in commands you can ask about. Give it a try and just type “<code class="language-plaintext highlighter-rouge">help</code>” in your Bash terminal.</p>
+
+<p>When used with “<code class="language-plaintext highlighter-rouge">pattern</code>”, it provides a detailed description of the command or topic you want to know about. Let’s say we want to know more about functions in bash. For that we would type the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">help </span><span class="k">function
+function</span>: <span class="k">function </span>name <span class="o">{</span> COMMANDS <span class="p">;</span> <span class="o">}</span> or name <span class="o">()</span> <span class="o">{</span> COMMANDS <span class="p">;</span> <span class="o">}</span>
+    Define shell <span class="k">function</span><span class="nb">.</span>
+
+    Create a shell <span class="k">function </span>named NAME.  When invoked as a simple <span class="nb">command</span>,
+    NAME runs COMMANDs <span class="k">in </span>the calling shell<span class="s1">'s context.  When NAME is invoked,
+    the arguments are passed to the function as $1...$n, and the function'</span>s
+    name is <span class="k">in</span> <span class="nv">$FUNCNAME</span><span class="nb">.</span>
+
+    Exit Status:
+    Returns success unless NAME is readonly.
+</code></pre></div></div>
+
+<p>Did you notice the “<code class="language-plaintext highlighter-rouge">...</code>” after “<code class="language-plaintext highlighter-rouge">pattern</code>”? This means that we can provide several terms to get information. For example, if we wanted to get information about “<code class="language-plaintext highlighter-rouge">continue</code>” and “<code class="language-plaintext highlighter-rouge">alias</code>” (terms that we saw in the output when we typed “<code class="language-plaintext highlighter-rouge">help</code>” and hit enter previously), we would do it like the following.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">help </span><span class="k">continue </span><span class="nb">alias
+</span><span class="k">continue</span>: <span class="k">continue</span> <span class="o">[</span>n]
+    Resume <span class="k">for</span>, <span class="k">while</span>, or <span class="k">until </span>loops.
+    
+    Resumes the next iteration of the enclosing FOR, WHILE or UNTIL loop.
+    If N is specified, resumes the Nth enclosing loop.
+    
+    Exit Status:
+    The <span class="nb">exit </span>status is 0 unless N is not greater than or equal to 1.
+<span class="nb">alias</span>: <span class="nb">alias</span> <span class="o">[</span><span class="nt">-p</span><span class="o">]</span> <span class="o">[</span>name[<span class="o">=</span>value] ... <span class="o">]</span>
+    Define or display aliases.
+    
+    Without arguments, <span class="sb">`</span><span class="nb">alias</span><span class="s1">' prints the list of aliases in the reusable
+    form `alias NAME=VALUE'</span> on standard output.
+    
+    Otherwise, an <span class="nb">alias </span>is defined <span class="k">for </span>each NAME whose VALUE is given.
+    A trailing space <span class="k">in </span>VALUE causes the next word to be checked <span class="k">for
+    </span><span class="nb">alias </span>substitution when the <span class="nb">alias </span>is expanded.
+    
+    Options:
+      <span class="nt">-p</span>	print all defined aliases <span class="k">in </span>a reusable format
+    
+    Exit Status:
+    <span class="nb">alias </span>returns <span class="nb">true </span>unless a NAME is supplied <span class="k">for </span>which no <span class="nb">alias </span>has been
+    defined.
+</code></pre></div></div>
+
+<p>The “<code class="language-plaintext highlighter-rouge">help</code>” command comes with the following 3 options:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">-d</code>” : It prints out a short description of the patterns provided.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">-m</code>” : It displays the information of the command using a format that looks like a manual page.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">-s</code>” : Outputs a short description for each topic matching the pattern.</li>
+</ul>
+
+<p>Let’s see a few examples to better understand the options.</p>
+
+<p>If we wanted to get a short description (“<code class="language-plaintext highlighter-rouge">-d</code>”) of a few terms (like “<code class="language-plaintext highlighter-rouge">alias</code>”, “<code class="language-plaintext highlighter-rouge">case</code>” and “<code class="language-plaintext highlighter-rouge">cd</code>”) we could do it as follows.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">help</span> <span class="nt">-d</span> <span class="nb">alias </span><span class="k">case</span> <span class="nb">cd
+alias</span> - Define or display aliases.
+<span class="k">case</span> - Execute commands based on pattern matching.
+<span class="nb">cd</span> - Change the shell working directory.
+</code></pre></div></div>
+
+<p>If we wanted to print the help of a specific Bash built-in command (for example the <code class="language-plaintext highlighter-rouge">alias</code> command) in a format that looks like a man page, we could do it as follows.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">help</span> <span class="nt">-m</span> <span class="nb">alias
+</span>NAME
+    <span class="nb">alias</span> - Define or display aliases.
+
+SYNOPSIS
+    <span class="nb">alias</span> <span class="o">[</span><span class="nt">-p</span><span class="o">]</span> <span class="o">[</span>name[<span class="o">=</span>value] ... <span class="o">]</span>
+
+DESCRIPTION
+    Define or display aliases.
+
+    Without arguments, <span class="sb">`</span><span class="nb">alias</span><span class="s1">' prints the list of aliases in the reusable
+    form `alias NAME=VALUE'</span> on standard output.
+
+    Otherwise, an <span class="nb">alias </span>is defined <span class="k">for </span>each NAME whose VALUE is given.
+    A trailing space <span class="k">in </span>VALUE causes the next word to be checked <span class="k">for
+    </span><span class="nb">alias </span>substitution when the <span class="nb">alias </span>is expanded.
+
+    Options:
+      <span class="nt">-p</span>	print all defined aliases <span class="k">in </span>a reusable format
+
+    Exit Status:
+    <span class="nb">alias </span>returns <span class="nb">true </span>unless a NAME is supplied <span class="k">for </span>which no <span class="nb">alias </span>has been
+    defined.
+
+SEE ALSO
+    bash<span class="o">(</span>1<span class="o">)</span>
+
+IMPLEMENTATION
+    GNU bash, version 5.2.21<span class="o">(</span>1<span class="o">)</span><span class="nt">-release</span> <span class="o">(</span>x86_64-pc-linux-gnu<span class="o">)</span>
+    Copyright <span class="o">(</span>C<span class="o">)</span> 2022 Free Software Foundation, Inc.
+    License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+</code></pre></div></div>
+
+<p>Last but not least is the “<code class="language-plaintext highlighter-rouge">-s</code>” option. We can consider this option as the equivalent of the “<code class="language-plaintext highlighter-rouge">-k</code>” option of the “<code class="language-plaintext highlighter-rouge">man</code>” command. We can consider it as a search function for terms inside the help pages of Bash.</p>
+
+<p>For instance, let’s say we want to have some information for the topics that start with “<code class="language-plaintext highlighter-rouge">ex</code>” inside the Bash help.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">help</span> <span class="nt">-s</span> ex
+<span class="nb">exec</span>: <span class="nb">exec</span> <span class="o">[</span><span class="nt">-cl</span><span class="o">]</span> <span class="o">[</span><span class="nt">-a</span> name] <span class="o">[</span><span class="nb">command</span> <span class="o">[</span>argument ...]] <span class="o">[</span>redirection ...]
+<span class="nb">exit</span>: <span class="nb">exit</span> <span class="o">[</span>n]
+<span class="nb">export</span>: <span class="nb">export</span> <span class="o">[</span><span class="nt">-fn</span><span class="o">]</span> <span class="o">[</span>name[<span class="o">=</span>value] ...] or <span class="nb">export</span> <span class="nt">-p</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this chapter we learnt our first 3 commands to read input information into our script (<code class="language-plaintext highlighter-rouge">read</code> command) and to print information from our script (<code class="language-plaintext highlighter-rouge">echo</code> and <code class="language-plaintext highlighter-rouge">printf</code> commands).</p>
+
+<p>We also learnt how to use the commands “<code class="language-plaintext highlighter-rouge">man</code>” and “<code class="language-plaintext highlighter-rouge">help</code>” being “<code class="language-plaintext highlighter-rouge">man</code>” the one to be used to get information about other commands whose manual pages are stored in the local system, and “<code class="language-plaintext highlighter-rouge">help</code>” being the one to use to get information for Bash specific topics.</p>
+
+<p>With these commands you can write scripts that request information from the user and that print information to the user.</p>
+
+<p>Give it a try and write some simple scripts!</p>
+
+<h2 id="references">References</h2>
+<ol>
+  <li><a href="https://askubuntu.com/questions/506510/what-is-the-difference-between-terminal-console-shell-and-command-line">https://askubuntu.com/questions/506510/what-is-the-difference-between-terminal-console-shell-and-command-line</a></li>
+  <li><a href="https://linuxize.com/post/bash-printf-command/">https://linuxize.com/post/bash-printf-command/</a></li>
+  <li><a href="https://phoenixnap.com/kb/bash-printf">https://phoenixnap.com/kb/bash-printf</a></li>
+  <li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/printf.html">https://pubs.opengroup.org/onlinepubs/9699919799/utilities/printf.html</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. Do not worry for now about how to access variables. This is something we will see later in the book.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. We will address the `man` command later in this chapter.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. Bash uses "conversion specifications" to control the formatting and display of data.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. Those arrows “&gt;&gt;” that you see in the script are a redirection operator that appends content to a file. Don’t worry about it for now, we will learn more about it in a different chapter.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. The "<span style="font-family:'Courier New'">cat</span>" command allows you to print the content of a given file.<a href="#footnote-5-ref">&#8617;</a>
+</p>
+<p id="footnote-6" style="font-size:10pt">
+6. Just for your information we have a whole chapter dedicated only to the “<span style="font-family:'Courier New'">sed</span>” command <a href="#footnote-6-ref">&#8617;</a>
+</p>
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

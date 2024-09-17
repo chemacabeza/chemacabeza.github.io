@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 4: Variables | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 4: Variables" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Variables Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized." />
+<meta property="og:description" content="Variables Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized." />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0004-Variables.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0004-Variables.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-17T07:48:01+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 4: Variables" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T07:48:01+02:00","datePublished":"2024-09-17T07:48:01+02:00","description":"Variables Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized.","headline":"Chapter 4: Variables","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0004-Variables.html"},"url":"http://localhost:4000/bash-in-depth/0004-Variables.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="variables">Variables</h1>
+<p>Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized.</p>
+
+<p>Now, in the world of computers and programming, a variable is a bit like one of these containers. It’s a named spot in the computer’s memory where you can store information. This information can be all sorts of things, like numbers, words, or even more complex data.</p>
+
+<p>For instance, let’s say you’re writing a computer program to keep track of your favorite books. You can create a variable called “<code class="language-plaintext highlighter-rouge">favoriteBook</code>” and put the name of your current favorite book in it. Then, whenever you want to know which book is your favorite at the moment, you just look inside that “<code class="language-plaintext highlighter-rouge">favoriteBook</code>” container, and there it is!</p>
+
+<p>Variables are incredibly handy because they let you store and manipulate data as your program runs. You can change what’s inside the container whenever you like, and your program can use that information to do all sorts of cool things.</p>
+
+<p>So, in a nutshell, a variable is like a labeled box for holding different types of information in a computer program.</p>
+
+<h2 id="how-do-you-declare-a-variable-in-bash">How do you declare a variable in Bash?</h2>
+<p>The minimum syntax required to create a variable is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">myVar</span><span class="o">=</span>”some value”
+</code></pre></div></div>
+
+<p>If you use “<code class="language-plaintext highlighter-rouge">myVar</code>” only, Bash will think you are invoking a command and will fail if there is no command named “<code class="language-plaintext highlighter-rouge">myVar</code>”<a id="footnote-1-ref" href="#footnote-1">[1]</a>.</p>
+
+<h2 id="how-do-you-read-a-variable-in-bash">How do you read a variable in Bash?</h2>
+<p>Once the variable  has a value assigned to it, we can read from the variable by using the character “<code class="language-plaintext highlighter-rouge">$</code>” right before the name of the variable.</p>
+
+<p>Let’s take a look to an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: read_variable.sh</span>
+ 3 <span class="nv">myVariable</span><span class="o">=</span>1234
+ 4 <span class="nb">echo</span> <span class="s2">"The value of myVariable is </span><span class="nv">$myVariable</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Sometimes you will see the variables referenced like “<code class="language-plaintext highlighter-rouge">${myVariable}</code>”. These two ways (“<code class="language-plaintext highlighter-rouge">$myVariable</code>” and “<code class="language-plaintext highlighter-rouge">${myVariable}</code>”) to access the variable are equivalent. The longer form (meaning “<code class="language-plaintext highlighter-rouge">${myVariable}</code>”) is more powerful as it allows other operations (like length, replacement or substring) as we will see later in another chapter.</p>
+
+<h2 id="first-limitation-and-how-to-overcome-it">First limitation and how to overcome it?</h2>
+<p>In bash, by default, variables are strings of characters (Something like <code class="language-plaintext highlighter-rouge">“hello world”</code>). The way to work around this limitation is by using the “<code class="language-plaintext highlighter-rouge">declare</code>/<code class="language-plaintext highlighter-rouge">typeset</code>” builtin commands.</p>
+
+<h3 id="limitation-example">Limitation Example</h3>
+<p>In Bash Scripting, variables per se are not strongly typed as in other languages (like C, C++, Java, etc). They are basically strings and, depending on the context, some operations are allowed.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: limitation_example.sh</span>
+ 3 <span class="c"># Integer variable</span>
+ 4 <span class="nv">myInteger</span><span class="o">=</span>123
+ 5 <span class="nb">echo</span> <span class="s2">"Value of myInteger is </span><span class="k">${</span><span class="nv">myInteger</span><span class="k">}</span><span class="s2">"</span>
+ 6 <span class="c"># Float variables</span>
+ 7 <span class="nv">myFloat</span><span class="o">=</span>10.34
+ 8 <span class="nb">echo</span> <span class="s2">"Value of myFloat is </span><span class="nv">$myFloat</span><span class="s2">"</span>
+ 9 <span class="c"># String variable</span>
+10 <span class="nv">myString</span><span class="o">=</span><span class="s2">"My String variable"</span>
+11 <span class="nb">echo</span> <span class="s2">"Value of myString is </span><span class="nv">$myString</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In the previous script, if you wanted to do some numerical operations with the first two variables (“<code class="language-plaintext highlighter-rouge">myInteger</code>” and “<code class="language-plaintext highlighter-rouge">myFloat</code>”) the result of the operation would not be numerical.</p>
+
+<p>Let’s see it with the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: limitation_example_2.sh</span>
+ 3 <span class="nv">myVariable</span><span class="o">=</span>123
+ 4 <span class="nv">myVariable</span><span class="o">=</span><span class="nv">$myVariable</span>+1
+ 5 <span class="nb">echo</span> <span class="s2">"Value: </span><span class="nv">$myVariable</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the following output.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./limitation_example_2.sh
+Value: 123+1
+</code></pre></div></div>
+
+<p>As you can see the output of the script is <code class="language-plaintext highlighter-rouge">123+1</code> and not <code class="language-plaintext highlighter-rouge">124</code>.</p>
+
+<p>In the next section we will learn how to give “<em>semantic meaning</em>” to the declared variable so that the numerical operations just work.</p>
+
+<h3 id="how-to-give-specific-semantics-to-the-variables-declared-declaretypeset-to-the-rescue">How to give specific semantics to the variables declared? (<code class="language-plaintext highlighter-rouge">declare</code>/<code class="language-plaintext highlighter-rouge">typeset</code> to the rescue)</h3>
+<p>The “<code class="language-plaintext highlighter-rouge">declare</code>” (or “<code class="language-plaintext highlighter-rouge">typeset</code>”) builtin command is used to declare variables and give them attributes. You could think about it as some kind of weak typing.</p>
+
+<p>The way we use “<code class="language-plaintext highlighter-rouge">declare</code>” is with the following syntax:</p>
+
+<pre><code class="language-txt">declare &lt;flag&gt; &lt;NAME&gt;
+</code></pre>
+
+<p>The following table contains a list of flags and the behavior that the flag will give to the variable declared.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Flag</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-a</code></td>
+      <td style="text-align: left">If supported, it will make “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” behave like an indexed array</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-A</code></td>
+      <td style="text-align: left">If supported, it will make “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” behave like an associative array</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-i</code></td>
+      <td style="text-align: left">It will make “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” behave like an integer</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-l</code></td>
+      <td style="text-align: left">It will convert the value of “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” to lowercase on assignment</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-n</code></td>
+      <td style="text-align: left">The “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” declared with this flag will reference the variable which name is the value of the “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” variable</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-p</code></td>
+      <td style="text-align: left">Displays how the variable “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” was declared and its value. The output contains the flag that was used (“<code class="language-plaintext highlighter-rouge">-a</code>” for arrays, “<code class="language-plaintext highlighter-rouge">-A</code>” for associative arrays and so on)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-r</code></td>
+      <td style="text-align: left">It will make the variable “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” read only. It will make the variable a constant.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-t</code></td>
+      <td style="text-align: left">It will enable the “<em>trace</em>” attribute. Very useful when used in combination with the “<code class="language-plaintext highlighter-rouge">trap</code>” command to debug scripts. We will learn more about the “<code class="language-plaintext highlighter-rouge">trap</code>” command in a later chapter.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-u</code></td>
+      <td style="text-align: left">It will convert the value of “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” to uppercase on assignment</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-x</code></td>
+      <td style="text-align: left">It’s used to export the variable</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s see a couple of examples, shall we?</p>
+
+<p>The first example is about giving a variable the behavior of an integer. Let’s take a look at the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: declare_i.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-i</span> <span class="nv">myVariable</span><span class="o">=</span>123  <span class="c"># &lt;&lt;&lt; Declaration</span>
+ 4 <span class="nv">myVariable</span><span class="o">=</span><span class="nv">$myVariable</span>+1
+ 5 <span class="nb">echo</span> <span class="s2">"Value: </span><span class="nv">$myVariable</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In this script we are declaring the variable “<code class="language-plaintext highlighter-rouge">myVariable</code>” as an integer. This means that starting from this point any operation that we will do with it will not be treated as a string operation but as an integer operation.</p>
+
+<p>When you execute the previous script you will get the following result.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./declare_i.sh
+Value: 124
+</code></pre></div></div>
+
+<p>Let’s see another example using a different flag.</p>
+
+<p>In this case we are going to use the “<code class="language-plaintext highlighter-rouge">-l</code>” flag. The description of the previous table says that “<em>It will convert the value of “<code class="language-plaintext highlighter-rouge">&lt;NAME&gt;</code>” to lowercase on assignment</em>”.</p>
+
+<p>Let’s see how it works with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: declare_l.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-l</span> <span class="nv">MY_VAR</span><span class="o">=</span><span class="s2">"This is UPPERCASE"</span>
+ 4 <span class="nv">MY_VAR_2</span><span class="o">=</span><span class="nv">$MY_VAR</span>
+ 5 <span class="nb">echo</span> <span class="s2">"MY_VAR  : </span><span class="nv">$MY_VAR</span><span class="s2">"</span>
+ 6 <span class="nb">echo</span> <span class="s2">"MY_VAR_2: </span><span class="nv">$MY_VAR_2</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>As you can see, the value of the variable “<code class="language-plaintext highlighter-rouge">MY_VAR</code>” contains both lowercase and uppercase characters. But as we have declared the variable with the “<code class="language-plaintext highlighter-rouge">-l</code>” flag this means that every time this variable is read, the values read from it will always be in lowercase.</p>
+
+<p>Let’s see what happens when we run the script.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./declare_l.sh
+MY_VAR  : this is uppercase
+MY_VAR_2: this is uppercase
+</code></pre></div></div>
+
+<p>What we can see from the execution of this script is that the variable “<code class="language-plaintext highlighter-rouge">MY_VAR</code>” is read directly in the first “<code class="language-plaintext highlighter-rouge">echo</code>” command, and is read from another variable (“<code class="language-plaintext highlighter-rouge">MY_VAR_2</code>”) which was assigned the value of the first one.</p>
+
+<p>With this example we can conclude that at any moment when the variable “<code class="language-plaintext highlighter-rouge">MY_VAR</code>” is read, it will first transform its contents to lowercase before giving it to another variable or being used in a replacement.</p>
+
+<p>In a later chapter we will come back to the “<code class="language-plaintext highlighter-rouge">declare</code>” command.</p>
+
+<h2 id="how-to-delete-declared-variables">How to delete declared variables?</h2>
+
+<p>There might be moments in which you want to get rid of some data stored in a variable because it takes space and is no longer needed. You can achieve this with the “<code class="language-plaintext highlighter-rouge">unset</code>” command.</p>
+
+<p>By writing “<code class="language-plaintext highlighter-rouge">unset variableName</code>” it will release the memory associated with that variable.</p>
+
+<p>Let’s see how it works with the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: unset_variable.sh</span>
+ 3 <span class="nv">myLargeVariable</span><span class="o">=</span><span class="s2">"abcdefghijklmnopqrstuvwxyz..."</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Variable: '</span><span class="k">${</span><span class="nv">myLargeVariable</span><span class="k">}</span><span class="s2">'"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Unsetting variable"</span>
+ 6 <span class="nb">unset </span>myLargeVariable
+ 7 <span class="nb">echo</span> <span class="s2">"Variable unset"</span>
+ 8 <span class="nb">echo</span> <span class="s2">"Variable: '</span><span class="k">${</span><span class="nv">myLargeVariable</span><span class="k">}</span><span class="s2">'"</span>
+ 9 <span class="nb">echo</span> <span class="s2">"End of Program"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the following output.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./unset_variable.sh
+Variable: <span class="s1">'abcdefghijklmnopqrstuvwxyz...'</span>
+Unsetting variable
+Variable <span class="nb">unset
+</span>Variable: <span class="s1">''</span>
+End of Program
+</code></pre></div></div>
+
+<p>As you can see in the output of the script, after the <code class="language-plaintext highlighter-rouge">unset myLargeVariable</code> is executed the variable will no longer exist.</p>
+
+<p>In the next section we will learn how to declare “constants”.</p>
+
+<h2 id="how-to-declare-constants-declare--r-or-readonly">How to declare constants? (<code class="language-plaintext highlighter-rouge">declare -r</code> or <code class="language-plaintext highlighter-rouge">readonly</code>)</h2>
+<p>Just to refresh, a constant is a value (a variable) that should not be altered by the program during the execution. A constant can be anything you think of:</p>
+<ul>
+  <li>A String with a message</li>
+  <li>A mathematical constant like PI</li>
+  <li>The number of bytes or characters your program will take as input</li>
+  <li>It could be whatever comes to your mind. You name it!</li>
+</ul>
+
+<p>In Bash there are two ways to declare constants variables.</p>
+
+<p>The first way is to use <code class="language-plaintext highlighter-rouge">declare -r</code> before the constant.</p>
+
+<p>The second way is to use <code class="language-plaintext highlighter-rouge">readonly</code> before the constant.</p>
+
+<p>As we mentioned before, the “<code class="language-plaintext highlighter-rouge">declare</code>” (or <code class="language-plaintext highlighter-rouge">readonly</code>) builtin command is used to modify some properties of the variables we declare in our script. This command can be used to declare variables as “<em>read only</em>” which will make them constants.</p>
+
+<p>Let’s see an example using both ways.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: declare_readonly.sh</span>
+ 3 <span class="nb">readonly </span><span class="nv">myReadOnlyVariable</span><span class="o">=</span><span class="s2">"Constant Value"</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Value of first constant is: </span><span class="nv">$myReadOnlyVariable</span><span class="s2">"</span>
+ 5 <span class="nv">myReadOnlyVariable</span><span class="o">=</span><span class="s2">"Another constant value"</span>  <span class="c"># this will fail</span>
+ 6 <span class="nb">declare</span> <span class="nt">-r</span> <span class="nv">myOtherReadOnlyVariable</span><span class="o">=</span><span class="s2">"Other Constant Value"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"Value of second constant is: </span><span class="nv">$myOtherReadOnlyVariable</span><span class="s2">"</span>
+ 8 <span class="nv">myOtherReadOnlyVariable</span><span class="o">=</span><span class="s2">"Another Constant Value"</span> <span class="c"># this will fail as well</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script, you will get the following result.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./declare_readonly.sh
+Value of first constant is: Constant Value
+./declare_readonly.sh: line 7: myReadOnlyVariable: <span class="nb">readonly </span>variable
+Value of second constant is: Other Constant Value
+./declare_readonly.sh: line 12: myOtherReadOnlyVariable: <span class="nb">readonly </span>variable
+</code></pre></div></div>
+
+<p>As you can see from the output of the execution of the script Bash is warning you that on lines 7 and 12 there is a “problem” as you are trying to override the value of a constant.</p>
+
+<h2 id="variables-with--format">Variables with <code class="language-plaintext highlighter-rouge">$'...'</code> format</h2>
+<p>Words of the form <code class="language-plaintext highlighter-rouge">$'string'</code> are treated specially. The word expands to string, with backslash-escaped characters replaced as specified by <a href="https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html">the ANSI C standard</a>.</p>
+
+<p>Let’s see an example directly in the terminal.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">$'This</span><span class="se">\n</span><span class="s1">Is really</span><span class="se">\n</span><span class="s1">IMPORTANT'</span>
+This
+Is really
+IMPORTANT
+</code></pre></div></div>
+
+<p>As you can see from the output the terminal is interpreting the escaped characters (in our case the new line characters).</p>
+
+<p>In the next section we will talk about “<em>Indirect Variables</em>”</p>
+
+<h2 id="indirect-variables">Indirect Variables</h2>
+<p>Bash is provided with a way to do “<em>indirection</em>”. The concept of “<em>indirection</em>” is to store in a variable a reference to another one which contains the value we are interested in.</p>
+
+<p>Indirect variables are a powerful feature that allows you to work with variable names indirectly, making your scripts more dynamic and flexible. They are particularly useful in scenarios where you need to generate variable names or dynamically access variables based on user input or other runtime conditions.</p>
+
+<p>The syntax to be used is the following.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>${!VARIABLE}
+</code></pre></div></div>
+
+<p>What Bash is going to do is to replace “<code class="language-plaintext highlighter-rouge">!VARIABLE</code>” with the contents of “<code class="language-plaintext highlighter-rouge">VARIABLE</code>”, which is supposed to be the name of another variable (let’s say, “<code class="language-plaintext highlighter-rouge">VARIABLE_2</code>”), and then it will be interpreted as “<code class="language-plaintext highlighter-rouge">${VARIABLE_2}</code>”, which will result in the contents of “<code class="language-plaintext highlighter-rouge">VARIABLE_2</code>”.</p>
+
+<p>Let’s say that we have the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: indirect_variable.sh</span>
+ 3 <span class="nv">VARIABLE_2</span><span class="o">=</span><span class="s2">"Content"</span>
+ 4 <span class="nv">VARIABLE_1</span><span class="o">=</span>VARIABLE_2
+ 5 <span class="nb">echo</span> <span class="s2">"Value: </span><span class="k">${</span><span class="p">!VARIABLE_1</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In the previous simple script we are declaring a variable named “<code class="language-plaintext highlighter-rouge">VARIABLE_2</code>” with the content <code class="language-plaintext highlighter-rouge">“Content”</code>. After that we are declaring a variable named “<code class="language-plaintext highlighter-rouge">VARIABLE_1</code>” with the content “<code class="language-plaintext highlighter-rouge">VARIABLE_2</code>”.</p>
+
+<p>In the line 5 of the previous script, the redirection happens. In the following diagram you will see a representation of what is actually happening.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0004-Variables/Indirect_Variable.png" />
+</div>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this chapter we learnt a lot about variables.</p>
+
+<p>We learnt:</p>
+<ul>
+  <li>How to declare variables.</li>
+  <li>How to read the content of the variables.</li>
+  <li>About some limitations and how to give semantics to the variables.</li>
+  <li>How to delete variables (<code class="language-plaintext highlighter-rouge">unset</code>).</li>
+  <li>How to declare constants (<code class="language-plaintext highlighter-rouge">declare -r</code> or <code class="language-plaintext highlighter-rouge">readonly</code>).</li>
+  <li>How to work with <code class="language-plaintext highlighter-rouge">$'...'</code> strings.</li>
+  <li>About Indirect Variables</li>
+</ul>
+
+<p>Take some time to practice the different concepts we saw in this chapter.</p>
+
+<p>“<em>Practice makes perfect</em>”.</p>
+
+<h2 id="references">References</h2>
+<ol>
+  <li><a href="https://ryanstutorials.net/bash-scripting-tutorial/bash-variables.php">https://ryanstutorials.net/bash-scripting-tutorial/bash-variables.php</a></li>
+  <li><a href="https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-5.html">https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-5.html</a></li>
+  <li><a href="https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_03.html">https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_03.html</a></li>
+  <li><a href="https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html">https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html</a></li>
+  <li><a href="https://www.howtogeek.com/442332/how-to-work-with-variables-in-bash/">https://www.howtogeek.com/442332/how-to-work-with-variables-in-bash/</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. For now 😉.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -36,6 +36,7 @@ plugins:
 collections:
   bash-in-depth:
     output: true
+    permaling: /:collection/:name/
 
 # Exclude from processing.
 # The following items will not be processed, by default.
