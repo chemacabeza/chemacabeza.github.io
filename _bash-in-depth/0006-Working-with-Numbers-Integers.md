@@ -255,7 +255,38 @@ $ ./declare_integer.sh
 
 In this case the builtin command “`declare`” is specifying that the new variable “`myIntVar`” should behave as an integer number (remember that, by default, variables in Bash behave like STRINGs).
 
-Something to mention is that, in the same way that “`declare`” can add specific behaviors to variables (like the previous one with integer and “`-i`”), it can remove it (setting it back to the default one) by using the “*negated*” option “`+i`”. Let’s see it with an example.
+Something to mention is that, in the same way that “`declare`” can add specific behaviors to variables (like the previous one with integer and “`-i`”), it can remove it (setting it back to the default one) by using the “*negated*” option “`+i`”. 
+
+Let’s see it how it works with an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: declare_integer_negated.sh
+ 3 declare -i myIntVar=45
+ 4 myIntVar=$myIntVar+1
+ 5 echo $myIntVar # 46
+ 6 declare +i myIntVar
+ 7 myIntVar=$myIntVar+1
+ 8 echo $myIntVar # 46+1
+```
+
+When you run the previous script you will see the following in the terminal.
+
+```txt
+$ ./declare_integer_negated.sh
+46
+46+1
+```
+
+So... What is happening in the script? On line 3 we are declaring a variable named “`myIntVar`” that has a semantic of an integer (it is because of the flag `-i` in the `declare` command).
+
+In line 4 the variable “`myIntVar`” is incremented by one. As it has "*integer semantic*" the operation works perfectly.
+
+However, when we remove the "*integer semantic*" on line 6, the variable “`myintvar`” becomes a String. Due to this, the value printed on line 8 is “`46+1`” as now the variable has "*string semantic*".
+
+You can also invoke the command "`declare`" without any arguments. This invocation will show the attributes and values of all the variables and functions available.
+
+### `let`
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
