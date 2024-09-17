@@ -2,7 +2,7 @@
 layout: chapter
 title: "Chapter 4: Variables"
 ---
-# Variables
+# Chapter 4: Variables
 Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized.
 
 Now, in the world of computers and programming, a variable is a bit like one of these containers. It's a named spot in the computer's memory where you can store information. This information can be all sorts of things, like numbers, words, or even more complex data.

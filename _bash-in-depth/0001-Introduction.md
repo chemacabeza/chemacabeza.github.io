@@ -2,7 +2,7 @@
 layout: chapter
 title: "Chapter 1: Introduction"
 ---
-# Introduction
+# Chapter 1: Introduction
 If you go into the Internet and ask around you will see that several terms appear when asking about Bash. Some of them are:
 * Terminal
 * Terminal Window

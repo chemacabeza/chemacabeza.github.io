@@ -2,7 +2,7 @@
 layout: chapter
 title: "Chapter 5: Working with Strings"
 ---
-# Working with Strings
+# Chapter 5: Working with Strings
 In software engineering, we use the term "*strings*" to talk about a sequence of characters, like letters, numbers, or symbols, that are grouped together. Think of a string as a word or a sentence, just like the ones you use when texting your friends.
 
 For example, the word "`hello`" is a string. It's a series of characters - `'h'`, `'e'`, `'l'`, `'l'`, `'o'` - that are strung together to make a word. But strings can be much longer than just one word; they can be as short as one character or as long as an entire book!
