@@ -113,7 +113,7 @@ read myAnswer
 echo "You wrote: $myAnswer"
 ```
 
-The second way is by using **the default variable** where the “`read`” command stores information if no variable name is provided. In the following example you will see that the “`read`” command receives no parameter. In this case, the command will store the information provided via the standard input in the variable “`REPLY`” that can be accessed with “`$REPLY`"<a id="footnote-1-ref" href="#footnote-1">[1]</a>” as you will see in the following script.
+The second way is by using **the default variable** where the “`read`” command stores information if no variable name is provided. In the following example you will see that the “`read`” command receives no parameter. In this case, the command will store the information provided via the standard input in the variable “`REPLY`” that can be accessed with “`$REPLY`”<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> as you will see in the following script.
 
 ```bash
 #!/bin/bash
@@ -126,7 +126,7 @@ echo "You wrote: $REPLY"
 ## `printf` builtin command
 “`printf`” is a command that is a bit more advanced than the “`echo`” command, that we already learnt in the previous section, and that allows more control on the formatting of the output.
 
-According to the man page<a id="footnote-2-ref" href="#footnote-2">[2]</a> its syntax is:
+According to the man page<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> its syntax is:
 
 ```
 printf [-v var] format [arguments...]
@@ -147,7 +147,7 @@ The `format` is the part of the command that will give you more control on the o
     * `\r` - Displays a carriage return.
     * `\t` - Displays a horizontal tab.
     * `\v` - Displays a vertical tab.
-* Conversion specifications<a id="footnote-3-ref" href="#footnote-3">[3]</a>. They begin with a percent sign “`%`” followed by a character that specifies the type of data to be formatted.
+* Conversion specifications<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>. They begin with a percent sign “`%`” followed by a character that specifies the type of data to be formatted.
     * `%[flags][width][.precision]specifier`
         * `flags`
             * `-` : Left align the printed text within the field. By default, the text is right-aligned.
@@ -336,7 +336,7 @@ End of example
 
 The reason for these different behaviors is because of something we already mentioned. It’s because the terminal will interpret the escaped characters (carriage return in our example) producing the desired effect.
 
-The same would happen if we would redirect the output to a file. In the following script we send<a id="footnote-4-ref" href="#footnote-4">[4]</a> the information to the file called “`output.txt`”.
+The same would happen if we would redirect the output to a file. In the following script we send<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a> the information to the file called “`output.txt`”.
 
 ```bash
  1 #!/usr/bin/env bash
@@ -346,7 +346,7 @@ The same would happen if we would redirect the output to a file. In the followin
  5 printf "End of example\n" >> output.txt
 ```
 
-When we execute the script and do a “`cat`”<a id="footnote-5-ref" href="#footnote-5">[5]</a> of the file generated we will see the following.
+When we execute the script and do a “`cat`”<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a> of the file generated we will see the following.
 
 ```shell
 $ ./carriage_return_3.sh
@@ -566,7 +566,7 @@ For every command that we will learn about later, there is a “man page” (man
 
 The man pages come with 2 different descriptions. The first one is the “short description” which gives a very high level overview of what the command does. The second one is a more in depth description of the topic/command that is structured in different subsections named “`NAME`”, “`DESCRIPTION`”, “`OPTIONS`”, “`ERRORS`”, “`ENVIRONMENT`”, “`FILES`” and so on.
 
-These “*man pages*” give us the needed knowledge so that we can understand and play with a command without the need to google the command. There are, of course, exceptions like the “`sed`” command whose man page can be a bit cryptic<a id="footnote-6-ref" href="#footnote-6">[6]</a>.
+These “*man pages*” give us the needed knowledge so that we can understand and play with a command without the need to google the command. There are, of course, exceptions like the “`sed`” command whose man page can be a bit cryptic<a id="footnote-6-ref" href="#footnote-6" style="font-size:x-small">[6]</a>.
 
 The “man pages” are divided into sections where each section contains information about a particular topic. The following table gives an overview of the content in each section.
 

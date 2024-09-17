@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0003-Basics.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-17T07:48:01+02:00" />
+<meta property="article:published_time" content="2024-09-17T08:15:25+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 3: Basics" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T07:48:01+02:00","datePublished":"2024-09-17T07:48:01+02:00","description":"Basics In this chapter we are going to introduce the basics of Bash scripting. We will first introduce you to the structure of a Bash script.","headline":"Chapter 3: Basics","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0003-Basics.html"},"url":"http://localhost:4000/bash-in-depth/0003-Basics.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T08:15:25+02:00","datePublished":"2024-09-17T08:15:25+02:00","description":"Basics In this chapter we are going to introduce the basics of Bash scripting. We will first introduce you to the structure of a Bash script.","headline":"Chapter 3: Basics","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0003-Basics.html"},"url":"http://localhost:4000/bash-in-depth/0003-Basics.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -171,7 +171,7 @@ hello
 <span class="nb">echo</span> <span class="s2">"You wrote: </span><span class="nv">$myAnswer</span><span class="s2">"</span>
 </code></pre></div></div>
 
-<p>The second way is by using <strong>the default variable</strong> where the “<code class="language-plaintext highlighter-rouge">read</code>” command stores information if no variable name is provided. In the following example you will see that the “<code class="language-plaintext highlighter-rouge">read</code>” command receives no parameter. In this case, the command will store the information provided via the standard input in the variable “<code class="language-plaintext highlighter-rouge">REPLY</code>” that can be accessed with “<code class="language-plaintext highlighter-rouge">$REPLY</code>“<a id="footnote-1-ref" href="#footnote-1">[1]</a>” as you will see in the following script.</p>
+<p>The second way is by using <strong>the default variable</strong> where the “<code class="language-plaintext highlighter-rouge">read</code>” command stores information if no variable name is provided. In the following example you will see that the “<code class="language-plaintext highlighter-rouge">read</code>” command receives no parameter. In this case, the command will store the information provided via the standard input in the variable “<code class="language-plaintext highlighter-rouge">REPLY</code>” that can be accessed with “<code class="language-plaintext highlighter-rouge">$REPLY</code>”<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> as you will see in the following script.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
@@ -183,7 +183,7 @@ echo</span> <span class="s2">"You wrote: </span><span class="nv">$REPLY</span><s
 <h2 id="printf-builtin-command"><code class="language-plaintext highlighter-rouge">printf</code> builtin command</h2>
 <p>“<code class="language-plaintext highlighter-rouge">printf</code>” is a command that is a bit more advanced than the “<code class="language-plaintext highlighter-rouge">echo</code>” command, that we already learnt in the previous section, and that allows more control on the formatting of the output.</p>
 
-<p>According to the man page<a id="footnote-2-ref" href="#footnote-2">[2]</a> its syntax is:</p>
+<p>According to the man page<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> its syntax is:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>printf [-v var] format [arguments...]
 </code></pre></div></div>
@@ -207,7 +207,7 @@ echo</span> <span class="s2">"You wrote: </span><span class="nv">$REPLY</span><s
       <li><code class="language-plaintext highlighter-rouge">\v</code> - Displays a vertical tab.</li>
     </ul>
   </li>
-  <li>Conversion specifications<a id="footnote-3-ref" href="#footnote-3">[3]</a>. They begin with a percent sign “<code class="language-plaintext highlighter-rouge">%</code>” followed by a character that specifies the type of data to be formatted.
+  <li>Conversion specifications<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>. They begin with a percent sign “<code class="language-plaintext highlighter-rouge">%</code>” followed by a character that specifies the type of data to be formatted.
     <ul>
       <li><code class="language-plaintext highlighter-rouge">%[flags][width][.precision]specifier</code>
         <ul>
@@ -410,7 +410,7 @@ End of example
 
 <p>The reason for these different behaviors is because of something we already mentioned. It’s because the terminal will interpret the escaped characters (carriage return in our example) producing the desired effect.</p>
 
-<p>The same would happen if we would redirect the output to a file. In the following script we send<a id="footnote-4-ref" href="#footnote-4">[4]</a> the information to the file called “<code class="language-plaintext highlighter-rouge">output.txt</code>”.</p>
+<p>The same would happen if we would redirect the output to a file. In the following script we send<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a> the information to the file called “<code class="language-plaintext highlighter-rouge">output.txt</code>”.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
  2 <span class="c">#Script: carriage_return_3.sh</span>
@@ -419,7 +419,7 @@ End of example
  5 <span class="nb">printf</span> <span class="s2">"End of example</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> output.txt
 </code></pre></div></div>
 
-<p>When we execute the script and do a “<code class="language-plaintext highlighter-rouge">cat</code>”<a id="footnote-5-ref" href="#footnote-5">[5]</a> of the file generated we will see the following.</p>
+<p>When we execute the script and do a “<code class="language-plaintext highlighter-rouge">cat</code>”<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a> of the file generated we will see the following.</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./carriage_return_3.sh
 <span class="nv">$ </span><span class="nb">cat </span>output.txt
@@ -630,7 +630,7 @@ End of example
 
 <p>The man pages come with 2 different descriptions. The first one is the “short description” which gives a very high level overview of what the command does. The second one is a more in depth description of the topic/command that is structured in different subsections named “<code class="language-plaintext highlighter-rouge">NAME</code>”, “<code class="language-plaintext highlighter-rouge">DESCRIPTION</code>”, “<code class="language-plaintext highlighter-rouge">OPTIONS</code>”, “<code class="language-plaintext highlighter-rouge">ERRORS</code>”, “<code class="language-plaintext highlighter-rouge">ENVIRONMENT</code>”, “<code class="language-plaintext highlighter-rouge">FILES</code>” and so on.</p>
 
-<p>These “<em>man pages</em>” give us the needed knowledge so that we can understand and play with a command without the need to google the command. There are, of course, exceptions like the “<code class="language-plaintext highlighter-rouge">sed</code>” command whose man page can be a bit cryptic<a id="footnote-6-ref" href="#footnote-6">[6]</a>.</p>
+<p>These “<em>man pages</em>” give us the needed knowledge so that we can understand and play with a command without the need to google the command. There are, of course, exceptions like the “<code class="language-plaintext highlighter-rouge">sed</code>” command whose man page can be a bit cryptic<a id="footnote-6-ref" href="#footnote-6" style="font-size:x-small">[6]</a>.</p>
 
 <p>The “man pages” are divided into sections where each section contains information about a particular topic. The following table gives an overview of the content in each section.</p>
 

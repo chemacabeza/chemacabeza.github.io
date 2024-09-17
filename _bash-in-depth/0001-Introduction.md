@@ -61,7 +61,7 @@ Bash is widely used in **system administration** tasks on Linux and Unix-based s
 
 Bash provides a **powerful command-line interface** (CLI) that allows you to navigate the file system, manipulate files and directories, execute commands, and perform text processing. By learning Bash, you can become more efficient and productive when working in a command-line environment.
 
-Bash is **available** on most Unix-based systems, including Linux[^1], macOS, and even Windows through tools like WSL (Windows Subsystem for Linux). By learning Bash, you acquire a portable skill set that can be applied across different platforms, making it easier to work with a variety of systems.
+Bash is **available** on most Unix-based systems, including Linux<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>, macOS, and even Windows through tools like WSL (Windows Subsystem for Linux). By learning Bash, you acquire a portable skill set that can be applied across different platforms, making it easier to work with a variety of systems.
 
 Bash scripting allows you to create complex scripts by combining control structures, variables, loops, conditional statements, and functions. This **flexibility** enables you to solve problems and automate tasks in creative ways.
 
@@ -142,7 +142,7 @@ I hope you will enjoy the rest of the book. Have fun!
 3. <http://www.linfo.org/shell.html>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
-[comment]: <> (footnotes)
-
-[^1]: The following list of Linux distributions come by default with Bash: Ubuntu, Debian, CentOS, Fedora, openSUSE, Arch Linux, Linux Mint, Red Hat Enterprise Linux (RHEL), Oracle Linux, Gentoo, Slackware, Kali Linux, Elementary OS, Zorin OS, Manjaro, Mageia, and many more
+<p id="footnote-1" style="font-size:10pt">
+1. The following list of Linux distributions come by default with Bash: Ubuntu, Debian, CentOS, Fedora, openSUSE, Arch Linux, Linux Mint, Red Hat Enterprise Linux (RHEL), Oracle Linux, Gentoo, Slackware, Kali Linux, Elementary OS, Zorin OS, Manjaro, Mageia, and many more.<a href="#footnote-1-ref">&#8617;</a>
+</p>
 

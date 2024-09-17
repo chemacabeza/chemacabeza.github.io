@@ -20,7 +20,7 @@ The minimum syntax required to create a variable is as follows.
 myVar=”some value”
 ```
 
-If you use “`myVar`” only, Bash will think you are invoking a command and will fail if there is no command named “`myVar`”<a id="footnote-1-ref" href="#footnote-1">[1]</a>.
+If you use “`myVar`” only, Bash will think you are invoking a command and will fail if there is no command named “`myVar`”<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>.
 
 ## How do you read a variable in Bash?
 Once the variable  has a value assigned to it, we can read from the variable by using the character “`$`” right before the name of the variable. 
