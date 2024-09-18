@@ -230,7 +230,7 @@ In this section we are going to take a look at how to work with Integers with tw
 * `let`: Which is new to us and we will talk about in a bit.
 
 
-### "`declare`"
+### "`declare`" command
 
 As we mentioned already, “`declare`” can be used to give to the declared variables some specific behavior (specific semantics). In our case, we are going to use the “`declare`” built-in command to declare integer numbers.
 
@@ -286,7 +286,74 @@ However, when we remove the "*integer semantic*" on line 6, the variable “`myi
 
 You can also invoke the command "`declare`" without any arguments. This invocation will show the attributes and values of all the variables and functions available.
 
-### "`let`"
+### "`let`" command
+
+“`let`” is a builtin command of Bash that evaluates arithmetic expressions. Its syntax is as follows:
+
+```bash
+let arg1 [arg2 ...]
+```
+
+“`let`” evaluates (from left to right) each argument as a mathematical expression. 
+
+This builtin command supports a wide variety of operators, which are as follows:
+
+| Operator | Operation |
+| :----    | :----     |
+| `var++`, `var--` | Post-increment (`++`), Post-decrement (`--`). Interpret the value of integer variable var and then add or subtract one (1) to it. |
+| `++var`, `--var` | Pre-increment (`++`), Pre-decrement (`--`). Add or subtract one (1) to the value of integer variable var, and then interpret the value.|
+| `-expr`, `+expr` | Unary minus, Unary plus. Unary minus returns the value of the expression expr it precedes, as if it had been multiplied by negative one (-1). Unary plus returns the expression expr unchanged, as if it had been multiplied by one (1). |
+| `!`, `~` | Logical negation, Bitwise negation. Logical negation returns false if its operand is true, and true if the operand is false. Bitwise negation flips the bits in the binary representation of the numeric operand. |
+| `**` | Exponentiation |
+| `*`, `/`, `%` | Multiplication, division, remainder (modulo) | 
+| `+`, `-` | Addition, subtraction. |
+| `<<`, `>>` | Bitwise shift left, bitwise shift right. |
+| `<=`, `>=` ,`<`, `>` | Comparison: less than or equal to, greater than or equal to, less than, greater than. |
+| `==`, `!=` | Equality, inequality. Equality returns true if its operands are equal, false otherwise. Inequality returns true if its operands are not equal, false otherwise. |
+| `&` | Bitwise AND. The corresponding binary digits of both operands are multiplied to produce a result. For any given digit, the resulting digit is 1 only if the corresponding digit in both operands is also 1. |
+| `^` | Bitwise XOR (eXclusive OR). A binary digit of the result is 1 if and only if the corresponding digits of the operands differ. For instance, if the first binary digit of the first operand is 1, and the second operand's first digit is 0, the result's first digit is 1. |
+| `|` | Bitwise OR. If either of the corresponding digits in the operands is 1, that digit in the result is also 1. |
+| `&&` | Logical AND. Returns true if both of the operands are true. |
+| `||` | Logical OR. Returns true if either of the operands is true. |
+| `expr1 ? expr2 : expr3` | Conditional (ternary) operator. If “`expr1`” is true, return “`expr2`”. If “`expr1`” is false, return “`expr3`”. |
+| `=`, `*=`, `/=`, `%=`, `+=`, `-=`, `<<=`, `>>=`, `&=`, `^=`, `|=` | Assignment. Assign the value of the expression that follows the operator, to the variable that precedes it. If an operator prefixes the equals sign, that operation is performed before assignment. For example `let "var += 5"` is equivalent to `let "var = var + 5"`. The assignment operation itself evaluates to the value assigned. |
+
+Let’s see an example script where we will use several of the previous operators.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: let.sh
+ 3 # Using the post-increment operator"
+ 4 let "myVar = 32"
+ 5 echo "Orignal value of myVar: $myVar"
+ 6 echo "Using post-increment operator"
+ 7 let "myVar++"
+ 8 echo "New value of myVar: $myVar" # 33
+ 9 # Using the shift left operator
+10 let "myNumber = 16"
+11 echo "Original value of myNumber: $myNumber"
+12 let "myNumber <<= 1"
+13 echo "New value of myNumber: $myNumber" # 32
+```
+
+In the previous script you see that on line 4 a variable is declared with name "`myVar`" and value 32. On line 7 you see that the post-increment operator is used, that statement increments the value of the variable by 1.
+
+Then on line 10 you see that a variable is declared with name "`myNumber`" with a value of 16. On line 12, we are using the shifting left assignment operator, which will move all the bits of the number once place to the left, resulting in the number being multiplied by 2.
+
+When you run the previous script you will get the following output in your terminal.
+
+```txt
+$ ./let.sh
+Orignal value of myVar: 32
+Using post-increment operator
+New value of myVar: 33
+Original value of myNumber: 16
+New value of myNumber: 32
+```
+
+## Other Integer Numbers
+
+
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
