@@ -3,21 +3,21 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Chapter 6: Working with Numbers: Integers | The Engineering Corner</title>
+<title>Chapter 6: Working with Numbers - Integers | The Engineering Corner</title>
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Chapter 6: Working with Numbers: Integers" />
+<meta property="og:title" content="Chapter 6: Working with Numbers - Integers" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Working with Numbers: Integers Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks." />
-<meta property="og:description" content="Working with Numbers: Integers Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks." />
+<meta name="description" content="I hope you will have fun and learn new things reading this blog." />
+<meta property="og:description" content="I hope you will have fun and learn new things reading this blog." />
 <link rel="canonical" href="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html" />
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-17T08:53:56+02:00" />
+<meta property="article:published_time" content="2024-09-18T15:35:53+02:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Chapter 6: Working with Numbers: Integers" />
+<meta property="twitter:title" content="Chapter 6: Working with Numbers - Integers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-17T08:53:56+02:00","datePublished":"2024-09-17T08:53:56+02:00","description":"Working with Numbers: Integers Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks.","headline":"Chapter 6: Working with Numbers: Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-18T15:35:53+02:00","datePublished":"2024-09-18T15:35:53+02:00","description":"I hope you will have fun and learn new things reading this blog.","headline":"Chapter 6: Working with Numbers - Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -59,7 +59,9 @@
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="chapter-content">
-  <h1 id="working-with-numbers-integers">Working with Numbers: Integers</h1>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+<h1 id="chapter-6-working-with-numbers---integers">Chapter 6: Working with Numbers - Integers</h1>
 <p>Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash’s support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks.</p>
 
 <p>However, Bash does not provide native support for floating-point arithmetic by default. Floating-point numbers include decimal fractions and are used to represent real numbers with high precision. These numbers are essential in scientific computing, financial calculations, and various other domains where precise numerical representations are required. Bash’s omission of native support for floating-point arithmetic is largely because it is designed as a lightweight, text-based shell scripting language, and the inclusion of floating-point arithmetic would introduce complexity and potentially slow down the execution of scripts.</p>
@@ -89,6 +91,7 @@
 
 <h3 id="addition">Addition</h3>
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the addition operator “<code class="language-plaintext highlighter-rouge">+</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows.</p>
+
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; + &lt;integer/expression_2&gt; <span class="o">[</span>+ ...]
 </code></pre></div></div>
 
@@ -109,6 +112,371 @@
 Result of 3 + 4 is 7
 </code></pre>
 
+<h3 id="substraction">Substraction</h3>
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the subtraction operator “-”. You need to call “expr” as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; - &lt;integer/expression_2&gt; <span class="o">[</span>- ...]
+</code></pre></div></div>
+
+<p>Let’s see the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_substraction.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>3
+ 4 <span class="nv">NUM2</span><span class="o">=</span>4
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> - </span><span class="nv">$NUM2</span><span class="s2"> is "</span>
+ 6 <span class="nb">expr</span> <span class="nv">$NUM1</span> - <span class="nv">$NUM2</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output.</p>
+
+<pre><code class="language-txt">$ ./subtraction.sh
+Result of 3 - 4 is -1
+</code></pre>
+
+<h3 id="division">Division</h3>
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the division operator “<code class="language-plaintext highlighter-rouge">/</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; / &lt;integer/expression_2&gt; <span class="o">[</span>/ ...]
+</code></pre></div></div>
+
+<p>Let’s see how it works with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_division.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>9
+ 4 <span class="nv">NUM2</span><span class="o">=</span>3
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> / </span><span class="nv">$NUM2</span><span class="s2"> is "</span>
+ 6 <span class="nb">expr</span> <span class="nv">$NUM1</span> / <span class="nv">$NUM2</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output.</p>
+
+<pre><code class="language-txt">$ ./expr_division.sh
+Result of 9 / 3 is 3
+</code></pre>
+
+<p>In the case of using operands whose result is a decimal number, <strong>only the integer part will be given as result</strong>. You can see the result by modifying the value of the “<code class="language-plaintext highlighter-rouge">NUM2</code>” variable in the previous script (“<code class="language-plaintext highlighter-rouge">expr_division.sh</code>”) to 2. The result will be <code class="language-plaintext highlighter-rouge">4.5</code> but the script will print only <code class="language-plaintext highlighter-rouge">4</code>.</p>
+
+<h3 id="multiplication">Multiplication</h3>
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the multiplication operator “<code class="language-plaintext highlighter-rouge">*</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; <span class="se">\*</span> &lt;integer/expression_2&gt; <span class="o">[</span><span class="se">\*</span> ...]
+</code></pre></div></div>
+
+<p>Pay attention to the detail of “<em>escaping</em>” the “<code class="language-plaintext highlighter-rouge">*</code>” character. We do this to avoid bash interpreting such a character as a globbing character so that expansion does not happen. With the escaping character we are forcing a literal interpretation of the character “<code class="language-plaintext highlighter-rouge">*</code>” without expansion.</p>
+
+<p>Let’s see how it works with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_multiplication.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>9
+ 4 <span class="nv">NUM2</span><span class="o">=</span>3
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> * </span><span class="nv">$NUM2</span><span class="s2"> is "</span>
+ 6 <span class="nb">expr</span> <span class="nv">$NUM1</span> <span class="se">\*</span> <span class="nv">$NUM2</span>
+</code></pre></div></div>
+
+<p>Whe you execute the previous script you will get the following as result.</p>
+
+<pre><code class="language-txt">$ ./expr_multiplication.sh
+Result of 9 * 3 is 27
+</code></pre>
+
+<h3 id="modulo">Modulo</h3>
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” also supports the modulo operator “<code class="language-plaintext highlighter-rouge">%</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; % &lt;integer/expression_2&gt; <span class="o">[</span>% ...]
+</code></pre></div></div>
+
+<p>Let’s see how it works with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_modulo.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>8
+ 4 <span class="nv">NUM2</span><span class="o">=</span>3
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> % </span><span class="nv">$NUM2</span><span class="s2"> is "</span>
+ 6 <span class="nb">expr</span> <span class="nv">$NUM1</span> % <span class="nv">$NUM2</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the following result.</p>
+
+<pre><code class="language-txt">$ ./expr_modulo.sh
+Result of 8 % 3 is 2
+</code></pre>
+
+<h3 id="comparison">Comparison</h3>
+
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the comparison operators (“<code class="language-plaintext highlighter-rouge">=</code>”, “<code class="language-plaintext highlighter-rouge">&gt;</code>”, “<code class="language-plaintext highlighter-rouge">&gt;=</code>”, “<code class="language-plaintext highlighter-rouge">&lt;</code>”, “<code class="language-plaintext highlighter-rouge">&lt;=</code>”, “<code class="language-plaintext highlighter-rouge">!=</code>”, will call them “<code class="language-plaintext highlighter-rouge">&lt;op&gt;</code>”). You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;expression_1&gt; &lt;op&gt; &lt;expression_2&gt; <span class="o">[</span>&lt;op&gt; ...]
+</code></pre></div></div>
+
+<p>The comparison operators give as result either “<code class="language-plaintext highlighter-rouge">1</code>“ (if the result of the comparison was <code class="language-plaintext highlighter-rouge">true</code>) or “<code class="language-plaintext highlighter-rouge">0</code>” (if the result of the comparison was <code class="language-plaintext highlighter-rouge">false</code>).</p>
+
+<p>Same as with the multiplication character, with the character “<code class="language-plaintext highlighter-rouge">&lt;</code>” we have to escape it to avoid Bash confusing it with a redirection character (which we will speak about later in another chapter).</p>
+
+<p>Let’s see how it works with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_comparison.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>8
+ 4 <span class="nv">NUM2</span><span class="o">=</span>3
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> &lt; </span><span class="nv">$NUM2</span><span class="s2"> is "</span>
+ 6 <span class="nb">expr</span> <span class="nv">$NUM1</span> <span class="se">\&lt;</span> <span class="nv">$NUM2</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following result in the terminal.</p>
+
+<pre><code class="language-txt">$ ./comparison.sh
+Result of 8 &lt; 3 is 0
+</code></pre>
+
+<p>The result of the script is <code class="language-plaintext highlighter-rouge">0</code>, which means that the number <code class="language-plaintext highlighter-rouge">8</code> is not smaller than the number <code class="language-plaintext highlighter-rouge">3</code>.</p>
+
+<h3 id="boolean">Boolean</h3>
+
+<p>“<code class="language-plaintext highlighter-rouge">expr</code>” has support for the boolean operands <strong>AND</strong> (“<code class="language-plaintext highlighter-rouge">&amp;</code>” character) and <strong>OR</strong> (“<code class="language-plaintext highlighter-rouge">|</code>” character) that we can use to compose logical operations.</p>
+
+<p>These boolean operands allow you combine the comparison expressions that we saw in the previous section.</p>
+
+<p>Pay attention that the operands AND and OR, when passed to the “<code class="language-plaintext highlighter-rouge">expr</code>” command, need to be between double quotes.</p>
+
+<p>Let’s see how it works with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: expr_boolean.sh</span>
+ 3 <span class="nv">NUM1</span><span class="o">=</span>8
+ 4 <span class="nv">NUM2</span><span class="o">=</span>3
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Result of </span><span class="nv">$NUM1</span><span class="s2"> &gt; </span><span class="nv">$NUM2</span><span class="s2"> &amp; </span><span class="nv">$NUM2</span><span class="s2"> &gt;= 3 is "</span>
+ 6 <span class="nb">expr</span>  <span class="nv">$NUM1</span> <span class="se">\&gt;</span> <span class="nv">$NUM2</span> <span class="s2">"&amp;"</span> <span class="nv">$NUM2</span> <span class="se">\&gt;</span><span class="o">=</span> 3
+ 7 <span class="c">#                    ^^^</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the following result:</p>
+
+<pre><code class="language-txt">$ ./expr_boolean.sh
+Result of 8 &gt; 3 &amp; 3 &gt;= 3 is 1
+</code></pre>
+
+<p>As you can see in the execution of the script, the result is <code class="language-plaintext highlighter-rouge">1</code>. The result <code class="language-plaintext highlighter-rouge">1</code> means that the two comparisons resulted to be <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p>If you pay attention to the line 7 of the previous script you will see that the AND operator is within double quotes.</p>
+
+<h2 id="working-with-the-letdeclare-builtin-commands">Working with the “<code class="language-plaintext highlighter-rouge">let</code>/<code class="language-plaintext highlighter-rouge">declare</code>” builtin commands</h2>
+
+<p>In this section we are going to take a look at how to work with Integers with two builtin commands of Bash:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">declare</code>: We already mentioned it in a previous chapter.</li>
+  <li><code class="language-plaintext highlighter-rouge">let</code>: Which is new to us and we will talk about in a bit.</li>
+</ul>
+
+<h3 id="declare-command">“<code class="language-plaintext highlighter-rouge">declare</code>” command</h3>
+
+<p>As we mentioned already, “<code class="language-plaintext highlighter-rouge">declare</code>” can be used to give to the declared variables some specific behavior (specific semantics). In our case, we are going to use the “<code class="language-plaintext highlighter-rouge">declare</code>” built-in command to declare integer numbers.</p>
+
+<p>In our current case, we need to use the option “<code class="language-plaintext highlighter-rouge">-i</code>” to indicate the declaration of an integer variable.</p>
+
+<p>In the following script we use the “<code class="language-plaintext highlighter-rouge">-i</code>” flag to declare a new integer variable named “<code class="language-plaintext highlighter-rouge">myIntVar</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: declare_integer.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-i</span> <span class="nv">myIntVar</span><span class="o">=</span>45
+ 4 <span class="nv">myIntVar</span><span class="o">=</span><span class="nv">$myIntVar</span>+1
+ 5 <span class="nb">echo</span> <span class="nv">$myIntVar</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the following result in the terminal.</p>
+
+<pre><code class="language-txt">$ ./declare_integer.sh
+46
+</code></pre>
+
+<p>In this case the builtin command “<code class="language-plaintext highlighter-rouge">declare</code>” is specifying that the new variable “<code class="language-plaintext highlighter-rouge">myIntVar</code>” should behave as an integer number (remember that, by default, variables in Bash behave like STRINGs).</p>
+
+<p>Something to mention is that, in the same way that “<code class="language-plaintext highlighter-rouge">declare</code>” can add specific behaviors to variables (like the previous one with integer and “<code class="language-plaintext highlighter-rouge">-i</code>”), it can remove it (setting it back to the default one) by using the “<em>negated</em>” option “<code class="language-plaintext highlighter-rouge">+i</code>”.</p>
+
+<p>Let’s see it how it works with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: declare_integer_negated.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-i</span> <span class="nv">myIntVar</span><span class="o">=</span>45
+ 4 <span class="nv">myIntVar</span><span class="o">=</span><span class="nv">$myIntVar</span>+1
+ 5 <span class="nb">echo</span> <span class="nv">$myIntVar</span> <span class="c"># 46</span>
+ 6 <span class="nb">declare</span> +i myIntVar
+ 7 <span class="nv">myIntVar</span><span class="o">=</span><span class="nv">$myIntVar</span>+1
+ 8 <span class="nb">echo</span> <span class="nv">$myIntVar</span> <span class="c"># 46+1</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will see the following in the terminal.</p>
+
+<pre><code class="language-txt">$ ./declare_integer_negated.sh
+46
+46+1
+</code></pre>
+
+<p>So… What is happening in the script? On line 3 we are declaring a variable named “<code class="language-plaintext highlighter-rouge">myIntVar</code>” that has a semantic of an integer (it is because of the flag <code class="language-plaintext highlighter-rouge">-i</code> in the <code class="language-plaintext highlighter-rouge">declare</code> command).</p>
+
+<p>In line 4 the variable “<code class="language-plaintext highlighter-rouge">myIntVar</code>” is incremented by one. As it has “<em>integer semantic</em>” the operation works perfectly.</p>
+
+<p>However, when we remove the “<em>integer semantic</em>” on line 6, the variable “<code class="language-plaintext highlighter-rouge">myintvar</code>” becomes a String. Due to this, the value printed on line 8 is “<code class="language-plaintext highlighter-rouge">46+1</code>” as now the variable has “<em>string semantic</em>”.</p>
+
+<p>You can also invoke the command “<code class="language-plaintext highlighter-rouge">declare</code>” without any arguments. This invocation will show the attributes and values of all the variables and functions available.</p>
+
+<h3 id="let-command">“<code class="language-plaintext highlighter-rouge">let</code>” command</h3>
+
+<p>“<code class="language-plaintext highlighter-rouge">let</code>” is a builtin command of Bash that evaluates arithmetic expressions. Its syntax is as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">let </span>arg1 <span class="o">[</span>arg2 ...]
+</code></pre></div></div>
+
+<p>“<code class="language-plaintext highlighter-rouge">let</code>” evaluates (from left to right) each argument as a mathematical expression.</p>
+
+<p>This builtin command supports a wide variety of operators, which are as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Operator</th>
+      <th style="text-align: left">Operation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">var++</code>, <code class="language-plaintext highlighter-rouge">var--</code></td>
+      <td style="text-align: left">Post-increment (<code class="language-plaintext highlighter-rouge">++</code>), Post-decrement (<code class="language-plaintext highlighter-rouge">--</code>). Interpret the value of integer variable var and then add or subtract one (1) to it.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">++var</code>, <code class="language-plaintext highlighter-rouge">--var</code></td>
+      <td style="text-align: left">Pre-increment (<code class="language-plaintext highlighter-rouge">++</code>), Pre-decrement (<code class="language-plaintext highlighter-rouge">--</code>). Add or subtract one (1) to the value of integer variable var, and then interpret the value.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">-expr</code>, <code class="language-plaintext highlighter-rouge">+expr</code></td>
+      <td style="text-align: left">Unary minus, Unary plus. Unary minus returns the value of the expression expr it precedes, as if it had been multiplied by negative one (-1). Unary plus returns the expression expr unchanged, as if it had been multiplied by one (1).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">!</code>, <code class="language-plaintext highlighter-rouge">~</code></td>
+      <td style="text-align: left">Logical negation, Bitwise negation. Logical negation returns false if its operand is true, and true if the operand is false. Bitwise negation flips the bits in the binary representation of the numeric operand.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">**</code></td>
+      <td style="text-align: left">Exponentiation</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">*</code>, <code class="language-plaintext highlighter-rouge">/</code>, <code class="language-plaintext highlighter-rouge">%</code></td>
+      <td style="text-align: left">Multiplication, division, remainder (modulo)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code></td>
+      <td style="text-align: left">Addition, subtraction.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&lt;&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;&gt;</code></td>
+      <td style="text-align: left">Bitwise shift left, bitwise shift right.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code> ,<code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;</code></td>
+      <td style="text-align: left">Comparison: less than or equal to, greater than or equal to, less than, greater than.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">==</code>, <code class="language-plaintext highlighter-rouge">!=</code></td>
+      <td style="text-align: left">Equality, inequality. Equality returns true if its operands are equal, false otherwise. Inequality returns true if its operands are not equal, false otherwise.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&amp;</code></td>
+      <td style="text-align: left">Bitwise AND. The corresponding binary digits of both operands are multiplied to produce a result. For any given digit, the resulting digit is 1 only if the corresponding digit in both operands is also 1.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">^</code></td>
+      <td style="text-align: left">Bitwise XOR (eXclusive OR). A binary digit of the result is 1 if and only if the corresponding digits of the operands differ. For instance, if the first binary digit of the first operand is 1, and the second operand’s first digit is 0, the result’s first digit is 1.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">|</code></td>
+      <td style="text-align: left">Bitwise OR. If either of the corresponding digits in the operands is 1, that digit in the result is also 1.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&amp;&amp;</code></td>
+      <td style="text-align: left">Logical AND. Returns true if both of the operands are true.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">||</code></td>
+      <td style="text-align: left">Logical OR. Returns true if either of the operands is true.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">expr1 ? expr2 : expr3</code></td>
+      <td style="text-align: left">Conditional (ternary) operator. If “<code class="language-plaintext highlighter-rouge">expr1</code>” is true, return “<code class="language-plaintext highlighter-rouge">expr2</code>”. If “<code class="language-plaintext highlighter-rouge">expr1</code>” is false, return “<code class="language-plaintext highlighter-rouge">expr3</code>”.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">=</code>, <code class="language-plaintext highlighter-rouge">*=</code>, <code class="language-plaintext highlighter-rouge">/=</code>, <code class="language-plaintext highlighter-rouge">%=</code>, <code class="language-plaintext highlighter-rouge">+=</code>, <code class="language-plaintext highlighter-rouge">-=</code>, <code class="language-plaintext highlighter-rouge">&lt;&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;&gt;=</code>, <code class="language-plaintext highlighter-rouge">&amp;=</code>, <code class="language-plaintext highlighter-rouge">^=</code>, <code class="language-plaintext highlighter-rouge">|=</code></td>
+      <td style="text-align: left">Assignment. Assign the value of the expression that follows the operator, to the variable that precedes it. If an operator prefixes the equals sign, that operation is performed before assignment. For example <code class="language-plaintext highlighter-rouge">let "var += 5"</code> is equivalent to <code class="language-plaintext highlighter-rouge">let "var = var + 5"</code>. The assignment operation itself evaluates to the value assigned.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s see an example script where we will use several of the previous operators.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: let.sh</span>
+ 3 <span class="c"># Using the post-increment operator"</span>
+ 4 <span class="nb">let</span> <span class="s2">"myVar = 32"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Orignal value of myVar: </span><span class="nv">$myVar</span><span class="s2">"</span>
+ 6 <span class="nb">echo</span> <span class="s2">"Using post-increment operator"</span>
+ 7 <span class="nb">let</span> <span class="s2">"myVar++"</span>
+ 8 <span class="nb">echo</span> <span class="s2">"New value of myVar: </span><span class="nv">$myVar</span><span class="s2">"</span> <span class="c"># 33</span>
+ 9 <span class="c"># Using the shift left operator</span>
+10 <span class="nb">let</span> <span class="s2">"myNumber = 16"</span>
+11 <span class="nb">echo</span> <span class="s2">"Original value of myNumber: </span><span class="nv">$myNumber</span><span class="s2">"</span>
+12 <span class="nb">let</span> <span class="s2">"myNumber &lt;&lt;= 1"</span>
+13 <span class="nb">echo</span> <span class="s2">"New value of myNumber: </span><span class="nv">$myNumber</span><span class="s2">"</span> <span class="c"># 32</span>
+</code></pre></div></div>
+
+<p>In the previous script you see that on line 4 a variable is declared with name “<code class="language-plaintext highlighter-rouge">myVar</code>” and value 32. On line 7 you see that the post-increment operator is used, that statement increments the value of the variable by 1.</p>
+
+<p>Then on line 10 you see that a variable is declared with name “<code class="language-plaintext highlighter-rouge">myNumber</code>” with a value of 16. On line 12, we are using the shifting left assignment operator, which will move all the bits of the number once place to the left, resulting in the number being multiplied by 2.</p>
+
+<p>When you run the previous script you will get the following output in your terminal.</p>
+
+<pre><code class="language-txt">$ ./let.sh
+Orignal value of myVar: 32
+Using post-increment operator
+New value of myVar: 33
+Original value of myNumber: 16
+New value of myNumber: 32
+</code></pre>
+
+<h2 id="other-integer-numbers">Other Integer Numbers</h2>
+
+<p>With the “<code class="language-plaintext highlighter-rouge">let</code>” command you have access to other types of numbers. Specifically you have access to:</p>
+<ul>
+  <li>Octal numbers</li>
+  <li>Hexadecimal numbers</li>
+  <li>Custom based numbers (whose base can be between 2 and 64)</li>
+</ul>
+
+<p>We will tackle them one by one.</p>
+
+<h3 id="octal-numbers3">Octal numbers<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a></h3>
+
+<p>An octal number is a number expressed in the base-8 numeral system, which uses digits from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">7</code>. Each digit in an octal number represents a power of 8, just as digits in a decimal number represent powers of 10.</p>
+
+<p>In the base-8 system:</p>
+<ul>
+  <li>The rightmost digit is the least significant digit (i.e., <code class="language-plaintext highlighter-rouge">8^{0}</code>)</li>
+  <li>The next digit is multiplied by <code class="language-plaintext highlighter-rouge">8^{1}</code>, the next by <code class="language-plaintext highlighter-rouge">8^{2}</code>, and so on.</li>
+</ul>
+
+<p>For example the octal number <code class="language-plaintext highlighter-rouge">157</code>:</p>
+<ul>
+  <li>The rightmost digit is <code class="language-plaintext highlighter-rouge">7</code>, representing 7 times 8 to the <code class="language-plaintext highlighter-rouge">7 x 8^{0} = 7 x 1 = 7</code></li>
+  <li>The next digit is <code class="language-plaintext highlighter-rouge">5</code>, representing <code class="language-plaintext highlighter-rouge">5 x 8^{1} = 5 x 8 = 40</code></li>
+  <li>The leftmost digit is <code class="language-plaintext highlighter-rouge">1</code>, representing <code class="language-plaintext highlighter-rouge">1 x 8^{2} = 1 x 64 = 64</code></li>
+</ul>
+
+<p>Adding these values gives <code class="language-plaintext highlighter-rouge">64 + 40 + 7 = 111</code>.</p>
+
+<p>So the octal number <code class="language-plaintext highlighter-rouge">157</code> in decimal is <code class="language-plaintext highlighter-rouge">111</code>.</p>
+
+<p>Typically octal numbers are preceded by a zero.</p>
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
 <p id="footnote-1" style="font-size:10pt">
@@ -116,6 +484,9 @@ Result of 3 + 4 is 7
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. https://www.perl.org <a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. Will fix the mathemetical formulas at some point.<a href="#footnote-3-ref">&#8617;</a>
 </p>
 
 

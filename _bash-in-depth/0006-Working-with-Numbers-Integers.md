@@ -2,6 +2,9 @@
 layout: chapter
 title: "Chapter 6: Working with Numbers - Integers"
 ---
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
 # Chapter 6: Working with Numbers - Integers
 Bash, by default, primarily operates on integer numerical values. It can perform various arithmetic operations like addition, subtraction, multiplication, and division with integer numbers. These operations are particularly useful for tasks like counting, indexing, and basic mathematical calculations in scripting and automation. Bash's support for integer arithmetic makes it a handy tool for many system-level operations and scripting tasks.
 
@@ -353,7 +356,73 @@ New value of myNumber: 32
 
 ## Other Integer Numbers
 
+With the "`let`" command you have access to other types of numbers. Specifically you have access to:
+* Octal numbers
+* Hexadecimal numbers
+* Custom based numbers (whose base can be between 2 and 64)
 
+We will tackle them one by one.
+
+### Octal numbers<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>
+
+An **octal number** is a number expressed in the base-8 numeral system, which uses digits from `0` to `7`. Each digit in an octal number represents a power of 8, just as digits in a decimal number represent powers of 10.
+
+In the base-8 system:
+* The rightmost digit is the least significant digit (i.e., `8^{0}`)
+* The next digit is multiplied by `8^{1}`, the next by `8^{2}`, and so on.
+
+For example the octal number `157`:
+* The rightmost digit is `7`, representing 7 times 8 to the `7 x 8^{0} = 7 x 1 = 7`
+* The next digit is `5`, representing `5 x 8^{1} = 5 x 8 = 40`
+* The leftmost digit is `1`, representing `1 x 8^{2} = 1 x 64 = 64`
+
+Adding these values gives `64 + 40 + 7 = 111`.
+
+So the octal number `157` in decimal is `111`.
+
+Typically octal numbers are preceded by a zero.
+
+### Hexadecimal numbers<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>
+
+A **hexadecimal number** is a number expressed in the base-16 numeral system, which uses sixteen symbols: the digits `0` through `9` represent values zero to nine, and the letters `A` through `F` represent values ten to fifteen.
+
+Hexadecimal system:
+* `0` = 0
+* `1` = 1
+* `2` = 2
+* `3` = 3
+* `4` = 4
+* `5` = 5
+* `6` = 6
+* `7` = 7
+* `8` = 8
+* `9` = 9
+* `A` = 10
+* `B` = 11
+* `C` = 12
+* `D` = 13
+* `E` = 14
+* `F` = 15
+
+Each digit in a hexadecimal number represents a power of 16, similar to how digits in a decimal number represent powers of 10.
+
+For example the hexadecimal number `2A3` is converted to decimal like this:
+* The rightmost digit `3` represents `3 x 16^{0} = 3 x 1 = 3`
+* The next digit A (which is `10` in decimal) represents `10 x 16^{1} = 10 x 16 = 160`
+* The leftmost digit `2` represents `2 x 16^{2} = 2 x 256 = 512`
+
+Adding these together gives:
+
+```
+512 + 160 + 3 = 675
+```
+
+So... the hexadecimal number `2A3` is `675` in decimal.
+
+Typically hexadecimal numbers are preceded by `0x` or `0X`.
+
+
+### Other bases
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
@@ -363,5 +432,11 @@ New value of myNumber: 32
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. https://www.perl.org <a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. Will fix the mathemetical formulas at some point.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. Will fix the mathemetical formulas at some point.<a href="#footnote-4-ref">&#8617;</a>
 </p>
 
