@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-18T15:35:53+02:00" />
+<meta property="article:published_time" content="2024-09-18T17:30:26+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 6: Working with Numbers - Integers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-18T15:35:53+02:00","datePublished":"2024-09-18T15:35:53+02:00","description":"I hope you will have fun and learn new things reading this blog.","headline":"Chapter 6: Working with Numbers - Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-18T17:30:26+02:00","datePublished":"2024-09-18T17:30:26+02:00","description":"I hope you will have fun and learn new things reading this blog.","headline":"Chapter 6: Working with Numbers - Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -456,7 +456,7 @@ New value of myNumber: 32
 
 <h3 id="octal-numbers3">Octal numbers<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a></h3>
 
-<p>An octal number is a number expressed in the base-8 numeral system, which uses digits from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">7</code>. Each digit in an octal number represents a power of 8, just as digits in a decimal number represent powers of 10.</p>
+<p>An <strong>octal number</strong> is a number expressed in the base-8 numeral system, which uses digits from <code class="language-plaintext highlighter-rouge">0</code> to <code class="language-plaintext highlighter-rouge">7</code>. Each digit in an octal number represents a power of 8, just as digits in a decimal number represent powers of 10.</p>
 
 <p>In the base-8 system:</p>
 <ul>
@@ -477,6 +477,105 @@ New value of myNumber: 32
 
 <p>Typically octal numbers are preceded by a zero.</p>
 
+<h3 id="hexadecimal-numbers4">Hexadecimal numbers<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a></h3>
+
+<p>A <strong>hexadecimal number</strong> is a number expressed in the base-16 numeral system, which uses sixteen symbols: the digits <code class="language-plaintext highlighter-rouge">0</code> through <code class="language-plaintext highlighter-rouge">9</code> represent values zero to nine, and the letters <code class="language-plaintext highlighter-rouge">A</code> through <code class="language-plaintext highlighter-rouge">F</code> represent values ten to fifteen.</p>
+
+<p>Hexadecimal system:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">0</code> = 0</li>
+  <li><code class="language-plaintext highlighter-rouge">1</code> = 1</li>
+  <li><code class="language-plaintext highlighter-rouge">2</code> = 2</li>
+  <li><code class="language-plaintext highlighter-rouge">3</code> = 3</li>
+  <li><code class="language-plaintext highlighter-rouge">4</code> = 4</li>
+  <li><code class="language-plaintext highlighter-rouge">5</code> = 5</li>
+  <li><code class="language-plaintext highlighter-rouge">6</code> = 6</li>
+  <li><code class="language-plaintext highlighter-rouge">7</code> = 7</li>
+  <li><code class="language-plaintext highlighter-rouge">8</code> = 8</li>
+  <li><code class="language-plaintext highlighter-rouge">9</code> = 9</li>
+  <li><code class="language-plaintext highlighter-rouge">A</code> = 10</li>
+  <li><code class="language-plaintext highlighter-rouge">B</code> = 11</li>
+  <li><code class="language-plaintext highlighter-rouge">C</code> = 12</li>
+  <li><code class="language-plaintext highlighter-rouge">D</code> = 13</li>
+  <li><code class="language-plaintext highlighter-rouge">E</code> = 14</li>
+  <li><code class="language-plaintext highlighter-rouge">F</code> = 15</li>
+</ul>
+
+<p>Each digit in a hexadecimal number represents a power of 16, similar to how digits in a decimal number represent powers of 10.</p>
+
+<p>For example the hexadecimal number <code class="language-plaintext highlighter-rouge">2A3</code> is converted to decimal like this:</p>
+<ul>
+  <li>The rightmost digit <code class="language-plaintext highlighter-rouge">3</code> represents <code class="language-plaintext highlighter-rouge">3 x 16^{0} = 3 x 1 = 3</code></li>
+  <li>The next digit A (which is <code class="language-plaintext highlighter-rouge">10</code> in decimal) represents <code class="language-plaintext highlighter-rouge">10 x 16^{1} = 10 x 16 = 160</code></li>
+  <li>The leftmost digit <code class="language-plaintext highlighter-rouge">2</code> represents <code class="language-plaintext highlighter-rouge">2 x 16^{2} = 2 x 256 = 512</code></li>
+</ul>
+
+<p>Adding these together gives:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>512 + 160 + 3 = 675
+</code></pre></div></div>
+
+<p>So… the hexadecimal number <code class="language-plaintext highlighter-rouge">2A3</code> is <code class="language-plaintext highlighter-rouge">675</code> in decimal.</p>
+
+<p>Typically hexadecimal numbers are preceded by <code class="language-plaintext highlighter-rouge">0x</code> or <code class="language-plaintext highlighter-rouge">0X</code>.</p>
+
+<h3 id="other-bases">Other bases</h3>
+
+<p>In order to declare other integers with a different base, you can use the following notation.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">let</span> <span class="s2">"number = BASE#NUMBER"</span>
+</code></pre></div></div>
+
+<p>Where:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">BASE</code> is between 2 and 64</li>
+  <li><code class="language-plaintext highlighter-rouge">NUMBER</code> must use the symbols within the <code class="language-plaintext highlighter-rouge">BASE</code> range.</li>
+</ul>
+
+<p>Let’s see a few examples with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: let_other_bases.sh</span>
+ 3 <span class="c"># Binary</span>
+ 4 <span class="nb">let</span> <span class="s2">"bin = 2#111100111001101"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"binary number = </span><span class="nv">$bin</span><span class="s2">"</span>    <span class="c"># 31181</span>
+ 6 <span class="c"># Base 32</span>
+ 7 <span class="nb">let</span> <span class="s2">"b32 = 32#77"</span>
+ 8 <span class="nb">echo</span> <span class="s2">"base-32 number = </span><span class="nv">$b32</span><span class="s2">"</span>   <span class="c"># 231</span>
+ 9 <span class="c"># Base 64</span>
+10 <span class="c"># This notation only works for a limited range (2 - 64) of ASCII characters.</span>
+11 <span class="c"># 10 digits +</span>
+12 <span class="c"># 26 lowercase characters +</span>
+13 <span class="c"># 26 uppercase characters +</span>
+14 <span class="c"># @ + _</span>
+15 <span class="nb">let</span> <span class="s2">"b64 = 64#@_"</span>
+16 <span class="nb">echo</span> <span class="s2">"base-64 number = </span><span class="nv">$b64</span><span class="s2">"</span>   <span class="c"># 4031</span>
+</code></pre></div></div>
+
+<p>In the previous script you see that on line 4 we declare a binary number. On line 7 we declare a number with base-32 and, finally, on line 15 we declare number with base-64.</p>
+
+<p>When you run the previous script you will see the following in your terminal.</p>
+
+<pre><code class="language-txt">$ ./let_other_bases.sh
+binary number = 31181
+base-32 number = 231
+base-64 number = 4031
+</code></pre>
+
+<h2 id="working-with-bash-arithmetic-expansion-and-compound-command">Working with Bash Arithmetic Expansion and Compound Command</h2>
+
+<p>There is a third way to operate with integer numbers that can look similar but are very different. This way is by using either:</p>
+<ul>
+  <li>Bash Arithmetic Expansion: <code class="language-plaintext highlighter-rouge">$((...))</code></li>
+  <li>Double Parenthesis Compound Command: <code class="language-plaintext highlighter-rouge">((...))</code></li>
+</ul>
+
+<p>They look really similar but are different. So… What is the difference among them and the preferred way to use them?</p>
+
+<h3 id="bash-arithmetic-expansion-">Bash Arithmetic Expansion <code class="language-plaintext highlighter-rouge">$((...))</code></h3>
+
+<p>This way to deal with integer numbers allows us to evaluate an arithmetic expression (or a set of them, separated by commas). This way, will give an output which will be the result of the latest arithmetic operation given.</p>
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
 <p id="footnote-1" style="font-size:10pt">
@@ -487,6 +586,9 @@ New value of myNumber: 32
 </p>
 <p id="footnote-3" style="font-size:10pt">
 3. Will fix the mathemetical formulas at some point.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. Will fix the mathemetical formulas at some point.<a href="#footnote-4-ref">&#8617;</a>
 </p>
 
 

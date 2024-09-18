@@ -424,6 +424,61 @@ Typically hexadecimal numbers are preceded by `0x` or `0X`.
 
 ### Other bases
 
+In order to declare other integers with a different base, you can use the following notation.
+
+```bash
+let "number = BASE#NUMBER"
+```
+
+Where:
+* `BASE` is between 2 and 64
+* `NUMBER` must use the symbols within the `BASE` range.
+
+Let's see a few examples with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: let_other_bases.sh
+ 3 # Binary
+ 4 let "bin = 2#111100111001101"
+ 5 echo "binary number = $bin"    # 31181
+ 6 # Base 32
+ 7 let "b32 = 32#77"
+ 8 echo "base-32 number = $b32"   # 231
+ 9 # Base 64
+10 # This notation only works for a limited range (2 - 64) of ASCII characters.
+11 # 10 digits +
+12 # 26 lowercase characters +
+13 # 26 uppercase characters +
+14 # @ + _
+15 let "b64 = 64#@_"
+16 echo "base-64 number = $b64"   # 4031
+```
+
+In the previous script you see that on line 4 we declare a binary number. On line 7 we declare a number with base-32 and, finally, on line 15 we declare number with base-64.
+
+When you run the previous script you will see the following in your terminal.
+
+```txt
+$ ./let_other_bases.sh
+binary number = 31181
+base-32 number = 231
+base-64 number = 4031
+```
+
+## Working with Bash Arithmetic Expansion and Compound Command
+
+There is a third way to operate with integer numbers that can look similar but are very different. This way is by using either:
+* Bash Arithmetic Expansion: `$((...))`
+* Double Parenthesis Compound Command: `((...))`
+
+They look really similar but are different. So… What is the difference among them and the preferred way to use them?
+
+### Bash Arithmetic Expansion `$((...))`
+
+This way to deal with integer numbers allows us to evaluate an arithmetic expression (or a set of them, separated by commas). This way, will give an output which will be the result of the latest arithmetic operation given.
+
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
