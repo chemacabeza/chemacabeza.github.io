@@ -35,7 +35,7 @@ This book is not intended to give you a full detailed tutorial on “`expr`”. 
 “`expr`” supports the addition operator “`+`”. You need to call “`expr`” as follows.
 
 ```bash
-expr <integer/expression_1> + <integer/expression_2> [+ ...]
+    expr <integer/expression_1> + <integer/expression_2> [+ ...]
 ```
 
 Let's see how it works with an example.
@@ -61,7 +61,7 @@ Result of 3 + 4 is 7
 “`expr`” supports the subtraction operator “-”. You need to call “expr” as follows:
 
 ```bash
-expr <integer/expression_1> - <integer/expression_2> [- ...]
+    expr <integer/expression_1> - <integer/expression_2> [- ...]
 ```
 
 Let’s see the following example script.
@@ -86,7 +86,7 @@ Result of 3 - 4 is -1
 “`expr`” supports the division operator “`/`”. You need to call “`expr`” as follows:
 
 ```bash
-expr <integer/expression_1> / <integer/expression_2> [/ ...]
+    expr <integer/expression_1> / <integer/expression_2> [/ ...]
 ```
 
 Let’s see how it works with the following example script.
@@ -113,7 +113,7 @@ In the case of using operands whose result is a decimal number, **only the integ
 “`expr`” supports the multiplication operator “`*`”. You need to call “`expr`” as follows:
 
 ```bash
-expr <integer/expression_1> \* <integer/expression_2> [\* ...]
+    expr <integer/expression_1> \* <integer/expression_2> [\* ...]
 ```
 
 Pay attention to the detail of “*escaping*” the “`*`” character. We do this to avoid bash interpreting such a character as a globbing character so that expansion does not happen. With the escaping character we are forcing a literal interpretation of the character “`*`” without expansion.
@@ -140,7 +140,7 @@ Result of 9 * 3 is 27
 “`expr`” also supports the modulo operator “`%`”. You need to call “`expr`” as follows:
 
 ```bash
-expr <integer/expression_1> % <integer/expression_2> [% ...]
+    expr <integer/expression_1> % <integer/expression_2> [% ...]
 ```
 
 Let’s see how it works with the following example script.
@@ -166,7 +166,7 @@ Result of 8 % 3 is 2
 “`expr`” supports the comparison operators (“`=`”, “`>`”, “`>=`”, “`<`”, “`<=`”, “`!=`”, will call them “`<op>`”). You need to call “`expr`” as follows:
 
 ```bash
-expr <expression_1> <op> <expression_2> [<op> ...]
+    expr <expression_1> <op> <expression_2> [<op> ...]
 ```
 
 The comparison operators give as result either “`1`“ (if the result of the comparison was `true`) or “`0`” (if the result of the comparison was `false`).
@@ -294,7 +294,7 @@ You can also invoke the command "`declare`" without any arguments. This invocati
 “`let`” is a builtin command of Bash that evaluates arithmetic expressions. Its syntax is as follows:
 
 ```bash
-let arg1 [arg2 ...]
+    let arg1 [arg2 ...]
 ```
 
 “`let`” evaluates (from left to right) each argument as a mathematical expression. 
@@ -414,7 +414,7 @@ For example the hexadecimal number `2A3` is converted to decimal like this:
 Adding these together gives:
 
 ```
-512 + 160 + 3 = 675
+    512 + 160 + 3 = 675
 ```
 
 So... the hexadecimal number `2A3` is `675` in decimal.
@@ -427,7 +427,7 @@ Typically hexadecimal numbers are preceded by `0x` or `0X`.
 In order to declare other integers with a different base, you can use the following notation.
 
 ```bash
-let "number = BASE#NUMBER"
+    let "number = BASE#NUMBER"
 ```
 
 Where:
@@ -524,6 +524,132 @@ Just a note... Before Bash Arithmetic Expansion appeared (`$((...))`), the synta
 
 ### Compound Command `((...))`
 
+In Bash, the `((...))` construct is used for arithmetic evaluation. It allows you to perform mathematical operations directly within a script, similar to how expressions are evaluated in programming languages like C or Java. The key advantage of `((...))` over other methods like `expr` or `$((...))` is that it can handle arithmetic operations more efficiently, without the need for external tools.
+
+The key features of the compound command are:
+1. **Arithmetic Operations**: It supports common operations such as addition (`+`), subtraction (`-`), multiplication (`*`), division (`/`), modulus (`%`), and more.
+2. **No Need for $ for Variables**: Inside `((...))`, you don’t need to prefix variables with `$` to reference them, unlike other parts of Bash scripts.
+3. **Return Value**: The `((...))` construct returns a status of `0` (true) if the result of the expression is non-zero, and `1` (false) if the result is zero. This makes it useful in conditional statements.
+4. **Increment and Decrement Operators**: You can use operators like `++` and `--` for incrementing and decrementing variables.
+
+The syntax used for this way of operating with integer numbers is as follows:
+
+```bash
+    (( expression ))
+```
+
+What “`expression`” is you might be asking yourself. When you use this compound command you create an environment where you can operate with integer variables. In this environment you can do assignments of variables, you can do operations, you can do several operations in the same environment. 
+
+The way to do several operations is as follows:
+
+```bash
+    (( expr1 , expr2 , ... ))
+```
+
+Where the different expressions (assignments, operations, etc) are evaluated in sequence.
+
+This compound command is an actual command after all. This means that it has a result, an exit status, that we can use.<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a>
+
+Let's see an example, shall we?
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: compound_command.sh
+ 3 # Post-increment
+ 4 ((myVar = 32))
+ 5 ((myVar++))
+ 6 echo "myVar: $myVar"
+ 7 # Shift bits
+ 8 ((myVar2 = 16, myVar3 = 4))
+ 9 ((myVar2 <<= 1, myVar3 >>=1 ))
+10 echo "myVar2: $myVar2, myVar3: $myVar3"
+```
+
+In the previous script we declare a variable named `myVar` on line 4, then we use the post-increment operator on line 5.
+
+On line 8 we declare two variables with names `myVar2` and `myVar3` with values `16` and `4` respectively. The on line 9 we use the shift-left bits operator on variable `myVar2` which will multiply by 2 the value of the variable, and we also apply the shift-right bit operator to the variable `myVar3` which will divide the value of the variable by 2.
+
+If you run the previous script you will see the following in your console.
+
+```txt
+$ ./compound_command.sh
+myVar: 33
+myVar2: 32, myVar3: 2
+```
+
+There are several advantages of using the Compound Command `((...))`:
+1. More readable and concise than using other tools like `expr`
+2. Efficient and well-integrated into Bash for handling numbers
+3. Supports bitwise operations and comparison operators
+
+## Operators Order
+In Bash, just like in most programming languages, operators have an **order of precedence** (also known as operator precedence) that determines the sequence in which operations are evaluated in an expression. Understanding operator precedence is crucial when writing complex expressions to ensure that they are evaluated as intended.
+
+Bash supports a variety of operators for arithmetic, logical operations, string manipulation, and comparisons. When multiple operators are present in an expression, the precedence rules dictate the order of execution.
+
+The following table contains the order based on which Bash will evaluate the operators.
+
+| Order | Operators | Description |
+| :----: | :---- | :---- |
+| 1 | `id++`, `id--` | variable post-increment and post-decrement |
+| 2 |  `++id`, `--id` | variable pre-increment and pre-decrement |
+| 3 | `-`, `+` | unary minus and plus |
+| 4 | `!`, `~` | logical and bitwise negation |
+| 5 | `**` | exponentiation |
+| 6 | `*`, `/`, `%` | multiplication, division, remainder | 
+| 7 | `+`, `-` | addition, subtraction |
+| 8 | `<<`, `>>` | left and right bitwise shifts |
+| 9 | `<=`, `>=`, `<`, `>` | comparison |
+| 10 | `==`, `!=` | equality and inequality|
+| 11 | `&` | bitwise AND |
+| 12 | `^` | bitwise eXclusive OR |
+| 13 | `|` | bitwise OR |
+| 14 | `&&` | logical AND |
+| 15 | `||` | logical OR |
+| 16 | `expr?expr:expr` | conditional operator |
+| 17 | `=`, `*=`, `/=`, `%=`, `+=`, `-=`, `<<=`, `>>=`, `&=`, `^=`, `|=` | assignment|
+
+In Bash, the order of precedence follows specific rules. Here’s a simplified breakdown:
+* **Parentheses** (`()`): Highest precedence. They group expressions and force evaluation inside them first.
+* **Arithmetic operators**  (`*`, `/`, `%`, `+`, `-`): Multiplication, division, and modulus have higher precedence than addition and subtraction.
+* **Logical NOT** (`!`): Unary negation, with higher precedence than `&&` and `||`.
+* **Logical AND** (`&&`): Evaluated after comparisons, but before `||`.
+* **Logical OR** (`||`): Lowest precedence among the common operators.
+
+Understanding operator precedence in Bash helps you avoid logic errors in complex expressions and write more predictable, efficient scripts. While Bash generally follows common mathematical precedence rules, always remember that parentheses `()` can be used to ensure the desired order of evaluation.
+
+## Summary
+In this chapter we learnt several ways to deal with integer numbers.
+
+We learnt:
+* How to use “`expr`” command to do arithmetic, comparisons and boolean operations
+* How to use “`let`” and “declare” to initialize variables and the different operators that we can use with them
+* How to declare integer numbers using alternative representations such as octal, hexadecimal and other bases
+* How to use the Bash arithmetic expansion (“`$((...))`”) and the compound command (“`((...))`”)
+* In what order the operators are evaluated
+
+If you managed to get here and understood and practiced the different commands presented in the chapter, you are on the right path.
+
+Remember that *practice makes perfect*. So, practice, practice, practice,...
+
+## References
+1. https://linuxhint.com/expr-command-bash/
+2. https://www.geeksforgeeks.org/expr-command-in-linux-with-examples/
+3. https://unix.stackexchange.com/questions/286209/using-expr
+4. https://www.javatpoint.com/linux-expr-command
+5. https://tldp.org/LDP/abs/html/declareref.html
+6. https://phoenixnap.com/kb/bash-let
+7. https://linuxhint.com/bash_declare_command/
+8. https://www.computerhope.com/unix/bash/let.htm
+9. https://tldp.org/LDP/abs/html/numerical-constants.html
+10. https://www.gnu.org/software/bash/manual/html_node/Arithmetic-Expansion.html
+11. https://tldp.org/LDP/abs/html/arithexp.html
+12. https://www.shell-tips.com/bash/math-arithmetic-calculation/#gsc.tab=0
+13. https://stackoverflow.com/questions/39199299/what-is-the-essential-difference-between-compound-command-and-normal-command-in
+14. https://tldp.org/LDP/abs/html/dblparens.html
+15. https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar
+16. http://mywiki.wooledge.org/ArithmeticExpression
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
@@ -538,5 +664,8 @@ Just a note... Before Bash Arithmetic Expansion appeared (`$((...))`), the synta
 </p>
 <p id="footnote-4" style="font-size:10pt">
 4. Will fix the mathemetical formulas at some point.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-X" style="font-size:10pt">
+5. This is something we will see in a later chapter.<a href="#footnote-X-ref">&#8617;</a>
 </p>
 

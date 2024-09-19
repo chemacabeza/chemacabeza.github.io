@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-18T17:30:26+02:00" />
+<meta property="article:published_time" content="2024-09-19T08:48:25+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 6: Working with Numbers - Integers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-18T17:30:26+02:00","datePublished":"2024-09-18T17:30:26+02:00","description":"I hope you will have fun and learn new things reading this blog.","headline":"Chapter 6: Working with Numbers - Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-19T08:48:25+02:00","datePublished":"2024-09-19T08:48:25+02:00","description":"I hope you will have fun and learn new things reading this blog.","headline":"Chapter 6: Working with Numbers - Integers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"},"url":"http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -92,7 +92,7 @@
 <h3 id="addition">Addition</h3>
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the addition operator “<code class="language-plaintext highlighter-rouge">+</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; + &lt;integer/expression_2&gt; <span class="o">[</span>+ ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">expr</span> &lt;integer/expression_1&gt; + &lt;integer/expression_2&gt; <span class="o">[</span>+ ...]
 </code></pre></div></div>
 
 <p>Let’s see how it works with an example.</p>
@@ -115,7 +115,7 @@ Result of 3 + 4 is 7
 <h3 id="substraction">Substraction</h3>
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the subtraction operator “-”. You need to call “expr” as follows:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; - &lt;integer/expression_2&gt; <span class="o">[</span>- ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">expr</span> &lt;integer/expression_1&gt; - &lt;integer/expression_2&gt; <span class="o">[</span>- ...]
 </code></pre></div></div>
 
 <p>Let’s see the following example script.</p>
@@ -137,7 +137,7 @@ Result of 3 - 4 is -1
 <h3 id="division">Division</h3>
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the division operator “<code class="language-plaintext highlighter-rouge">/</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; / &lt;integer/expression_2&gt; <span class="o">[</span>/ ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">expr</span> &lt;integer/expression_1&gt; / &lt;integer/expression_2&gt; <span class="o">[</span>/ ...]
 </code></pre></div></div>
 
 <p>Let’s see how it works with the following example script.</p>
@@ -161,7 +161,7 @@ Result of 9 / 3 is 3
 <h3 id="multiplication">Multiplication</h3>
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the multiplication operator “<code class="language-plaintext highlighter-rouge">*</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; <span class="se">\*</span> &lt;integer/expression_2&gt; <span class="o">[</span><span class="se">\*</span> ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">expr</span> &lt;integer/expression_1&gt; <span class="se">\*</span> &lt;integer/expression_2&gt; <span class="o">[</span><span class="se">\*</span> ...]
 </code></pre></div></div>
 
 <p>Pay attention to the detail of “<em>escaping</em>” the “<code class="language-plaintext highlighter-rouge">*</code>” character. We do this to avoid bash interpreting such a character as a globbing character so that expansion does not happen. With the escaping character we are forcing a literal interpretation of the character “<code class="language-plaintext highlighter-rouge">*</code>” without expansion.</p>
@@ -185,7 +185,7 @@ Result of 9 * 3 is 27
 <h3 id="modulo">Modulo</h3>
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” also supports the modulo operator “<code class="language-plaintext highlighter-rouge">%</code>”. You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;integer/expression_1&gt; % &lt;integer/expression_2&gt; <span class="o">[</span>% ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">expr</span> &lt;integer/expression_1&gt; % &lt;integer/expression_2&gt; <span class="o">[</span>% ...]
 </code></pre></div></div>
 
 <p>Let’s see how it works with the following example script.</p>
@@ -208,7 +208,7 @@ Result of 8 % 3 is 2
 
 <p>“<code class="language-plaintext highlighter-rouge">expr</code>” supports the comparison operators (“<code class="language-plaintext highlighter-rouge">=</code>”, “<code class="language-plaintext highlighter-rouge">&gt;</code>”, “<code class="language-plaintext highlighter-rouge">&gt;=</code>”, “<code class="language-plaintext highlighter-rouge">&lt;</code>”, “<code class="language-plaintext highlighter-rouge">&lt;=</code>”, “<code class="language-plaintext highlighter-rouge">!=</code>”, will call them “<code class="language-plaintext highlighter-rouge">&lt;op&gt;</code>”). You need to call “<code class="language-plaintext highlighter-rouge">expr</code>” as follows:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">expr</span> &lt;expression_1&gt; &lt;op&gt; &lt;expression_2&gt; <span class="o">[</span>&lt;op&gt; ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">expr</span> &lt;expression_1&gt; &lt;op&gt; &lt;expression_2&gt; <span class="o">[</span>&lt;op&gt; ...]
 </code></pre></div></div>
 
 <p>The comparison operators give as result either “<code class="language-plaintext highlighter-rouge">1</code>“ (if the result of the comparison was <code class="language-plaintext highlighter-rouge">true</code>) or “<code class="language-plaintext highlighter-rouge">0</code>” (if the result of the comparison was <code class="language-plaintext highlighter-rouge">false</code>).</p>
@@ -326,7 +326,7 @@ Result of 8 &gt; 3 &amp; 3 &gt;= 3 is 1
 
 <p>“<code class="language-plaintext highlighter-rouge">let</code>” is a builtin command of Bash that evaluates arithmetic expressions. Its syntax is as follows:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">let </span>arg1 <span class="o">[</span>arg2 ...]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">let </span>arg1 <span class="o">[</span>arg2 ...]
 </code></pre></div></div>
 
 <p>“<code class="language-plaintext highlighter-rouge">let</code>” evaluates (from left to right) each argument as a mathematical expression.</p>
@@ -512,7 +512,7 @@ New value of myNumber: 32
 
 <p>Adding these together gives:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>512 + 160 + 3 = 675
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    512 + 160 + 3 = 675
 </code></pre></div></div>
 
 <p>So… the hexadecimal number <code class="language-plaintext highlighter-rouge">2A3</code> is <code class="language-plaintext highlighter-rouge">675</code> in decimal.</p>
@@ -523,7 +523,7 @@ New value of myNumber: 32
 
 <p>In order to declare other integers with a different base, you can use the following notation.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">let</span> <span class="s2">"number = BASE#NUMBER"</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">let</span> <span class="s2">"number = BASE#NUMBER"</span>
 </code></pre></div></div>
 
 <p>Where:</p>
@@ -576,6 +576,259 @@ base-64 number = 4031
 
 <p>This way to deal with integer numbers allows us to evaluate an arithmetic expression (or a set of them, separated by commas). This way, will give an output which will be the result of the latest arithmetic operation given.</p>
 
+<p>Let’s give it a try with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: bash_arith_expansion_wrong.sh</span>
+ 3 <span class="k">$((</span><span class="nv">x</span><span class="o">=</span><span class="m">4</span>,y<span class="o">=</span><span class="m">5</span>,z<span class="o">=</span>x<span class="o">*</span>y,u<span class="o">=</span>z/2<span class="k">))</span> <span class="p">;</span> <span class="c"># 10: command not found</span>
+ 4 <span class="nb">echo</span> <span class="nv">$x</span> <span class="nv">$y</span> <span class="nv">$z</span> <span class="nv">$u</span>
+</code></pre></div></div>
+
+<p>What is happening in this script? On line 3 of the script (which is wrong on purpose) we are using the Bash Arithmetic Expansion. Inside this command there are several steps that happen in the following order:</p>
+<ol>
+  <li>A variable is declared with name <code class="language-plaintext highlighter-rouge">x</code> and with a value of <code class="language-plaintext highlighter-rouge">4</code></li>
+  <li>A variable is declared with name <code class="language-plaintext highlighter-rouge">y</code> and with a value of <code class="language-plaintext highlighter-rouge">5</code></li>
+  <li>A variable is declared with name <code class="language-plaintext highlighter-rouge">z</code> and with a value that is the multiplication of variables <code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code>, resulting in a value of <code class="language-plaintext highlighter-rouge">10</code></li>
+  <li>A variable is declared with name <code class="language-plaintext highlighter-rouge">u</code> and with a value that is the result of the division of variable <code class="language-plaintext highlighter-rouge">z</code> by <code class="language-plaintext highlighter-rouge">2</code>, resulting in <code class="language-plaintext highlighter-rouge">10</code></li>
+  <li>Bash tries to interpret the resulting number (which is <code class="language-plaintext highlighter-rouge">10</code>) as a command, resulting in an error</li>
+</ol>
+
+<p>When you run the previous script you will get the following output in you terminal.</p>
+
+<pre><code class="language-txt">$ ./bash_arith_expansion_wrong.sh
+./bash_arith_expansion.sh: line 3: 10: command not found
+4 5 20 10
+</code></pre>
+
+<p>What happens is that the result of <strong>the last arithmetic operation will replace the expression itself</strong>. And this can be used as another value. Let’s see it with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: bash_arith_expansion.sh</span>
+ 3 <span class="nv">result</span><span class="o">=</span><span class="k">$((</span><span class="nv">x</span><span class="o">=</span><span class="m">4</span>,y<span class="o">=</span><span class="m">5</span>,z<span class="o">=</span>x<span class="o">*</span>y,u<span class="o">=</span>z/2<span class="k">))</span> <span class="p">;</span> 
+ 4 <span class="nb">echo</span> <span class="nv">$x</span> <span class="nv">$y</span> <span class="nv">$z</span> <span class="nv">$u</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Result: </span><span class="nv">$result</span><span class="s2">"</span> <span class="c"># 10</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will see the following in your terminal.</p>
+
+<pre><code class="language-txt">$ ./bash_arith_expansion.sh
+4 5 20 10
+Result: 10
+</code></pre>
+
+<p>Just a note… Before Bash Arithmetic Expansion appeared (<code class="language-plaintext highlighter-rouge">$((...))</code>), the syntax that was used was <code class="language-plaintext highlighter-rouge">$[...]</code> which is now <strong>deprecated</strong> but you might still find it in some old scripts.</p>
+
+<h3 id="compound-command-">Compound Command <code class="language-plaintext highlighter-rouge">((...))</code></h3>
+
+<p>In Bash, the <code class="language-plaintext highlighter-rouge">((...))</code> construct is used for arithmetic evaluation. It allows you to perform mathematical operations directly within a script, similar to how expressions are evaluated in programming languages like C or Java. The key advantage of <code class="language-plaintext highlighter-rouge">((...))</code> over other methods like <code class="language-plaintext highlighter-rouge">expr</code> or <code class="language-plaintext highlighter-rouge">$((...))</code> is that it can handle arithmetic operations more efficiently, without the need for external tools.</p>
+
+<p>The key features of the compound command are:</p>
+<ol>
+  <li><strong>Arithmetic Operations</strong>: It supports common operations such as addition (<code class="language-plaintext highlighter-rouge">+</code>), subtraction (<code class="language-plaintext highlighter-rouge">-</code>), multiplication (<code class="language-plaintext highlighter-rouge">*</code>), division (<code class="language-plaintext highlighter-rouge">/</code>), modulus (<code class="language-plaintext highlighter-rouge">%</code>), and more.</li>
+  <li><strong>No Need for $ for Variables</strong>: Inside <code class="language-plaintext highlighter-rouge">((...))</code>, you don’t need to prefix variables with <code class="language-plaintext highlighter-rouge">$</code> to reference them, unlike other parts of Bash scripts.</li>
+  <li><strong>Return Value</strong>: The <code class="language-plaintext highlighter-rouge">((...))</code> construct returns a status of <code class="language-plaintext highlighter-rouge">0</code> (true) if the result of the expression is non-zero, and <code class="language-plaintext highlighter-rouge">1</code> (false) if the result is zero. This makes it useful in conditional statements.</li>
+  <li><strong>Increment and Decrement Operators</strong>: You can use operators like <code class="language-plaintext highlighter-rouge">++</code> and <code class="language-plaintext highlighter-rouge">--</code> for incrementing and decrementing variables.</li>
+</ol>
+
+<p>The syntax used for this way of operating with integer numbers is as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">((</span> expression <span class="o">))</span>
+</code></pre></div></div>
+
+<p>What “<code class="language-plaintext highlighter-rouge">expression</code>” is you might be asking yourself. When you use this compound command you create an environment where you can operate with integer variables. In this environment you can do assignments of variables, you can do operations, you can do several operations in the same environment.</p>
+
+<p>The way to do several operations is as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">((</span> expr1 , expr2 , ... <span class="o">))</span>
+</code></pre></div></div>
+
+<p>Where the different expressions (assignments, operations, etc) are evaluated in sequence.</p>
+
+<p>This compound command is an actual command after all. This means that it has a result, an exit status, that we can use.<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a></p>
+
+<p>Let’s see an example, shall we?</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: compound_command.sh</span>
+ 3 <span class="c"># Post-increment</span>
+ 4 <span class="o">((</span>myVar <span class="o">=</span> 32<span class="o">))</span>
+ 5 <span class="o">((</span>myVar++<span class="o">))</span>
+ 6 <span class="nb">echo</span> <span class="s2">"myVar: </span><span class="nv">$myVar</span><span class="s2">"</span>
+ 7 <span class="c"># Shift bits</span>
+ 8 <span class="o">((</span>myVar2 <span class="o">=</span> 16, myVar3 <span class="o">=</span> 4<span class="o">))</span>
+ 9 <span class="o">((</span>myVar2 &lt;&lt;<span class="o">=</span> 1, myVar3 <span class="o">&gt;&gt;=</span>1 <span class="o">))</span>
+10 <span class="nb">echo</span> <span class="s2">"myVar2: </span><span class="nv">$myVar2</span><span class="s2">, myVar3: </span><span class="nv">$myVar3</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In the previous script we declare a variable named <code class="language-plaintext highlighter-rouge">myVar</code> on line 4, then we use the post-increment operator on line 5.</p>
+
+<p>On line 8 we declare two variables with names <code class="language-plaintext highlighter-rouge">myVar2</code> and <code class="language-plaintext highlighter-rouge">myVar3</code> with values <code class="language-plaintext highlighter-rouge">16</code> and <code class="language-plaintext highlighter-rouge">4</code> respectively. The on line 9 we use the shift-left bits operator on variable <code class="language-plaintext highlighter-rouge">myVar2</code> which will multiply by 2 the value of the variable, and we also apply the shift-right bit operator to the variable <code class="language-plaintext highlighter-rouge">myVar3</code> which will divide the value of the variable by 2.</p>
+
+<p>If you run the previous script you will see the following in your console.</p>
+
+<pre><code class="language-txt">$ ./compound_command.sh
+myVar: 33
+myVar2: 32, myVar3: 2
+</code></pre>
+
+<p>There are several advantages of using the Compound Command <code class="language-plaintext highlighter-rouge">((...))</code>:</p>
+<ol>
+  <li>More readable and concise than using other tools like <code class="language-plaintext highlighter-rouge">expr</code></li>
+  <li>Efficient and well-integrated into Bash for handling numbers</li>
+  <li>Supports bitwise operations and comparison operators</li>
+</ol>
+
+<h2 id="operators-order">Operators Order</h2>
+<p>In Bash, just like in most programming languages, operators have an <strong>order of precedence</strong> (also known as operator precedence) that determines the sequence in which operations are evaluated in an expression. Understanding operator precedence is crucial when writing complex expressions to ensure that they are evaluated as intended.</p>
+
+<p>Bash supports a variety of operators for arithmetic, logical operations, string manipulation, and comparisons. When multiple operators are present in an expression, the precedence rules dictate the order of execution.</p>
+
+<p>The following table contains the order based on which Bash will evaluate the operators.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Order</th>
+      <th style="text-align: left">Operators</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">id++</code>, <code class="language-plaintext highlighter-rouge">id--</code></td>
+      <td style="text-align: left">variable post-increment and post-decrement</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">2</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">++id</code>, <code class="language-plaintext highlighter-rouge">--id</code></td>
+      <td style="text-align: left">variable pre-increment and pre-decrement</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">3</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">-</code>, <code class="language-plaintext highlighter-rouge">+</code></td>
+      <td style="text-align: left">unary minus and plus</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">4</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">!</code>, <code class="language-plaintext highlighter-rouge">~</code></td>
+      <td style="text-align: left">logical and bitwise negation</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">5</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">**</code></td>
+      <td style="text-align: left">exponentiation</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">6</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">*</code>, <code class="language-plaintext highlighter-rouge">/</code>, <code class="language-plaintext highlighter-rouge">%</code></td>
+      <td style="text-align: left">multiplication, division, remainder</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">7</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code></td>
+      <td style="text-align: left">addition, subtraction</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">8</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&lt;&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;&gt;</code></td>
+      <td style="text-align: left">left and right bitwise shifts</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">9</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;=</code>, <code class="language-plaintext highlighter-rouge">&lt;</code>, <code class="language-plaintext highlighter-rouge">&gt;</code></td>
+      <td style="text-align: left">comparison</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">10</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">==</code>, <code class="language-plaintext highlighter-rouge">!=</code></td>
+      <td style="text-align: left">equality and inequality</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">11</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&amp;</code></td>
+      <td style="text-align: left">bitwise AND</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">12</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">^</code></td>
+      <td style="text-align: left">bitwise eXclusive OR</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">13</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">|</code></td>
+      <td style="text-align: left">bitwise OR</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">14</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">&amp;&amp;</code></td>
+      <td style="text-align: left">logical AND</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">15</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">||</code></td>
+      <td style="text-align: left">logical OR</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">16</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">expr?expr:expr</code></td>
+      <td style="text-align: left">conditional operator</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">17</td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">=</code>, <code class="language-plaintext highlighter-rouge">*=</code>, <code class="language-plaintext highlighter-rouge">/=</code>, <code class="language-plaintext highlighter-rouge">%=</code>, <code class="language-plaintext highlighter-rouge">+=</code>, <code class="language-plaintext highlighter-rouge">-=</code>, <code class="language-plaintext highlighter-rouge">&lt;&lt;=</code>, <code class="language-plaintext highlighter-rouge">&gt;&gt;=</code>, <code class="language-plaintext highlighter-rouge">&amp;=</code>, <code class="language-plaintext highlighter-rouge">^=</code>, <code class="language-plaintext highlighter-rouge">|=</code></td>
+      <td style="text-align: left">assignment</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In Bash, the order of precedence follows specific rules. Here’s a simplified breakdown:</p>
+<ul>
+  <li><strong>Parentheses</strong> (<code class="language-plaintext highlighter-rouge">()</code>): Highest precedence. They group expressions and force evaluation inside them first.</li>
+  <li><strong>Arithmetic operators</strong>  (<code class="language-plaintext highlighter-rouge">*</code>, <code class="language-plaintext highlighter-rouge">/</code>, <code class="language-plaintext highlighter-rouge">%</code>, <code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code>): Multiplication, division, and modulus have higher precedence than addition and subtraction.</li>
+  <li><strong>Logical NOT</strong> (<code class="language-plaintext highlighter-rouge">!</code>): Unary negation, with higher precedence than <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> and <code class="language-plaintext highlighter-rouge">||</code>.</li>
+  <li><strong>Logical AND</strong> (<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>): Evaluated after comparisons, but before <code class="language-plaintext highlighter-rouge">||</code>.</li>
+  <li><strong>Logical OR</strong> (<code class="language-plaintext highlighter-rouge">||</code>): Lowest precedence among the common operators.</li>
+</ul>
+
+<p>Understanding operator precedence in Bash helps you avoid logic errors in complex expressions and write more predictable, efficient scripts. While Bash generally follows common mathematical precedence rules, always remember that parentheses <code class="language-plaintext highlighter-rouge">()</code> can be used to ensure the desired order of evaluation.</p>
+
+<h2 id="summary">Summary</h2>
+<p>In this chapter we learnt several ways to deal with integer numbers.</p>
+
+<p>We learnt:</p>
+<ul>
+  <li>How to use “<code class="language-plaintext highlighter-rouge">expr</code>” command to do arithmetic, comparisons and boolean operations</li>
+  <li>How to use “<code class="language-plaintext highlighter-rouge">let</code>” and “declare” to initialize variables and the different operators that we can use with them</li>
+  <li>How to declare integer numbers using alternative representations such as octal, hexadecimal and other bases</li>
+  <li>How to use the Bash arithmetic expansion (“<code class="language-plaintext highlighter-rouge">$((...))</code>”) and the compound command (“<code class="language-plaintext highlighter-rouge">((...))</code>”)</li>
+  <li>In what order the operators are evaluated</li>
+</ul>
+
+<p>If you managed to get here and understood and practiced the different commands presented in the chapter, you are on the right path.</p>
+
+<p>Remember that <em>practice makes perfect</em>. So, practice, practice, practice,…</p>
+
+<h2 id="references">References</h2>
+<ol>
+  <li>https://linuxhint.com/expr-command-bash/</li>
+  <li>https://www.geeksforgeeks.org/expr-command-in-linux-with-examples/</li>
+  <li>https://unix.stackexchange.com/questions/286209/using-expr</li>
+  <li>https://www.javatpoint.com/linux-expr-command</li>
+  <li>https://tldp.org/LDP/abs/html/declareref.html</li>
+  <li>https://phoenixnap.com/kb/bash-let</li>
+  <li>https://linuxhint.com/bash_declare_command/</li>
+  <li>https://www.computerhope.com/unix/bash/let.htm</li>
+  <li>https://tldp.org/LDP/abs/html/numerical-constants.html</li>
+  <li>https://www.gnu.org/software/bash/manual/html_node/Arithmetic-Expansion.html</li>
+  <li>https://tldp.org/LDP/abs/html/arithexp.html</li>
+  <li>https://www.shell-tips.com/bash/math-arithmetic-calculation/#gsc.tab=0</li>
+  <li>https://stackoverflow.com/questions/39199299/what-is-the-essential-difference-between-compound-command-and-normal-command-in</li>
+  <li>https://tldp.org/LDP/abs/html/dblparens.html</li>
+  <li>https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar</li>
+  <li>http://mywiki.wooledge.org/ArithmeticExpression</li>
+</ol>
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
 <p id="footnote-1" style="font-size:10pt">
@@ -589,6 +842,9 @@ base-64 number = 4031
 </p>
 <p id="footnote-4" style="font-size:10pt">
 4. Will fix the mathemetical formulas at some point.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-X" style="font-size:10pt">
+5. This is something we will see in a later chapter.<a href="#footnote-X-ref">&#8617;</a>
 </p>
 
 
