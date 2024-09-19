@@ -478,6 +478,51 @@ They look really similar but are different. So… What is the difference among t
 
 This way to deal with integer numbers allows us to evaluate an arithmetic expression (or a set of them, separated by commas). This way, will give an output which will be the result of the latest arithmetic operation given.
 
+Let's give it a try with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: bash_arith_expansion_wrong.sh
+ 3 $((x=4,y=5,z=x*y,u=z/2)) ; # 10: command not found
+ 4 echo $x $y $z $u
+```
+
+What is happening in this script? On line 3 of the script (which is wrong on purpose) we are using the Bash Arithmetic Expansion. Inside this command there are several steps that happen in the following order:
+1. A variable is declared with name `x` and with a value of `4`
+2. A variable is declared with name `y` and with a value of `5`
+3. A variable is declared with name `z` and with a value that is the multiplication of variables `x` and `y`, resulting in a value of `10`
+4. A variable is declared with name `u` and with a value that is the result of the division of variable `z` by `2`, resulting in `10`
+5. Bash tries to interpret the resulting number (which is `10`) as a command, resulting in an error
+
+When you run the previous script you will get the following output in you terminal.
+
+```txt
+$ ./bash_arith_expansion_wrong.sh
+./bash_arith_expansion.sh: line 3: 10: command not found
+4 5 20 10
+```
+
+What happens is that the result of **the last arithmetic operation will replace the expression itself**. And this can be used as another value. Let's see it with an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: bash_arith_expansion.sh
+ 3 result=$((x=4,y=5,z=x*y,u=z/2)) ; 
+ 4 echo $x $y $z $u
+ 5 echo "Result: $result" # 10
+```
+
+When you execute the previous script you will see the following in your terminal.
+
+```txt
+$ ./bash_arith_expansion.sh
+4 5 20 10
+Result: 10
+```
+
+Just a note... Before Bash Arithmetic Expansion appeared (`$((...))`), the syntax that was used was `$[...]` which is now **deprecated** but you might still find it in some old scripts.
+
+### Compound Command `((...))`
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
