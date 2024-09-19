@@ -633,22 +633,22 @@ If you managed to get here and understood and practiced the different commands p
 Remember that *practice makes perfect*. So, practice, practice, practice,...
 
 ## References
-1. https://linuxhint.com/expr-command-bash/
-2. https://www.geeksforgeeks.org/expr-command-in-linux-with-examples/
-3. https://unix.stackexchange.com/questions/286209/using-expr
-4. https://www.javatpoint.com/linux-expr-command
-5. https://tldp.org/LDP/abs/html/declareref.html
-6. https://phoenixnap.com/kb/bash-let
-7. https://linuxhint.com/bash_declare_command/
-8. https://www.computerhope.com/unix/bash/let.htm
-9. https://tldp.org/LDP/abs/html/numerical-constants.html
-10. https://www.gnu.org/software/bash/manual/html_node/Arithmetic-Expansion.html
-11. https://tldp.org/LDP/abs/html/arithexp.html
-12. https://www.shell-tips.com/bash/math-arithmetic-calculation/#gsc.tab=0
-13. https://stackoverflow.com/questions/39199299/what-is-the-essential-difference-between-compound-command-and-normal-command-in
-14. https://tldp.org/LDP/abs/html/dblparens.html
-15. https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar
-16. http://mywiki.wooledge.org/ArithmeticExpression
+1. <https://linuxhint.com/expr-command-bash/>
+2. <https://www.geeksforgeeks.org/expr-command-in-linux-with-examples/>
+3. <https://unix.stackexchange.com/questions/286209/using-expr>
+4. <https://www.javatpoint.com/linux-expr-command>
+5. <https://tldp.org/LDP/abs/html/declareref.html>
+6. <https://phoenixnap.com/kb/bash-let>
+7. <https://linuxhint.com/bash_declare_command/>
+8. <https://www.computerhope.com/unix/bash/let.htm>
+9. <https://tldp.org/LDP/abs/html/numerical-constants.html>
+10. <https://www.gnu.org/software/bash/manual/html_node/Arithmetic-Expansion.html>
+11. <https://tldp.org/LDP/abs/html/arithexp.html>
+12. <https://www.shell-tips.com/bash/math-arithmetic-calculation/#gsc.tab=0>
+13. <https://stackoverflow.com/questions/39199299/what-is-the-essential-difference-between-compound-command-and-normal-command-in>
+14. <https://tldp.org/LDP/abs/html/dblparens.html>
+15. <https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar>
+16. <http://mywiki.wooledge.org/ArithmeticExpression>
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
