@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 7: Working with Numbers - Floating-point numbers | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 7: Working with Numbers - Floating-point numbers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 7: Working with Numbers - Floating-point numbers" />
+<meta property="og:description" content="Chapter 7: Working with Numbers - Floating-point numbers" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-19T19:10:58+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 7: Working with Numbers - Floating-point numbers" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-19T19:10:58+02:00","datePublished":"2024-09-19T19:10:58+02:00","description":"Chapter 7: Working with Numbers - Floating-point numbers","headline":"Chapter 7: Working with Numbers - Floating-point numbers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html"},"url":"http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="chapter-7-working-with-numbers---floating-point-numbers">Chapter 7: Working with Numbers - Floating-point numbers</h1>
+
+<p>In Bash, working with floating-point numbers can be a bit tricky because Bash’s built-in arithmetic only supports <strong>integer operations</strong>. This means that directly performing calculations involving decimals or fractions is not possible using the default arithmetic capabilities of Bash (<code class="language-plaintext highlighter-rouge">$((...))</code> or <code class="language-plaintext highlighter-rouge">let</code>), which are limited to whole numbers.</p>
+
+<p>To handle floating-point numbers, you need to use external tools like <code class="language-plaintext highlighter-rouge">bc</code> (an arbitrary precision calculator) or <code class="language-plaintext highlighter-rouge">printf</code> (a format string utility). These tools extend Bash’s capability to handle real numbers and precision-based arithmetic.</p>
+
+<p>In the next sections we will learn about the commands <code class="language-plaintext highlighter-rouge">bc</code> and <code class="language-plaintext highlighter-rouge">printf</code>.</p>
+
+<h2 id="printf-command"><code class="language-plaintext highlighter-rouge">printf</code> command</h2>
+<p>An unconventional way, although practical, to work with floating point numbers with native bash is by using together with Scientific Notation.</p>
+
+<p>What is the “<em>Scientific Notation</em>”? It’s a way to express numbers which has the following format.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    &lt;base&gt;e&lt;exponent&gt;
+</code></pre></div></div>
+
+<p>which would be equivalent to <code class="language-plaintext highlighter-rouge">&lt;base&gt; * 10^{&lt;exponent&gt;}</code><a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a></p>
+
+<p>This way of expressing numbers will tell the “<code class="language-plaintext highlighter-rouge">printf</code>” command where to put the decimal comma.</p>
+
+<p>Let’s see how it works with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">##Script: printf.sh</span>
+ 3 <span class="nb">printf</span> <span class="s2">"Number 1: %.3f</span><span class="se">\n</span><span class="s2">"</span> 12345e3
+ 4 <span class="nb">printf</span> <span class="s2">"Number 2: %.3f</span><span class="se">\n</span><span class="s2">"</span> 12345e-3
+ 5 <span class="nb">printf</span> <span class="s2">"Number 3: %.3f</span><span class="se">\n</span><span class="s2">"</span> 1234.5e3
+ 6 <span class="nb">printf</span> <span class="s2">"Number 4: %.3f</span><span class="se">\n</span><span class="s2">"</span> 1234.5e-3
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output in your terminal.</p>
+
+<pre><code class="language-txt">$ ./printf.sh
+Number 1: 12345000.000
+Number 2: 12.345
+Number 3: 1234500.000
+Number 4: 1.235
+</code></pre>
+
+<p>From this script and its output we can understand that the scientific notation is a way of representing numbers that tells how many places should the decimal comma be moved and in what direction.</p>
+
+<p>In lines 1 and 3 of the output, the decimal comma will be moved to the right, while the lines 2 and 4 will move the decimal comma to the left.</p>
+
+<p>Let’s summarize the basics of using this approach:</p>
+<ul>
+  <li>Make sure the operation you want to do is expressed using integer numbers only (otherwise Bash will fail)</li>
+  <li>Decide in advance how many decimals you want to have in your result.</li>
+  <li>When you use the Bash arithmetic expansion make sure you multiply the operation by “<code class="language-plaintext highlighter-rouge">10**&lt;#decimals&gt;</code>”. Like that you will calculate a number that is “#decimals” times bigger.</li>
+  <li>Use scientific notation “<code class="language-plaintext highlighter-rouge">e-&lt;#decimals&gt;</code>” to be able to move the comma to the left to be able to have the number of decimals you want.</li>
+</ul>
+
+<p>We could summarize it even more with the following line.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">printf</span> %.&lt;precision&gt;f <span class="s2">"</span><span class="k">$((</span><span class="m">10</span><span class="o">**</span>&lt;multiplier&gt;<span class="o">*</span>&lt;operation&gt;<span class="k">))</span><span class="s2">e-&lt;multiplier&gt;”
+</span></code></pre></div></div>
+
+<p>Now let’s use the previous points in a more complex operation. We are going to create a script that will calculate the volume of a sphere.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: sphere.sh</span>
+ 3 <span class="c">#!/usr/bin/env bash</span>
+ 4 <span class="nv">PI</span><span class="o">=</span>314
+ 5 <span class="nv">NUM_DECIMALS</span><span class="o">=</span>2
+ 6 <span class="nv">RADIUS</span><span class="o">=</span>2
+ 7 <span class="nb">printf</span> <span class="s2">"The volume of a sphere with radius </span><span class="nv">$RADIUS</span><span class="s2"> is %.3f</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"</span><span class="k">$((</span><span class="m">10</span><span class="o">**</span><span class="nv">$NUM_DECIMALS</span> <span class="o">*</span> <span class="nv">$PI</span> <span class="o">*</span> <span class="nv">$RADIUS</span><span class="o">**</span><span class="m">3</span> <span class="o">*</span> <span class="m">4</span> <span class="o">/</span> <span class="m">3</span><span class="k">))</span><span class="s2">e-</span><span class="k">$((</span><span class="nv">$NUM_DECIMALS</span><span class="o">*</span><span class="m">2</span><span class="k">))</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>This script will calculate the volume of a sphere with radius of 2 units. When you run the previous script you will see this in your terminal.</p>
+
+<pre><code class="language-txt">$ ./sphere.sh
+The volume of a sphere with radius 2 is 33.493
+</code></pre>
+
+<p>Now that we know how to use the <code class="language-plaintext highlighter-rouge">printf</code> command to operate with floating-point numbers, we are going to take a look to the command <code class="language-plaintext highlighter-rouge">bc</code>.</p>
+
+<h2 id="bc-command"><code class="language-plaintext highlighter-rouge">bc</code> command</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">bc</code>” command is a tool that will allow us to develop more complex calculations. It can be used in both interactive and non-interactive ways. It comes with its own language (with similarities to the C programming language) that allows you to develop scripts making mathematical calculations.</p>
+
+<p>To have a quick introduction to the language behind the “<code class="language-plaintext highlighter-rouge">bc</code>” command, we are going to present a few tables with the basics so that we can move forward quickly.</p>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. Will fix the mathematical representation at some point.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
