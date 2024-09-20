@@ -1,6 +1,6 @@
 ---
 layout: chapter
-title: "Chapter 8: `time` and `date` commands"
+title: "Chapter 8: time and date commands"
 ---
 
 # Chapter 8: `time` and `date` commands
