@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-19T19:10:58+02:00" />
+<meta property="article:published_time" content="2024-09-20T08:57:09+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 7: Working with Numbers - Floating-point numbers" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-19T19:10:58+02:00","datePublished":"2024-09-19T19:10:58+02:00","description":"Chapter 7: Working with Numbers - Floating-point numbers","headline":"Chapter 7: Working with Numbers - Floating-point numbers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html"},"url":"http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-20T08:57:09+02:00","datePublished":"2024-09-20T08:57:09+02:00","description":"Chapter 7: Working with Numbers - Floating-point numbers","headline":"Chapter 7: Working with Numbers - Floating-point numbers","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html"},"url":"http://localhost:4000/bash-in-depth/0007-Working-with-Numbers-Floating.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -140,10 +140,372 @@ The volume of a sphere with radius 2 is 33.493
 
 <p>To have a quick introduction to the language behind the “<code class="language-plaintext highlighter-rouge">bc</code>” command, we are going to present a few tables with the basics so that we can move forward quickly.</p>
 
+<p>The “<code class="language-plaintext highlighter-rouge">bc</code>” command has its own syntax (almost a full programming language) that allows you to define complex programs.</p>
+
+<p>Next we will present to you a few tables that contain a summary of the basic syntax we can use with the “<code class="language-plaintext highlighter-rouge">bc</code>” command.</p>
+
+<p>The first table contains the operands that you can use in the language of “<code class="language-plaintext highlighter-rouge">bc</code>”.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Operand</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-expr</code></td>
+      <td style="text-align: left">Negation of a expression</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">++var</code></td>
+      <td style="text-align: left">Pre-incrementing the variable before using the new value</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">--var</code></td>
+      <td style="text-align: left">Pre-decrementing the variable before using the new value</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">var++</code></td>
+      <td style="text-align: left">Post-incrementing the variable after using the old value</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">var--</code></td>
+      <td style="text-align: left">Post-decrementing the variable after using the old value</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 + expr2</code></td>
+      <td style="text-align: left">Addition of the two expressions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 - expr2</code></td>
+      <td style="text-align: left">Difference of the two expressions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 * expr2</code></td>
+      <td style="text-align: left">Multiplication of the two expressions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 / expr2</code></td>
+      <td style="text-align: left">Division of the two expressions</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 % expr2</code></td>
+      <td style="text-align: left">Reminder</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 ^ expr2</code></td>
+      <td style="text-align: left">Exponentiation. The second expression <strong>must be an integer</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">( expr )</code></td>
+      <td style="text-align: left">Force evaluation of the expression inside the parenthesis, altering the standard precedence</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">var = expr</code></td>
+      <td style="text-align: left">Assigns the value of the expression to the variable</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">var &lt;op&gt;= expr</code></td>
+      <td style="text-align: left">Equivalent to “<code class="language-plaintext highlighter-rouge">var = var &lt;op&gt; expr</code>”, where “<code class="language-plaintext highlighter-rouge">&lt;op&gt;</code>” is any of the previous operands (<code class="language-plaintext highlighter-rouge">+</code>, <code class="language-plaintext highlighter-rouge">-</code>, <code class="language-plaintext highlighter-rouge">*</code>, …)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The next table contains relational expression that you can use with the “<code class="language-plaintext highlighter-rouge">bc</code>” command.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Relational Expression</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 &lt; expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr1</code>” is strictly less than “<code class="language-plaintext highlighter-rouge">expr2</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 &lt;= expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr1</code>” is strictly less than or equal to “<code class="language-plaintext highlighter-rouge">expr2</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 &gt; expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr1</code>” is strictly greater than “<code class="language-plaintext highlighter-rouge">expr2</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 &gt;= expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr1</code>” is strictly greater than or equal to “<code class="language-plaintext highlighter-rouge">expr2</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 == expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr1</code>” is equal to “<code class="language-plaintext highlighter-rouge">expr2</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 != expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr1</code>” is not equal to “<code class="language-plaintext highlighter-rouge">expr2</code>”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The following table contains the boolean expressions that you can use with the “<code class="language-plaintext highlighter-rouge">bc</code>” command.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Boolean Expression</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">!expr</code></td>
+      <td style="text-align: left">Result is 1 (true) if “<code class="language-plaintext highlighter-rouge">expr</code>” is 0 (zero, false).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 &amp;&amp; expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if both expressions are non-zero (true)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">expr1 || expr2</code></td>
+      <td style="text-align: left">Result is 1 (true) if either expression in non-zero (true)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The “<code class="language-plaintext highlighter-rouge">bc</code>” command also contains some standard functions that are represented in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Standard Function</th>
+      <th style="text-align: left">Desription</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">length(expr)</code></td>
+      <td style="text-align: left">Returns the number of significant digits in the expression</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">read()</code></td>
+      <td style="text-align: left">Reads a number from the standard input</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">scale(expr)</code></td>
+      <td style="text-align: left">Number of digits after the decimal point in the expression</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">sqrt(expr)</code></td>
+      <td style="text-align: left">Square root of the expression</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>But the “<code class="language-plaintext highlighter-rouge">bc</code>” command also comes with internal variables that you can use in your “<em>bc scripts</em>” which are defined in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Internal Variable</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">scale</code></td>
+      <td style="text-align: left">Defines the number of digits after the decimal point. The default is zero</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">ibase</code></td>
+      <td style="text-align: left">Defines the conversion base for input numbers. Default is base 10</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">obase</code></td>
+      <td style="text-align: left">Defines the conversion base for output numbers. Default is base 10</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">last</code></td>
+      <td style="text-align: left">It contains the value of the last printed number</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The next table contains the statements you can use in your “<em>bc scripts</em>”.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Statement</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">“string”</code></td>
+      <td style="text-align: left">The string is printed to the output</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">print list</code></td>
+      <td style="text-align: left">Provides another method to print information. “<code class="language-plaintext highlighter-rouge">list</code>” is a list of expressions and strings separated by commas.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">{statement_list}</code></td>
+      <td style="text-align: left">Allows multiple statements to be grouped together for execution</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">if (expression){<br />&emsp;statements1<br />}[else {<br />&emsp;statements2<br />}]</code></td>
+      <td style="text-align: left">If “<code class="language-plaintext highlighter-rouge">expression</code>” is non-zero, “<code class="language-plaintext highlighter-rouge">statements1</code>” is executed.<br />If “<code class="language-plaintext highlighter-rouge">expression</code>” is zero and “<code class="language-plaintext highlighter-rouge">else</code>” is present,  “<code class="language-plaintext highlighter-rouge">statements2</code>” will be executed.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">while (expression) {<br />&emsp; statements<br />}</code></td>
+      <td style="text-align: left">Will execute “<code class="language-plaintext highlighter-rouge">statements</code>” as long as “<code class="language-plaintext highlighter-rouge">expression</code>” is non-zero (true)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">for([expr1];[expr2];[expr3]){<br />&emsp;statements<br />}</code></td>
+      <td style="text-align: left">“<code class="language-plaintext highlighter-rouge">expr1</code>” is evaluated once before “<code class="language-plaintext highlighter-rouge">statements</code>” are executed. <br />“<code class="language-plaintext highlighter-rouge">expr2</code>” is evaluated before each execution of “<code class="language-plaintext highlighter-rouge">statements</code>”. If it’s evaluated to non-zero, “<code class="language-plaintext highlighter-rouge">statements</code>” will be executed. If it’s evaluated to zero, the execution of the loop will be terminated.<br />“<code class="language-plaintext highlighter-rouge">expr3</code>” is evaluated after the execution of “<code class="language-plaintext highlighter-rouge">statements</code>” and before “expr2” is evaluated.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">break</code></td>
+      <td style="text-align: left">Forces to exit in the most recent enclosing “<code class="language-plaintext highlighter-rouge">while</code>” or “<code class="language-plaintext highlighter-rouge">for</code>” loop statement.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">continue</code></td>
+      <td style="text-align: left">Forces the execution of the next iteration in the most recent enclosing “<code class="language-plaintext highlighter-rouge">while</code>” or “<code class="language-plaintext highlighter-rouge">for</code>” loop statement.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">halt</code></td>
+      <td style="text-align: left">Causes the “<code class="language-plaintext highlighter-rouge">bc</code>” processor to quit when it’s executed</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return</code></td>
+      <td style="text-align: left">Returns value zero from a function</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">return (expression)</code></td>
+      <td style="text-align: left">Returns the value of “<code class="language-plaintext highlighter-rouge">expression</code>” from a function.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The “<code class="language-plaintext highlighter-rouge">bc</code>” command comes as well with what are called “<em>Pseudo Statements</em>” which are the following ones:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">limits</code>: Prints the limits enforced by the version of “<code class="language-plaintext highlighter-rouge">bc</code>”</li>
+  <li><code class="language-plaintext highlighter-rouge">quit</code>: Causes the “<code class="language-plaintext highlighter-rouge">bc</code>” processor to quit, regardless of where the quit statement is found.
+    <ul>
+      <li>“<code class="language-plaintext highlighter-rouge">if (0 == 1) quit</code>” will cause “<code class="language-plaintext highlighter-rouge">bc</code>” to terminate.</li>
+      <li>“<code class="language-plaintext highlighter-rouge">if (0 == 1) halt</code>” will <strong>NOT</strong> cause “<code class="language-plaintext highlighter-rouge">bc</code>” to terminate.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">warranty</code>: Prints a warranty notice</li>
+</ul>
+
+<p>You can also define functions in a “<em>bc script</em>”. For that you need to use the following syntax.</p>
+
+<pre><code class="language-bc">define name (params) {
+    auto_list
+    statement_list
+}
+</code></pre>
+
+<p>Where:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">name</code> is the name of your function</li>
+  <li><code class="language-plaintext highlighter-rouge">params</code> is a list of zero or more parameters separated by commas</li>
+  <li><code class="language-plaintext highlighter-rouge">auto_list</code> is an optional list of variables intended to be used locally to the function. The syntax is “<code class="language-plaintext highlighter-rouge">auto variable_name,...</code>”</li>
+  <li><code class="language-plaintext highlighter-rouge">statement_list</code> is a list of statements that you will use in the function</li>
+</ul>
+
+<p>The “<code class="language-plaintext highlighter-rouge">bc</code>” command comes as well with some mathematical functions that you can use when you invoke the “<code class="language-plaintext highlighter-rouge">bc</code>” command with the “<code class="language-plaintext highlighter-rouge">-l</code>” flag. The functions are as follows:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">s(x)</code>: Sine of “<code class="language-plaintext highlighter-rouge">x</code>”. “<code class="language-plaintext highlighter-rouge">x</code>” is in radians</li>
+  <li><code class="language-plaintext highlighter-rouge">c(x)</code>: Cosine of “<code class="language-plaintext highlighter-rouge">x</code>”. “<code class="language-plaintext highlighter-rouge">x</code>” is in radians</li>
+  <li><code class="language-plaintext highlighter-rouge">a(x)</code>: Arctangent of “<code class="language-plaintext highlighter-rouge">x</code>”. It returns radians</li>
+  <li><code class="language-plaintext highlighter-rouge">l(x)</code>: Natural logarithm of “<code class="language-plaintext highlighter-rouge">x</code>”</li>
+  <li><code class="language-plaintext highlighter-rouge">e(x)</code>: Exponential function. It does <code class="language-plaintext highlighter-rouge">e^{x}</code></li>
+</ul>
+
+<p>As you can see, the “<code class="language-plaintext highlighter-rouge">bc</code>” command comes with a whole language that deals with variables that are either numbers or an array of numbers. With this we are going to revisit the example of the script to calculate the volume of a sphere.</p>
+
+<p>First of all we need to write a “<code class="language-plaintext highlighter-rouge">bc</code>” script that will do the calculation.</p>
+
+<pre><code class="language-txt"> 1 /* Number of decimals */
+ 2 scale=10
+ 3 /* Arc whose tangent is 1 (a(1)) is 45 degrees, which is pi/4 */
+ 4 pi=4*a(1)
+ 5 /* Function that will calculate the volume of a sphere according to the radius */
+ 6 define volume(radius) {
+ 7     return((radius^3)*pi*4/3)
+ 8 }
+ 9 /* Call to calculate the volume of a sphere of radius 2 */
+10 volume(2)
+11 /* End of script */
+12 halt
+</code></pre>
+
+<p>With this script we have to invoke the “<code class="language-plaintext highlighter-rouge">bc</code>” command with the options “<code class="language-plaintext highlighter-rouge">-l</code>” (to load the mathematical functions), “<code class="language-plaintext highlighter-rouge">-q</code>” (quiet mode) and the name of the file holding the script previously written.</p>
+
+<p>When execute it you will get the following output in your terminal.</p>
+
+<pre><code class="language-txt">$ bc -l -q volume_sphere_bc.txt
+33.5103216341
+</code></pre>
+
+<p>The “<em>problem</em>” you could see with this script is that it’s static and calculates the volume of a sphere with radius 2. We could fix this very easily by replacing “<code class="language-plaintext highlighter-rouge">2</code>” with “<code class="language-plaintext highlighter-rouge">read()</code>”. In this case our new script would be as follows.</p>
+
+<pre><code class="language-txt"> 1 /* Number of decimals */
+ 2 scale=10
+ 3 /* Arc whose tangent is 1 (a(1)) is 45 degrees, which is pi/4 */
+ 4 pi=4*a(1)
+ 5 /* Function that will calculate the volume of a sphere according to the radius */
+ 6 define volume(radius) {
+ 7     return((radius^3)*pi*4/3)
+ 8 }
+ 9 /* Call to calculate the volume of a sphere of radius 2 */
+10 volume(read()) /* &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt; */
+11 /* End of script */
+12 halt
+</code></pre>
+
+<p>When you execute with the new script you will notice that the “<code class="language-plaintext highlighter-rouge">bc</code>” command seems to be hanging.</p>
+
+<pre><code class="language-txt">$ bc -l -q volume_sphere_bc_read.txt 
+&lt;waiting...&gt;
+</code></pre>
+
+<p>This is because the script has stopped at “<code class="language-plaintext highlighter-rouge">read()</code>” and it’s waiting for a number to be provided via the standard input. If we introduce “<code class="language-plaintext highlighter-rouge">2</code>” and press enter we do have the following in our terminal.</p>
+
+<pre><code class="language-txt">$ bc -l -q volume_sphere_bc_read.txt 
+2
+33.5103216341
+</code></pre>
+
+<p>We could make this script non-interactive by providing the number directly to the standard input when executing the “<code class="language-plaintext highlighter-rouge">bc</code>” command. We can do that by piping<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> the number into the standard input, like this.</p>
+
+<pre><code class="language-txt">$ echo 2 | bc -l -q volume_sphere_bc_read.txt 
+33.5103216341
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this chapter we learnt how to deal with floating-point numbers in Bash by using the command “<code class="language-plaintext highlighter-rouge">printf</code>” and the command “<code class="language-plaintext highlighter-rouge">bc</code>” which comes with a very basic programming language and allows you to create very powerful scripts.</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li><a href="https://www.ibm.com/docs/zh/aix/7.2?topic=b-bc-command">https://www.ibm.com/docs/zh/aix/7.2?topic=b-bc-command</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Bc_(programming_language)">https://en.wikipedia.org/wiki/Bc_(programming_language)</a></li>
+</ol>
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
 <p id="footnote-1" style="font-size:10pt">
 1. Will fix the mathematical representation at some point.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. We will learn more about pipes in a later chapter.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 
 
