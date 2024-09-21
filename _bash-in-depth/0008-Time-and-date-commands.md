@@ -268,10 +268,10 @@ Be curious!
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
 <p id="footnote-1" style="font-size:10pt">
-1. The “`ls`” command is used to display (or “*list*”) the content of a folder. You can learn more about this command by typing “`man ls`” in your terminal..<a href="#footnote-1-ref">&#8617;</a>
+1. The “<code>ls</code>” command is used to display (or “<b>list</b>”) the content of a folder. You can learn more about this command by typing “<code>man ls</code>” in your terminal.<a href="#footnote-1-ref">&#8617;</a>
 </p>
 <p id="footnote-2" style="font-size:10pt">
-2. Just type in your terminal “`man time`”.<a href="#footnote-2-ref">&#8617;</a>
+2. Just type in your terminal “<code>man time</code>”.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 <p id="footnote-X" style="font-size:10pt">
 3. Unix time (or epoch time) is the number of seconds that have elapsed since January 1st 1970 at 00:00:00 UTC.<a href="#footnote-X-ref">&#8617;</a>
