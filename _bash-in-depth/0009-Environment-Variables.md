@@ -56,5 +56,167 @@ For all of these cases, if a command is provided it will be executed with the en
 
 But first we are going to write a script that prints a few variables (with the “`echo`” command) and to print the full list of environment variables (with the “`env`” command).
 
+```bash
+ 1 #!/bin/bash
+ 2 #Script: env_command.sh
+ 3 echo "User name : $USER"
+ 4 echo "Home : $HOME"
+ 5 echo "Path : $PATH"
+ 6 echo "These are the environment variables"
+ 7 echo "#####################"
+ 8 env
+ 9 echo "#####################"
+```
 
+In the previous script you will see that on line 3, 4 and 5 the values of the environment variables “`USER`”, “`HOME`” and “`PATH`” are printed. Then on lines 7 to 9 the environment variables available to your script are printed.
+
+We will use the previous script to play with the previous four options that we mentioned before.
+
+In the next subsections we will explore everything we can do with the “`env`” command.
+
+### Adding a variable
+
+The “`env`” command can be used to add variables to the environment of a script. For this we need to use the following syntax.
+
+```bash 
+    env MY_VAR=”<Value>” ./my_script.sh
+```
+
+With the previous syntax the “`env`” command will execute the script or command provided with a new environment variable (in our case “`MY_VAR`”).
+
+We are going to use the previous script "`env_command.sh`" to show you how it is done.
+
+```txt
+$ env MY_VAR="Some Value" ./env_command.sh
+User name : username
+Home : /home/username
+Path : /home/username/gems/bin:/home/username/gems/bin:/home/username/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/opt/WebDriver/bin:/home/username/.fzf/bin:/opt/WebDriver/bin
+These are the environment variables
+#####################
+SHELL=/bin/bash
+...
+HOME=/home/username
+USERNAME=username
+LANG=en_US.UTF-8
+MY_VAR=Some Value
+...
+#####################
+```
+
+As you can see from the execution of the previous example, the variable that was passed as the first argument to the “`env`” command is added to the rest of environment variables that the script “`env_command.sh`” can see.
+
+In the next section we will use the “`env`” command to override the value of existing environment variables.
+
+### Overriding a variable
+
+With the “`env`” command you can as well override the value of an existing variable. You can use the same syntax as in the previous section but you only need to make sure that you are using the name of a variable that already exists.
+
+Let’s take a look at the following example where we are going to override the value of the environment variable “`USER`” that exists already.
+
+```txt
+User name : Overwritten_User
+Home : /home/username
+Path : /home/username/gems/bin:/home/username/gems/bin:/home/username/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/opt/WebDriver/bin:/home/username/.fzf/bin:/opt/WebDriver/bin
+These are the environment variables
+#####################
+SHELL=/bin/bash
+...
+USER=Overwritten_User
+TMUX_PANE=%8
+GNOME_TERMINAL_SERVICE=:1.116
+SDKMAN_DIR=/home/username/.sdkman
+DISPLAY=:1
+...
+#####################
+```
+
+As you can see from the execution of the previous example, the variable “`USER`” got its value overridden from the previous value of “`username`” to the new value of “`Overwritten_User`”.
+
+In the next section we will learn how to use the “`env`” command to delete an environment variable.
+
+
+### Deleting a variable
+
+With the “`env`” command you are able to delete an environment variable so that the script that you run does not have any value for the specified variable. To be able to have this behavior you have to use the following syntax.
+
+```bash
+    env -u MY_VAR ./my_script.sh
+```
+
+With the previous syntax you are removing the environment variable “MY_VAR” from the set of environment variables that the script (or command) is able to see.
+
+```txt
+$ env -u USER ./env_command.sh
+User name :
+Home : /home/username
+Path : /home/username/gems/bin:/home/username/gems/bin:/home/username/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/opt/WebDriver/bin:/home/username/.fzf/bin:/opt/WebDriver/bin
+These are the environment variables
+#####################
+SHELL=/bin/bash
+LSCOLORS=Gxfxcxdxbxegedabagacad
+...
+HOME=/home/username
+USERNAME=username
+LANG=en_US.UTF-8
+...
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+OLDPWD=/home/username/Repositories/username.github.io.git/_bash-in-depth/chapters/0009-Environment-Variables
+TERM_PROGRAM=tmux
+_=/usr/bin/env
+#####################
+```
+
+In the result of the execution of this option you see that the environment variable “`USER`” is no longer available to the script.
+
+Last but not least we are going to learn how to temporarily ignore environment variables that the script will have access to.
+
+### Empty environment
+The “`env`” command comes with an option called “`--ignore-environment`” (or “`-i`”) that provides an empty environment (meaning with no environment variables) where a script or a command will run.
+
+Let’s see an example where we will run the script that we created with an empty environment.
+
+```txt
+$ env -i ./env_command.sh
+User name :
+Home :
+Path : /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+These are the environment variables
+#####################
+PWD=/home/username/current-tests
+SHLVL=1
+_=/usr/bin/env
+#####################
+```
+
+I am pretty sure you expected an empty environment. The variables “`PATH`”, “`PWD`”, “`SHLVL`” and “`_`” have a value because they are set by the shell itself.
+
+Apart from the previous 4 variables, the environment is completely empty.
+
+There are several benefits of using the flag “`-i`” of the “`env`” command.
+
+By running a command in a clean environment, you ensure that the command's behavior is not affected by any environment variables that might be set. This provides a high level of **predictability and isolation**, making it easier to debug and reproduce issues.
+
+Clearing the environment can enhance **security**. It prevents potentially malicious environment variables from influencing the behavior of a command. This is particularly important in scenarios where commands are executed with untrusted input.
+
+When writing scripts or automation, you may want to ensure that a command or script is executed without any interference from existing environment variables.
+
+Sometimes, you might want to run a command with specific environment variable values that differ from the current ones.
+
+While “`env -i`” has its benefits, use it with caution, as clearing the environment can potentially disrupt the normal operation of commands that rely on specific environment variables. It's particularly useful in controlled scenarios where you need to ensure a clean, isolated environment for a specific task.
+
+Alright, till now we have seen the use of “`env`” to create an environment that is temporary. Now, what if we wanted to create a new variable that is not that temporary? The answer to this is the “`export`” command.
+
+
+## Command “`export`”
+
+So, in the previous section we learnt how to create temporary variables that could be used by a script (if provided a command). The limitation of that approach was that the environment variables were bound to an execution of a script within a bash session. Once it was executed, the variable would disappear. If we wanted to continue using that variable again, we would need to do the same trick. In this section we will learn how to specify a variable **once** to be reused several times in the same session. 
+
+The “`export`” command in Bash is used to mark a variable as an environment variable, making it accessible to child processes spawned from the current shell. So, once we execute this command setting a variable, every script/program triggered within the current script (or shell) will be able to use the variable.
+
+We are going to see how it works using two scripts.
+
+The first script will just use the “`export`” command with a variable called “`MY_VAR`” that will have a dummy value (the actual value of the variable does not matter). Once the export is done this script will run a second script that will print the environment variables.
+
+The first script is as follows.
 
