@@ -192,6 +192,78 @@ The last thing we are going to show about the “`date`” command is that you c
 
 We are going to use the “`date`” command as follows.
 
+<div style="text-align:center">
+<img src="/assets/bash-in-depth/0008-Time-and-date-commands/DateCommandFormat.png" width="400px"/>
+</div>
+
+With this way of using the command we can provide two different arguments. The first argument is the “`--date`” option where we provide the date we are operating on. The second argument is a string with the format we want to extract from the date provided which, in our case, is the Unix time<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a> (also known as epoch time).
+
+Let’s see how to use the “`date`” command to calculate time spans with an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: date_span.sh
+ 3 # Declare a start date
+ 4 startDate="March 2 2015 10:08:33"
+ 5 # Declare an end date
+ 6 endDate="April 1 2022 12:12:45"
+ 7 # Calculate the timestamp for the start date
+ 8 epochStartDate=$(date --date="$startDate" '+%s')
+ 9 # Calculate the timestamp for the end date
+10 epochEndDate=$(date --date="$endDate" '+%s')
+11 # Calculate the number of seconds in a day
+12 secondsInADay=$(( 24*3600 ))
+13 # Calculate the number of days between the two dates
+14 spanInDays=$(( (epochEndDate - epochStartDate) / secondsInADay ))
+15 # Print the end result
+16 echo "There are $spanInDays days between '$startDate' and '$endDate'"
+```
+
+What is going on in the previous script? Let’s take a look at it line by line to better understand it.
+
+On lines 4 and 6 we are declaring a couple of dates where we specify the month, the day of the month, the year and the time.
+
+On lines 8 and 10 we use something that in Bash is called “*Command Substitution*”. This is something that we will talk about in a later chapter but, in short, it executes a command in a subshell and stores the result in a variable. In this case we are getting the epoch time from the two dates provided and we store them in a couple of variables that we will use to calculate the time span.
+
+On line 12 we declare a variable that contains the number of seconds that a day has.
+
+On line 14 we calculate the number of days that have passed between the two dates. In this case we calculate the difference, in seconds, between the two dates and we divide the result by the number of seconds in a day. This gives us the number of days that have passed between the two dates.
+
+Finally, on line 16, we do print the result.
+
+When you run the previous script you will get the following result in your terminal.
+
+```txt
+$ ./date_span.sh
+There are 2587 days between 'March 2 2015 10:08:33' and 'April 1 2022 12:12:45'
+```
+
+With this we end this chapter where you learn a lot about the “`time`” and “`date`” commands.
+
+## Summary
+Well done!
+
+In this chapter we learnt about two very important and useful commands in Bash.
+
+We learnt how to use the “`time`” command, which is mainly to calculate the time of execution of other commands.
+
+We learnt, as well, how to use the “`date`” command that allows us to pass it the argument “`--date`” to set the base date that we will use to extract information from. With this command we learnt as well to calculate time spans between two given dates.
+
+My recommendation to you is that you give it a try to the different commands that you learnt in this chapter.
+
+Be curious!
+
+## References
+1. <https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1>
+2. <https://www.cyberciti.biz/faq/unix-linux-time-command-examples-usage-syntax/>
+3. <https://www.gnu.org/software/coreutils/manual/html_node/Date-format-specifiers.html>
+4. <https://www.gnu.org/software/coreutils/manual/html_node/Examples-of-date.html>
+5. <https://www.gnu.org/software/coreutils/manual/html_node/Options-for-date.html>
+6. <https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html>
+7. <https://www.hostinger.com/tutorials/linux-time-command/>
+8. <https://www.linuxjournal.com/content/doing-date-math-command-line-part-i>
+9. <https://www.linuxjournal.com/content/doing-date-math-command-line-part-ii>
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
@@ -200,5 +272,8 @@ We are going to use the “`date`” command as follows.
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. Just type in your terminal “`man time`”.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-X" style="font-size:10pt">
+3. Unix time (or epoch time) is the number of seconds that have elapsed since January 1st 1970 at 00:00:00 UTC.<a href="#footnote-X-ref">&#8617;</a>
 </p>
 

@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0008-Time-and-date-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-21T10:12:55+02:00" />
+<meta property="article:published_time" content="2024-09-21T11:00:39+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 8: time and date commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-21T10:12:55+02:00","datePublished":"2024-09-21T10:12:55+02:00","description":"Chapter 8: time and date commands","headline":"Chapter 8: time and date commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0008-Time-and-date-commands.html"},"url":"http://localhost:4000/bash-in-depth/0008-Time-and-date-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-21T11:00:39+02:00","datePublished":"2024-09-21T11:00:39+02:00","description":"Chapter 8: time and date commands","headline":"Chapter 8: time and date commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0008-Time-and-date-commands.html"},"url":"http://localhost:4000/bash-in-depth/0008-Time-and-date-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -388,6 +388,78 @@ Date - random time: Sat Feb 27 07:42:48 AM CET 2021
 
 <p>We are going to use the “<code class="language-plaintext highlighter-rouge">date</code>” command as follows.</p>
 
+<div style="text-align:center">
+<img src="/assets/bash-in-depth/0008-Time-and-date-commands/DateCommandFormat.png" width="400px" />
+</div>
+
+<p>With this way of using the command we can provide two different arguments. The first argument is the “<code class="language-plaintext highlighter-rouge">--date</code>” option where we provide the date we are operating on. The second argument is a string with the format we want to extract from the date provided which, in our case, is the Unix time<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a> (also known as epoch time).</p>
+
+<p>Let’s see how to use the “<code class="language-plaintext highlighter-rouge">date</code>” command to calculate time spans with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: date_span.sh</span>
+ 3 <span class="c"># Declare a start date</span>
+ 4 <span class="nv">startDate</span><span class="o">=</span><span class="s2">"March 2 2015 10:08:33"</span>
+ 5 <span class="c"># Declare an end date</span>
+ 6 <span class="nv">endDate</span><span class="o">=</span><span class="s2">"April 1 2022 12:12:45"</span>
+ 7 <span class="c"># Calculate the timestamp for the start date</span>
+ 8 <span class="nv">epochStartDate</span><span class="o">=</span><span class="si">$(</span><span class="nb">date</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"</span><span class="nv">$startDate</span><span class="s2">"</span> <span class="s1">'+%s'</span><span class="si">)</span>
+ 9 <span class="c"># Calculate the timestamp for the end date</span>
+10 <span class="nv">epochEndDate</span><span class="o">=</span><span class="si">$(</span><span class="nb">date</span> <span class="nt">--date</span><span class="o">=</span><span class="s2">"</span><span class="nv">$endDate</span><span class="s2">"</span> <span class="s1">'+%s'</span><span class="si">)</span>
+11 <span class="c"># Calculate the number of seconds in a day</span>
+12 <span class="nv">secondsInADay</span><span class="o">=</span><span class="k">$((</span> <span class="m">24</span><span class="o">*</span><span class="m">3600</span> <span class="k">))</span>
+13 <span class="c"># Calculate the number of days between the two dates</span>
+14 <span class="nv">spanInDays</span><span class="o">=</span><span class="k">$((</span> <span class="o">(</span>epochEndDate <span class="o">-</span> epochStartDate<span class="o">)</span> <span class="o">/</span> secondsInADay <span class="k">))</span>
+15 <span class="c"># Print the end result</span>
+16 <span class="nb">echo</span> <span class="s2">"There are </span><span class="nv">$spanInDays</span><span class="s2"> days between '</span><span class="nv">$startDate</span><span class="s2">' and '</span><span class="nv">$endDate</span><span class="s2">'"</span>
+</code></pre></div></div>
+
+<p>What is going on in the previous script? Let’s take a look at it line by line to better understand it.</p>
+
+<p>On lines 4 and 6 we are declaring a couple of dates where we specify the month, the day of the month, the year and the time.</p>
+
+<p>On lines 8 and 10 we use something that in Bash is called “<em>Command Substitution</em>”. This is something that we will talk about in a later chapter but, in short, it executes a command in a subshell and stores the result in a variable. In this case we are getting the epoch time from the two dates provided and we store them in a couple of variables that we will use to calculate the time span.</p>
+
+<p>On line 12 we declare a variable that contains the number of seconds that a day has.</p>
+
+<p>On line 14 we calculate the number of days that have passed between the two dates. In this case we calculate the difference, in seconds, between the two dates and we divide the result by the number of seconds in a day. This gives us the number of days that have passed between the two dates.</p>
+
+<p>Finally, on line 16, we do print the result.</p>
+
+<p>When you run the previous script you will get the following result in your terminal.</p>
+
+<pre><code class="language-txt">$ ./date_span.sh
+There are 2587 days between 'March 2 2015 10:08:33' and 'April 1 2022 12:12:45'
+</code></pre>
+
+<p>With this we end this chapter where you learn a lot about the “<code class="language-plaintext highlighter-rouge">time</code>” and “<code class="language-plaintext highlighter-rouge">date</code>” commands.</p>
+
+<h2 id="summary">Summary</h2>
+<p>Well done!</p>
+
+<p>In this chapter we learnt about two very important and useful commands in Bash.</p>
+
+<p>We learnt how to use the “<code class="language-plaintext highlighter-rouge">time</code>” command, which is mainly to calculate the time of execution of other commands.</p>
+
+<p>We learnt, as well, how to use the “<code class="language-plaintext highlighter-rouge">date</code>” command that allows us to pass it the argument “<code class="language-plaintext highlighter-rouge">--date</code>” to set the base date that we will use to extract information from. With this command we learnt as well to calculate time spans between two given dates.</p>
+
+<p>My recommendation to you is that you give it a try to the different commands that you learnt in this chapter.</p>
+
+<p>Be curious!</p>
+
+<h2 id="references">References</h2>
+<ol>
+  <li><a href="https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1">https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1</a></li>
+  <li><a href="https://www.cyberciti.biz/faq/unix-linux-time-command-examples-usage-syntax/">https://www.cyberciti.biz/faq/unix-linux-time-command-examples-usage-syntax/</a></li>
+  <li><a href="https://www.gnu.org/software/coreutils/manual/html_node/Date-format-specifiers.html">https://www.gnu.org/software/coreutils/manual/html_node/Date-format-specifiers.html</a></li>
+  <li><a href="https://www.gnu.org/software/coreutils/manual/html_node/Examples-of-date.html">https://www.gnu.org/software/coreutils/manual/html_node/Examples-of-date.html</a></li>
+  <li><a href="https://www.gnu.org/software/coreutils/manual/html_node/Options-for-date.html">https://www.gnu.org/software/coreutils/manual/html_node/Options-for-date.html</a></li>
+  <li><a href="https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html">https://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html</a></li>
+  <li><a href="https://www.hostinger.com/tutorials/linux-time-command/">https://www.hostinger.com/tutorials/linux-time-command/</a></li>
+  <li><a href="https://www.linuxjournal.com/content/doing-date-math-command-line-part-i">https://www.linuxjournal.com/content/doing-date-math-command-line-part-i</a></li>
+  <li><a href="https://www.linuxjournal.com/content/doing-date-math-command-line-part-ii">https://www.linuxjournal.com/content/doing-date-math-command-line-part-ii</a></li>
+</ol>
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
 <p id="footnote-1" style="font-size:10pt">
@@ -395,6 +467,9 @@ Date - random time: Sat Feb 27 07:42:48 AM CET 2021
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. Just type in your terminal “`man time`”.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-X" style="font-size:10pt">
+3. Unix time (or epoch time) is the number of seconds that have elapsed since January 1st 1970 at 00:00:00 UTC.<a href="#footnote-X-ref">&#8617;</a>
 </p>
 
 
