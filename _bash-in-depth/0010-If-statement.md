@@ -204,6 +204,25 @@ Condition is true
 
 The “`[[...]]`” operator is a Bash extension inspired by another shell.<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a> This operator is a new, improved version of the previous “`test`” and “`[...]`”. On top of that is a built-in command instead of a separate binary.
 
+The following table will give you a high-level overview of the differences between “`[[...]]`” and “`test`” (or “`[...]`”).
+
+| Feature | [[...]] | [...] |
+| :-----: | :-----: | :-----: |
+| String comparison | `>` | `\>` |
+|                   | `<` | `\<` |
+|                   | `=` (or `==`) | `=` |
+|                   | `!=` | `!=` |
+| Integer comparison | `-gt` | `-gt` |
+|                    | `-lt` | `-lt` |
+|                    | `-ge` | `-ge` |
+|                    | `-le` | `-le` |
+|                    | `-eq` | `-eq` |
+|                    | `-ne` | `-ne` |
+| Conditional evaluation | `&&` | `-a` |
+|                        | `||` | `-o` |
+| Expression grouping | `(...)` | `\(...\)` |
+| Pattern Matching | `=` (or `==`) | *(not available)* |
+| Regular Expression Matching | `=~` | *(not available)* |
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
