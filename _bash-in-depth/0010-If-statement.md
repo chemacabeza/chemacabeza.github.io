@@ -215,6 +215,6 @@ The “`[[...]]`” operator is a Bash extension inspired by another shell.<a id
 2. Type in your terminal “man test” to know more.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 <p id="footnote-X" style="font-size:10pt">
-3. The Korn shell. Check <https://en.wikipedia.org/wiki/KornShell> for more information.<a href="#footnote-X-ref">&#8617;</a>
+3. The Korn shell. Check https://en.wikipedia.org/wiki/KornShell for more information.<a href="#footnote-X-ref">&#8617;</a>
 </p>
 
