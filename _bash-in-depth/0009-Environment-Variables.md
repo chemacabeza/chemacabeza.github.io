@@ -205,7 +205,29 @@ Sometimes, you might want to run a command with specific environment variable va
 
 While “`env -i`” has its benefits, use it with caution, as clearing the environment can potentially disrupt the normal operation of commands that rely on specific environment variables. It's particularly useful in controlled scenarios where you need to ensure a clean, isolated environment for a specific task.
 
-Alright, till now we have seen the use of “`env`” to create an environment that is temporary. Now, what if we wanted to create a new variable that is not that temporary? The answer to this is the “`export`” command.
+### “`env`” in the Shebang (`#!`)
+The shebang (`#!`) at the start of a script tells the system which interpreter to use to execute the file. For Bash scripts, you commonly see:
+* `#!/bin/bash`
+* `#!/usr/bin/env bash`
+
+These specify different ways to invoke the Bash shell.
+
+1. `/bin/bash`
+    * This is an absolute path to the bash binary.
+    * When you use `#!/bin/bash`, the system looks for the bash interpreter directly in the `/bin` directory.
+    * **Limitation**: It assumes that `bash` is installed specifically in `/bin`, which might not always be the case on systems like macOS, BSD, or systems with custom Bash installations.
+2. `/usr/bin/env bash`
+    * The command `env` is a utility that looks for `bash` in the system's `PATH` environment variable and executes it.
+    * When you use `#!/usr/bin/env bash`, the system first runs `env`, which searches for `bash` in all the directories listed in the `PATH` variable.
+    * **Advantage**: It is more portable because it doesn't rely on bash being in `/bin`. If bash is installed in a custom location or the user is using a different version of `bash`, `env` will locate it based on the system's `PATH`.
+
+Using `#!/usr/bin/env bash` is **more portable** because it works on systems where `bash` might not be located in `/bin`. Using `#!/bin/bash` is **less flexible** (less portable) and assumes `bash` is always in `/bin`, which is true for most Linux distributions but not for all operating systems.
+
+On performance `#!/bin/bash` directly invokes Bash, so there's no intermediate step. `#!/usr/bin/env bash` first invokes the `env` command to find `bash`, which can be slightly slower due to this extra step, though this difference is negligible in most cases.
+
+Alright! Up until now we have seen the use of “`env`” to create an environment that is temporary. We also learnt why is more portable using it in the Shebang of the script. 
+
+Now, what if we wanted to create a new variable that is not that temporary? The answer to this is the “`export`” command.
 
 
 ## Command “`export`”
@@ -219,4 +241,122 @@ We are going to see how it works using two scripts.
 The first script will just use the “`export`” command with a variable called “`MY_VAR`” that will have a dummy value (the actual value of the variable does not matter). Once the export is done this script will run a second script that will print the environment variables.
 
 The first script is as follows.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: export_command.sh
+ 3 # Declare new environment variable
+ 4 export MY_VAR="My Value"
+ 5 # Invoke secondary script
+ 6 ./secondary.sh
+```
+
+As you can see in the previous script it just exports a variable and calls the “`secondary.sh`” script, which looks as follows.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: secondary.sh
+ 3
+ 4 echo "##########"
+ 5 env
+ 6 echo "##########"
+```
+
+Now, if you execute the “`export_command.sh`” script you will see something like the following.
+
+```txt
+$ ./export_command.sh
+##########
+SHELL=/bin/bash
+LSCOLORS=Gxfxcxdxbxegedabagacad
+...
+LOGNAME=username
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+SYSTEMD_EXEC_PID=3612
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+WINDOWPATH=2
+HOME=/home/username
+USERNAME=username
+...
+MY_VAR=My Value
+...
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+OLDPWD=/home/username/Repositories/username.github.io.git/_bash-in-depth/chapters/0009-Environment-Variables
+TERM_PROGRAM=tmux
+_=/usr/bin/env
+##########
+```
+
+In the previous execution you see that the variable “`MY_VAR`” was inherited by the “`secondary.sh`” script from the “`export_command.sh`” script. You might be thinking that the “`MY_VAR`” variable was added to the current shell, but that is not the case.
+
+If you run the command “`env`” in your current shell you will notice that the variable “`MY_VAR`” does not appear. The reason for this is that Bash will create a new process<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> with the environment variables that already exist plus the variable “`MY_VAR`”. Once the script is done running the memory allocated for the environment variables for the “`command_export.sh`” script and “`secondary.sh`” script will be deallocated leaving the environment variables of the current shell untouched.
+
+Once we are familiar with the “`export`” command we are going to revisit the “`declare`” command.
+
+## Revisiting “`declare`”
+
+As we already mentioned, the “`declare`” builtin command is used to give the variables some specific attributes. In this section we are going to take a look at how to declare variables in the same way as the “`export`” command.
+
+To be able to do this, we will use the option “`-x`” of “`declare`”. There are two ways to use the command.
+
+The first way is to use it without any arguments, as follows.
+
+```bash
+    declare -x
+```
+
+When invoked like that it will display all the variables that have been exported in the current Bash session.
+
+The second way to use this command is by using it to actually declare and export a variable. This can be done using the following syntax.
+
+```bash
+    declare -x NAME=VALUE
+```
+
+When invoked in this way it will have the same effect as the “`export`” command meaning that the variable will be visible by other scripts/programs that are launched in the same script or shell where the “`declare -x`” command was run.
+
+Let’s see how it works with the following script as an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: declare_export.sh
+ 3 declare -x MY_VAR="My Value"
+ 4 ./secondary.sh
+```
+
+The previous script is similar to the “`export_command.sh`” script that we saw before. On line 3 the variable “`MY_VAR`” is declared with the command “`declare -x`” to have it exported so that the “`secondary.sh`” script is able to see it.
+
+If you execute the “`declare_export.sh`” script you will see that it works exactly the same as the script “`export_command.sh`”. Just give it a try and execute it.
+
+## Summary
+
+Very well done!
+
+In this chapter you learnt about how to play with environment variables and how to export them so that other programs or scripts can use them.
+
+With the “`env`” command we learnt how to add, override and delete variables (temporarily). With the same command we learnt how to provide an environment that is (more or less) empty for other scripts and programs to run.
+
+We also learnt why using the “`env`” in the Shebang of the script is more portable than using the absolute path to the `bash` program.
+
+We learnt how to make variables available to other scripts and programs by “*exporting*” them using the new command “`export`” and the command “`declare`” that we already knew.
+
+Now that you are done with this chapter, keep practicing. Remember… practice makes perfect.
+
+## References
+
+1. https://phoenixnap.com/kb/bash-declare
+2. https://tldp.org/LDP/abs/html/declareref.html
+3. https://www.computerhope.com/unix/uenv.htm
+4. https://www.cyberciti.biz/faq/linux-unix-shell-export-command/
+5. https://www.digitalocean.com/community/tutorials/export-command-linux
+6. https://www.shell-tips.com/bash/environment-variables/#gsc.tab=0
+
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
+
+<p id="footnote-X" style="font-size:10pt">
+1. More on this at a later chapter.<a href="#footnote-X-ref">&#8617;</a>
+</p>
 
