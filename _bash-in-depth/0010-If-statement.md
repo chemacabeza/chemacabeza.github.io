@@ -269,7 +269,7 @@ Condition is true
 
 ### Compound command “`((...))`”
 
-In a previous chapter we talked about the compound command “`((...))`”. In that chapter we used the command to declare integer variables and to modify the values of integer variables.
+In a previous chapter we talked about the compound command “`((...))`”. In that chapter we used the command to declare integer variables and to modify the values of **integer variables**.
 
 We also mentioned in that chapter that the “`((...))`” *is an actual command after all, meaning that it has a result, an exit status, that we can use*.
 
@@ -278,6 +278,88 @@ The “`((...))`” command creates an environment where you can do assignments,
 This means that we can use the result of the “`((...))`” command in conditions of the “`if`/`elif`” statements (and as we will see later, in loops as well).
 
 In the following script we see a few examples with the “`((...))`” command.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: if_statement_double_parentheses.sh
+ 3 # Declaring some variables
+ 4 FILE_PATH="/etc/profile"
+ 5 NUMBER_1=3
+ 6 NUMBER_2=4
+ 7 # Combined test
+ 8 if (( $NUMBER_1 < $NUMBER_2 )) && [[ $FILE_PATH != "boo" ]]; then
+ 9     echo "Condition is true"
+10 fi
+11 # Test less than
+12 if (( 3 < 7 )); then
+13     echo "3 is less than 7"
+14 fi
+15 # Test less than or equal
+16 if (( 7 <= 7 )); then
+17     echo "7 is less than or equal to 7"
+18 fi
+19 # Test equality
+20 if (( 7 == 7 )); then
+21     echo "7 is equal to 7"
+22 fi
+23 # Test inequality
+24 if (( a = 3, 8 != 7 && 7 < 10 )); then
+25     echo "8 is not equal to 7 and 7 is less than 10"
+26 fi
+27 # Remove a file that does not exist
+28 rm /tmp/does_not_exist
+29 echo "Result: $?"
+30 (( b = 4 ))
+31 echo "Result: $?"
+```
+
+In the last script you can see several uses of the compound command “`((...))`” by itself (lines 12, 16, 20 and 30), in combination with another operator (line 9) and using several expressions in the same environment (line 29).
+
+If you pay attention to line 24, you will see that there are two expressions between the parenthesis. The first one is assigning the value “`3`” to the variable “`a`”. The second expression is evaluating a boolean condition whose result is true. This value of true will be used in the “`if`” statement as a condition. As the condition is true the message in line 25 will be printed.
+
+The last four lines (28 to 31) are showing the result code of two commands. First we try to remove a file that does not exist and, obviously, this command will fail (generating an exit status of “`1`”). Second we use an assignment with the “`((...))`” command which is successful, having an exit status of “`0`”.
+
+When run the script you will get the following output in your terminal.
+
+```txt
+$ ./if_statement_double_parentheses.sh
+Condition is true
+3 is less than 7
+7 is less than or equal to 7
+7 is equal to 7
+8 is not equal to 7 and 7 is less than 10
+rm: cannot remove '/tmp/does_not_exist': No such file or directory
+Result: 1
+Result: 0
+```
+
+## Summary
+
+In this chapter we learnt how to use the “`if`” statement and its different variations (“`if`”, “`if-else`”, “`if-elif`”, “`if-elif-else`”).
+
+We also learnt the different ways to test for conditions that will be evaluated in “`if`” or “`elif`”.
+
+First we learnt about the “`test`” and “`[...]`” operators which are basically doing the same thing.
+
+Then we learnt about the “`[[...]]`” operator which is an improved version of the previous two operators.
+
+Finally we learnt about the compound command “`((...))`” that we use to evaluate numerical operations.
+
+We learnt a lot in this chapter, so take your time to go over this material again if there is something that you didn’t fully get.
+
+Remember, *practice makes perfect*. So? Practice, practice practice.
+
+## References
+
+1. <https://linuxhint.com/bash-test-command/>
+2. <https://linuxhint.com/bash_if_else_examples/>
+3. <https://linuxize.com/post/bash-if-else-statement/>
+4. <https://stackoverflow.com/questions/2188199/how-to-use-double-or-single-brackets-parentheses-curly-braces>
+5. <https://stackoverflow.com/questions/31255699/double-parenthesis-with-and-without-dollar>
+6. <https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-6.html>
+7. <https://tldp.org/LDP/abs/html/dblparens.html>
+8. <https://unix.stackexchange.com/questions/306111/what-is-the-difference-between-the-bash-operators-vs-vs-vs>
+9. <https://www.baeldung.com/linux/bash-single-vs-double-brackets>
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
