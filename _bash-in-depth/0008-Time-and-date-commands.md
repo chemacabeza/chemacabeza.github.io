@@ -40,7 +40,7 @@ $ ./time_ls.sh
 Beginning
 
 total 4
--rwxrwxr-x 1 chemacabeza chemacabeza 89 Sep 20 19:36 time_ls.sh
+-rwxrwxr-x 1 username username 89 Sep 20 19:36 time_ls.sh
 
 real	0m0.003s
 user	0m0.001s
