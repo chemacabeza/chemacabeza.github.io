@@ -346,12 +346,12 @@ Now that you are done with this chapter, keep practicing. Remember… practice m
 
 ## References
 
-1. https://phoenixnap.com/kb/bash-declare
-2. https://tldp.org/LDP/abs/html/declareref.html
-3. https://www.computerhope.com/unix/uenv.htm
-4. https://www.cyberciti.biz/faq/linux-unix-shell-export-command/
-5. https://www.digitalocean.com/community/tutorials/export-command-linux
-6. https://www.shell-tips.com/bash/environment-variables/#gsc.tab=0
+1. <https://phoenixnap.com/kb/bash-declare>
+2. <https://tldp.org/LDP/abs/html/declareref.html>
+3. <https://www.computerhope.com/unix/uenv.htm>
+4. <https://www.cyberciti.biz/faq/linux-unix-shell-export-command/>
+5. <https://www.digitalocean.com/community/tutorials/export-command-linux>
+6. <https://www.shell-tips.com/bash/environment-variables/#gsc.tab=0>
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
