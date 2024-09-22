@@ -356,7 +356,7 @@ Now that you are done with this chapter, keep practicing. Remember… practice m
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
-<p id="footnote-X" style="font-size:10pt">
-1. More on this at a later chapter.<a href="#footnote-X-ref">&#8617;</a>
+<p id="footnote-1" style="font-size:10pt">
+1. More on this at a later chapter.<a href="#footnote-1-ref">&#8617;</a>
 </p>
 
