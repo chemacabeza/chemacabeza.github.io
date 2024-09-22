@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 11: case-esac statement | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 11: case-esac statement" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 11: case-esac statement" />
+<meta property="og:description" content="Chapter 11: case-esac statement" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0011-Case-Statement.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0011-Case-Statement.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-22T18:28:59+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 11: case-esac statement" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-22T18:28:59+02:00","datePublished":"2024-09-22T18:28:59+02:00","description":"Chapter 11: case-esac statement","headline":"Chapter 11: case-esac statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0011-Case-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0011-Case-Statement.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="chapter-11-case-esac-statement">Chapter 11: <code class="language-plaintext highlighter-rouge">case-esac</code> statement</h1>
+
+<p>In Bash scripting, the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement is a powerful and flexible construct that facilitates the implementation of conditional branching and decision-making logic. It’s particularly useful when you need to evaluate a variable or expression against multiple possible values and execute different code blocks based on the matching conditions. Think of the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement as a versatile alternative to a series of “<code class="language-plaintext highlighter-rouge">if-elif-else</code>” statements, designed to simplify and enhance the readability of your scripts.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement simplifies the process of handling multiple conditional cases in a Bash script. With “<code class="language-plaintext highlighter-rouge">case</code>”, you can efficiently compare a variable or expression to a list of patterns and execute a code block corresponding to the first match. This is especially handy when you have a variable that can take on various values, and you want to perform different actions based on those values.</p>
+
+<p>One of the standout features of “<code class="language-plaintext highlighter-rouge">case-esac</code>” is its support for pattern matching. You can specify patterns, often using wildcards, to match a range of possible values. This means you can create complex and expressive conditions, making it a valuable tool for tasks like parsing user input, handling different file types, or managing options in a script.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement can significantly enhance the readability of your scripts. It’s a cleaner and more concise way to manage multiple conditions compared to long sequences of “<code class="language-plaintext highlighter-rouge">if-elif-else</code>” statements. Each condition is presented in a structured and easy-to-follow format, making your code more maintainable and comprehensible.</p>
+
+<h2 id="syntax-for-case-esac">Syntax for <code class="language-plaintext highlighter-rouge">case-esac</code></h2>
+
+<p>Once we are familiar with <code class="language-plaintext highlighter-rouge">IF-ELSE</code> clauses, we need to take a look at an alternative to this one, which is the “<code class="language-plaintext highlighter-rouge">case-esac</code>” clause. So, what is the “<em>shape</em>” of this clause? It’s as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">case</span> <span class="s2">"</span><span class="nv">$variable</span><span class="s2">"</span> <span class="k">in
+        </span>pattern1<span class="p">)</span>
+            <span class="c"># Code to execute if $variable matches pattern1</span>
+            <span class="p">;;</span>
+        pattern2<span class="p">)</span>
+            <span class="c"># Code to execute if $variable matches pattern2</span>
+            <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+            <span class="c"># Code to execute if none of the patterns match</span>
+            <span class="p">;;</span>
+    <span class="k">esac</span>
+</code></pre></div></div>
+
+<p>The idea is that the value of “<code class="language-plaintext highlighter-rouge">$variable</code>” will be checked against each “<em>pattern</em>” (from top to bottom) and it will execute the code of the first pattern that matches. This is done via “word pattern matching” which is via Regular Expressions (we will take a look later at this).</p>
+
+<p>Each pattern in the “<code class="language-plaintext highlighter-rouge">case-esac</code>” can either be a <strong>literal string</strong>, <strong>wildcards</strong> or a <strong>variable</strong>. We will see examples of both in the coming sections.</p>
+
+<p>You might have noticed that after every block of code that will be executed depending on the pattern there are the following characters “<code class="language-plaintext highlighter-rouge">;;</code>”. That combination of characters are telling Bash where it needs to stop executing code for the pattern detected<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>.</p>
+
+<h2 id="how-does-it-work">How does it work?</h2>
+
+<p>We already saw in the previous section that the syntax of the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement has different branches that will match a specific pattern.</p>
+
+<p>For example, in the example script shown in the previous section you will see that there are 3 branches. The first branch will match “<code class="language-plaintext highlighter-rouge">pattern1</code>”, the second branch will match “<code class="language-plaintext highlighter-rouge">pattern2</code>” and the last branch, with the pattern “<code class="language-plaintext highlighter-rouge">*</code>”, will match everything that is not matching the other branches. The last branch is optional</p>
+
+<p>The way it works is that Bash will take the value of the variable provided in the case statement and will match it against the different patterns in the different branches from top to bottom and will execute the code of the first pattern that matches the string provided. This means that the order of the different branches does matter.</p>
+
+<p>In the following section we will learn about the different patterns that we can use in the branches of this “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement.</p>
+
+<h2 id="case-patterns">Case patterns</h2>
+
+<p>As we saw in the previous section the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement allows to have different “<em>cases</em>” to match the variable. These cases allow different pattern types which are described in the following paragraphs.</p>
+
+<h3 id="literal-matching">Literal Matching</h3>
+
+<h2 id="summary">Summary</h2>
+
+<h2 id="references">References</h2>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. In other programming languages (such as C, C++ or Java) that sequence is called “break”.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
