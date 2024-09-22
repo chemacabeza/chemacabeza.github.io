@@ -224,6 +224,61 @@ The following table will give you a high-level overview of the differences betwe
 | Pattern Matching | `=` (or `==`) | *(not available)* |
 | Regular Expression Matching | `=~` | *(not available)* |
 
+Let’s see how the script we used in the last two sections would look like using the “`[[...]]`” operator.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: if_statement_with_double_square_bracket.sh
+ 3 # Declaring some variables
+ 4 FILE_PATH="/etc/profile"
+ 5 NUMBER_1=3
+ 6 NUMBER_2=4
+ 7 EMPTY=
+ 8 # Test if the file exists
+ 9 if [[ -e $FILE_PATH ]]; then
+10     echo "'$FILE_PATH' does exist"
+11 fi
+12 # Test if the variable is empty
+13 if [[ -z $EMPTY ]]; then
+14     echo "The variable EMPTY has nothing"
+15 fi
+16 # Test if the variables are different
+17 if [[ $FILE_PATH != "different" ]]; then
+18     echo "The values of the strings are different"
+19 fi
+20 # Test to compare numbers
+21 if [[ 3 -lt 7 ]]; then
+22     echo "3 is less than 7"
+23 fi
+24 # Combined test
+25 if [[ $NUMBER_1 -lt $NUMBER_2 && $FILE_PATH != "boo" ]]; then
+26     echo "Condition is true"
+27 fi
+```
+
+Notice that the main changes we did in the script were replacing “`[...]`” with “`[[...]]`” and replacing the “`-a`” operator with “`&&`”. When you execute the previous script you get the same result as in the two previous sections.
+
+```txt
+$ ./if_statement_with_double_square_bracket.sh
+'/etc/profile' does exist
+The variable EMPTY has nothing
+The values of the strings are different
+3 is less than 7
+Condition is true
+```
+
+### Compound command “`((...))`”
+
+In a previous chapter we talked about the compound command “`((...))`”. In that chapter we used the command to declare integer variables and to modify the values of integer variables.
+
+We also mentioned in that chapter that the “`((...))`” *is an actual command after all, meaning that it has a result, an exit status, that we can use*.
+
+The “`((...))`” command creates an environment where you can do assignments, arithmetic operations or even several operations in the same environment (between the double parenthesis). The result of the command will be determined by the last expression that will be evaluated inside the environment.
+
+This means that we can use the result of the “`((...))`” command in conditions of the “`if`/`elif`” statements (and as we will see later, in loops as well).
+
+In the following script we see a few examples with the “`((...))`” command.
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 

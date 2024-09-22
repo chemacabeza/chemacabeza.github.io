@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0010-If-statement.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-22T14:29:47+02:00" />
+<meta property="article:published_time" content="2024-09-22T14:51:34+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 10: if / elif / else statements" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-22T14:29:47+02:00","datePublished":"2024-09-22T14:29:47+02:00","description":"Chapter 10: if / elif / else statements","headline":"Chapter 10: if / elif / else statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0010-If-statement.html"},"url":"http://localhost:4000/bash-in-depth/0010-If-statement.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-22T14:51:34+02:00","datePublished":"2024-09-22T14:51:34+02:00","description":"Chapter 10: if / elif / else statements","headline":"Chapter 10: if / elif / else statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0010-If-statement.html"},"url":"http://localhost:4000/bash-in-depth/0010-If-statement.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -412,6 +412,59 @@ Condition is true
     </tr>
   </tbody>
 </table>
+
+<p>Let’s see how the script we used in the last two sections would look like using the “<code class="language-plaintext highlighter-rouge">[[...]]</code>” operator.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: if_statement_with_double_square_bracket.sh</span>
+ 3 <span class="c"># Declaring some variables</span>
+ 4 <span class="nv">FILE_PATH</span><span class="o">=</span><span class="s2">"/etc/profile"</span>
+ 5 <span class="nv">NUMBER_1</span><span class="o">=</span>3
+ 6 <span class="nv">NUMBER_2</span><span class="o">=</span>4
+ 7 <span class="nv">EMPTY</span><span class="o">=</span>
+ 8 <span class="c"># Test if the file exists</span>
+ 9 <span class="k">if</span> <span class="o">[[</span> <span class="nt">-e</span> <span class="nv">$FILE_PATH</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>10     <span class="nb">echo</span> <span class="s2">"'</span><span class="nv">$FILE_PATH</span><span class="s2">' does exist"</span>
+11 <span class="k">fi
+</span>12 <span class="c"># Test if the variable is empty</span>
+13 <span class="k">if</span> <span class="o">[[</span> <span class="nt">-z</span> <span class="nv">$EMPTY</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>14     <span class="nb">echo</span> <span class="s2">"The variable EMPTY has nothing"</span>
+15 <span class="k">fi
+</span>16 <span class="c"># Test if the variables are different</span>
+17 <span class="k">if</span> <span class="o">[[</span> <span class="nv">$FILE_PATH</span> <span class="o">!=</span> <span class="s2">"different"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>18     <span class="nb">echo</span> <span class="s2">"The values of the strings are different"</span>
+19 <span class="k">fi
+</span>20 <span class="c"># Test to compare numbers</span>
+21 <span class="k">if</span> <span class="o">[[</span> 3 <span class="nt">-lt</span> 7 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>22     <span class="nb">echo</span> <span class="s2">"3 is less than 7"</span>
+23 <span class="k">fi
+</span>24 <span class="c"># Combined test</span>
+25 <span class="k">if</span> <span class="o">[[</span> <span class="nv">$NUMBER_1</span> <span class="nt">-lt</span> <span class="nv">$NUMBER_2</span> <span class="o">&amp;&amp;</span> <span class="nv">$FILE_PATH</span> <span class="o">!=</span> <span class="s2">"boo"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>26     <span class="nb">echo</span> <span class="s2">"Condition is true"</span>
+27 <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>Notice that the main changes we did in the script were replacing “<code class="language-plaintext highlighter-rouge">[...]</code>” with “<code class="language-plaintext highlighter-rouge">[[...]]</code>” and replacing the “<code class="language-plaintext highlighter-rouge">-a</code>” operator with “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>”. When you execute the previous script you get the same result as in the two previous sections.</p>
+
+<pre><code class="language-txt">$ ./if_statement_with_double_square_bracket.sh
+'/etc/profile' does exist
+The variable EMPTY has nothing
+The values of the strings are different
+3 is less than 7
+Condition is true
+</code></pre>
+
+<h3 id="compound-command-">Compound command “<code class="language-plaintext highlighter-rouge">((...))</code>”</h3>
+
+<p>In a previous chapter we talked about the compound command “<code class="language-plaintext highlighter-rouge">((...))</code>”. In that chapter we used the command to declare integer variables and to modify the values of integer variables.</p>
+
+<p>We also mentioned in that chapter that the “<code class="language-plaintext highlighter-rouge">((...))</code>” <em>is an actual command after all, meaning that it has a result, an exit status, that we can use</em>.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">((...))</code>” command creates an environment where you can do assignments, arithmetic operations or even several operations in the same environment (between the double parenthesis). The result of the command will be determined by the last expression that will be evaluated inside the environment.</p>
+
+<p>This means that we can use the result of the “<code class="language-plaintext highlighter-rouge">((...))</code>” command in conditions of the “<code class="language-plaintext highlighter-rouge">if</code>/<code class="language-plaintext highlighter-rouge">elif</code>” statements (and as we will see later, in loops as well).</p>
+
+<p>In the following script we see a few examples with the “<code class="language-plaintext highlighter-rouge">((...))</code>” command.</p>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
