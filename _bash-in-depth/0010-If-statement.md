@@ -206,23 +206,83 @@ The “`[[...]]`” operator is a Bash extension inspired by another shell.<a id
 
 The following table will give you a high-level overview of the differences between “`[[...]]`” and “`test`” (or “`[...]`”).
 
-| Feature | [[...]] | [...] |
-| :-----: | :-----: | :-----: |
-| String comparison | `>` | `\>` |
-|                   | `<` | `\<` |
-|                   | `=` (or `==`) | `=` |
-|                   | `!=` | `!=` |
-| Integer comparison | `-gt` | `-gt` |
-|                    | `-lt` | `-lt` |
-|                    | `-ge` | `-ge` |
-|                    | `-le` | `-le` |
-|                    | `-eq` | `-eq` |
-|                    | `-ne` | `-ne` |
-| Conditional evaluation | `&&` | `-a` |
-|                        | `||` | `-o` |
-| Expression grouping | `(...)` | `\(...\)` |
-| Pattern Matching | `=` (or `==`) | *(not available)* |
-| Regular Expression Matching | `=~` | *(not available)* |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Feature</th>
+      <th style="text-align: center">[[…]]</th>
+      <th style="text-align: center">[…]</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center" rowspan="4">String comparison</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&gt;</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\&gt;</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&lt;</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\&lt;</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">=</code> (or <code class="language-plaintext highlighter-rouge">==</code>)</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">=</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">!=</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">!=</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center" rowspan="6">Integer comparison</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-gt</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-gt</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-lt</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-lt</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ge</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ge</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-le</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-le</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-eq</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-eq</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ne</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ne</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center" rowspan="2">Conditional evaluation</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&amp;&amp;</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-a</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">||</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-o</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Expression grouping</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">(...)</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\(...\)</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Pattern Matching</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">=</code> (or <code class="language-plaintext highlighter-rouge">==</code>)</td>
+      <td style="text-align: center"><em>(not available)</em></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Regular Expression Matching</td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">=~</code></td>
+      <td style="text-align: center"><em>(not available)</em></td>
+    </tr>
+  </tbody>
+</table>
 
 Let’s see how the script we used in the last two sections would look like using the “`[[...]]`” operator.
 

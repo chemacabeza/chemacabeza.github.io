@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0010-If-statement.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-22T18:28:59+02:00" />
+<meta property="article:published_time" content="2024-09-23T05:55:09+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 10: if / elif / else statements" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-22T18:28:59+02:00","datePublished":"2024-09-22T18:28:59+02:00","description":"Chapter 10: if / elif / else statements","headline":"Chapter 10: if / elif / else statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0010-If-statement.html"},"url":"http://localhost:4000/bash-in-depth/0010-If-statement.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-23T05:55:09+02:00","datePublished":"2024-09-23T05:55:09+02:00","description":"Chapter 10: if / elif / else statements","headline":"Chapter 10: if / elif / else statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0010-If-statement.html"},"url":"http://localhost:4000/bash-in-depth/0010-If-statement.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -336,62 +336,53 @@ Condition is true
   </thead>
   <tbody>
     <tr>
-      <td style="text-align: center">String comparison</td>
+      <td style="text-align: center" rowspan="4">String comparison</td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&gt;</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\&gt;</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&lt;</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\&lt;</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">=</code> (or <code class="language-plaintext highlighter-rouge">==</code>)</td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">=</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">!=</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">!=</code></td>
     </tr>
     <tr>
-      <td style="text-align: center">Integer comparison</td>
+      <td style="text-align: center" rowspan="6">Integer comparison</td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-gt</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-gt</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-lt</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-lt</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ge</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ge</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-le</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-le</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-eq</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-eq</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ne</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ne</code></td>
     </tr>
     <tr>
-      <td style="text-align: center">Conditional evaluation</td>
+      <td style="text-align: center" rowspan="2">Conditional evaluation</td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&amp;&amp;</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-a</code></td>
     </tr>
     <tr>
-      <td style="text-align: center"> </td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">||</code></td>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-o</code></td>
     </tr>
