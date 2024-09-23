@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0011-Case-Statement.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-23T05:55:09+02:00" />
+<meta property="article:published_time" content="2024-09-23T13:11:39+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 11: case-esac statement" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-23T05:55:09+02:00","datePublished":"2024-09-23T05:55:09+02:00","description":"Chapter 11: case-esac statement","headline":"Chapter 11: case-esac statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0011-Case-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0011-Case-Statement.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-23T13:11:39+02:00","datePublished":"2024-09-23T13:11:39+02:00","description":"Chapter 11: case-esac statement","headline":"Chapter 11: case-esac statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0011-Case-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0011-Case-Statement.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -107,6 +107,87 @@
 <p>As we saw in the previous section the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement allows to have different “<em>cases</em>” to match the variable. These cases allow different pattern types which are described in the following paragraphs.</p>
 
 <h3 id="literal-matching">Literal Matching</h3>
+
+<p>The first type is <strong>literal matching</strong> where the variable of the “case-esac” statement will be matched against <strong>exact text strings</strong> like “<code class="language-plaintext highlighter-rouge">pattern1</code>” or “<code class="language-plaintext highlighter-rouge">Burkina Faso</code>”. Let’s see an example for literal matching with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: case_literal_matching.sh</span>
+ 3 <span class="c"># Asking the user to enter a country name</span>
+ 4 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Enter the name of a country: "</span>
+ 5 <span class="nb">read </span>COUNTRY
+ 6 <span class="c"># Printing the result</span>
+ 7 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"The official language of </span><span class="nv">$COUNTRY</span><span class="s2"> is "</span>
+ 8 <span class="c"># Selecting the language of the country</span>
+ 9 <span class="k">case</span> <span class="nv">$COUNTRY</span> <span class="k">in
+</span>10   Lithuania<span class="p">)</span>
+11     <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Lithuanian"</span>
+12     <span class="p">;;</span>
+13   Romania <span class="p">|</span> Moldova<span class="p">)</span>
+14     <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Romanian"</span>
+15     <span class="p">;;</span>
+16   Italy <span class="p">|</span> <span class="s2">"San Marino"</span> <span class="p">|</span> Switzerland <span class="p">|</span> <span class="s2">"Vatican City"</span><span class="p">)</span>
+17     <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Italian"</span>
+18     <span class="p">;;</span>
+19   <span class="s2">"Burkina Faso"</span><span class="p">)</span>
+20 		<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Bissa / Dyula / Fula"</span>
+21 		<span class="p">;;</span>
+22   <span class="k">*</span><span class="p">)</span>
+23     <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"unknown"</span>
+24     <span class="p">;;</span>
+25 <span class="k">esac</span>
+26 <span class="nb">echo</span> <span class="s2">""</span>
+</code></pre></div></div>
+
+<p>What the previous script is doing is to first ask the user to introduce a country, then it reads the country storing it in the variable “<code class="language-plaintext highlighter-rouge">COUNTRY</code>”. It will then use the variable in the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement to determine what is the language spoken in the given country which will be printed to the screen. This is what happens when you run the script and provide “<code class="language-plaintext highlighter-rouge">Romania</code>” as the country.</p>
+
+<pre><code class="language-txt">$ ./literal_matching.sh
+Enter the name of a country: Romania
+The official language of Romania is Romanian
+</code></pre>
+
+<p>You might have noticed that literal strings that are composed of more than a single word (like “<code class="language-plaintext highlighter-rouge">San Marino</code>” or “<code class="language-plaintext highlighter-rouge">Vatican City</code>”) need to be enclosed within either single quotes or double quotes so that Bash can detect it as a single string.</p>
+
+<p>In the following section we will take a look at the second pattern that we can use. Which is known as “<strong>Wildcard Matching</strong>”.</p>
+
+<h3 id="wildcard-matching">Wildcard Matching</h3>
+
+<p>The second type is <strong>wildcard matching</strong> where the variable of the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement will be matched against <strong>pattern string</strong> that contain wildcard characters (such as “<code class="language-plaintext highlighter-rouge">*</code>” and “<code class="language-plaintext highlighter-rouge">?</code>”). In this case you could have a pattern string like “<code class="language-plaintext highlighter-rouge">*.txt</code>” that would match any file whose extension is “<code class="language-plaintext highlighter-rouge">txt</code>”.</p>
+
+<p>Let’s see how it works with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: case_wildcard_matching.sh</span>
+ 3 <span class="c"># Asking the user to enter the name of a file</span>
+ 4 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Enter the name of a file: "</span>
+ 5 <span class="nb">read </span>FILENAME
+ 6 <span class="c"># Printing the result</span>
+ 7 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"The file </span><span class="nv">$FILENAME</span><span class="s2"> is a "</span>
+ 8 <span class="c"># Selecting the right type</span>
+ 9 <span class="k">case</span> <span class="nv">$FILENAME</span> <span class="k">in
+</span>10     <span class="k">*</span>.txt<span class="p">)</span>
+11 	<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Text file"</span>
+12 	<span class="p">;;</span>
+13     <span class="k">*</span>.jpg <span class="p">|</span> <span class="k">*</span>.png<span class="p">)</span>
+14 	<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Image file"</span>
+15 	<span class="p">;;</span>
+16     <span class="k">*</span>.mp3<span class="p">)</span>
+17 	<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Audio file"</span>
+18 	<span class="p">;;</span>
+19     <span class="k">*</span><span class="p">)</span>
+20 	<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Unknown file"</span>
+21 	<span class="p">;;</span>
+22 <span class="k">esac</span>
+23 <span class="nb">echo</span> <span class="s2">""</span>
+</code></pre></div></div>
+
+<p>This script is very similar to the previous one. It first asks the user for some input, then it runs the input through the different options inside the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement and then it provides a result. This is what happens when you run the script and provide “<code class="language-plaintext highlighter-rouge">description.txt</code>” as input.</p>
+
+<pre><code class="language-txt">$ ./case_wildcard_matching.sh
+Enter the name of a file: description.txt
+The file description.txt is a Text file
+</code></pre>
+
+<p>The third type is using <strong>character classes</strong> where the variable of the “<code class="language-plaintext highlighter-rouge">case-esac</code>” statement will be matched against strings that represent groups of characters. For example “<code class="language-plaintext highlighter-rouge">[[:lower:]]</code>” would represent lower case letters. Let’s see how it works with the following script.</p>
 
 <h2 id="summary">Summary</h2>
 

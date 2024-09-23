@@ -56,6 +56,92 @@ As we saw in the previous section the “`case-esac`” statement allows to have
 
 ### Literal Matching
 
+The first type is **literal matching** where the variable of the “case-esac” statement will be matched against **exact text strings** like “`pattern1`” or “`Burkina Faso`”. Let’s see an example for literal matching with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: case_literal_matching.sh
+ 3 # Asking the user to enter a country name
+ 4 echo -n "Enter the name of a country: "
+ 5 read COUNTRY
+ 6 # Printing the result
+ 7 echo -n "The official language of $COUNTRY is "
+ 8 # Selecting the language of the country
+ 9 case $COUNTRY in
+10   Lithuania)
+11     echo -n "Lithuanian"
+12     ;;
+13   Romania | Moldova)
+14     echo -n "Romanian"
+15     ;;
+16   Italy | "San Marino" | Switzerland | "Vatican City")
+17     echo -n "Italian"
+18     ;;
+19   "Burkina Faso")
+20 		echo -n "Bissa / Dyula / Fula"
+21 		;;
+22   *)
+23     echo -n "unknown"
+24     ;;
+25 esac
+26 echo ""
+```
+
+What the previous script is doing is to first ask the user to introduce a country, then it reads the country storing it in the variable “`COUNTRY`”. It will then use the variable in the “`case-esac`” statement to determine what is the language spoken in the given country which will be printed to the screen. This is what happens when you run the script and provide “`Romania`” as the country.
+
+```txt
+$ ./literal_matching.sh
+Enter the name of a country: Romania
+The official language of Romania is Romanian
+```
+
+You might have noticed that literal strings that are composed of more than a single word (like “`San Marino`” or “`Vatican City`”) need to be enclosed within either single quotes or double quotes so that Bash can detect it as a single string.
+
+In the following section we will take a look at the second pattern that we can use. Which is known as “**Wildcard Matching**”.
+
+### Wildcard Matching
+
+The second type is **wildcard matching** where the variable of the “`case-esac`” statement will be matched against **pattern string** that contain wildcard characters (such as “`*`” and “`?`”). In this case you could have a pattern string like “`*.txt`” that would match any file whose extension is “`txt`”. 
+
+Let’s see how it works with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: case_wildcard_matching.sh
+ 3 # Asking the user to enter the name of a file
+ 4 echo -n "Enter the name of a file: "
+ 5 read FILENAME
+ 6 # Printing the result
+ 7 echo -n "The file $FILENAME is a "
+ 8 # Selecting the right type
+ 9 case $FILENAME in
+10     *.txt)
+11 	echo -n "Text file"
+12 	;;
+13     *.jpg | *.png)
+14 	echo -n "Image file"
+15 	;;
+16     *.mp3)
+17 	echo -n "Audio file"
+18 	;;
+19     *)
+20 	echo -n "Unknown file"
+21 	;;
+22 esac
+23 echo ""
+```
+
+This script is very similar to the previous one. It first asks the user for some input, then it runs the input through the different options inside the “`case-esac`” statement and then it provides a result. This is what happens when you run the script and provide “`description.txt`” as input.
+
+```txt
+$ ./case_wildcard_matching.sh
+Enter the name of a file: description.txt
+The file description.txt is a Text file
+```
+
+The third type is using **character classes** where the variable of the “`case-esac`” statement will be matched against strings that represent groups of characters. For example “`[[:lower:]]`” would represent lower case letters. Let’s see how it works with the following script.
+
+
 
 ## Summary
 
