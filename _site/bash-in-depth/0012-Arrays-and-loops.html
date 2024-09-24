@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-24T06:53:27+02:00" />
+<meta property="article:published_time" content="2024-09-24T08:36:39+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T06:53:27+02:00","datePublished":"2024-09-24T06:53:27+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T08:36:39+02:00","datePublished":"2024-09-24T08:36:39+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -93,6 +93,13 @@
 
 <p>In the next section we are going to learn about associative arrays.</p>
 
+<p>The way you select an item from an indexed array is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">echo</span> <span class="s2">"My item: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Where “<code class="language-plaintext highlighter-rouge">$index</code>” is a whole number (for example <code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">1</code>, <code class="language-plaintext highlighter-rouge">2</code>, …).</p>
+
 <h2 id="associative-arrays-aka-hashesmaps">Associative Arrays (a.k.a. Hashes/Maps)</h2>
 
 <p>An <strong>Associative Array</strong> is a data structure that associates values to “<em>keys</em>”. A key can be any random string or number.</p>
@@ -108,7 +115,7 @@
 
 <p>This is <strong>the only valid way</strong> to declare an associative array.</p>
 
-<p>If you try to declare the previous associative array without “declare -A” you will be surprised. Let’s see it with an example.</p>
+<p>If you try to declare the previous associative array without “<code class="language-plaintext highlighter-rouge">declare -A</code>” you will be surprised. Let’s see it with an example.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
  2 <span class="c">#Script: bad_associative_array.sh</span>
@@ -143,6 +150,13 @@ declare -a MY_MAP=([0]="French" [20]="Spanish")
 
 <p>Now, rather than having one single element in the array there are <strong>two</strong>. One associated with index “<code class="language-plaintext highlighter-rouge">0</code>” and another one associated with index “<code class="language-plaintext highlighter-rouge">20</code>”.</p>
 
+<p>The way you select an item from an associative array is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">echo</span> <span class="s2">"My item: </span><span class="k">${</span><span class="nv">MY_MAP</span><span class="p">[</span><span class="nv">$key</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>Where “<code class="language-plaintext highlighter-rouge">$key</code>” is one of the keys stores in the associative array (something like “<code class="language-plaintext highlighter-rouge">Madrid</code>”, “<code class="language-plaintext highlighter-rouge">London</code>” or “<code class="language-plaintext highlighter-rouge">Paris</code>” from the previous example).</p>
+
 <h2 id="associative-arrays-as-sets">Associative Arrays as Sets</h2>
 
 <p>In the previous sections we learnt that an associative array is used to map a string of characters to some value. This is known in software engineering as a “<em>Map</em>”, “<em>Dictionary</em>” or (as is known in Bash) “<em>Associative arrays</em>”.</p>
@@ -152,6 +166,41 @@ declare -a MY_MAP=([0]="French" [20]="Spanish")
 <p>Bash, technically, does not provide the data structure “Set” but we can use an associative array to simulate the same behavior.</p>
 
 <p>The idea is to create an associative array that has as keys the unique information you want to store and “<code class="language-plaintext highlighter-rouge">1</code>” as value. That’s it!</p>
+
+<p>Let’s see how it works with an example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: array_as_set.sh</span>
+ 3 <span class="c"># Declaring set with 3 cities</span>
+ 4 <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">CITIES</span><span class="o">=(</span>
+ 5  <span class="o">[</span>London]<span class="o">=</span>1
+ 6  <span class="o">[</span>Paris]<span class="o">=</span>1
+ 7  <span class="o">[</span>Madrid]<span class="o">=</span>1
+ 8 <span class="o">)</span>
+ 9 <span class="c"># Checking for a city inside the Set</span>
+10 <span class="k">if</span> <span class="o">[[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">CITIES</span><span class="p">[London]</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>11     <span class="nb">echo</span> <span class="s2">"London is in the set"</span> <span class="c"># This will be printed</span>
+12 <span class="k">else
+</span>13     <span class="nb">echo</span> <span class="s2">"London is NOT in the set"</span>
+14 <span class="k">fi
+</span>15 <span class="c"># Checking for a city that is not in the Set</span>
+16 <span class="k">if</span> <span class="o">[[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">CITIES</span><span class="p">[Seville]</span><span class="k">}</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>17     <span class="nb">echo</span> <span class="s2">"Seville is in the set"</span>
+18 <span class="k">else
+</span>19     <span class="nb">echo</span> <span class="s2">"Seville is NOT in the set"</span> <span class="c"># This will be printed</span>
+20 <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>In this simple case we are using the option “<code class="language-plaintext highlighter-rouge">-n</code>” of test which will return true if the string is not empty. When we run the previous script we get the following result.</p>
+
+<pre><code class="language-txt">$ ./array_as_set.sh
+London is in the set
+Seville is NOT in the set
+</code></pre>
+
+<p>Now that we have learnt how to declare indexed and associative arrays we are going to dive on the operations we can do on them in the next section.</p>
+
+<h2 id="operations-with-arrays">Operations with arrays</h2>
 
 <h2 id="summary">Summary</h2>
 

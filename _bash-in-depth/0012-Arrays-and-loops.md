@@ -40,6 +40,14 @@ The second one is by using the “`declare`” builtin command that we saw previ
 
 In the next section we are going to learn about associative arrays.
 
+The way you select an item from an indexed array is as follows.
+
+```bash
+    echo "My item: ${MY_ARRAY[$index]}"
+```
+
+Where "`$index`" is a whole number (for example `0`, `1`, `2`, ...).
+
 ## Associative Arrays (a.k.a. Hashes/Maps)
 
 An **Associative Array** is a data structure that associates values to “*keys*”. A key can be any random string or number.
@@ -95,6 +103,13 @@ declare -a MY_MAP=([0]="French" [20]="Spanish")
 
 Now, rather than having one single element in the array there are **two**. One associated with index “`0`” and another one associated with index “`20`”.
 
+The way you select an item from an associative array is as follows.
+
+```bash
+    echo "My item: ${MY_MAP[$key]}"
+```
+
+Where "`$key`" is one of the keys stores in the associative array (something like "`Madrid`", "`London`" or "`Paris`" from the previous example).
 
 ## Associative Arrays as Sets
 
@@ -105,6 +120,43 @@ In software engineering there is another data structure called “*Set*”. A se
 Bash, technically, does not provide the data structure “Set” but we can use an associative array to simulate the same behavior.
 
 The idea is to create an associative array that has as keys the unique information you want to store and “`1`” as value. That’s it!
+
+Let's see how it works with an example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_as_set.sh
+ 3 # Declaring set with 3 cities
+ 4 declare -A CITIES=(
+ 5  [London]=1
+ 6  [Paris]=1
+ 7  [Madrid]=1
+ 8 )
+ 9 # Checking for a city inside the Set
+10 if [[ -n "${CITIES[London]}" ]]; then
+11     echo "London is in the set" # This will be printed
+12 else
+13     echo "London is NOT in the set"
+14 fi
+15 # Checking for a city that is not in the Set
+16 if [[ -n "${CITIES[Seville]}" ]]; then
+17     echo "Seville is in the set"
+18 else
+19     echo "Seville is NOT in the set" # This will be printed
+20 fi
+```
+
+In this simple case we are using the option “`-n`” of test which will return true if the string is not empty. When we run the previous script we get the following result.
+
+```txt
+$ ./array_as_set.sh
+London is in the set
+Seville is NOT in the set
+```
+
+Now that we have learnt how to declare indexed and associative arrays we are going to dive on the operations we can do on them in the next section.
+
+## Operations with arrays
 
 
 ## Summary
