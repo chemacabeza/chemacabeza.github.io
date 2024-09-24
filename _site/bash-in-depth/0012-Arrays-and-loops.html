@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 12: Arrays and loops | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 12: Arrays and loops" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 12: Arrays and loops" />
+<meta property="og:description" content="Chapter 12: Arrays and loops" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-24T06:53:27+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 12: Arrays and loops" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T06:53:27+02:00","datePublished":"2024-09-24T06:53:27+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="chapter-12-arrays-and-loops">Chapter 12: Arrays and loops</h1>
+
+<p>Bash scripting introduces arrays and loops as essential constructs, facilitating the manipulation and processing of data within scripts. Arrays, the cornerstone of structured data storage in Bash, come in two main types: indexed arrays and associative arrays. Indexed arrays employ numerical indices to represent elements, starting from zero, while associative arrays use user-defined keys for a more versatile and human-readable approach to data organization. This diversity enables scriptwriters to choose the array type that best fits the nature of their data, making Bash scripts adaptable to various scenarios.</p>
+
+<p>In tandem with arrays, Bash incorporates different types of loops, providing the means to iterate over arrays and perform repetitive tasks efficiently. The “<code class="language-plaintext highlighter-rouge">for</code>” loop, a fundamental iteration construct, facilitates the sequential processing of elements within an array or a predefined range of values. Meanwhile, the “<code class="language-plaintext highlighter-rouge">while</code>” and “<code class="language-plaintext highlighter-rouge">until</code>” loops offer conditional iteration, allowing scripts to execute code repeatedly based on specified conditions. This mixture of arrays and loops empowers Bash scripts with the ability to automate complex tasks, process large datasets, and implement dynamic solutions.</p>
+
+<p>As we delve into the intricacies of Bash scripting, we will explore the syntax, usage, and best practices for working with arrays and loops. From basic array declarations to advanced loop structures, understanding these core concepts unlocks the full potential of Bash scripting, enabling scriptwriters to create robust and versatile solutions for various computing tasks and automation scenarios.</p>
+
+<p>Let’s dive in!</p>
+
+<h2 id="indexed-arrays">Indexed Arrays</h2>
+
+<p>An <strong>Indexed Array</strong> is a data structure that associates values to indices (0, 1, 2, etc) and allows you to access those values via indices.</p>
+
+<p>Let’s take a look at a visualization for this kind of array.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Indexed-array.png" width="500px" />
+</div>
+
+<p>How do we declare this kind of array? Well there are 2 ways to declare an indexed array.</p>
+
+<p>The first way is by using initialization declaration, which is assigning a value directly to a variable, like the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>The second one is by using the “<code class="language-plaintext highlighter-rouge">declare</code>” builtin command that we saw previously with the option “<code class="language-plaintext highlighter-rouge">-a</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>In the next section we are going to learn about associative arrays.</p>
+
+<h2 id="associative-arrays-aka-hashesmaps">Associative Arrays (a.k.a. Hashes/Maps)</h2>
+
+<p>An <strong>Associative Array</strong> is a data structure that associates values to “<em>keys</em>”. A key can be any random string or number.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Associative-array.png" />
+</div>
+
+<p>So, how do we declare an associative array? We use the option “<code class="language-plaintext highlighter-rouge">-A</code>” of the “<code class="language-plaintext highlighter-rouge">declare</code>” builtin command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">MY_MAP</span><span class="o">=(</span> <span class="o">[</span>Madrid]<span class="o">=</span><span class="s2">"Spanish"</span> <span class="o">[</span>London]<span class="o">=</span><span class="s2">"English"</span> <span class="o">[</span>Paris]<span class="o">=</span><span class="s2">"French"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>This is <strong>the only valid way</strong> to declare an associative array.</p>
+
+<p>If you try to declare the previous associative array without “declare -A” you will be surprised. Let’s see it with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: bad_associative_array.sh</span>
+ 3 <span class="nv">MY_MAP</span><span class="o">=(</span> <span class="o">[</span>Madrid]<span class="o">=</span><span class="s2">"Spanish"</span> <span class="o">[</span>London]<span class="o">=</span><span class="s2">"English"</span> <span class="o">[</span>Paris]<span class="o">=</span><span class="s2">"French"</span><span class="o">)</span>
+ 4 <span class="nb">declare</span> <span class="nt">-p</span> MY_MAP
+</code></pre></div></div>
+
+<p>When you run the previous script you will the following result in your terminal.</p>
+
+<pre><code class="language-txt">$ ./bad_associative_array.sh
+declare -a MY_MAP=([0]="French")
+</code></pre>
+
+<p>As you can see without using “<code class="language-plaintext highlighter-rouge">declare -A</code>” the variable “<code class="language-plaintext highlighter-rouge">MY_MAP</code>” is treated like an indexed array. This is because the keys “<code class="language-plaintext highlighter-rouge">Madrid</code>”, “<code class="language-plaintext highlighter-rouge">London</code>” and “<code class="language-plaintext highlighter-rouge">Paris</code>” are treated as variables and as they do not exist, Bash assumes the value “<code class="language-plaintext highlighter-rouge">0</code>” for all of them.</p>
+
+<p>This means that the values “<code class="language-plaintext highlighter-rouge">Spanish</code>”, “<code class="language-plaintext highlighter-rouge">English</code>” and “<code class="language-plaintext highlighter-rouge">French</code>” are associated to the same key/index (“<code class="language-plaintext highlighter-rouge">0</code>” in our case) which will cause that the different values will be overriding the previous value, leaving the value “<code class="language-plaintext highlighter-rouge">French</code>” as the last value overriding the content of the key/index “<code class="language-plaintext highlighter-rouge">0</code>”.</p>
+
+<p>Now, if we declare one of the keys as a variable and assign a whole number (0, 1, 2, etc) the result will change. Let’s see it with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: bad_associative_array_2.sh</span>
+ 3 <span class="nv">Madrid</span><span class="o">=</span>20
+ 4 <span class="nv">MY_MAP</span><span class="o">=(</span> <span class="o">[</span>Madrid]<span class="o">=</span><span class="s2">"Spanish"</span> <span class="o">[</span>London]<span class="o">=</span><span class="s2">"English"</span> <span class="o">[</span>Paris]<span class="o">=</span><span class="s2">"French"</span><span class="o">)</span>
+ 5 <span class="nb">declare</span> <span class="nt">-p</span> MY_MAP
+</code></pre></div></div>
+
+<p>When you run the previous script you will have now the following result.</p>
+
+<pre><code class="language-txt">$ ./bad_associative_array_2.sh
+declare -a MY_MAP=([0]="French" [20]="Spanish")
+</code></pre>
+
+<p>Now, rather than having one single element in the array there are <strong>two</strong>. One associated with index “<code class="language-plaintext highlighter-rouge">0</code>” and another one associated with index “<code class="language-plaintext highlighter-rouge">20</code>”.</p>
+
+<h2 id="associative-arrays-as-sets">Associative Arrays as Sets</h2>
+
+<p>In the previous sections we learnt that an associative array is used to map a string of characters to some value. This is known in software engineering as a “<em>Map</em>”, “<em>Dictionary</em>” or (as is known in Bash) “<em>Associative arrays</em>”.</p>
+
+<p>In software engineering there is another data structure called “<em>Set</em>”. A set is a data structure that contains unique values without a particular order.</p>
+
+<p>Bash, technically, does not provide the data structure “Set” but we can use an associative array to simulate the same behavior.</p>
+
+<p>The idea is to create an associative array that has as keys the unique information you want to store and “<code class="language-plaintext highlighter-rouge">1</code>” as value. That’s it!</p>
+
+<h2 id="summary">Summary</h2>
+
+<h2 id="references">References</h2>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
