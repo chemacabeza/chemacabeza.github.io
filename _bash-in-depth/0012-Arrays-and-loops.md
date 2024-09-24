@@ -40,6 +40,8 @@ The second one is by using the “`declare`” builtin command that we saw previ
 
 In the next section we are going to learn about associative arrays.
 
+### How do you access items of an indexed array?
+
 The way you select an item from an indexed array is as follows.
 
 ```bash
@@ -103,6 +105,8 @@ declare -a MY_MAP=([0]="French" [20]="Spanish")
 
 Now, rather than having one single element in the array there are **two**. One associated with index “`0`” and another one associated with index “`20`”.
 
+### How do you access items of an associative array?
+
 The way you select an item from an associative array is as follows.
 
 ```bash
@@ -157,6 +161,150 @@ Seville is NOT in the set
 Now that we have learnt how to declare indexed and associative arrays we are going to dive on the operations we can do on them in the next section.
 
 ## Operations with arrays
+
+In this section we are going to assume that we have declared an array called “`MY_ARRAY`”.
+
+Once the array is declared, what can we do with it? In the next subsections we will have a short view of what we can do with some examples.
+
+### First element of the array
+
+In the case of an indexed array referring to the variable “`$MY_ARRAY`” will show the first element of the array itself. 
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_index_first.sh
+ 3 MY_ARRAY=("value1" "value2" "value3")
+ 4 echo "First item: $MY_ARRAY"
+```
+
+When we execute the previous script, you will get the following in your terminal.
+
+```txt
+$ ./array_index_first.sh
+First item: value1
+```
+
+In the case of an associative array referring to the variable “`$MY_ARRAY`” will not show anything as associative arrays are not sorted.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_associative_first.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 echo "First item: $MY_ARRAY"
+```
+
+As you will see in the following execution of the script, “`$MY_ARRAY`” returns empty.
+
+```txt
+$ ./array_associative_first.sh
+First item:
+```
+
+It returns empty **because Bash does not directly support printing an entire associative array by just referencing its name** like you would with a regular variable. Associative arrays in Bash require you to access individual elements or loop through the keys.
+
+In the next section we will see how to get the whole content of the array.
+
+### Get the whole content of the array
+
+There are two ways to get the whole content of an indexed array or the values of an associative array. Which are “`${MY_ARRAY[*]}`” and “`${MY_ARRAY[@]}`”.
+
+The difference is that “`${MY_ARRAY[*]}`” will display the elements of the indexed array (or the values of the associative array) as **a single string**, while “`${MY_ARRAY[@]}`” will display the same ones quoted separately.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_content.sh
+ 3 MY_ARRAY=("value1" "value2" "value3")
+ 4 echo "Content 1: ${MY_ARRAY[*]}"
+ 5 echo "Content 2: ${MY_ARRAY[@]}"
+```
+
+When we execute the previous script we get the following result in the terminal.
+
+```txt
+$ ./index_array_content.sh
+Content 1: value1 value2 value3
+Content 2: value1 value2 value3
+```
+The execution does not show us the difference between “`${MY_ARRAY[*]}`” and “`${MY_ARRAY[@]}`” but don’t worry we will see it more clearly when we get into the different kinds of loops, just keep this in mind.
+
+Something similar happens when we try to use “`${MY_ARRAY[*]}`” and “`${MY_ARRAY[@]}`” with associative arrays.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: associative_array_content.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 echo "Content-1: ${MY_ARRAY[*]}"
+ 9 echo "Content-2: ${MY_ARRAY[@]}"
+```
+
+When you run the previous script you will get the following result in your terminal.
+
+```txt
+$ ./associative_array_content.sh
+Content-1: value2 value3 value1
+Content-2: value2 value3 value1
+```
+
+Same as with indexed arrays, we will come back to this when we will talk about loops.
+
+In the next section we will see how to get the list of indices for both indexed and associative arrays.
+
+### Get the list of indices
+
+The way to get the indices of both indexed and associative arrays is by using “`${!MY_ARRAY[@]}`”.
+
+If you use it with an indexed array it will return the indices that contain a value. 
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_indices.sh
+ 3 MY_ARRAY=("value1" "value2" "value3")
+ 4 echo "Indices: ${!MY_ARRAY[@]}"
+```
+
+When you execute the previous script you will get the following result in your terminal.
+
+```txt
+$ ./index_array_indices.sh
+Indices: 0 1 2
+```
+
+If you use it with an associative array it will return the keys.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: associative_array_indices.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 echo "Indices: ${!MY_ARRAY[@]}"
+```
+
+When you execute the previous script you will get the list of keys unsorted.
+
+```txt
+$ ./associative_array_indices.sh
+Indices: key2 key3 key1
+```
+
+In the next section we will learn how to get the length of the array.
+
+### Get the length of the array
+
+To be able get the length of an array (both indexed and associative) you can use either “`${#MY_ARRAY[*]}`” or “`${#MY_ARRAY[@]}`”, **both expressions are equivalent**.
+
+Let’s see it with a couple of examples.
+
 
 
 ## Summary

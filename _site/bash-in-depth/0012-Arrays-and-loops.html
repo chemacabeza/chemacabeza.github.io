@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-24T08:36:39+02:00" />
+<meta property="article:published_time" content="2024-09-24T15:16:50+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T08:36:39+02:00","datePublished":"2024-09-24T08:36:39+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T15:16:50+02:00","datePublished":"2024-09-24T15:16:50+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -93,6 +93,8 @@
 
 <p>In the next section we are going to learn about associative arrays.</p>
 
+<h3 id="how-do-you-access-items-of-an-indexed-array">How do you access items of an indexed array?</h3>
+
 <p>The way you select an item from an indexed array is as follows.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">echo</span> <span class="s2">"My item: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[</span><span class="nv">$index</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
@@ -150,6 +152,8 @@ declare -a MY_MAP=([0]="French" [20]="Spanish")
 
 <p>Now, rather than having one single element in the array there are <strong>two</strong>. One associated with index “<code class="language-plaintext highlighter-rouge">0</code>” and another one associated with index “<code class="language-plaintext highlighter-rouge">20</code>”.</p>
 
+<h3 id="how-do-you-access-items-of-an-associative-array">How do you access items of an associative array?</h3>
+
 <p>The way you select an item from an associative array is as follows.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">echo</span> <span class="s2">"My item: </span><span class="k">${</span><span class="nv">MY_MAP</span><span class="p">[</span><span class="nv">$key</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
@@ -201,6 +205,137 @@ Seville is NOT in the set
 <p>Now that we have learnt how to declare indexed and associative arrays we are going to dive on the operations we can do on them in the next section.</p>
 
 <h2 id="operations-with-arrays">Operations with arrays</h2>
+
+<p>In this section we are going to assume that we have declared an array called “<code class="language-plaintext highlighter-rouge">MY_ARRAY</code>”.</p>
+
+<p>Once the array is declared, what can we do with it? In the next subsections we will have a short view of what we can do with some examples.</p>
+
+<h3 id="first-element-of-the-array">First element of the array</h3>
+
+<p>In the case of an indexed array referring to the variable “<code class="language-plaintext highlighter-rouge">$MY_ARRAY</code>” will show the first element of the array itself.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: array_index_first.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"First item: </span><span class="nv">$MY_ARRAY</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When we execute the previous script, you will get the following in your terminal.</p>
+
+<pre><code class="language-txt">$ ./array_index_first.sh
+First item: value1
+</code></pre>
+
+<p>In the case of an associative array referring to the variable “<code class="language-plaintext highlighter-rouge">$MY_ARRAY</code>” will not show anything as associative arrays are not sorted.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: array_associative_first.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span>
+ 4     <span class="o">[</span>key1]<span class="o">=</span><span class="s2">"value1"</span>
+ 5     <span class="o">[</span>key2]<span class="o">=</span><span class="s2">"value2"</span>
+ 6     <span class="o">[</span>key3]<span class="o">=</span><span class="s2">"value3"</span>
+ 7 <span class="o">)</span>
+ 8 <span class="nb">echo</span> <span class="s2">"First item: </span><span class="nv">$MY_ARRAY</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>As you will see in the following execution of the script, “<code class="language-plaintext highlighter-rouge">$MY_ARRAY</code>” returns empty.</p>
+
+<pre><code class="language-txt">$ ./array_associative_first.sh
+First item:
+</code></pre>
+
+<p>It returns empty <strong>because Bash does not directly support printing an entire associative array by just referencing its name</strong> like you would with a regular variable. Associative arrays in Bash require you to access individual elements or loop through the keys.</p>
+
+<p>In the next section we will see how to get the whole content of the array.</p>
+
+<h3 id="get-the-whole-content-of-the-array">Get the whole content of the array</h3>
+
+<p>There are two ways to get the whole content of an indexed array or the values of an associative array. Which are “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” and “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>”.</p>
+
+<p>The difference is that “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” will display the elements of the indexed array (or the values of the associative array) as <strong>a single string</strong>, while “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>” will display the same ones quoted separately.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_content.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Content 1: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[*]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Content 2: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When we execute the previous script we get the following result in the terminal.</p>
+
+<pre><code class="language-txt">$ ./index_array_content.sh
+Content 1: value1 value2 value3
+Content 2: value1 value2 value3
+</code></pre>
+<p>The execution does not show us the difference between “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” and “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>” but don’t worry we will see it more clearly when we get into the different kinds of loops, just keep this in mind.</p>
+
+<p>Something similar happens when we try to use “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” and “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>” with associative arrays.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: associative_array_content.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span>
+ 4     <span class="o">[</span>key1]<span class="o">=</span><span class="s2">"value1"</span>
+ 5     <span class="o">[</span>key2]<span class="o">=</span><span class="s2">"value2"</span>
+ 6     <span class="o">[</span>key3]<span class="o">=</span><span class="s2">"value3"</span>
+ 7 <span class="o">)</span>
+ 8 <span class="nb">echo</span> <span class="s2">"Content-1: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[*]</span><span class="k">}</span><span class="s2">"</span>
+ 9 <span class="nb">echo</span> <span class="s2">"Content-2: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following result in your terminal.</p>
+
+<pre><code class="language-txt">$ ./associative_array_content.sh
+Content-1: value2 value3 value1
+Content-2: value2 value3 value1
+</code></pre>
+
+<p>Same as with indexed arrays, we will come back to this when we will talk about loops.</p>
+
+<p>In the next section we will see how to get the list of indices for both indexed and associative arrays.</p>
+
+<h3 id="get-the-list-of-indices">Get the list of indices</h3>
+
+<p>The way to get the indices of both indexed and associative arrays is by using “<code class="language-plaintext highlighter-rouge">${!MY_ARRAY[@]}</code>”.</p>
+
+<p>If you use it with an indexed array it will return the indices that contain a value.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_indices.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Indices: </span><span class="k">${</span><span class="p">!MY_ARRAY[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the following result in your terminal.</p>
+
+<pre><code class="language-txt">$ ./index_array_indices.sh
+Indices: 0 1 2
+</code></pre>
+
+<p>If you use it with an associative array it will return the keys.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: associative_array_indices.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span>
+ 4     <span class="o">[</span>key1]<span class="o">=</span><span class="s2">"value1"</span>
+ 5     <span class="o">[</span>key2]<span class="o">=</span><span class="s2">"value2"</span>
+ 6     <span class="o">[</span>key3]<span class="o">=</span><span class="s2">"value3"</span>
+ 7 <span class="o">)</span>
+ 8 <span class="nb">echo</span> <span class="s2">"Indices: </span><span class="k">${</span><span class="p">!MY_ARRAY[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will get the list of keys unsorted.</p>
+
+<pre><code class="language-txt">$ ./associative_array_indices.sh
+Indices: key2 key3 key1
+</code></pre>
+
+<p>In the next section we will learn how to get the length of the array.</p>
+
+<h3 id="get-the-length-of-the-array">Get the length of the array</h3>
+
+<p>To be able get the length of an array (both indexed and associative) you can use either “<code class="language-plaintext highlighter-rouge">${#MY_ARRAY[*]}</code>” or “<code class="language-plaintext highlighter-rouge">${#MY_ARRAY[@]}</code>”, <strong>both expressions are equivalent</strong>.</p>
+
+<p>Let’s see it with a couple of examples.</p>
 
 <h2 id="summary">Summary</h2>
 
