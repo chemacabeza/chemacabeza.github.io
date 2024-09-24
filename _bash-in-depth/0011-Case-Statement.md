@@ -139,19 +139,165 @@ Enter the name of a file: description.txt
 The file description.txt is a Text file
 ```
 
-The third type is using **character classes** where the variable of the “`case-esac`” statement will be matched against strings that represent groups of characters. For example “`[[:lower:]]`” would represent lower case letters. Let’s see how it works with the following script.
+The third type is using **character classes** where the variable of the “`case-esac`” statement will be matched against strings that represent groups of characters. For example “`[[:lower:]]`” would represent lower case letters<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a>. Let’s see how it works with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: case_class_matching.sh
+ 3 # Asking the user for input
+ 4 echo -n "Enter a single character: "
+ 5 read INPUT_CHAR
+ 6 # Making sure than only one character is entered
+ 7 if [[ ${#INPUT_CHAR} > 1 ]]; then
+ 8     echo "You entered more than 1 character";
+ 9     exit
+10 fi
+11 # Printing the result
+12 echo -n "The character '$INPUT_CHAR' "
+13 # Selecting the correct input
+14 case $INPUT_CHAR in
+15     [[:lower:]])
+16 	echo "is a lowercase letter"
+17 	;;
+18     [[:upper:]])
+19 	echo "is an uppercase letter"
+20 	;;
+21     [[:digit:]])
+22 	echo "is a digit"
+23 	;;
+24     *)
+25 	echo "is unknown"
+26 	;;
+27 esac
+```
+
+In the previous script we ask the user to introduce a single character then, in lines 7 to 10, the script validates that only a single character has been introduced. After the validation succeeds it checks what kind of character has been introduced by matching it against the different class characters sequences.
+
+Let’s see how it behaves by running the script a few times.
+
+```txt
+$ ./case_class_matching.sh
+Enter a single character: 1
+The character '1' is a digit
+
+$ ./case_class_matching.sh
+Enter a single character: w
+The character 'w' is a lowercase letter
+
+$ ./case_class_matching.sh
+Enter a single character: W
+The character 'W' is an uppercase letter
+
+$ ./case_class_matching.sh
+Enter a single character: *
+The character '*' is unknown
+```
+
+In the following section we are going to learn about one of the most powerful matchings that we have in this “`case-esac`” statement, the regular expression matching.
 
 
+### Regular Expression Matching
+
+Last, but not least, you can use **regular expressions** where the variable of the “`case-esac`” statement will be matched against a string that is a regular expression. For example, the sequence of characters “`pattern*`” would match any string that starts with the word “`pattern`”.
+
+Let’s see a simple example where we are going to define a few different regular expressions that we will use in the “`case-esac`” statement.
+
+Please notice that the regular expressions are stored in different variables that will be used in the different branches of the “`case-esac`” statement. We are using the variables so that you can see a different approach<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>.
+
+The example script is as follows.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: case_pattern_matching.sh
+ 3 # Regular expression pattern for basic email validation
+ 4 email_pattern="[A-Za-z0-9.+-]*@[A-Za-z0-9.-]*.[A-Za-z]*"
+ 5 # Regular expression pattern that matches
+ 6 # strings starting with number
+ 7 starts_with_number_pattern="[0-9]*"
+ 8 # Regular expression pattern that matches
+ 9 # strings starting with a letter
+10 starts_with_letter_pattern="[a-zA-Z]*"
+11 # Regular expression pattern that matches
+12 # strings starting with a special character
+13 starts_with_special_character="[^0-9a-zA-Z]*"
+14 # Asking the user for input
+15 read -p "Enter a random string: " STRING
+16 # Printing the beginning of the result
+17 echo -n "The string '$STRING' "
+18 # Selecting the end of the result
+19 case $STRING in
+20     $email_pattern)
+21         echo "matches the email pattern"
+22         ;;
+23     $starts_with_number_pattern)
+24         echo "starts with a number"
+25         ;;
+26     $starts_with_letter_pattern)
+27         echo "starts with a letter"
+28         ;;
+29     $starts_with_special_character)
+30         echo "starts with a special character"
+31         ;;
+32     *)
+33         echo "does not match any pattern"
+34         ;;
+35 esac
+```
+
+In the previous script you see that we defined 4 different regular expressions.
+
+The first regular expression, defined on line 4, is a very simple regular expression to validate strings that contain emails.
+
+The second regular expression, defined on line 7, will match those strings that do not match emails and start with a number.
+
+The third regular expression, defined on line 10, will match those strings that do not match emails nor those that start with numbers.
+
+The fourth and last regular expression, defined on line 13, will match those strings that do not contain numbers nor letters<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>.
+
+Then we have the fifth branch that will match anything that was not matched in the previous branches.
+
+Let's run the script a few times.
+
+```txt
+$ ./case_pattern_matching.sh
+Enter a random string: test@email.com
+The string 'test@email.com' matches the email pattern
+
+$ ./case_pattern_matching.sh
+Enter a random string: 12something
+The string '12something' starts with a number
+```
 
 ## Summary
 
+The "`case-esac`" statement in Bash is a powerful tool for implementing conditional branching and decision-making logic. It offers a more concise and readable alternative to lengthy "`if-elif-else`" statements, especially when evaluating a variable against multiple possible values. The construct enhances script readability and maintainability by presenting conditions in a structured format, facilitating the execution of specific code blocks based on matching conditions.
+
+The "`case-esac`" statement streamlines the handling of various conditional cases in Bash scripting. It efficiently compares a variable or expression against a list of patterns, executing the code block corresponding to the first matching condition. This proves particularly useful when dealing with variables that can have diverse values, enabling different actions based on these values. Additionally, the statement supports pattern matching, allowing the use of wildcards and regular expressions, making it versatile for tasks such as parsing user input, managing file types, or handling script options.
+
+The syntax of the "`case-esac`" statement involves checking the value of a variable against different patterns, each representing a potential branch. The order of the branches is significant, as the first matching pattern determines the executed code. The script can utilize various pattern types, including literal matching, wildcard matching, character classes, and regular expression matching. This flexibility contributes to the script's robustness and adaptability, making it a valuable tool in Bash scripting for handling different scenarios and improving code organization.
+
+As always this chapter contained a lot of information. Please give it a try and write Bash scripts so that you are able to practice what you learnt here.
+
 
 ## References
+1. <https://bash-hackers.gabe565.com/syntax/ccmd/case/>
+2. <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_09_04_05>
+3. <https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_03.html>
+4. <https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html#index-case>
 
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 <p id="footnote-1" style="font-size:10pt">
 1. In other programming languages (such as C, C++ or Java) that sequence is called “break”.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. More on this in the chapter dedicated to regular expressions.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. For the record, this could be done by using the regular expressions inside the different branches of the “case-esac” statement. I just want to show you different ways to do the same thing. It’s up to you to decide the approach you prefer.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. The symbol “^” inside the square brackets is to tell Bash that it should match strings that DO NOT contain the characters within the square brackets.<a href="#footnote-4-ref">&#8617;</a>
 </p>
 
