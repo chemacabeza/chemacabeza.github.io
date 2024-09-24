@@ -305,6 +305,102 @@ To be able get the length of an array (both indexed and associative) you can use
 
 Let’s see it with a couple of examples.
 
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_length.sh
+ 3 MY_ARRAY=("value1" "value2" "value3")
+ 4 echo "Length-1: ${#MY_ARRAY[*]}"
+ 5 echo "Length-2: ${#MY_ARRAY[@]}"
+```
+
+When you run the previous script for indexed arrays you will the following result in your terminal.
+
+```txt
+$ ./index_array_length.sh
+Length-1: 3
+Length-2: 3
+```
+
+And now an example for associative arrays.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: associative_array_length.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 echo "Length-1: ${#MY_ARRAY[*]}"
+ 9 echo "Length-2: ${#MY_ARRAY[@]}"
+```
+
+When you execute the previous script you get the following in your terminal.
+
+```txt
+$ ./associative_array_length.sh
+Length-1: 3
+Length-2: 3
+```
+
+In the next section we are going to see how to add an element to an array.
+
+
+### Adding an element to an array
+
+In order to add an additional element to an array we can do it by using the following form.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Add-Item-To-Array.png" width="450px"/>
+</div>
+
+As you can see the only difference on adding a new element to an indexed array or an associative array is including the key in the associative array.
+
+For example, for an indexed array we would proceed as follows.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_add.sh
+ 3 MY_ARRAY=("value1" "value2" "value3")
+ 4 echo "Elements: ${MY_ARRAY[@]}"
+ 5 MY_ARRAY+=("value4")
+ 6 echo "Elements: ${MY_ARRAY[@]}"
+```
+
+When you run the previous script you will get the following in the terminal.
+
+```txt
+$ ./index_array_add.sh
+Elements: value1 value2 value3
+Elements: value1 value2 value3 value4
+```
+
+Where you can see the new value (“`value4`”) added to the end of the array.
+
+In the case of an associative array we would do the following.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: associative_array_add.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 MY_ARRAY+=([key4]="value4")
+ 9 declare -p MY_ARRAY
+```
+
+When you run the previous script you will get the following result in your terminal.
+
+```txt
+$ ./associative_array_add.sh
+declare -A MY_ARRAY=([key4]="value4" [key2]="value2" [key3]="value3" [key1]="value1" )
+```
+
+In the result you can cleary see that the a new value was added to the associative array with key "`key4`" and value "`value4`".
+
+Something to notice is that for associative arrays you can add elements by using “`MY_ARRAY[Key]=Value`”. This means that we could rewrite the last script as the following and we would get the exact same result.
 
 
 ## Summary

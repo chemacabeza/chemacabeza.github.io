@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-24T15:16:50+02:00" />
+<meta property="article:published_time" content="2024-09-24T15:56:27+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T15:16:50+02:00","datePublished":"2024-09-24T15:16:50+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-24T15:56:27+02:00","datePublished":"2024-09-24T15:56:27+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -336,6 +336,94 @@ Indices: key2 key3 key1
 <p>To be able get the length of an array (both indexed and associative) you can use either “<code class="language-plaintext highlighter-rouge">${#MY_ARRAY[*]}</code>” or “<code class="language-plaintext highlighter-rouge">${#MY_ARRAY[@]}</code>”, <strong>both expressions are equivalent</strong>.</p>
 
 <p>Let’s see it with a couple of examples.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_length.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Length-1: </span><span class="k">${#</span><span class="nv">MY_ARRAY</span><span class="p">[*]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Length-2: </span><span class="k">${#</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script for indexed arrays you will the following result in your terminal.</p>
+
+<pre><code class="language-txt">$ ./index_array_length.sh
+Length-1: 3
+Length-2: 3
+</code></pre>
+
+<p>And now an example for associative arrays.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: associative_array_length.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span>
+ 4     <span class="o">[</span>key1]<span class="o">=</span><span class="s2">"value1"</span>
+ 5     <span class="o">[</span>key2]<span class="o">=</span><span class="s2">"value2"</span>
+ 6     <span class="o">[</span>key3]<span class="o">=</span><span class="s2">"value3"</span>
+ 7 <span class="o">)</span>
+ 8 <span class="nb">echo</span> <span class="s2">"Length-1: </span><span class="k">${#</span><span class="nv">MY_ARRAY</span><span class="p">[*]</span><span class="k">}</span><span class="s2">"</span>
+ 9 <span class="nb">echo</span> <span class="s2">"Length-2: </span><span class="k">${#</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you get the following in your terminal.</p>
+
+<pre><code class="language-txt">$ ./associative_array_length.sh
+Length-1: 3
+Length-2: 3
+</code></pre>
+
+<p>In the next section we are going to see how to add an element to an array.</p>
+
+<h3 id="adding-an-element-to-an-array">Adding an element to an array</h3>
+
+<p>In order to add an additional element to an array we can do it by using the following form.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Add-Item-To-Array.png" width="450px" />
+</div>
+
+<p>As you can see the only difference on adding a new element to an indexed array or an associative array is including the key in the associative array.</p>
+
+<p>For example, for an indexed array we would proceed as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_add.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"value1"</span> <span class="s2">"value2"</span> <span class="s2">"value3"</span><span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Elements: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 5 MY_ARRAY+<span class="o">=(</span><span class="s2">"value4"</span><span class="o">)</span>
+ 6 <span class="nb">echo</span> <span class="s2">"Elements: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following in the terminal.</p>
+
+<pre><code class="language-txt">$ ./index_array_add.sh
+Elements: value1 value2 value3
+Elements: value1 value2 value3 value4
+</code></pre>
+
+<p>Where you can see the new value (“<code class="language-plaintext highlighter-rouge">value4</code>”) added to the end of the array.</p>
+
+<p>In the case of an associative array we would do the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: associative_array_add.sh</span>
+ 3 <span class="nb">declare</span> <span class="nt">-A</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span>
+ 4     <span class="o">[</span>key1]<span class="o">=</span><span class="s2">"value1"</span>
+ 5     <span class="o">[</span>key2]<span class="o">=</span><span class="s2">"value2"</span>
+ 6     <span class="o">[</span>key3]<span class="o">=</span><span class="s2">"value3"</span>
+ 7 <span class="o">)</span>
+ 8 MY_ARRAY+<span class="o">=([</span>key4]<span class="o">=</span><span class="s2">"value4"</span><span class="o">)</span>
+ 9 <span class="nb">declare</span> <span class="nt">-p</span> MY_ARRAY
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following result in your terminal.</p>
+
+<pre><code class="language-txt">$ ./associative_array_add.sh
+declare -A MY_ARRAY=([key4]="value4" [key2]="value2" [key3]="value3" [key1]="value1" )
+</code></pre>
+
+<p>In the result you can cleary see that the a new value was added to the associative array with key “<code class="language-plaintext highlighter-rouge">key4</code>” and value “<code class="language-plaintext highlighter-rouge">value4</code>”.</p>
+
+<p>Something to notice is that for associative arrays you can add elements by using “<code class="language-plaintext highlighter-rouge">MY_ARRAY[Key]=Value</code>”. This means that we could rewrite the last script as the following and we would get the exact same result.</p>
 
 <h2 id="summary">Summary</h2>
 
