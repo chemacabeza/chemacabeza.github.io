@@ -56,7 +56,7 @@ So, how do we declare an associative array? We use the option “`-A`” of the 
 
 This is **the only valid way** to declare an associative array.
 
-If you try to declare the previous associative array without “declare -A” you will be surprised. Let’s see it with an example.
+If you try to declare the previous associative array without “`declare -A`” you will be surprised. Let’s see it with an example.
 
 ```bash
  1 #!/usr/bin/env bash
