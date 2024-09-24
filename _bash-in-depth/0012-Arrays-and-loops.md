@@ -351,7 +351,7 @@ In the next section we are going to see how to add an element to an array.
 In order to add an additional element to an array we can do it by using the following form.
 
 <div style="text-align:center">
-    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Add-Item-To-Array.png" width="500px"/>
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Add-Item-To-Array.png" width="550px"/>
 </div>
 
 As you can see the only difference on adding a new element to an indexed array or an associative array is including the key in the associative array.
