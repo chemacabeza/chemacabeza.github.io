@@ -403,6 +403,178 @@ In the result you can cleary see that the a new value was added to the associati
 Something to notice is that for associative arrays you can add elements by using “`MY_ARRAY[Key]=Value`”. This means that we could rewrite the last script as the following and we would get the exact same result.
 
 
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: associative_array_add.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 MY_ARRAY["key4"]="value4"
+ 9 declare -p MY_ARRAY
+```
+
+In the next section we are going to learn how to delete specific elements from arrays.
+
+### Delete element from a given index
+
+There are a couple of ways to delete elements from an array (either indexed or associative). The one we are exploring in this section is by using the index of the element we want to delete.
+
+If you remember the indices are different in both indexed and associative arrays.
+
+In indexed arrays the indices are whole numbers (0, 1, 2, etc) while in associative arrays the indices are the keys (“`key1`”, “`key2`”, “`key3`” in our previous examples).
+
+In both types of array we will have to use the following to delete elements.
+
+<div style="text-align:center">
+<img src="/assets/bash-in-depth/0012-Arrays-and-loops/Unset-Item-From-Array.png" width="550px"/>
+</div>
+
+In the following example we are deleting the second element (index “`1`”) of the array.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_delete.sh
+ 3 MY_ARRAY=("value1" "value2" "value3")
+ 4 # Deleting second item of the array
+ 5 unset MY_ARRAY[1]
+ 6 # Printing the whole content of the array
+ 7 echo "Content: ${MY_ARRAY[@]}"
+```
+
+When we execute the previous script you will see that “`value2`” is no longer in the array.
+
+```txt
+$ ./index_array_delete.sh
+Content: value1 value3
+```
+
+In the case of an associative array, as it was mentioned before, we need to use the key of the entry we want to delete. In the following example we will remove the entry whose key is “`key2`”.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: associative_array_delete.sh
+ 3 declare -A MY_ARRAY=(
+ 4     [key1]="value1"
+ 5     [key2]="value2"
+ 6     [key3]="value3"
+ 7 )
+ 8 unset MY_ARRAY[key2]
+ 9 declare -p MY_ARRAY
+```
+
+When we execute the previous script you will see that the element whose key is “`key2`” is no longer in the associative array.
+
+```txt
+$ ./associative_array_delete.sh
+declare -A MY_ARRAY=([key3]="value3" [key1]="value1" )
+```
+
+In the next section we will learn how to delete elements based on a pattern.
+
+### Delete element from a given pattern
+
+In the previous section we learnt how to delete elements from an array, but we needed to know beforehand what the index/key of the element was.
+
+In this section we are going to learn how to delete elements based on a “*pattern*”. It will be like saying “*Please delete the elements that look like this pattern*”.
+
+The generic form that we will use is as follows.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Generic-Form-Delete-From-Pattern.png"/>
+</div>
+
+Those 4 dots will be replaced with some syntax that will do pattern matching to find the elements before removing them. There are several ways to remove an element from an array and are the following:
+* Shortest match from the front of the string
+* Longest match from the front of the string
+* Shortest match from the back of the string
+* Longest match from the back of the string
+
+#### Shortest match from the front of the string
+
+The first approach is by using “`${MY_ARRAY[@]#<pattern>}`”. This way is going to search for the elements in the array that match the pattern given the **shortest** starting from the **front of the string**.
+
+The previous statement means that once you provide the pattern, Bash will go element by element and, for each element, will try to match the pattern provided starting from the beginning of the string. Then it will remove the pattern found once it finds the shortest match.
+
+Let’s see an example to better understand how it works.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_delete_pattern_front_shortest.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Shortest match from front of string
+ 6 echo "\${MY_ARRAY[@]#t*}: ${MY_ARRAY[@]#t*}"
+ 7 echo "\${MY_ARRAY[@]#t*ee}: ${MY_ARRAY[@]#t*ee}"
+```
+
+On line 3 we declare an array with six elements. On line 4 we display the content of the array. Then (the interesting part) on lines 6 and 7 we use two different patterns.
+
+The first pattern (“`t*`”) means that there is a need to match the shortest string that starts with the character “`t`” and has zero or more characters after it. In our case, there are two strings of “`MY_ARRAY`” that start with the character “`t`”, which are the second and the third element whose values are “`two`” and “`three`”, respectively. And the shortest string matching that pattern is “`t`”.
+
+This means that Bash will remove just the character “`t`” from both elements of the array.
+
+The second pattern (“`t*ee`”) means that there is a need to match the shortest string that starts with the character “`t`”, has zero or more characters after it and ends with the characters “`ee`”. Same as in the previous patterns, the only string of “`MY_ARRAY`” that matches that pattern is the third element. In this case the pattern will match the whole string.
+
+This means that Bash will remove the whole element of the array.
+
+When we run the previous script you will see the following output in your terminal.
+
+```txt
+$ ./index_array_delete_pattern.sh
+Content: one two three four five six
+${MY_ARRAY[@]#t*}: one wo hree four five six
+${MY_ARRAY[@]#t*ee}: one two  four five six
+```
+
+As you can see in the execution of the script, the first pattern removes only one character of a couple of elements of the array, while the first pattern removes a whole element that matches the pattern.
+
+In the next section we will match the longest pattern starting from the front.
+
+#### Longest match from the front of the string
+
+The second approach is by using “`${MY_ARRAY[@]##<pattern>}`”. This way is going to search for the elements in the array that match the pattern given the **longest** starting from the **front of the string**.
+
+The previous statement means that once you provide the pattern, Bash will go element by element and, for each element, will try to match the pattern provided starting from the beginning of the string. Then it will remove the pattern found once it finds the longest match.
+
+Let’s write another script to see how it works. In the next script we left the content of the previous script and added the new things of this section.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_delete_pattern.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Shortest match from front of string
+ 6 echo "\${MY_ARRAY[@]#t*}: ${MY_ARRAY[@]#t*}"
+ 7 echo "\${MY_ARRAY[@]#t*ee}: ${MY_ARRAY[@]#t*ee}"
+ 8 # Longest match from the front of string
+ 9 echo -e "\n\${MY_ARRAY[@]##t*}: ${MY_ARRAY[@]##t*}"
+10 echo "\${MY_ARRAY[@]##t*ee}: ${MY_ARRAY[@]##t*ee}"
+```
+
+In this case we have added from line 8 to line 10. Let’s see what happens when we run the script.
+
+```txt
+$ ./index_array_delete_pattern.sh
+Content: one two three four five six
+${MY_ARRAY[@]#t*}: one wo hree four five six
+${MY_ARRAY[@]#t*ee}: one two  four five six
+
+${MY_ARRAY[@]##t*}: one   four five six
+${MY_ARRAY[@]##t*ee}: one two  four five six
+```
+
+As you can see from the new execution, the first pattern (“`t*`”) will match the longest string of characters that contain the pattern, which happens to be elements with values “`two`” and “`three`”. Bash will remove those two elements from the array.
+
+The second pattern (“`t*ee`”), however, as it’s more specific than the previous one will only match the element with value "`three`". In this case, Bash will remove one single element from the array.
+
+In the next section we will match the shortest pattern starting from the back.
+
+
+#### Shortest match from the back of the string
+
+
 ## Summary
 
 
