@@ -722,6 +722,46 @@ In the next section we will learn how to replace all occurrences given a pattern
 
 To be able to replace **all occurrences** of a pattern in a string element of an array we need to use the following syntax: “`${MY_ARRAY[@]/<pattern>/<replacement>}`”.
 
+Let's write another script so that we can see how this way of replacement is different from the previous one.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_replace_pattern_all.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Replace first occurrence
+ 6 echo -e "\nReplace first occurrence"
+ 7 echo "\${MY_ARRAY[@]/e/X}: ${MY_ARRAY[@]/e/X}"
+ 8 echo "\${MY_ARRAY[@]/e*/X}: ${MY_ARRAY[@]/e*/X}"
+ 9 # Replace all occurrences
+10 echo -e "\nReplace all occurrences"
+11 echo "\${MY_ARRAY[@]//e/X}: ${MY_ARRAY[@]//e/X}"
+12 echo "\${MY_ARRAY[@]//e*/X}: ${MY_ARRAY[@]//e*/X}"
+```
+
+We added lines 9 to 12 to our script. We are using the same two patterns as before.
+
+With the first pattern (“`e`”) on line 11, Bash will replace every single instance of the pattern with the character “`X`”. This means every single character “`e`” will be replaced with the character “`X`”.
+
+With the second pattern (“`e*`”) on line 12, Bash will replace every single instance of the pattern with the character “`X`”. In this case, every sequence of characters that starts with the character “`e`” will be replaced with a single character “`X`”.
+
+When you run the previous script you will get the following result in your terminal window.
+
+```txt
+$ ./index_array_replace_pattern_all.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+
+Replace all occurrences
+${MY_ARRAY[@]//e/X}: onX two thrXX four fivX six
+${MY_ARRAY[@]//e*/X}: onX two thrX four fivX six
+```
+
+A special use case of this syntax is that we can use it to remove elements from the array as well. To be able to do this we need to adjust the pattern to match the elements we want to remove and use an empty string as replacement.
+
 
 ## Summary
 

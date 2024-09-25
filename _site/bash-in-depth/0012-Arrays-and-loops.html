@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-25T14:39:56+02:00" />
+<meta property="article:published_time" content="2024-09-25T16:55:28+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-25T14:39:56+02:00","datePublished":"2024-09-25T14:39:56+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-25T16:55:28+02:00","datePublished":"2024-09-25T16:55:28+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -676,13 +676,107 @@ ${MY_ARRAY[@]%%f*e}: one two three four  six
 
 <p>In the case of the second pattern (“<code class="language-plaintext highlighter-rouge">f*e</code>”), there is only one element that starts with the “<code class="language-plaintext highlighter-rouge">f</code>” character, has zero or more characters after it and ends with the character “<code class="language-plaintext highlighter-rouge">e</code>”.</p>
 
-<p>Although in the previous sections we have been using indexed arrays, this way to delete elements can be applied as well to the values of an associative array.</p>
+<p>Although in the previous sections we have been using indexed arrays, this way to delete elements can be applied as well to the values of an associative array<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>.</p>
+
+<h3 id="substring-replacement-with-regular-expressions">Substring replacement with regular expressions</h3>
+
+<p>In the previous section we learnt several ways to delete elements from an array using regular expressions. We also learnt that in some cases we could remove part of the string.</p>
+
+<p>In this section we are going to learn how to replace parts of the string (and even delete it) based on a regular expression.</p>
+
+<p>Same as in the previous section we will be focused on indexed arrays, but the same can be applied to the values of associative arrays.</p>
+
+<p>There are 4 ways to replace with regular expressions, which are:</p>
+<ul>
+  <li>Replace first occurrence</li>
+  <li>Replace all occurrences</li>
+  <li>Replace beginning occurrences of string</li>
+  <li>Replace ending occurrences of string</li>
+</ul>
+
+<h4 id="replace-first-occurrence"><b>Replace first occurrence</b></h4>
+
+<p>To be able to replace the <strong>first occurrence</strong> of a pattern in a string element of an array we need to use the following syntax: “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]/&lt;pattern&gt;/&lt;replacement&gt;}</code>”.</p>
+
+<p>Let’s give it a try with the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_replace_pattern_first.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span> one two three four five six <span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Content: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="c"># Replace first occurrence</span>
+ 6 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Replace first occurrence"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]/e/X}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]/e/X</span><span class="k">}</span><span class="s2">"</span>
+ 8 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]/e*/X}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]/e*/X</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In the previous script we are using two different patterns. When we run the script the following is printed in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./index_array_replace_pattern_first.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+</code></pre>
+
+<p>The first pattern (“<code class="language-plaintext highlighter-rouge">e</code>”), which is in line 7 of the script, will replace the first occurrence of the character “<code class="language-plaintext highlighter-rouge">e</code>” with the character “<code class="language-plaintext highlighter-rouge">X</code>” starting from the beginning of the string (from the left). This will affect one single character in several elements of the array.</p>
+
+<p>The second pattern (“<code class="language-plaintext highlighter-rouge">e*</code>”), found in line 8 of the script, will replace the first occurrence of the pattern with the character “<code class="language-plaintext highlighter-rouge">X</code>” starting from the beginning of the string. In this case, as the pattern contains the character “<code class="language-plaintext highlighter-rouge">*</code>” it will match the rest of the string starting from the first character “<code class="language-plaintext highlighter-rouge">e</code>”. This will affect more than a single character in several elements of the array.</p>
+
+<p>In the next section we will learn how to replace all occurrences given a pattern.</p>
+
+<h4 id="replace-all-occurrences"><b>Replace all occurrences</b></h4>
+
+<p>To be able to replace <strong>all occurrences</strong> of a pattern in a string element of an array we need to use the following syntax: “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]/&lt;pattern&gt;/&lt;replacement&gt;}</code>”.</p>
+
+<p>Let’s write another script so that we can see how this way of replacement is different from the previous one.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_replace_pattern_all.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span> one two three four five six <span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Content: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="c"># Replace first occurrence</span>
+ 6 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Replace first occurrence"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]/e/X}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]/e/X</span><span class="k">}</span><span class="s2">"</span>
+ 8 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]/e*/X}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]/e*/X</span><span class="k">}</span><span class="s2">"</span>
+ 9 <span class="c"># Replace all occurrences</span>
+10 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Replace all occurrences"</span>
+11 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]//e/X}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]//e/X</span><span class="k">}</span><span class="s2">"</span>
+12 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]//e*/X}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]//e*/X</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>We added lines 9 to 12 to our script. We are using the same two patterns as before.</p>
+
+<p>With the first pattern (“<code class="language-plaintext highlighter-rouge">e</code>”) on line 11, Bash will replace every single instance of the pattern with the character “<code class="language-plaintext highlighter-rouge">X</code>”. This means every single character “<code class="language-plaintext highlighter-rouge">e</code>” will be replaced with the character “<code class="language-plaintext highlighter-rouge">X</code>”.</p>
+
+<p>With the second pattern (“<code class="language-plaintext highlighter-rouge">e*</code>”) on line 12, Bash will replace every single instance of the pattern with the character “<code class="language-plaintext highlighter-rouge">X</code>”. In this case, every sequence of characters that starts with the character “<code class="language-plaintext highlighter-rouge">e</code>” will be replaced with a single character “<code class="language-plaintext highlighter-rouge">X</code>”.</p>
+
+<p>When you run the previous script you will get the following result in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./index_array_replace_pattern_all.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+
+Replace all occurrences
+${MY_ARRAY[@]//e/X}: onX two thrXX four fivX six
+${MY_ARRAY[@]//e*/X}: onX two thrX four fivX six
+</code></pre>
+
+<p>A special use case of this syntax is that we can use it to remove elements from the array as well. To be able to do this we need to adjust the pattern to match the elements we want to remove and use an empty string as replacement.</p>
 
 <h2 id="summary">Summary</h2>
 
 <h2 id="references">References</h2>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. Up to thre reader to give it a try.<a href="#footnote-1-ref">&#8617;</a>
+</p>
 
 
 </div>
