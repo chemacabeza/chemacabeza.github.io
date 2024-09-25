@@ -491,7 +491,7 @@ Those 4 dots will be replaced with some syntax that will do pattern matching to 
 * Shortest match from the back of the string
 * Longest match from the back of the string
 
-#### Shortest match from the front of the string
+#### <b>Shortest match from the front of the string</b>
 
 The first approach is by using “`${MY_ARRAY[@]#<pattern>}`”. This way is going to search for the elements in the array that match the pattern given the **shortest** starting from the **front of the string**.
 
@@ -532,7 +532,7 @@ As you can see in the execution of the script, the first pattern removes only on
 
 In the next section we will match the longest pattern starting from the front.
 
-#### Longest match from the front of the string
+#### <b>Longest match from the front of the string</b>
 
 The second approach is by using “`${MY_ARRAY[@]##<pattern>}`”. This way is going to search for the elements in the array that match the pattern given the **longest** starting from the **front of the string**.
 
@@ -572,7 +572,7 @@ The second pattern (“`t*ee`”), however, as it’s more specific than the pre
 In the next section we will match the shortest pattern starting from the back.
 
 
-#### Shortest match from the back of the string
+#### <b>Shortest match from the back of the string</b>
 
 
 ## Summary
