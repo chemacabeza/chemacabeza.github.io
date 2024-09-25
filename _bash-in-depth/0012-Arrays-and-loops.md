@@ -482,7 +482,7 @@ In this section we are going to learn how to delete elements based on a “*patt
 The generic form that we will use is as follows.
 
 <div style="text-align:center">
-    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Generic-Form-Delete-From-Pattern.png" width="550px"/>
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Generic-Form-Delete-From-Pattern.png" width="450px"/>
 </div>
 
 Those 4 dots will be replaced with some syntax that will do pattern matching to find the elements before removing them. There are several ways to remove an element from an array and are the following:
