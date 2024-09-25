@@ -55,7 +55,7 @@ Where "`$index`" is a whole number (for example `0`, `1`, `2`, ...).
 An **Associative Array** is a data structure that associates values to “*keys*”. A key can be any random string or number.
 
 <div style="text-align:center">
-    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Associative-array.png"/>
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Associative-array.png" width="500px"/>
 </div>
 
 So, how do we declare an associative array? We use the option “`-A`” of the “`declare`” builtin command.
