@@ -574,6 +574,154 @@ In the next section we will match the shortest pattern starting from the back.
 
 #### <b>Shortest match from the back of the string</b>
 
+The third approach is by using “`${MY_ARRAY[@]%<pattern>}`”. This way is going to search for the elements in the array that match the pattern given the **shortest** starting from the **back of the string**.
+
+The previous statement means that once you provide the pattern, Bash will go element by element and, for each element, will try to match the pattern provided starting from the end of the string. Then it will remove the pattern found once it finds the shortest match.
+
+Let's write another script that shows this way of removing parts of the items and that is comparing them to the previous ways that we saw.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_delete_pattern_back_shortest.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Shortest match from front of string
+ 6 echo "\${MY_ARRAY[@]#t*}: ${MY_ARRAY[@]#t*}"
+ 7 echo "\${MY_ARRAY[@]#t*ee}: ${MY_ARRAY[@]#t*ee}"
+ 8 # Longest match from the front of string
+ 9 echo -e "\n\${MY_ARRAY[@]##t*}: ${MY_ARRAY[@]##t*}"
+10 echo "\${MY_ARRAY[@]##t*ee}: ${MY_ARRAY[@]##t*ee}"
+11 # Shortest match from the back of string
+12 echo -e "\n\${MY_ARRAY[@]%*ee}: ${MY_ARRAY[@]%*ee}"
+13 echo "\${MY_ARRAY[@]%t*ee}: ${MY_ARRAY[@]%t*ee}"
+```
+
+We added lines 11 to 13. When we run the script the following appears in your terminal window.
+
+```txt
+$ ./index_array_delete_pattern_back_shortest.sh
+Content: one two three four five six
+${MY_ARRAY[@]#t*}: one wo hree four five six
+${MY_ARRAY[@]#t*ee}: one two  four five six
+
+${MY_ARRAY[@]##t*}: one   four five six
+${MY_ARRAY[@]##t*ee}: one two  four five six
+
+${MY_ARRAY[@]%*ee}: one two thr four five six
+${MY_ARRAY[@]%t*ee}: one two  four five six
+```
+
+In the execution you can see that the first pattern (“`*ee`”) matches the shortest string ending in “`ee`” which happens to be the last two letters of the third element of the array (with value “`three`”).
+
+In the case of the second pattern (“`t*ee`”) the pattern will match the whole string of the third element. The result will be that the element in question will be removed.
+
+In the next section we will match the longest pattern starting from the back.
+
+#### <b>Longest match from the back of the string</b>
+
+The third approach is by using “`${MY_ARRAY[@]%%<pattern>}`”. This way is going to search for the elements in the array that match the pattern given the **longest** starting from the **back of the string**.
+
+The previous statement means that once you provide the pattern, Bash will go element by element and, for each element, will try to match the pattern provided starting from the end of the string. Then it will remove the pattern found once it finds the longest match.
+
+Same as in the previous cases we will write a new script comparing this way of deleting items (or parts of items) of arrays to the previous ones.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_delete_pattern_back_longest.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Shortest match from front of string
+ 6 echo "\${MY_ARRAY[@]#t*}: ${MY_ARRAY[@]#t*}"
+ 7 echo "\${MY_ARRAY[@]#t*ee}: ${MY_ARRAY[@]#t*ee}"
+ 8 # Longest match from the front of string
+ 9 echo -e "\n\${MY_ARRAY[@]##t*}: ${MY_ARRAY[@]##t*}"
+10 echo "\${MY_ARRAY[@]##t*ee}: ${MY_ARRAY[@]##t*ee}"
+11 # Shortest match from the back of string
+12 echo -e "\n\${MY_ARRAY[@]%*ee}: ${MY_ARRAY[@]%*ee}"
+13 echo "\${MY_ARRAY[@]%t*ee}: ${MY_ARRAY[@]%t*ee}"
+14 # Longest match from the back of string
+15 echo -e "\n\${MY_ARRAY[@]%%*e}: ${MY_ARRAY[@]%%*e}"
+16 echo "\${MY_ARRAY[@]%%f*e}: ${MY_ARRAY[@]%%f*e}"
+```
+
+We added lines 13 to 16. When we run the script the following appears in your terminal window.
+
+```txt
+$ ./index_array_delete_pattern_back_longest.sh
+Content: one two three four five six
+${MY_ARRAY[@]#t*}: one wo hree four five six
+${MY_ARRAY[@]#t*ee}: one two  four five six
+
+${MY_ARRAY[@]##t*}: one   four five six
+${MY_ARRAY[@]##t*ee}: one two  four five six
+
+${MY_ARRAY[@]%*ee}: one two thr four five six
+${MY_ARRAY[@]%t*ee}: one two  four five six
+
+${MY_ARRAY[@]%%*e}:  two  four  six
+${MY_ARRAY[@]%%f*e}: one two three four  six
+```
+
+In the execution you can see that with the first pattern (“`*e`”), half of the elements in the array were removed. This is because the elements “`on`**e**”, “`thre`**e**” and “`fiv`**e**” match the pattern of having one single character “`e`” at the very end of the string.
+
+In the case of the second pattern (“`f*e`”), there is only one element that starts with the “`f`” character, has zero or more characters after it and ends with the character “`e`”.
+
+Although in the previous sections we have been using indexed arrays, this way to delete elements can be applied as well to the values of an associative array<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>.
+
+
+### Substring replacement with regular expressions
+
+In the previous section we learnt several ways to delete elements from an array using regular expressions. We also learnt that in some cases we could remove part of the string.
+
+In this section we are going to learn how to replace parts of the string (and even delete it) based on a regular expression.
+
+Same as in the previous section we will be focused on indexed arrays, but the same can be applied to the values of associative arrays.
+
+There are 4 ways to replace with regular expressions, which are:
+* Replace first occurrence
+* Replace all occurrences
+* Replace beginning occurrences of string
+* Replace ending occurrences of string
+
+#### <b>Replace first occurrence</b>
+
+To be able to replace the **first occurrence** of a pattern in a string element of an array we need to use the following syntax: “`${MY_ARRAY[@]/<pattern>/<replacement>}`”.
+
+Let's give it a try with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_replace_pattern_first.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Replace first occurrence
+ 6 echo -e "\nReplace first occurrence"
+ 7 echo "\${MY_ARRAY[@]/e/X}: ${MY_ARRAY[@]/e/X}"
+ 8 echo "\${MY_ARRAY[@]/e*/X}: ${MY_ARRAY[@]/e*/X}"
+```
+
+In the previous script we are using two different patterns. When we run the script the following is printed in the terminal window.
+
+```txt
+$ ./index_array_replace_pattern_first.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+```
+
+The first pattern (“`e`”), which is in line 7 of the script, will replace the first occurrence of the character “`e`” with the character “`X`” starting from the beginning of the string (from the left). This will affect one single character in several elements of the array.
+
+The second pattern (“`e*`”), found in line 8 of the script, will replace the first occurrence of the pattern with the character “`X`” starting from the beginning of the string. In this case, as the pattern contains the character “`*`” it will match the rest of the string starting from the first character “`e`”. This will affect more than a single character in several elements of the array.
+
+In the next section we will learn how to replace all occurrences given a pattern.
+
+
+#### <b>Replace all occurrences</b>
+
+To be able to replace **all occurrences** of a pattern in a string element of an array we need to use the following syntax: “`${MY_ARRAY[@]/<pattern>/<replacement>}`”.
+
 
 ## Summary
 
@@ -582,3 +730,8 @@ In the next section we will match the shortest pattern starting from the back.
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
+
+<p id="footnote-1" style="font-size:10pt">
+1. Up to thre reader to give it a try.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+

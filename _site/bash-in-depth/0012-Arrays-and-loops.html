@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-25T11:36:34+02:00" />
+<meta property="article:published_time" content="2024-09-25T14:39:56+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-25T11:36:34+02:00","datePublished":"2024-09-25T11:36:34+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-25T14:39:56+02:00","datePublished":"2024-09-25T14:39:56+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -499,7 +499,7 @@ declare -A MY_ARRAY=([key3]="value3" [key1]="value1" )
 <p>The generic form that we will use is as follows.</p>
 
 <div style="text-align:center">
-    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Generic-Form-Delete-From-Pattern.png" />
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Generic-Form-Delete-From-Pattern.png" width="450px" />
 </div>
 
 <p>Those 4 dots will be replaced with some syntax that will do pattern matching to find the elements before removing them. There are several ways to remove an element from an array and are the following:</p>
@@ -510,7 +510,7 @@ declare -A MY_ARRAY=([key3]="value3" [key1]="value1" )
   <li>Longest match from the back of the string</li>
 </ul>
 
-<h4 id="shortest-match-from-the-front-of-the-string">Shortest match from the front of the string</h4>
+<h4 id="shortest-match-from-the-front-of-the-string"><b>Shortest match from the front of the string</b></h4>
 
 <p>The first approach is by using “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]#&lt;pattern&gt;}</code>”. This way is going to search for the elements in the array that match the pattern given the <strong>shortest</strong> starting from the <strong>front of the string</strong>.</p>
 
@@ -549,7 +549,7 @@ ${MY_ARRAY[@]#t*ee}: one two  four five six
 
 <p>In the next section we will match the longest pattern starting from the front.</p>
 
-<h4 id="longest-match-from-the-front-of-the-string">Longest match from the front of the string</h4>
+<h4 id="longest-match-from-the-front-of-the-string"><b>Longest match from the front of the string</b></h4>
 
 <p>The second approach is by using “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]##&lt;pattern&gt;}</code>”. This way is going to search for the elements in the array that match the pattern given the <strong>longest</strong> starting from the <strong>front of the string</strong>.</p>
 
@@ -586,7 +586,97 @@ ${MY_ARRAY[@]##t*ee}: one two  four five six
 
 <p>In the next section we will match the shortest pattern starting from the back.</p>
 
-<h4 id="shortest-match-from-the-back-of-the-string">Shortest match from the back of the string</h4>
+<h4 id="shortest-match-from-the-back-of-the-string"><b>Shortest match from the back of the string</b></h4>
+
+<p>The third approach is by using “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]%&lt;pattern&gt;}</code>”. This way is going to search for the elements in the array that match the pattern given the <strong>shortest</strong> starting from the <strong>back of the string</strong>.</p>
+
+<p>The previous statement means that once you provide the pattern, Bash will go element by element and, for each element, will try to match the pattern provided starting from the end of the string. Then it will remove the pattern found once it finds the shortest match.</p>
+
+<p>Let’s write another script that shows this way of removing parts of the items and that is comparing them to the previous ways that we saw.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_delete_pattern_back_shortest.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span> one two three four five six <span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Content: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="c"># Shortest match from front of string</span>
+ 6 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]#t*}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]#t*</span><span class="k">}</span><span class="s2">"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]#t*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]#t*ee</span><span class="k">}</span><span class="s2">"</span>
+ 8 <span class="c"># Longest match from the front of string</span>
+ 9 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\$</span><span class="s2">{MY_ARRAY[@]##t*}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]##t*</span><span class="k">}</span><span class="s2">"</span>
+10 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]##t*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]##t*ee</span><span class="k">}</span><span class="s2">"</span>
+11 <span class="c"># Shortest match from the back of string</span>
+12 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\$</span><span class="s2">{MY_ARRAY[@]%*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]%*ee</span><span class="k">}</span><span class="s2">"</span>
+13 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]%t*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]%t*ee</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>We added lines 11 to 13. When we run the script the following appears in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./index_array_delete_pattern_back_shortest.sh
+Content: one two three four five six
+${MY_ARRAY[@]#t*}: one wo hree four five six
+${MY_ARRAY[@]#t*ee}: one two  four five six
+
+${MY_ARRAY[@]##t*}: one   four five six
+${MY_ARRAY[@]##t*ee}: one two  four five six
+
+${MY_ARRAY[@]%*ee}: one two thr four five six
+${MY_ARRAY[@]%t*ee}: one two  four five six
+</code></pre>
+
+<p>In the execution you can see that the first pattern (“<code class="language-plaintext highlighter-rouge">*ee</code>”) matches the shortest string ending in “<code class="language-plaintext highlighter-rouge">ee</code>” which happens to be the last two letters of the third element of the array (with value “<code class="language-plaintext highlighter-rouge">three</code>”).</p>
+
+<p>In the case of the second pattern (“<code class="language-plaintext highlighter-rouge">t*ee</code>”) the pattern will match the whole string of the third element. The result will be that the element in question will be removed.</p>
+
+<p>In the next section we will match the longest pattern starting from the back.</p>
+
+<h4 id="longest-match-from-the-back-of-the-string"><b>Longest match from the back of the string</b></h4>
+
+<p>The third approach is by using “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]%%&lt;pattern&gt;}</code>”. This way is going to search for the elements in the array that match the pattern given the <strong>longest</strong> starting from the <strong>back of the string</strong>.</p>
+
+<p>The previous statement means that once you provide the pattern, Bash will go element by element and, for each element, will try to match the pattern provided starting from the end of the string. Then it will remove the pattern found once it finds the longest match.</p>
+
+<p>Same as in the previous cases we will write a new script comparing this way of deleting items (or parts of items) of arrays to the previous ones.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: index_array_delete_pattern_back_longest.sh</span>
+ 3 <span class="nv">MY_ARRAY</span><span class="o">=(</span> one two three four five six <span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Content: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="c"># Shortest match from front of string</span>
+ 6 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]#t*}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]#t*</span><span class="k">}</span><span class="s2">"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]#t*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]#t*ee</span><span class="k">}</span><span class="s2">"</span>
+ 8 <span class="c"># Longest match from the front of string</span>
+ 9 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\$</span><span class="s2">{MY_ARRAY[@]##t*}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]##t*</span><span class="k">}</span><span class="s2">"</span>
+10 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]##t*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]##t*ee</span><span class="k">}</span><span class="s2">"</span>
+11 <span class="c"># Shortest match from the back of string</span>
+12 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\$</span><span class="s2">{MY_ARRAY[@]%*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]%*ee</span><span class="k">}</span><span class="s2">"</span>
+13 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]%t*ee}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]%t*ee</span><span class="k">}</span><span class="s2">"</span>
+14 <span class="c"># Longest match from the back of string</span>
+15 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n\$</span><span class="s2">{MY_ARRAY[@]%%*e}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]%%*e</span><span class="k">}</span><span class="s2">"</span>
+16 <span class="nb">echo</span> <span class="s2">"</span><span class="se">\$</span><span class="s2">{MY_ARRAY[@]%%f*e}: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]%%f*e</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>We added lines 13 to 16. When we run the script the following appears in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./index_array_delete_pattern_back_longest.sh
+Content: one two three four five six
+${MY_ARRAY[@]#t*}: one wo hree four five six
+${MY_ARRAY[@]#t*ee}: one two  four five six
+
+${MY_ARRAY[@]##t*}: one   four five six
+${MY_ARRAY[@]##t*ee}: one two  four five six
+
+${MY_ARRAY[@]%*ee}: one two thr four five six
+${MY_ARRAY[@]%t*ee}: one two  four five six
+
+${MY_ARRAY[@]%%*e}:  two  four  six
+${MY_ARRAY[@]%%f*e}: one two three four  six
+</code></pre>
+
+<p>In the execution you can see that with the first pattern (“<code class="language-plaintext highlighter-rouge">*e</code>”), half of the elements in the array were removed. This is because the elements “<code class="language-plaintext highlighter-rouge">on</code><strong>e</strong>”, “<code class="language-plaintext highlighter-rouge">thre</code><strong>e</strong>” and “<code class="language-plaintext highlighter-rouge">fiv</code><strong>e</strong>” match the pattern of having one single character “<code class="language-plaintext highlighter-rouge">e</code>” at the very end of the string.</p>
+
+<p>In the case of the second pattern (“<code class="language-plaintext highlighter-rouge">f*e</code>”), there is only one element that starts with the “<code class="language-plaintext highlighter-rouge">f</code>” character, has zero or more characters after it and ends with the character “<code class="language-plaintext highlighter-rouge">e</code>”.</p>
+
+<p>Although in the previous sections we have been using indexed arrays, this way to delete elements can be applied as well to the values of an associative array.</p>
 
 <h2 id="summary">Summary</h2>
 
