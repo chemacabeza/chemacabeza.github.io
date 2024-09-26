@@ -977,6 +977,98 @@ In the next section we are going to learn how to consult the length of a specifi
 
 ### Consult the length of the i-th element of the array
 
+In a very similar way as we saw on Chapter 5 section “[String length]({{ site.url }}/bash-in-depth/0005-Working-with-Strings.html#string-length)” where we used the syntax “`${#myVariable}`” to get the length of the string inside the variable named “`myVariable`”, for the case of elements of arrays is exactly the same with the difference that we need to provide the position of the element in the array.
+
+This means that we will need to use the syntax “
+
+```bash
+    ${#MY_ARRAY[<index>]}
+```
+
+To get the length of the element with index “`<index>`”.
+
+Let's see how it works with a simple example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_length_ith_element.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Length of \${MY_ARRAY[0]}: ${#MY_ARRAY[0]}"
+ 5 echo "Length of \${MY_ARRAY[1]}: ${#MY_ARRAY[1]}"
+ 6 echo "Length of \${MY_ARRAY[2]}: ${#MY_ARRAY[2]}"
+ 7 echo "Length of \${MY_ARRAY[3]}: ${#MY_ARRAY[3]}"
+ 8 echo "Length of \${MY_ARRAY[4]}: ${#MY_ARRAY[4]}"
+ 9 echo "Length of \${MY_ARRAY[5]}: ${#MY_ARRAY[5]}"
+```
+
+In the previous script you will see that on line 3 an array named “`MY_ARRAY`” is declared with six items in it.
+
+The code from line 4 until line 9 will print the length of those items.
+
+When you run the previous script you will see the following output in the terminal window.
+
+```txt
+$ ./array_length_ith_element.sh
+Length of ${MY_ARRAY[0]}: 3
+Length of ${MY_ARRAY[1]}: 3
+Length of ${MY_ARRAY[2]}: 5
+Length of ${MY_ARRAY[3]}: 4
+Length of ${MY_ARRAY[4]}: 4
+Length of ${MY_ARRAY[5]}: 3
+```
+
+As you can see from the running of the script, each single line from line 4 to line 9 prints the length of one of the elements in the array.
+
+This works the same way for associative arrays with **the only difference that you will have to use the keys instead of the indices**.
+
+In the next section we are going to learn how to copy arrays.
+
+### How to copy an array
+
+In order to copy an array to another variable you need to use the syntax “`(${MY_ARRAY[@]})`” and assign it to a variable. Like the following snippet of code.
+
+```bash
+    MY_ARRAY_COPY=(${MY_ARRAY[@]})
+```
+
+Let's see how it works with a simple example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_copy.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 declare -p MY_ARRAY
+ 5 echo -e "\nCopying MY_ARRAY to MY_ARRAY_COPY\n"
+ 6 MY_ARRAY_COPY=(${MY_ARRAY[@]})
+ 7 MY_ARRAY_COPY+=("seven")
+ 8 echo "Original array: "
+ 9 declare -p MY_ARRAY
+10 echo "Copy array:"
+11 declare -p MY_ARRAY_COPY
+```
+
+In the previous script we are declaring an array on line 3 with name “`MY_ARRAY`”, then we copy it to the new variable “`MY_ARRAY_COPY`” on line 6. After copying the array to the new variable, we add a new element on line 7 to the copied array and we show them both to prove that a modification in one of the arrays will not affect the other one.
+
+When you run the previous script you will see the following on your terminal.
+
+```txt
+$ ./array_copy.sh
+declare -a MY_ARRAY=([0]="one" [1]="two" [2]="three" [3]="four" [4]="five" [5]="six")
+
+Copying MY_ARRAY to MY_ARRAY_COPY
+
+Original array: 
+declare -a MY_ARRAY=([0]="one" [1]="two" [2]="three" [3]="four" [4]="five" [5]="six")
+Copy array:
+declare -a MY_ARRAY_COPY=([0]="one" [1]="two" [2]="three" [3]="four" [4]="five" [5]="six" [6]="seven")
+```
+
+As you can see from the execution the variables “`MY_ARRAY`” and “`MY_ARRAY_COPY`” are independent.
+
+In the next section we are going to learn how to take a slice of an array.
+
+### Slice of an array
+
 
 
 ## Summary
