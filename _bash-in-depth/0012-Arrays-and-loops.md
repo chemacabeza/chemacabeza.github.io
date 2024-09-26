@@ -762,6 +762,222 @@ ${MY_ARRAY[@]//e*/X}: onX two thrX four fivX six
 
 A special use case of this syntax is that we can use it to remove elements from the array as well. To be able to do this we need to adjust the pattern to match the elements we want to remove and use an empty string as replacement.
 
+Let's see how it is done with the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_replace_pattern_all_delete.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Replace first occurrence
+ 6 echo -e "\nReplace first occurrence"
+ 7 echo "\${MY_ARRAY[@]/e/X}: ${MY_ARRAY[@]/e/X}"
+ 8 echo "\${MY_ARRAY[@]/e*/X}: ${MY_ARRAY[@]/e*/X}"
+ 9 # Replace all occurrences
+10 echo -e "\nReplace all occurrences"
+11 echo "\${MY_ARRAY[@]//e/X}: ${MY_ARRAY[@]//e/X}"
+12 echo "\${MY_ARRAY[@]//e*/X}: ${MY_ARRAY[@]//e*/X}"
+13 # Removal of elements
+14 echo -e "\nRemoval of elements"
+15 echo "\${MY_ARRAY[@]//e/}: ${MY_ARRAY[@]//e/}"
+16 echo "\${MY_ARRAY[@]//f*/}: ${MY_ARRAY[@]//f*/}"
+```
+
+If you pay attention, this script is the same as before but we added lines from 13 to 16.
+
+The first pattern (“`e`”) in line 15 will remove individual characters of the elements in the array, while the second pattern (“`f*`”) in line 16 will remove two elements of the array.
+
+If you run the previous script you will see the following result in your terminal window.
+
+```txt
+$ ./index_array_replace_pattern_all_delete.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+
+Replace all occurrences
+${MY_ARRAY[@]//e/X}: onX two thrXX four fivX six
+${MY_ARRAY[@]//e*/X}: onX two thrX four fivX six
+
+Removal of elements
+${MY_ARRAY[@]//e/}: on two thr four fiv six
+${MY_ARRAY[@]//f*/}: one two three   six
+```
+
+In the next two sections we will learn how to do replacements targeting specifically the beginning and the ending of the string.
+
+
+#### <b>Replace beginning occurrences of string</b>
+
+To be able to replace occurrences at the beginning of a string we need to use the following syntax: “`${MY_ARRAY[@]/#<pattern>/<replacement>}`”.
+
+What will happen is that Bash will go element by element and will replace the substring that matches the pattern provided, that is **at the beginning of the string**, with the replacement provided.
+
+Let’s see how it works with an example by modifying our previous script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_replace_pattern_front_beginning.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Replace first occurrence
+ 6 echo -e "\nReplace first occurrence"
+ 7 echo "\${MY_ARRAY[@]/e/X}: ${MY_ARRAY[@]/e/X}"
+ 8 echo "\${MY_ARRAY[@]/e*/X}: ${MY_ARRAY[@]/e*/X}"
+ 9 # Replace all occurrences
+10 echo -e "\nReplace all occurrences"
+11 echo "\${MY_ARRAY[@]//e/X}: ${MY_ARRAY[@]//e/X}"
+12 echo "\${MY_ARRAY[@]//e*/X}: ${MY_ARRAY[@]//e*/X}"
+13 # Removal of elements
+14 echo -e "\nRemoval of elements"
+15 echo "\${MY_ARRAY[@]//e/}: ${MY_ARRAY[@]//e/}"
+16 echo "\${MY_ARRAY[@]//f*/}: ${MY_ARRAY[@]//f*/}"
+17 # Replace front-end occurrences of string
+18 echo -e "\nReplace front-end occurrences of string"
+19 echo "\${MY_ARRAY[@]/#e/XY}: ${MY_ARRAY[@]/#e/XY}"
+20 echo "\${MY_ARRAY[@]/#f/XY}: ${MY_ARRAY[@]/#f/XY}"
+```
+
+In this case we have added lines 17 to 20 to our script. In line 19 we are trying to replace the character “`e`” at the beginning of the string with “`XY`”. In line 20 we are trying to replace the character “`f`” at the beginning of the string with “`XY`”.
+
+When you run the previous script you will see the following output in the terminal window.
+
+```txt
+$ ./index_array_replace_pattern_front_beginning.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+
+Replace all occurrences
+${MY_ARRAY[@]//e/X}: onX two thrXX four fivX six
+${MY_ARRAY[@]//e*/X}: onX two thrX four fivX six
+
+Removal of elements
+${MY_ARRAY[@]//e/}: on two thr four fiv six
+${MY_ARRAY[@]//f*/}: one two three   six
+
+Replace front-end occurrences of string
+${MY_ARRAY[@]/#e/XY}: one two three four five six
+${MY_ARRAY[@]/#f/XY}: one two three XYour XYive six
+```
+
+As you can see from the execution the line 19 from our script will have no effect at all as there is not a single element in the array that begins with the character “`e`”. Line 20, however, will affect a couple of elements in the array (elements with values “`four`” and “`five`”) because they start with the character “`f`”.
+
+In the next section we will learn how to replace occurrences of a pattern at the end of a string.
+
+#### <b>Replace ending occurrences of string</b>
+
+To be able to replace occurrences at the beginning of a string we need to use the following syntax: “`${MY_ARRAY[@]/%<pattern>/<replacement>}`”.
+
+What will happen is that Bash will go element by element and will replace the substring that matches the pattern provided, that is **at the end of the string**, with the replacement provided.
+
+Let’s see how it works with an example by modifying our previous script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: index_array_replace_pattern_back_ending.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: ${MY_ARRAY[@]}"
+ 5 # Replace first occurrence
+ 6 echo -e "\nReplace first occurrence"
+ 7 echo "\${MY_ARRAY[@]/e/X}: ${MY_ARRAY[@]/e/X}"
+ 8 echo "\${MY_ARRAY[@]/e*/X}: ${MY_ARRAY[@]/e*/X}"
+ 9 # Replace all occurrences
+10 echo -e "\nReplace all occurrences"
+11 echo "\${MY_ARRAY[@]//e/X}: ${MY_ARRAY[@]//e/X}"
+12 echo "\${MY_ARRAY[@]//e*/X}: ${MY_ARRAY[@]//e*/X}"
+13 # Removal of elements
+14 echo -e "\nRemoval of elements"
+15 echo "\${MY_ARRAY[@]//e/}: ${MY_ARRAY[@]//e/}"
+16 echo "\${MY_ARRAY[@]//f*/}: ${MY_ARRAY[@]//f*/}"
+17 # Replace front-end occurrences of string
+18 echo -e "\nReplace front-end occurrences of string"
+19 echo "\${MY_ARRAY[@]/#e/XY}: ${MY_ARRAY[@]/#e/XY}"
+20 echo "\${MY_ARRAY[@]/#f/XY}: ${MY_ARRAY[@]/#f/XY}"
+21 # Replace back-end occurrences of string
+22 echo -e "\nReplace back-end occurrences of string"
+23 echo "\${MY_ARRAY[@]/%e/XY}: ${MY_ARRAY[@]/%e/XY}"
+24 echo "\${MY_ARRAY[@]/%our/XY}: ${MY_ARRAY[@]/%our/XY}"
+25 echo "\${MY_ARRAY[@]/%y/XY}: ${MY_ARRAY[@]/%y/XY}"
+```
+
+In this case we have added lines 21 to 25 to our script. In line 23 we are trying to replace the character “`e`” at the end of the string with “`XY`”. In line 24 we are trying to replace the substring “`our`” at the end of the string with “`XY`”. In line 25 we are trying to replace the character “`y`” at the end of the string with “`XY`”.
+
+When you run the script you will the following output in your terminal window.
+
+```txt
+$ ./index_array_replace_pattern_back_ending.sh
+Content: one two three four five six
+
+Replace first occurrence
+${MY_ARRAY[@]/e/X}: onX two thrXe four fivX six
+${MY_ARRAY[@]/e*/X}: onX two thrX four fivX six
+
+Replace all occurrences
+${MY_ARRAY[@]//e/X}: onX two thrXX four fivX six
+${MY_ARRAY[@]//e*/X}: onX two thrX four fivX six
+
+Removal of elements
+${MY_ARRAY[@]//e/}: on two thr four fiv six
+${MY_ARRAY[@]//f*/}: one two three   six
+
+Replace front-end occurrences of string
+${MY_ARRAY[@]/#e/XY}: one two three four five six
+${MY_ARRAY[@]/#f/XY}: one two three XYour XYive six
+
+Replace back-end occurrences of string
+${MY_ARRAY[@]/%e/XY}: onXY two threXY four fivXY six
+${MY_ARRAY[@]/%our/XY}: one two three fXY five six
+${MY_ARRAY[@]/%y/XY}: one two three four five six
+```
+
+As you can see from the execution the line 23 from our script will affect several elements of the array (the ones with values “`one`”, “`three`” and “`five`” as they all end with the character “`e`”). 
+
+The line 24 from our script will affect one single element (element with value “`four`” as is the only one that ends with the substring “`our`”).
+
+Line 25 from our script will not impact any element (as there is no element ending with the character “`y`”), leaving the array untouched.
+
+Once that we have seen all the possible ways to do a replacement on an array we will learn how to delete an entire array in the next section.
+
+### Delete an entire array
+
+In order to delete a whole array we need to use the built-in command “`unset`” and the name of the array variable without the dollar sign.
+
+Let’s see it in action with an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: delete_array.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 echo "Content: '${MY_ARRAY[@]}'"
+ 5 # Deleting the array
+ 6 unset MY_ARRAY
+ 7 echo "Content after deletion: '${MY_ARRAY[@]}'"
+```
+
+In the previous script we are declaring an array named “`MY_ARRAY`” on line 3 with 6 elements. Then, on line 6 we are using “`unset`” to remove the contents of the whole array. Last, on line 7, the script shows the content of the array after deleting it.
+
+When you run the previous script you will get the following output in your terminal window.
+
+```txt
+$ ./delete_array.sh
+Content: 'one two three four five six'
+Content after deletion: ''
+```
+
+What is basically happening with the deletion is that the variable “`MY_ARRAY`” ceases to exist. 
+
+It’s happening the same thing we saw back in Chapter 4 in the section “[How to delete declared variables?]({{ site.url }}/bash-in-depth/0004-Variables.html#how-to-delete-declared-variables)”.
+
+In the next section we are going to learn how to consult the length of a specific element of the array.
+
+### Consult the length of the i-th element of the array
+
+
 
 ## Summary
 
