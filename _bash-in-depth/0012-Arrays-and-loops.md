@@ -1069,7 +1069,88 @@ In the next section we are going to learn how to take a slice of an array.
 
 ### Slice of an array
 
+If we wanted to take a few elements of the array that are in consecutive positions (this is typically called a “*slice*”) we need to use the syntax “`${MY_ARRAY[@]:begin:amount}`”.
 
+What the previous syntax means is “*Starting from the element whose index is `<begin>` grab `<amount>` elements*”.
+
+The values of both “`begin`” and “`amount`” should be whole non-negative numbers (0, 1, 2, etc). If the value of “`amount`” is bigger than the number of elements that remain in the array then only the remaining elements will be selected.
+
+Let's see how it works with simple example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_slice.sh
+ 3 MY_ARRAY=( one two three four five six )
+ 4 # Original content
+ 5 echo "Content: ${MY_ARRAY[@]}"
+ 6 # Slice of three elements
+ 7 echo "\${MY_ARRAY[@]:2:3} : ${MY_ARRAY[@]:2:3}"
+ 8 echo "\${MY_ARRAY[@]:2:30} : ${MY_ARRAY[@]:2:30}"
+```
+
+When you run the previous script you will get the following in your terminal window.
+
+```txt
+$ ./array_slice.sh
+Content: one two three four five six
+${MY_ARRAY[@]:2:3} : three four five
+${MY_ARRAY[@]:2:30} : three four five six
+```
+
+Here you can see that first (on line 5 of the script) the full content of the array is printed. Then (on lines 7 and 8 of the script) there are two slices printed.
+
+The first slice begins at the element with index 2 (whose value is “`three`”) and grabs 3 elements (the first one included), which results in printing elements with values “`three`”, “`four`” and “`five`”.
+
+The second slice begins at the same element (index 2 with value “`three`”). But in this case it tries to grab the next 29 elements as well. As you can see, there are not that many elements in the array and Bash will only show the rest of the elements which are till the last one (element with value “`six`”).
+
+In the next section we are going to learn how to concatenate two arrays.
+
+### Concatenate arrays
+
+To concatenate two different arrays we need to use the following syntax.
+
+```bash
+    MY_ARRAY=( ... )
+    MY_ARRAY2=( ... )
+
+    MERGED=( "${MY_ARRAY[@]}" "${MY_ARRAY2[@]}")
+```
+
+What is happening in the previous syntax? A new array (“`MERGED`”) is being declared that contains the elements of the first array (“`MY_ARRAY`”) followed by the elements of the second array (“`MY_ARRAY2`”).
+
+Although the previous example is using two different arrays, you can use as many arrays as you want.
+
+Let’s see how it works with a simple example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: array_concatenate.sh
+ 3 # Declare three different arrays
+ 4 MY_ARRAY=( one two three four five six )
+ 5 MY_ARRAY2=( seven eight nine ten eleven twelve )
+ 6 MY_ARRAY3=( thirteen fourteen fifteen )
+ 7 # Merge the previous three arrays into one
+ 8 MERGED=("${MY_ARRAY[@]}" "${MY_ARRAY2[@]}" "${MY_ARRAY3[@]}")
+ 9 # Print the content of the new array
+10 echo "MERGED: ${MERGED[@]}"
+```
+
+In the previous script we are declaring three different arrays that contain different elements. Then we are merging them into a single array (called “`MERGED`”) that contains all of the elements.
+
+When you run the script you get the following.
+
+```txt
+$ ./array_concatenate.sh
+MERGED: one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen
+```
+
+Once we have seen how to declare arrays and what operations we can do on them, we need to take a look at the next step, which is iterating the arrays, and for this we are going to learn the following types of loop:
+* For-Loop
+* For-Loop (C-style)
+* While-Loop
+* Until-Loop
+
+## For-Loop
 
 ## Summary
 
