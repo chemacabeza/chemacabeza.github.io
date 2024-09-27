@@ -6,7 +6,6 @@ title: "Chapter 7: Working with Numbers - Floating-point numbers"
 # Chapter 7: Working with Numbers - Floating-point numbers
 
 ## Index
-* [Index]({{ site.url }}//bash-in-depth/0007-Working-with-Numbers-Floating.html#index)
 * [`printf` command]({{ site.url }}//bash-in-depth/0007-Working-with-Numbers-Floating.html#printf-command)
 * [`bc` command]({{ site.url }}//bash-in-depth/0007-Working-with-Numbers-Floating.html#bc-command)
 * [Summary]({{ site.url }}//bash-in-depth/0007-Working-with-Numbers-Floating.html#summary)
