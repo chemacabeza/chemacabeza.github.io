@@ -12,7 +12,7 @@ title: "Chapter 10: if / elif / else statements"
 * [How to test stuff?]({{ site.url }}//bash-in-depth/0010-If-statement.html#how-to-test-stuff)
     * [“test” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#test-operator)
     * [The “`[...]`” operator (Square Brackets)]({{ site.url }}//bash-in-depth/0010-If-statement.html#the--operator-square-brackets)
-    * [The “`[[...]]`” operator (double square brackets)]({{ site.url }}//bash-in-depth/0010-If-statement.html#the--operator-double-square-brackets)
+    * [The “`[[...]]`” operator (Double Square Brackets)]({{ site.url }}//bash-in-depth/0010-If-statement.html#the--operator-double-square-brackets)
     * [Compound command “`((...))`”]({{ site.url }}//bash-in-depth/0010-If-statement.html#compound-command-)
 * [Summary]({{ site.url }}//bash-in-depth/0010-If-statement.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0010-If-statement.html#references)
@@ -214,7 +214,7 @@ Condition is true
 
 “`test`” and “`[...]`”  commands are preferred to be used to generate a more portable code.
 
-### The “`[[...]]`” operator (double square brackets)
+### The “`[[...]]`” operator (Double Square Brackets)
 
 The “`[[...]]`” operator is a Bash extension inspired by another shell.<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a> This operator is a new, improved version of the previous “`test`” and “`[...]`”. On top of that is a built-in command instead of a separate binary.
 
