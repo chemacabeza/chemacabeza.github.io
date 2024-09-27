@@ -7,17 +7,17 @@
 <meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="Chapter 4: Variables" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Chapter 4: Variables Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized." />
-<meta property="og:description" content="Chapter 4: Variables Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized." />
+<meta name="description" content="Chapter 4: Variables" />
+<meta property="og:description" content="Chapter 4: Variables" />
 <link rel="canonical" href="http://localhost:4000/bash-in-depth/0004-Variables.html" />
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0004-Variables.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-27T06:07:52+02:00" />
+<meta property="article:published_time" content="2024-09-27T13:10:49+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 4: Variables" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T06:07:52+02:00","datePublished":"2024-09-27T06:07:52+02:00","description":"Chapter 4: Variables Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized.","headline":"Chapter 4: Variables","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0004-Variables.html"},"url":"http://localhost:4000/bash-in-depth/0004-Variables.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T13:10:49+02:00","datePublished":"2024-09-27T13:10:49+02:00","description":"Chapter 4: Variables","headline":"Chapter 4: Variables","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0004-Variables.html"},"url":"http://localhost:4000/bash-in-depth/0004-Variables.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -60,6 +60,27 @@
       <div class="wrapper">
         <div class="chapter-content">
   <h1 id="chapter-4-variables">Chapter 4: Variables</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#how-do-you-declare-a-variable-in-bash">How do you declare a variable in Bash?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#how-do-you-read-a-variable-in-bash">How do you read a variable in Bash?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#first-limitation-and-how-to-overcome-it">First limitation and how to overcome it?</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#limitation-example">Limitation Example</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#how-to-give-specific-semantics-to-the-variables-declared-`declare``typeset`-to-the-rescue">How to give specific semantics to the variables declared? (<code class="language-plaintext highlighter-rouge">declare</code>/<code class="language-plaintext highlighter-rouge">typeset</code> to the rescue)</a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#how-to-delete-declared-variables">How to delete declared variables?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#how-to-declare-constants-`declare--r`-or-`readonly`">How to declare constants? (<code class="language-plaintext highlighter-rouge">declare -r</code> or <code class="language-plaintext highlighter-rouge">readonly</code>)</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#variables-with-`$''`-format">Variables with <code class="language-plaintext highlighter-rouge">$'...'</code> format</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#indirect-variables">Indirect Variables</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0004-Variables.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
 <p>Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized.</p>
 
 <p>Now, in the world of computers and programming, a variable is a bit like one of these containers. It’s a named spot in the computer’s memory where you can store information. This information can be all sorts of things, like numbers, words, or even more complex data.</p>

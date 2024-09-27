@@ -5,6 +5,20 @@ title: "Chapter 10: if / elif / else statements"
 
 # Chapter 10: if / elif / else statements
 
+## Index
+* [The "`if`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-"`if`"-statement)
+* [The "`elif`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-"`elif`"-statement)
+* [The "`else`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-"`else`"-statement)
+* [How to test stuff?]({{ site.url }}//bash-in-depth/0010-If-statement.html#how-to-test-stuff)
+    * [“test” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#“test”-operator)
+    * [“[...]” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#“[]”-operator)
+    * [“`[[...]]`” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#“`[[]]`”-operator)
+    * [Compound command “`((...))`”]({{ site.url }}//bash-in-depth/0010-If-statement.html#compound-command-“``”)
+* [Summary]({{ site.url }}//bash-in-depth/0010-If-statement.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0010-If-statement.html#references)
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+
 In Bash, the “`if`”, “`elif`”, and “`else`” statements are fundamental constructs used for conditional execution of commands. These statements provide the means to make decisions within a script or in the command-line environment, enabling you to create dynamic and responsive scripts that respond to specific conditions.
 
 In the next sections we will speak about the three statements.

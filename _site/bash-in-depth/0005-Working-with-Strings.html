@@ -7,17 +7,17 @@
 <meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="Chapter 5: Working with Strings" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Chapter 5: Working with Strings In software engineering, we use the term “strings” to talk about a sequence of characters, like letters, numbers, or symbols, that are grouped together. Think of a string as a word or a sentence, just like the ones you use when texting your friends." />
-<meta property="og:description" content="Chapter 5: Working with Strings In software engineering, we use the term “strings” to talk about a sequence of characters, like letters, numbers, or symbols, that are grouped together. Think of a string as a word or a sentence, just like the ones you use when texting your friends." />
+<meta name="description" content="Chapter 5: Working with Strings" />
+<meta property="og:description" content="Chapter 5: Working with Strings" />
 <link rel="canonical" href="http://localhost:4000/bash-in-depth/0005-Working-with-Strings.html" />
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0005-Working-with-Strings.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-27T06:07:52+02:00" />
+<meta property="article:published_time" content="2024-09-27T13:10:49+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 5: Working with Strings" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T06:07:52+02:00","datePublished":"2024-09-27T06:07:52+02:00","description":"Chapter 5: Working with Strings In software engineering, we use the term “strings” to talk about a sequence of characters, like letters, numbers, or symbols, that are grouped together. Think of a string as a word or a sentence, just like the ones you use when texting your friends.","headline":"Chapter 5: Working with Strings","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0005-Working-with-Strings.html"},"url":"http://localhost:4000/bash-in-depth/0005-Working-with-Strings.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T13:10:49+02:00","datePublished":"2024-09-27T13:10:49+02:00","description":"Chapter 5: Working with Strings","headline":"Chapter 5: Working with Strings","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0005-Working-with-Strings.html"},"url":"http://localhost:4000/bash-in-depth/0005-Working-with-Strings.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -60,6 +60,36 @@
       <div class="wrapper">
         <div class="chapter-content">
   <h1 id="chapter-5-working-with-strings">Chapter 5: Working with Strings</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#how-to-declare-a-string">How to declare a String?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#string-length">String length</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#substrings">Substrings</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#remove-some-parts-of-a-string">Remove some parts of a string</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#remove-shortest-substring-starting-from-the-front">Remove shortest substring starting from the front</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#remove-longest-substring-starting-from-the-front">Remove longest substring starting from the front</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#remove-shortest-substring-starting-from-the-back">Remove shortest substring starting from the back</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#remove-longest-substring-starting-from-the-back">Remove longest substring starting from the back</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#example">Example</a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#substring-replacement">Substring Replacement</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#replace-the-first-match">Replace the first match</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#replace-all-matches">Replace all matches</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#example">Example</a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#uppercase--lowercase">Uppercase / Lowercase</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#concatenation">Concatenation</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0005-Working-with-Strings.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
 <p>In software engineering, we use the term “<em>strings</em>” to talk about a sequence of characters, like letters, numbers, or symbols, that are grouped together. Think of a string as a word or a sentence, just like the ones you use when texting your friends.</p>
 
 <p>For example, the word “<code class="language-plaintext highlighter-rouge">hello</code>” is a string. It’s a series of characters - <code class="language-plaintext highlighter-rouge">'h'</code>, <code class="language-plaintext highlighter-rouge">'e'</code>, <code class="language-plaintext highlighter-rouge">'l'</code>, <code class="language-plaintext highlighter-rouge">'l'</code>, <code class="language-plaintext highlighter-rouge">'o'</code> - that are strung together to make a word. But strings can be much longer than just one word; they can be as short as one character or as long as an entire book!</p>

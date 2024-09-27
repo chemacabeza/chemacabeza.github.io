@@ -3,6 +3,22 @@ layout: chapter
 title: "Chapter 4: Variables"
 ---
 # Chapter 4: Variables
+
+## Index
+* [How do you declare a variable in Bash?]({{ site.url }}//bash-in-depth/0004-Variables.html#how-do-you-declare-a-variable-in-bash)
+* [How do you read a variable in Bash?]({{ site.url }}//bash-in-depth/0004-Variables.html#how-do-you-read-a-variable-in-bash)
+* [First limitation and how to overcome it?]({{ site.url }}//bash-in-depth/0004-Variables.html#first-limitation-and-how-to-overcome-it)
+    * [Limitation Example]({{ site.url }}//bash-in-depth/0004-Variables.html#limitation-example)
+    * [How to give specific semantics to the variables declared? (`declare`/`typeset` to the rescue)]({{ site.url }}//bash-in-depth/0004-Variables.html#how-to-give-specific-semantics-to-the-variables-declared-`declare``typeset`-to-the-rescue)
+* [How to delete declared variables?]({{ site.url }}//bash-in-depth/0004-Variables.html#how-to-delete-declared-variables)
+* [How to declare constants? (`declare -r` or `readonly`)]({{ site.url }}//bash-in-depth/0004-Variables.html#how-to-declare-constants-`declare--r`-or-`readonly`)
+* [Variables with `$'...'` format]({{ site.url }}//bash-in-depth/0004-Variables.html#variables-with-`$''`-format)
+* [Indirect Variables]({{ site.url }}//bash-in-depth/0004-Variables.html#indirect-variables)
+* [Summary]({{ site.url }}//bash-in-depth/0004-Variables.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0004-Variables.html#references)
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+
 Think of a variable like a labeled container or storage box in your room. You can use these containers to keep different things organized.
 
 Now, in the world of computers and programming, a variable is a bit like one of these containers. It's a named spot in the computer's memory where you can store information. This information can be all sorts of things, like numbers, words, or even more complex data.

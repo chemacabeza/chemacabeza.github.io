@@ -2,7 +2,22 @@
 layout: chapter
 title: "Chapter 1: Introduction"
 ---
+
 # Chapter 1: Introduction
+
+## Index
+* [What is a Terminal or Console?]({{ site.url }}//bash-in-depth/0001-Introduction.html#what-is-a-terminal-or-console)
+* [What is a Terminal Window?]({{ site.url }}//bash-in-depth/0001-Introduction.html#what-is-a-terminal-window)
+* [What is a Shell?]({{ site.url }}//bash-in-depth/0001-Introduction.html#what-is-a-shell)
+* [What is Bash (Bourne Again Shell)?]({{ site.url }}//bash-in-depth/0001-Introduction.html#what-is-bash-bourne-again-shell)
+* [Why learning Bash?]({{ site.url }}//bash-in-depth/0001-Introduction.html#why-learning-bash)
+* [Is Bash easy to Learn?]({{ site.url }}//bash-in-depth/0001-Introduction.html#is-bash-easy-to-learn)
+* [Hello world!]({{ site.url }}//bash-in-depth/0001-Introduction.html#hello-world!)
+* [Summary]({{ site.url }}//bash-in-depth/0001-Introduction.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0001-Introduction.html#references)
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+
 If you go into the Internet and ask around you will see that several terms appear when asking about Bash. Some of them are:
 * Terminal
 * Terminal Window

@@ -4,6 +4,11 @@ title: "Chapter 2: Pre-Scripting Basics"
 ---
 # Chapter 2: Pre-Scripting Basics
 
+## Index
+* [References]({{ site.url }}//bash-in-depth/0002-Pre-Scripting-Basics.html#references)
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+
 If you noticed, the "Hello World!" script that we wrote in the previous chapter the very first line looks like this.
 
 ```bash

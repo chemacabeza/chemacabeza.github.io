@@ -5,6 +5,18 @@ title: "Chapter 11: case-esac statement"
 
 # Chapter 11: `case-esac` statement
 
+## Index
+* [Syntax for `case-esac`]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#syntax-for-`case-esac`)
+* [How does it work?]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#how-does-it-work)
+* [Case patterns]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#case-patterns)
+    * [Literal Matching]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#literal-matching)
+    * [Wildcard Matching]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#wildcard-matching)
+    * [Regular Expression Matching]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#regular-expression-matching)
+* [Summary]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#references)
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+
 In Bash scripting, the “`case-esac`” statement is a powerful and flexible construct that facilitates the implementation of conditional branching and decision-making logic. It's particularly useful when you need to evaluate a variable or expression against multiple possible values and execute different code blocks based on the matching conditions. Think of the “`case-esac`” statement as a versatile alternative to a series of “`if-elif-else`” statements, designed to simplify and enhance the readability of your scripts.
 
 The “`case-esac`” statement simplifies the process of handling multiple conditional cases in a Bash script. With “`case`”, you can efficiently compare a variable or expression to a list of patterns and execute a code block corresponding to the first match. This is especially handy when you have a variable that can take on various values, and you want to perform different actions based on those values.
