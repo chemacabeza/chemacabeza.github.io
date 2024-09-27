@@ -8,7 +8,6 @@ title: "Chapter 6: Working with Numbers - Integers"
 # Chapter 6: Working with Numbers - Integers
 
 ## Index
-* [Index]({{ site.url }}//bash-in-depth/0006-Working-with-Numbers-Integers.html#index)
 * [Working with the “`expr`” command line]({{ site.url }}//bash-in-depth/0006-Working-with-Numbers-Integers.html#working-with-the-expr-command-line)
     * [Addition]({{ site.url }}//bash-in-depth/0006-Working-with-Numbers-Integers.html#addition)
     * [Substraction]({{ site.url }}//bash-in-depth/0006-Working-with-Numbers-Integers.html#substraction)
