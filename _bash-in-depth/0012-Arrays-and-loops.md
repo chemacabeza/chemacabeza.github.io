@@ -1152,6 +1152,176 @@ Once we have seen how to declare arrays and what operations we can do on them, w
 
 ## For-Loop
 
+The “`for-loop`“ is a kind of loop that is used to perform actions, a priori, to ALL elements of an array. Its syntax is as follows.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/For-Loop.png" width="450px"/>
+</div>
+
+A priori, this seems to be easy enough, but there are some details that we need to be aware of, which is how the loop is executed. Once the script is running, Bash will execute the loop in two steps:
+1. Expansion of the `<array>` provided
+2. Execution of the commands with the `<array>` expanded
+
+Let's see how to use this for loop with a simple example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-001.sh
+ 3 # Declaration of the array
+ 4 declare -a MY_ARRAY=("Item1" "Item2" "Item3")
+ 5 # Using the for loop to iterate through the array
+ 6 for item in ${MY_ARRAY[@]}; do
+ 7     echo "Item: $item"
+ 8 done
+```
+
+Right before the loop executes, the expansion will replace the syntax referencing the array, meaning `${MY_ARRAY[@]}`, with the actual content of the array resulting in the following.
+
+```bash
+    for item in Item1 Item2 Item3; do
+        echo "Item: $item"
+    done
+```
+
+When you run the previous script, the following will appear in your terminal window.
+
+```txt
+$ ./loop-001.sh
+Item: Item1
+Item: Item2
+Item: Item3
+```
+
+The array expansion has a limitation. What would happen if we have items in the array that contain spaces. Something like the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-002.sh
+ 3 # Declaration of the array
+ 4 declare -a MY_ARRAY=("Item 1" "Item 2" "Item 3")
+ 5 # Using the for loop to iterate through the array
+ 6 for item in ${MY_ARRAY[@]}; do
+ 7     echo "Item: $item"
+ 8 done
+```
+
+Following the same reasoning as before the for loop would be expanded as the following.
+
+```bash
+    for item in Item 1 Item 2 Item 3; do
+        echo "Item: $item"
+    done
+```
+
+And will generate the following output in the terminal window.
+
+```txt
+$ ./loop-002.sh
+Item: Item
+Item: 1
+Item: Item
+Item: 2
+Item: Item
+Item: 3
+```
+
+How do we tackle this limitation? There are two ways to do it.
+
+The first one (the easiest one) is to wrap the array with double quotes. Resulting in the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-003.sh
+ 3 # Declaration of the array
+ 4 declare -a MY_ARRAY=("Item 1" "Item 2" "Item 3")
+ 5 # Using the for loop to iterate through the array
+ 6 for item in "${MY_ARRAY[@]}"; do
+ 7     echo "Item: $item"
+ 8 done
+```
+
+Please notice how, on line 6, the array “`MY_ARRAY`” is wrapped between double quotes. Now when you run the previous script you will get the following result.
+
+```txt
+$ ./loop-003.sh
+Item: Item 1
+Item: Item 2
+Item: Item 3
+```
+
+The second way is by using the C-style for loop which we will learn in the next section.
+
+But right before going to the next section I would like to come back to what we discussed back in section “[Get the whole content of the array]({{ site.url }}/bash-in-depth/0012-Arrays-and-loops.html#get-the-whole-content-of-the-array)”. In that section we talked about the two ways to get the contents of the array being “`${MY_ARRAY[*]}`” and “`${MY_ARRAY[@]}`”.
+
+We are already very familiar with the second way (“`${MY_ARRAY[@]}`”). What happens if we use one of the previous scripts and use “`${MY_ARRAY[*]}`” instead of “`${MY_ARRAY[@]}`”?
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-004.sh
+ 3 # Declaration of the array
+ 4 declare -a MY_ARRAY=("Item 1" "Item 2" "Item 3")
+ 5 # Using the for loop to iterate through the array
+ 6 for item in "${MY_ARRAY[*]}"; do
+ 7     echo "Item: $item"
+ 8 done
+```
+
+As you can see in the previous script the only change that was done is on line 6. When you run the previous script you will get the following result.
+
+```txt
+$ ./loop-004.sh
+Item: Item 1 Item 2 Item 3
+```
+
+As you can see from the execution of the script only one single item was printed. The reason for this is because with “`${MY_ARRAY[*]}`” the whole content of the array will be printed as a single string. As it’s one single string the for-loop will interpret it as an array of a single element.
+
+Now that we have wrapped this topic we will proceed to the next section to learn about C-style For-loops.
+
+## For-Loop (C-style)
+
+In this case, we are going to work mainly with indices (integer numbers) and the length of the array.<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> This kind of loop has the following structure.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/For-Loop-C-Style.png" width="700px"/>
+</div>
+
+Notice the double parenthesis `((...))`, which allows us to work with integer numbers as we saw previously in [Chapter 6]({{ site.url }}/bash-in-depth/0006-Working-with-Numbers-Integers.html#compound-command-).
+
+The way it works is as follows:
+1. “`<init>`” is executed setting the needed variables
+2. “`<stop-condition>`“ is evaluated to check whether the execution of commands has to be done or not. If the result of the condition is “`true`” it will go to step 3. Otherwise, it will go to step 6.
+3. “`<commands>`“ are executed. This is the actual logic of the loop and can contain any of the statements we have already seen (variable declarations, other loops, if-else statements, etc)
+4. “`<next-step>`“ is executed, preparing the execution for the next iteration of the loop. Typically what happens in this step is that the index that was created in step 1 gets incremented.
+5. Go to step 2.
+6. End of loop.
+
+Let's see how this kind of loop works with a simple example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-005.sh
+ 3 # Declaration of an array
+ 4 declare -a MY_ARRAY=("Item 1" "Item 2" "Item 3")
+ 5 # Loop iterating through elements of the array
+ 6 for ((i = 0; i < ${#MY_ARRAY[@]}; i++))
+ 7 do
+ 8     echo "MY_ARRAY[$i]: ${MY_ARRAY[$i]}"
+ 9 done
+```
+
+When you run the previous script you will get the following result in the terminal window.
+
+```txt
+$ ./loop-005.sh
+MY_ARRAY[0]: Item 1
+MY_ARRAY[1]: Item 2
+MY_ARRAY[2]: Item 3
+```
+
+In the following section we will learn about the “`while`” loop.
+
+## While loop
+
 ## Summary
 
 
@@ -1162,5 +1332,8 @@ Once we have seen how to declare arrays and what operations we can do on them, w
 
 <p id="footnote-1" style="font-size:10pt">
 1. Up to thre reader to give it a try.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. <code>${#MY_ARRAY}</code>.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 

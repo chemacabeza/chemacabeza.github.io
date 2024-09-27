@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-26T17:17:43+02:00" />
+<meta property="article:published_time" content="2024-09-27T06:07:52+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-26T17:17:43+02:00","datePublished":"2024-09-26T17:17:43+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T06:07:52+02:00","datePublished":"2024-09-27T06:07:52+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -1140,6 +1140,168 @@ MERGED: one two three four five six seven eight nine ten eleven twelve thirteen 
 
 <h2 id="for-loop">For-Loop</h2>
 
+<p>The “<code class="language-plaintext highlighter-rouge">for-loop</code>“ is a kind of loop that is used to perform actions, a priori, to ALL elements of an array. Its syntax is as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/For-Loop.png" width="450px" />
+</div>
+
+<p>A priori, this seems to be easy enough, but there are some details that we need to be aware of, which is how the loop is executed. Once the script is running, Bash will execute the loop in two steps:</p>
+<ol>
+  <li>Expansion of the <code class="language-plaintext highlighter-rouge">&lt;array&gt;</code> provided</li>
+  <li>Execution of the commands with the <code class="language-plaintext highlighter-rouge">&lt;array&gt;</code> expanded</li>
+</ol>
+
+<p>Let’s see how to use this for loop with a simple example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: loop-001.sh</span>
+ 3 <span class="c"># Declaration of the array</span>
+ 4 <span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"Item1"</span> <span class="s2">"Item2"</span> <span class="s2">"Item3"</span><span class="o">)</span>
+ 5 <span class="c"># Using the for loop to iterate through the array</span>
+ 6 <span class="k">for </span>item <span class="k">in</span> <span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Item: </span><span class="nv">$item</span><span class="s2">"</span>
+ 8 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>Right before the loop executes, the expansion will replace the syntax referencing the array, meaning <code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>, with the actual content of the array resulting in the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for </span>item <span class="k">in </span>Item1 Item2 Item3<span class="p">;</span> <span class="k">do
+        </span><span class="nb">echo</span> <span class="s2">"Item: </span><span class="nv">$item</span><span class="s2">"</span>
+    <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When you run the previous script, the following will appear in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./loop-001.sh
+Item: Item1
+Item: Item2
+Item: Item3
+</code></pre>
+
+<p>The array expansion has a limitation. What would happen if we have items in the array that contain spaces. Something like the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: loop-002.sh</span>
+ 3 <span class="c"># Declaration of the array</span>
+ 4 <span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"Item 1"</span> <span class="s2">"Item 2"</span> <span class="s2">"Item 3"</span><span class="o">)</span>
+ 5 <span class="c"># Using the for loop to iterate through the array</span>
+ 6 <span class="k">for </span>item <span class="k">in</span> <span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Item: </span><span class="nv">$item</span><span class="s2">"</span>
+ 8 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>Following the same reasoning as before the for loop would be expanded as the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">for </span>item <span class="k">in </span>Item 1 Item 2 Item 3<span class="p">;</span> <span class="k">do
+        </span><span class="nb">echo</span> <span class="s2">"Item: </span><span class="nv">$item</span><span class="s2">"</span>
+    <span class="k">done</span>
+</code></pre></div></div>
+
+<p>And will generate the following output in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./loop-002.sh
+Item: Item
+Item: 1
+Item: Item
+Item: 2
+Item: Item
+Item: 3
+</code></pre>
+
+<p>How do we tackle this limitation? There are two ways to do it.</p>
+
+<p>The first one (the easiest one) is to wrap the array with double quotes. Resulting in the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: loop-003.sh</span>
+ 3 <span class="c"># Declaration of the array</span>
+ 4 <span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"Item 1"</span> <span class="s2">"Item 2"</span> <span class="s2">"Item 3"</span><span class="o">)</span>
+ 5 <span class="c"># Using the for loop to iterate through the array</span>
+ 6 <span class="k">for </span>item <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Item: </span><span class="nv">$item</span><span class="s2">"</span>
+ 8 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>Please notice how, on line 6, the array “<code class="language-plaintext highlighter-rouge">MY_ARRAY</code>” is wrapped between double quotes. Now when you run the previous script you will get the following result.</p>
+
+<pre><code class="language-txt">$ ./loop-003.sh
+Item: Item 1
+Item: Item 2
+Item: Item 3
+</code></pre>
+
+<p>The second way is by using the C-style for loop which we will learn in the next section.</p>
+
+<p>But right before going to the next section I would like to come back to what we discussed back in section “<a href="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html#get-the-whole-content-of-the-array">Get the whole content of the array</a>”. In that section we talked about the two ways to get the contents of the array being “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” and “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>”.</p>
+
+<p>We are already very familiar with the second way (“<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>”). What happens if we use one of the previous scripts and use “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” instead of “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[@]}</code>”?</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: loop-004.sh</span>
+ 3 <span class="c"># Declaration of the array</span>
+ 4 <span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"Item 1"</span> <span class="s2">"Item 2"</span> <span class="s2">"Item 3"</span><span class="o">)</span>
+ 5 <span class="c"># Using the for loop to iterate through the array</span>
+ 6 <span class="k">for </span>item <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[*]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Item: </span><span class="nv">$item</span><span class="s2">"</span>
+ 8 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>As you can see in the previous script the only change that was done is on line 6. When you run the previous script you will get the following result.</p>
+
+<pre><code class="language-txt">$ ./loop-004.sh
+Item: Item 1 Item 2 Item 3
+</code></pre>
+
+<p>As you can see from the execution of the script only one single item was printed. The reason for this is because with “<code class="language-plaintext highlighter-rouge">${MY_ARRAY[*]}</code>” the whole content of the array will be printed as a single string. As it’s one single string the for-loop will interpret it as an array of a single element.</p>
+
+<p>Now that we have wrapped this topic we will proceed to the next section to learn about C-style For-loops.</p>
+
+<h2 id="for-loop-c-style">For-Loop (C-style)</h2>
+
+<p>In this case, we are going to work mainly with indices (integer numbers) and the length of the array.<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> This kind of loop has the following structure.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/For-Loop-C-Style.png" width="700px" />
+</div>
+
+<p>Notice the double parenthesis <code class="language-plaintext highlighter-rouge">((...))</code>, which allows us to work with integer numbers as we saw previously in <a href="http://localhost:4000/bash-in-depth/0006-Working-with-Numbers-Integers.html#compound-command-">Chapter 6</a>.</p>
+
+<p>The way it works is as follows:</p>
+<ol>
+  <li>“<code class="language-plaintext highlighter-rouge">&lt;init&gt;</code>” is executed setting the needed variables</li>
+  <li>“<code class="language-plaintext highlighter-rouge">&lt;stop-condition&gt;</code>“ is evaluated to check whether the execution of commands has to be done or not. If the result of the condition is “<code class="language-plaintext highlighter-rouge">true</code>” it will go to step 3. Otherwise, it will go to step 6.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">&lt;commands&gt;</code>“ are executed. This is the actual logic of the loop and can contain any of the statements we have already seen (variable declarations, other loops, if-else statements, etc)</li>
+  <li>“<code class="language-plaintext highlighter-rouge">&lt;next-step&gt;</code>“ is executed, preparing the execution for the next iteration of the loop. Typically what happens in this step is that the index that was created in step 1 gets incremented.</li>
+  <li>Go to step 2.</li>
+  <li>End of loop.</li>
+</ol>
+
+<p>Let’s see how this kind of loop works with a simple example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: loop-005.sh</span>
+ 3 <span class="c"># Declaration of an array</span>
+ 4 <span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">MY_ARRAY</span><span class="o">=(</span><span class="s2">"Item 1"</span> <span class="s2">"Item 2"</span> <span class="s2">"Item 3"</span><span class="o">)</span>
+ 5 <span class="c"># Loop iterating through elements of the array</span>
+ 6 <span class="k">for</span> <span class="o">((</span>i <span class="o">=</span> 0<span class="p">;</span> i &lt; <span class="k">${#</span><span class="nv">MY_ARRAY</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> i++<span class="o">))</span>
+ 7 <span class="k">do
+ </span>8     <span class="nb">echo</span> <span class="s2">"MY_ARRAY[</span><span class="nv">$i</span><span class="s2">]: </span><span class="k">${</span><span class="nv">MY_ARRAY</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="k">}</span><span class="s2">"</span>
+ 9 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following result in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./loop-005.sh
+MY_ARRAY[0]: Item 1
+MY_ARRAY[1]: Item 2
+MY_ARRAY[2]: Item 3
+</code></pre>
+
+<p>In the following section we will learn about the “<code class="language-plaintext highlighter-rouge">while</code>” loop.</p>
+
+<h2 id="while-loop">While loop</h2>
+
 <h2 id="summary">Summary</h2>
 
 <h2 id="references">References</h2>
@@ -1148,6 +1310,9 @@ MERGED: one two three four five six seven eight nine ten eleven twelve thirteen 
 
 <p id="footnote-1" style="font-size:10pt">
 1. Up to thre reader to give it a try.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. <code>${#MY_ARRAY}</code>.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 
 
