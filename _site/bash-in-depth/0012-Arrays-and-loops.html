@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-27T14:04:01+02:00" />
+<meta property="article:published_time" content="2024-09-27T19:11:50+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 12: Arrays and loops" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T14:04:01+02:00","datePublished":"2024-09-27T14:04:01+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-27T19:11:50+02:00","datePublished":"2024-09-27T19:11:50+02:00","description":"Chapter 12: Arrays and loops","headline":"Chapter 12: Arrays and loops","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"},"url":"http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -1305,6 +1305,79 @@ MY_ARRAY[2]: Item 3
 <p>In the following section we will learn about the “<code class="language-plaintext highlighter-rouge">while</code>” loop.</p>
 
 <h2 id="while-loop">While loop</h2>
+
+<p>This kind of loop will execute a list of commands as long as a condition evaluates to true. The shape of this loop is as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/While-Loop.png" />
+</div>
+
+<p>As you can imagine, the “<code class="language-plaintext highlighter-rouge">condition</code>” is an expression like we saw in the <a href="http://localhost:4000/bash-in-depth/0010-If-statement.html#how-to-test-stuff">Chapter dedicated to IF-ELSE</a>, so we can use “<code class="language-plaintext highlighter-rouge">test</code>”, “<code class="language-plaintext highlighter-rouge">[...]</code>” or “<code class="language-plaintext highlighter-rouge">[[...]]</code>”. Let’s see some examples in the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: loop-006.sh</span>
+ 3 <span class="c"># Init a counter</span>
+ 4 <span class="nv">i</span><span class="o">=</span>0
+ 5 <span class="c"># Single bracket operator</span>
+ 6 <span class="k">while</span> <span class="o">[</span> <span class="nv">$i</span> <span class="nt">-lt</span> 4 <span class="o">]</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Line#</span><span class="nv">$i</span><span class="s2">"</span>
+ 8     <span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="nv">$i</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+ 9 <span class="k">done
+</span>10 <span class="c"># Separation and reset counter</span>
+11 <span class="nb">echo</span> <span class="s2">"----------"</span>
+12 <span class="nv">i</span><span class="o">=</span>0
+13 <span class="c"># test operator</span>
+14 <span class="k">while </span><span class="nb">test</span> <span class="nv">$i</span> <span class="nt">-lt</span> 5<span class="p">;</span> <span class="k">do
+</span>15     <span class="nb">echo</span> <span class="s2">"Line#</span><span class="nv">$i</span><span class="s2">"</span>
+16     <span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="nv">$i</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+17 <span class="k">done
+</span>18 <span class="c"># Separation and reset counter</span>
+19 <span class="nb">echo</span> <span class="s2">"----------"</span>
+20 <span class="nv">i</span><span class="o">=</span>0
+21 <span class="c"># Double bracket</span>
+22 <span class="k">while</span> <span class="o">[[</span> <span class="nv">$i</span> &lt; 6 <span class="o">]]</span><span class="p">;</span> <span class="k">do
+</span>23     <span class="nb">echo</span> <span class="s2">"Line#</span><span class="nv">$i</span><span class="s2">"</span>
+24     <span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="nv">$i</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+25 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will see the following output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./loop-006.sh
+Line#0
+Line#1
+Line#2
+Line#3
+----------
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+----------
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+Line#5
+</code></pre>
+
+<p>In the following section we will learn about the “<code class="language-plaintext highlighter-rouge">until</code>” loop.</p>
+
+<h2 id="until-loop">Until loop</h2>
+
+<p>This kind of loop will execute a list of commands as long as a condition evaluates to false. The shape of this loop is as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Until-Loop.png" />
+</div>
+
+<p>This kind of loop is similar to the previous “<code class="language-plaintext highlighter-rouge">while</code>” loop in the sense that it will execute the commands in its body as long as the condition has a specific value.</p>
+
+<p>In the previous “<code class="language-plaintext highlighter-rouge">while</code>” loop, the execution continued <strong>while the condition was true</strong>. At the moment of having the condition evaluated to false, the loop would stop.</p>
+
+<p>In this “<code class="language-plaintext highlighter-rouge">until</code>” loop, the execution of the commands in its body will continue <strong>until the condition evaluates to true</strong> (so the condition <strong>must be FALSE for this loop to execute</strong>). At the moment of having the condition evaluated to true, the loop will stop.</p>
 
 <h2 id="summary">Summary</h2>
 

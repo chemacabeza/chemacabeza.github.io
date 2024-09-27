@@ -1326,6 +1326,82 @@ In the following section we will learn about the “`while`” loop.
 
 ## While loop
 
+This kind of loop will execute a list of commands as long as a condition evaluates to true. The shape of this loop is as follows.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/While-Loop.png"/>
+</div>
+
+As you can imagine, the “`condition`” is an expression like we saw in the [Chapter dedicated to IF-ELSE]({{ site.url }}/bash-in-depth/0010-If-statement.html#how-to-test-stuff), so we can use “`test`”, “`[...]`” or “`[[...]]`”. Let’s see some examples in the following script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-006.sh
+ 3 # Init a counter
+ 4 i=0
+ 5 # Single bracket operator
+ 6 while [ $i -lt 4 ]; do
+ 7     echo "Line#$i"
+ 8     i=$(($i+1))
+ 9 done
+10 # Separation and reset counter
+11 echo "----------"
+12 i=0
+13 # test operator
+14 while test $i -lt 5; do
+15     echo "Line#$i"
+16     i=$(($i+1))
+17 done
+18 # Separation and reset counter
+19 echo "----------"
+20 i=0
+21 # Double bracket
+22 while [[ $i < 6 ]]; do
+23     echo "Line#$i"
+24     i=$(($i+1))
+25 done
+```
+
+When you run the previous script you will see the following output in your terminal window.
+
+```txt
+$ ./loop-006.sh
+Line#0
+Line#1
+Line#2
+Line#3
+----------
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+----------
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+Line#5
+```
+
+In the following section we will learn about the “`until`” loop.
+
+## Until loop
+
+This kind of loop will execute a list of commands as long as a condition evaluates to false. The shape of this loop is as follows.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Until-Loop.png"/>
+</div>
+
+This kind of loop is similar to the previous “`while`” loop in the sense that it will execute the commands in its body as long as the condition has a specific value.
+
+In the previous “`while`” loop, the execution continued **while the condition was true**. At the moment of having the condition evaluated to false, the loop would stop.
+
+In this “`until`” loop, the execution of the commands in its body will continue **until the condition evaluates to true** (so the condition **must be FALSE for this loop to execute**). At the moment of having the condition evaluated to true, the loop will stop.
+
+
 ## Summary
 
 
