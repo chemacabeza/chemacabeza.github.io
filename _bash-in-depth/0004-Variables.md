@@ -5,7 +5,6 @@ title: "Chapter 4: Variables"
 # Chapter 4: Variables
 
 ## Index
-* [Index]({{ site.url }}//bash-in-depth/0004-Variables.html#index)
 * [How do you declare a variable in Bash?]({{ site.url }}//bash-in-depth/0004-Variables.html#how-do-you-declare-a-variable-in-bash)
 * [How do you read a variable in Bash?]({{ site.url }}//bash-in-depth/0004-Variables.html#how-do-you-read-a-variable-in-bash)
 * [First limitation and how to overcome it?]({{ site.url }}//bash-in-depth/0004-Variables.html#first-limitation-and-how-to-overcome-it)
@@ -13,7 +12,7 @@ title: "Chapter 4: Variables"
     * [How to give specific semantics to the variables declared? (`declare`/`typeset` to the rescue)]({{ site.url }}//bash-in-depth/0004-Variables.html#how-to-give-specific-semantics-to-the-variables-declared-declaretypeset-to-the-rescue)
 * [How to delete declared variables?]({{ site.url }}//bash-in-depth/0004-Variables.html#how-to-delete-declared-variables)
 * [How to declare constants? (`declare -r` or `readonly`)]({{ site.url }}//bash-in-depth/0004-Variables.html#how-to-declare-constants-declare--r-or-readonly)
-* [Variables with `$'...'` format]({{ site.url }}//bash-in-depth/0004-Variables.html#variables-with-$''-format)
+* [Variables with `$'...'` format]({{ site.url }}//bash-in-depth/0004-Variables.html#variables-with--format)
 * [Indirect Variables]({{ site.url }}//bash-in-depth/0004-Variables.html#indirect-variables)
 * [Summary]({{ site.url }}//bash-in-depth/0004-Variables.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0004-Variables.html#references)
