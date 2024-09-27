@@ -6,8 +6,9 @@ title: "Chapter 8: time and date commands"
 # Chapter 8: `time` and `date` commands
 
 ## Index
-* [The `time` command]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#the-`time`-command)
-* [The `date` command]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#the-`date`-command)
+* [Index]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#index)
+* [The `time` command]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#the-time-command)
+* [The `date` command]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#the-date-command)
 * [Summary]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0008-Time-and-date-commands.html#references)
 

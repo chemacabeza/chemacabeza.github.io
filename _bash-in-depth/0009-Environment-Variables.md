@@ -6,14 +6,14 @@ title: "Chapter 9: Environment Variables"
 # Chapter 9: Environment Variables
 
 ## Index
-* [Command “`env`”]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#command-“`env`”)
+* [Command “`env`”]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#command-env)
     * [Adding a variable]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#adding-a-variable)
     * [Overriding a variable]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#overriding-a-variable)
     * [Deleting a variable]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#deleting-a-variable)
     * [Empty environment]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#empty-environment)
-        * [“`env`” in the Shebang (` !`)]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#“`env`”-in-the-shebang-`-!`)
-* [Command “`export`”]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#command-“`export`”)
-* [Revisiting “`declare`”]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#revisiting-“`declare`”)
+        * [“`env`” in the Shebang (` !`)]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#env-in-the-shebang-)
+* [Command “`export`”]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#command-export)
+* [Revisiting “`declare`”]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#revisiting-declare)
 * [Summary]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0009-Environment-Variables.html#references)
 

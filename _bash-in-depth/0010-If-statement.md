@@ -6,14 +6,14 @@ title: "Chapter 10: if / elif / else statements"
 # Chapter 10: if / elif / else statements
 
 ## Index
-* [The "`if`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-"`if`"-statement)
-* [The "`elif`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-"`elif`"-statement)
-* [The "`else`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-"`else`"-statement)
+* [The "`if`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-if-statement)
+* [The "`elif`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-elif-statement)
+* [The "`else`" Statement]({{ site.url }}//bash-in-depth/0010-If-statement.html#the-else-statement)
 * [How to test stuff?]({{ site.url }}//bash-in-depth/0010-If-statement.html#how-to-test-stuff)
-    * [“test” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#“test”-operator)
-    * [“[...]” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#“[]”-operator)
-    * [“`[[...]]`” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#“`[[]]`”-operator)
-    * [Compound command “`((...))`”]({{ site.url }}//bash-in-depth/0010-If-statement.html#compound-command-“``”)
+    * [“test” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#test-operator)
+    * [“[...]” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#[]-operator)
+    * [“`[[...]]`” operator]({{ site.url }}//bash-in-depth/0010-If-statement.html#[[]]-operator)
+    * [Compound command “`((...))`”]({{ site.url }}//bash-in-depth/0010-If-statement.html#compound-command-)
 * [Summary]({{ site.url }}//bash-in-depth/0010-If-statement.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0010-If-statement.html#references)
 

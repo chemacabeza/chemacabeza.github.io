@@ -6,7 +6,7 @@ title: "Chapter 11: case-esac statement"
 # Chapter 11: `case-esac` statement
 
 ## Index
-* [Syntax for `case-esac`]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#syntax-for-`case-esac`)
+* [Syntax for `case-esac`]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#syntax-for-case-esac)
 * [How does it work?]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#how-does-it-work)
 * [Case patterns]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#case-patterns)
     * [Literal Matching]({{ site.url }}//bash-in-depth/0011-Case-Statement.html#literal-matching)
