@@ -1392,7 +1392,7 @@ In the following section we will learn about the “`until`” loop.
 This kind of loop will execute a list of commands as long as a condition evaluates to false. The shape of this loop is as follows.
 
 <div style="text-align:center">
-    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Until-Loop.png"/>
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/Until-Loop.png" width="550px"/>
 </div>
 
 This kind of loop is similar to the previous “`while`” loop in the sense that it will execute the commands in its body as long as the condition has a specific value.
