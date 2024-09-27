@@ -17,7 +17,7 @@ title: "Chapter 5: Working with Strings"
 * [Substring Replacement]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#substring-replacement)
     * [Replace the first match]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#replace-the-first-match)
     * [Replace all matches]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#replace-all-matches)
-    * [Example]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#example)
+    * [Another Example]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#another-example)
 * [Uppercase / Lowercase]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#uppercase--lowercase)
 * [Concatenation]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#concatenation)
 * [Summary]({{ site.url }}//bash-in-depth/0005-Working-with-Strings.html#summary)
@@ -376,7 +376,7 @@ In the following diagram you will see that Bash will search for the longest subs
     <img src="/assets/bash-in-depth/0005-Working-with-Strings/replace_all_instances.png"/>
 </div>
 
-### Example
+### Another Example
 
 In the following script you will see a couple of examples for each type of replacement.
 

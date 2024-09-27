@@ -5,19 +5,20 @@ title: "Chapter 3: Basics"
 # Chapter 3: Basics
 
 ## Index
+* [Index]({{ site.url }}//bash-in-depth/0003-Basics.html#index)
 * [Structure of a script]({{ site.url }}//bash-in-depth/0003-Basics.html#structure-of-a-script)
 * [Command terminator characters]({{ site.url }}//bash-in-depth/0003-Basics.html#command-terminator-characters)
-* [`echo` and `read` commands]({{ site.url }}//bash-in-depth/0003-Basics.html#`echo`-and-`read`-commands)
-    * [`echo` command]({{ site.url }}//bash-in-depth/0003-Basics.html#`echo`-command)
-    * [`read` command]({{ site.url }}//bash-in-depth/0003-Basics.html#`read`-command)
-* [`printf` builtin command]({{ site.url }}//bash-in-depth/0003-Basics.html#`printf`-builtin-command)
+* [`echo` and `read` commands]({{ site.url }}//bash-in-depth/0003-Basics.html#echo-and-read-commands)
+    * [`echo` command]({{ site.url }}//bash-in-depth/0003-Basics.html#echo-command)
+    * [`read` command]({{ site.url }}//bash-in-depth/0003-Basics.html#read-command)
+* [`printf` builtin command]({{ site.url }}//bash-in-depth/0003-Basics.html#printf-builtin-command)
     * [Bell character]({{ site.url }}//bash-in-depth/0003-Basics.html#bell-character)
     * [Carriage return character]({{ site.url }}//bash-in-depth/0003-Basics.html#carriage-return-character)
     * [Specifiers]({{ site.url }}//bash-in-depth/0003-Basics.html#specifiers)
-    * [Variables (`-v` option)]({{ site.url }}//bash-in-depth/0003-Basics.html#variables-`-v`-option)
-* [`man` and `help`]({{ site.url }}//bash-in-depth/0003-Basics.html#`man`-and-`help`)
-    * [`man` command]({{ site.url }}//bash-in-depth/0003-Basics.html#`man`-command)
-    * [`help` command]({{ site.url }}//bash-in-depth/0003-Basics.html#`help`-command)
+    * [Variables (`-v` option)]({{ site.url }}//bash-in-depth/0003-Basics.html#variables--v-option)
+* [`man` and `help`]({{ site.url }}//bash-in-depth/0003-Basics.html#man-and-help)
+    * [`man` command]({{ site.url }}//bash-in-depth/0003-Basics.html#man-command)
+    * [`help` command]({{ site.url }}//bash-in-depth/0003-Basics.html#help-command)
 * [Summary]({{ site.url }}//bash-in-depth/0003-Basics.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0003-Basics.html#references)
 
