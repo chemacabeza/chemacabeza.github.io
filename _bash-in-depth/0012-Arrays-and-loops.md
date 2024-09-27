@@ -1329,7 +1329,7 @@ In the following section we will learn about the “`while`” loop.
 This kind of loop will execute a list of commands as long as a condition evaluates to true. The shape of this loop is as follows.
 
 <div style="text-align:center">
-    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/While-Loop.png"/>
+    <img src="/assets/bash-in-depth/0012-Arrays-and-loops/While-Loop.png" width="550px"/>
 </div>
 
 As you can imagine, the “`condition`” is an expression like we saw in the [Chapter dedicated to IF-ELSE]({{ site.url }}/bash-in-depth/0010-If-statement.html#how-to-test-stuff), so we can use “`test`”, “`[...]`” or “`[[...]]`”. Let’s see some examples in the following script.
