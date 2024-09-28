@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 13: Execution of commands | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 13: Execution of commands" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 13: Execution of commands" />
+<meta property="og:description" content="Chapter 13: Execution of commands" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0013-Execution-of-commands.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0013-Execution-of-commands.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-28T09:15:51+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 13: Execution of commands" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T09:15:51+02:00","datePublished":"2024-09-28T09:15:51+02:00","description":"Chapter 13: Execution of commands","headline":"Chapter 13: Execution of commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0013-Execution-of-commands.html"},"url":"http://localhost:4000/bash-in-depth/0013-Execution-of-commands.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="chapter-content">
+  <h1 id="chapter-13-execution-of-commands">Chapter 13: Execution of commands</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#command-substitution">Command Substitution</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#backticks">Backticks</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#the--approach">The “<code class="language-plaintext highlighter-rouge">$(...)</code>” approach</a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#backticks-versus-">Backticks versus <code class="language-plaintext highlighter-rouge">$(...)</code></a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#eval-built-in-command"><code class="language-plaintext highlighter-rouge">eval</code> built-in command</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#security-concerns-with-eval">Security concerns with <code class="language-plaintext highlighter-rouge">eval</code></a></li>
+      <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#tips-on-how-to-use-eval-safely">Tips on how to use “<code class="language-plaintext highlighter-rouge">eval</code>” safely</a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0013-Execution-of-commands.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p>In Bash there are a few ways to execute a command and it depends on the purpose that you have in mind.</p>
+
+<p>If you want to execute a command without saving the result, you can just add the command with the necessary options (if any) in a line and the command will just be executed.</p>
+
+<p>In the following example we are using the command “<code class="language-plaintext highlighter-rouge">ls</code>” to list the contents of the current folder.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: execution-of-commands.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Executing ls command"</span>
+ 4 <span class="nb">ls</span>    <span class="c"># Lists the content of the current folder</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Done executing ls command"</span>
+</code></pre></div></div>
+
+<p>If we wanted to store the result of the command in a variable then we need to use Command Substitution. This way of executing commands <strong>will create a child process</strong><a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> that will execute the command. There are two ways of Command Substitution that we will explore in the next section.</p>
+
+<p>Finally, if we wanted to execute a command in the current shell <strong>without creating a child process</strong> we should use the “<code class="language-plaintext highlighter-rouge">eval</code>” command. We will talk more about this command in one of the coming sections.</p>
+
+<p>When you run the previous script you will get the following result in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./execution-of-commands.sh
+Executing ls command
+execution-of-commands.sh
+Done executing ls command
+</code></pre>
+
+<h2 id="command-substitution">Command Substitution</h2>
+
+<p>If you want to save the result of the command in a variable, you can use 2 different ways.</p>
+
+<h3 id="backticks">Backticks</h3>
+<p>The first one is by using backticks like</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="sb">`</span>commands<span class="sb">`</span>
+</code></pre></div></div>
+
+<p>This way to execute a command is being deprecated and <strong>is recommended not to use it</strong>.</p>
+
+<p>For illustration purposes we will show an example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: command-substitution-0001.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Saving the result of ls"</span>
+ 4 <span class="nv">RESULT</span><span class="o">=</span><span class="sb">`</span><span class="nb">ls</span><span class="sb">`</span>
+ 5 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Result is:</span><span class="se">\n</span><span class="s2"> </span><span class="nv">$RESULT</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the script you will get something similar<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> to the following.</p>
+
+<pre><code class="language-txt">$ ./command-substitution-0001.sh
+Saving the result of ls
+Result is:
+ command-substitution-0001.sh
+execution-of-commands.sh
+</code></pre>
+
+<p>The next approach to command substitution is easier to use, we will explain why in the section where we compare both approaches.</p>
+
+<h3 id="the--approach">The “<code class="language-plaintext highlighter-rouge">$(...)</code>” approach</h3>
+
+<p>The second approach, which is going to be the one we will use along the rest of the chapters, is “<code class="language-plaintext highlighter-rouge">$(commands)</code>”. Again, for illustration purposes, we will rewrite the previous “<code class="language-plaintext highlighter-rouge">command-substitution-0001.sh</code>” script using this approach, giving the following script as result.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: command-substitution-0002.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Saving the result of ls"</span>
+ 4 <span class="nv">RESULT</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls</span><span class="si">)</span>
+ 5 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"Result is:</span><span class="se">\n</span><span class="s2"> </span><span class="nv">$RESULT</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you run this script in the same folder as “<code class="language-plaintext highlighter-rouge">command-substitution-0001.sh</code>” script you will get something similar to the following.</p>
+
+<pre><code class="language-txt">$ ./command-substitution-0002.sh
+Saving the result of ls
+Result is:
+ command-substitution-0001.sh
+command-substitution-0002.sh
+execution-of-commands.sh
+</code></pre>
+
+<p>The previous script will save the result of the command “<code class="language-plaintext highlighter-rouge">ls</code>” as a string in the variable “<code class="language-plaintext highlighter-rouge">RESULT</code>”. We could also save the result of the command inside an array like this.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: command-substitution-0003.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Saving the result of ls"</span>
+ 4 <span class="nv">RESULT</span><span class="o">=(</span><span class="si">$(</span><span class="nb">ls</span><span class="si">)</span><span class="o">)</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Number of file: </span><span class="k">${#</span><span class="nv">RESULT</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 6 <span class="k">for </span>file <span class="k">in</span> <span class="k">${</span><span class="nv">RESULT</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"File: </span><span class="nv">$file</span><span class="s2">"</span>
+ 8 <span class="k">done
+ </span>9 <span class="nb">echo</span> <span class="s2">"End of script"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script, you will get a result similar to the following.</p>
+
+<pre><code class="language-txt">$ ./command-substitution-0003.sh
+Saving the result of ls
+Number of file: 4
+File: command-substitution-0001.sh
+File: command-substitution-0002.sh
+File: command-substitution-0003.sh
+File: execution-of-commands.sh
+End of script
+</code></pre>
+
+<p>In the next section we will compare both approaches and will explain why we will stick to the “<code class="language-plaintext highlighter-rouge">$(...)</code>” way for the rest of the book.</p>
+
+<h3 id="backticks-versus-">Backticks versus <code class="language-plaintext highlighter-rouge">$(...)</code></h3>
+
+<p>The main difference between the two styles appears when you start nesting commands.</p>
+
+<p>With backticks you need to escape the backtick characters in the nested command. With the “<code class="language-plaintext highlighter-rouge">$(...)</code>” approach you don’t have to do anything special.</p>
+
+<p>Let’s take a look to the following example</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: compare.sh</span>
+ 3 <span class="c"># Approach with $(...)</span>
+ 4 <span class="nb">echo</span> <span class="si">$(</span><span class="nb">echo</span> <span class="si">$(</span><span class="nb">echo</span> <span class="si">$(</span><span class="nb">echo</span> <span class="si">$(</span><span class="nb">uname</span><span class="si">))))</span>
+ 5 <span class="c"># Approach with backticks</span>
+ 6 <span class="nb">echo</span> <span class="sb">`</span><span class="nb">echo</span> <span class="se">\`</span><span class="nb">echo</span> <span class="se">\\\`</span><span class="nb">echo</span> <span class="se">\\\\\\\`</span><span class="nb">uname</span><span class="se">\\\\\\\`\\\`\`</span><span class="sb">`</span>
+</code></pre></div></div>
+
+<p>In both approaches we are using the “<code class="language-plaintext highlighter-rouge">uname</code>”<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a> command to print the kind of operating system we are working on (“<strong>Linux</strong>” in our case) and will use nested “<code class="language-plaintext highlighter-rouge">echo</code>” commands to print that value.</p>
+
+<p>The two “<code class="language-plaintext highlighter-rouge">echo</code>” commands presented in the previous script are equivalent but as you can notice in the second one (which uses the backticks) you need to escape the command to make it work. The more nested commands you have, the more escape sequences you will have to add. This adds quite a lot of complexity when you need to nest commands.</p>
+
+<p>So the major reason to prefer “<code class="language-plaintext highlighter-rouge">$(...)</code>” over backticks is the ability to nest commands within commands without losing your sanity trying to figure out how many backticks you need to use.</p>
+
+<h2 id="eval-built-in-command"><code class="language-plaintext highlighter-rouge">eval</code> built-in command</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">eval</code>” built-in command is used as well to execute commands but it’s quite a different beast from the previous command substitution. The purpose of “<code class="language-plaintext highlighter-rouge">eval</code>” is to convert a string into a command.</p>
+
+<p>The syntax of “eval” is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">eval</span> <span class="o">[</span>arg ...]
+</code></pre></div></div>
+
+<p>Each time that “<code class="language-plaintext highlighter-rouge">eval</code>” is invoked it forces a re-evaluation of its arguments. A better way to understand is that everytime that “<code class="language-plaintext highlighter-rouge">eval</code>” is invoked, the arguments will be evaluated <strong>twice</strong>.</p>
+
+<p>This double evaluation can be divided into two different phases which are <strong>Preparation</strong> and <strong>Execution</strong>.</p>
+
+<p>During the <strong>preparation phase</strong>, the arguments of “<code class="language-plaintext highlighter-rouge">eval</code>” will be concatenated as a single string. Once this concatenation is done, if variables appear in the string they will be expanded.</p>
+
+<p>During the <strong>execution phase</strong>, the resulting string from the preparation phase will be executed in the current shell without the creation of a child process. If the resulting string from the preparation phase contains any variable, they will be expanded before the command is executed.</p>
+
+<p>This is a very powerful command because the string admitted can contain anything that we use in a Bash script. The string can contain variable assignments, conditional statements (like “<code class="language-plaintext highlighter-rouge">if then else</code>”), loops (“<code class="language-plaintext highlighter-rouge">while</code>” or “<code class="language-plaintext highlighter-rouge">for</code>”), function declarations, calls to other commands, etc.</p>
+
+<p>Let’s see an example to better understand how it works, shall we?</p>
+
+<p>Let’s take a look to the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: eval-0001.sh</span>
+ 3 <span class="nv">VAR1</span><span class="o">=</span><span class="s1">'$VAR2'</span>
+ 4 <span class="nv">VAR2</span><span class="o">=</span><span class="s1">'$VAR3'</span>
+ 5 <span class="nv">VAR3</span><span class="o">=</span><span class="s1">'Some message'</span>
+ 6 <span class="c"># Using the echo command directly</span>
+ 7 <span class="nb">echo</span> <span class="nv">$VAR1</span>
+ 8 <span class="c"># Using eval</span>
+ 9 <span class="nb">eval echo</span> <span class="nv">$VAR1</span>
+10 <span class="c"># Using eval eval</span>
+11 <span class="nb">eval eval echo</span> <span class="nv">$VAR1</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will see the following in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./eval-0001.sh
+$VAR2
+$VAR3
+Some message
+</code></pre>
+
+<p>So, what is happening here? Let’s go line by line.</p>
+
+<p>On line 7, where “<code class="language-plaintext highlighter-rouge">eval</code>” is not used, the variable “<code class="language-plaintext highlighter-rouge">$VAR1</code>” is expanded to the value assigned on line 3, meaning “<code class="language-plaintext highlighter-rouge">$VAR2</code>”.</p>
+
+<p>On line 9, where “<code class="language-plaintext highlighter-rouge">eval</code>” is used once, the variable “<code class="language-plaintext highlighter-rouge">$VAR1</code>” is expanded to “<code class="language-plaintext highlighter-rouge">$VAR2</code>” and will be concatenated to “<code class="language-plaintext highlighter-rouge">echo</code>” resulting in the string “<code class="language-plaintext highlighter-rouge">echo $VAR2</code>” that will be executed, giving as result “<code class="language-plaintext highlighter-rouge">$VAR3</code>” in the output.</p>
+
+<p>On line 11, where “<code class="language-plaintext highlighter-rouge">eval</code>” is used twice. In the execution of the first “<code class="language-plaintext highlighter-rouge">eval</code>”, the variable “<code class="language-plaintext highlighter-rouge">$VAR1</code>” is expanded to “<code class="language-plaintext highlighter-rouge">$VAR2</code>” and will be concatenated to “<code class="language-plaintext highlighter-rouge">eval</code>” (the second one) and “<code class="language-plaintext highlighter-rouge">echo</code>” resulting in the string “<code class="language-plaintext highlighter-rouge">eval echo $VAR2</code>” that will be executed.</p>
+
+<p>Then, in the execution of the second “<code class="language-plaintext highlighter-rouge">eval</code>”,  “<code class="language-plaintext highlighter-rouge">$VAR2</code>” is expanded to “<code class="language-plaintext highlighter-rouge">$VAR3</code>” which will be concatenated to “<code class="language-plaintext highlighter-rouge">echo</code>” resulting in the string “<code class="language-plaintext highlighter-rouge">echo $VAR3</code>” that will be executed, giving as result “<code class="language-plaintext highlighter-rouge">Some message</code>” in the output.</p>
+
+<p>Although “<code class="language-plaintext highlighter-rouge">eval</code>” is very powerful it has associated some security concerns that we will discuss in the following subsection.</p>
+
+<h3 id="security-concerns-with-eval">Security concerns with <code class="language-plaintext highlighter-rouge">eval</code></h3>
+
+<p>As we already mentioned previously, <em>each time that “<code class="language-plaintext highlighter-rouge">eval</code>” is invoked it forces a re-evaluation of its arguments</em>.</p>
+
+<p>As the purpose of “<code class="language-plaintext highlighter-rouge">eval</code>” is to convert a string of characters into a command, there is sometimes the possibility of having execution of arbitrary code.</p>
+
+<p>Let’s see an example by modifying slightly the previous script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: evil-0001.sh</span>
+ 3 <span class="nv">VAR1</span><span class="o">=</span><span class="s1">'$VAR2; date'</span>
+ 4 <span class="nv">VAR2</span><span class="o">=</span><span class="s1">'$VAR3'</span>
+ 5 <span class="nv">VAR3</span><span class="o">=</span><span class="s1">'Some message'</span>
+ 6 <span class="c"># Using echo directly</span>
+ 7 <span class="nb">echo</span> <span class="nv">$VAR1</span>
+ 8 <span class="c"># Using eval with echo</span>
+ 9 <span class="nb">eval echo</span> <span class="nv">$VAR1</span>
+10 <span class="c"># Using double eval with echo</span>
+11 <span class="nb">eval eval echo</span> <span class="nv">$VAR1</span>
+</code></pre></div></div>
+
+<p>As you can see, the only change we made was adding “<code class="language-plaintext highlighter-rouge">; date</code>”<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a> to the value of the variable “<code class="language-plaintext highlighter-rouge">VAR1</code>” on line 3.</p>
+
+<p>Let’s see what happens when we run the previous script.</p>
+
+<pre><code class="language-txt">$ ./evil-0001.sh
+$VAR2; date
+$VAR3
+Sat Sep 28 08:12:05 AM CEST 2024
+Some message
+Sat Sep 28 08:12:05 AM CEST 2024
+</code></pre>
+
+<p>Now the current date appears! Why is that?</p>
+
+<p>On the previous script “<code class="language-plaintext highlighter-rouge">eval-0001.sh</code>” the command that was generated on line 9 before being executed was “<code class="language-plaintext highlighter-rouge">echo $VAR2</code>” which printed “<code class="language-plaintext highlighter-rouge">$VAR3</code>” to the screen. Now, the command generated was “<code class="language-plaintext highlighter-rouge">echo $VAR2; date</code>” which is a string composed of two commands. In this case, “<code class="language-plaintext highlighter-rouge">$VAR3</code>” will still be printed to the screen and, additionally, the current date will be printed.</p>
+
+<p>Although the previous example is a very simple thing, think about a scenario where you have access to a function in Bash that uses “<code class="language-plaintext highlighter-rouge">eval</code>” and is executed with privileges<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a>.</p>
+
+<p>Let’s take a look to the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: evil-0002.sh</span>
+ 3 <span class="c"># Code used with privileges</span>
+ 4 some_important_function<span class="o">()</span> <span class="o">{</span>
+ 5   <span class="nv">_array</span><span class="o">=</span><span class="nv">$1</span>
+ 6   <span class="c"># DANGER!</span>
+ 7   <span class="nb">eval echo</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">The third element is </span><span class="se">\$</span><span class="s2">{</span><span class="nv">$_array</span><span class="s2">[2]}</span><span class="se">\"</span><span class="s2">"</span>
+ 8 <span class="o">}</span>
+ 9 <span class="nv">a</span><span class="o">=(</span>zero one two three four five<span class="o">)</span>
+10 some_important_function a
+</code></pre></div></div>
+
+<p>When you execute this script you have the following result in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./evil-0002.sh
+The third element is two
+</code></pre>
+
+<p>What would happen if we invoke that “<code class="language-plaintext highlighter-rouge">some_important_function</code>” with something that is <strong>not an array</strong>, a string, for example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: evil-0003.sh</span>
+ 3 <span class="c"># Code used with privileges</span>
+ 4 some_important_function<span class="o">()</span> <span class="o">{</span>
+ 5     <span class="nv">_array</span><span class="o">=</span><span class="nv">$1</span>
+ 6     <span class="c"># ... some important code ...</span>
+ 7     <span class="nb">eval echo</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">The third element is </span><span class="se">\$</span><span class="s2">{</span><span class="nv">$_array</span><span class="s2">[2]}</span><span class="se">\"</span><span class="s2">"</span>
+ 8 <span class="o">}</span>
+ 9 <span class="c">#a=(zero one two three four five)</span>
+10 <span class="c">#some_important_function a</span>
+11 some_important_function <span class="s1">'x}"; date; #'</span>
+</code></pre></div></div>
+
+<p>What will happen when we execute this script? Let’s see it!</p>
+
+<pre><code class="language-txt">$ ./evil-0003.sh
+The third element is
+Sat Sep 28 08:22:24 AM CEST 2024
+</code></pre>
+
+<p>Ok. What happened here?</p>
+
+<p>On line 7, the command generated before being executed was as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0013-Execution-of-commands/Code-Injection.png" width="500px" />
+</div>
+
+<p>As you can see in the previous diagram, the variable “<code class="language-plaintext highlighter-rouge">$_array</code>” is expanded to “<code class="language-plaintext highlighter-rouge">x}"; date; #</code>” which closes the string with a variable “<code class="language-plaintext highlighter-rouge">${x}</code>” that expands to nothing, executes the arbitrary command “<code class="language-plaintext highlighter-rouge">date</code>” and uses “<code class="language-plaintext highlighter-rouge">#</code>” to ignore the rest of the line.</p>
+
+<p>In the previous example the “<code class="language-plaintext highlighter-rouge">date</code>” command was used, but it could be the case that a more harmful command is executed.</p>
+
+<p>Another thing to know is that “<code class="language-plaintext highlighter-rouge">eval</code>” could be vulnerable without even calling a script or a function. Let’s say you have the following script that captures the files/folders of the current folder and prints them.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: evil-0004.sh</span>
+ 3 <span class="nb">eval </span><span class="nv">FILES</span><span class="o">=(</span><span class="si">$(</span><span class="nb">ls</span> <span class="nt">-t</span><span class="si">)</span><span class="o">)</span>
+ 4 <span class="c"># Loop iterating through files</span>
+ 5 <span class="k">for</span> <span class="o">((</span><span class="nv">I</span><span class="o">=</span>0<span class="p">;</span> I &lt; <span class="k">${#</span><span class="nv">FILES</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> I++<span class="o">))</span><span class="p">;</span> <span class="k">do
+ </span>6     <span class="nb">echo</span> <span class="s2">"FILE: </span><span class="k">${</span><span class="nv">FILES</span><span class="p">[I]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span>
+ 7 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you get a line with the format “<code class="language-plaintext highlighter-rouge">FILE: &lt;filename&gt;</code>” for every single file you have in the current directory. In our case we do have the following.</p>
+
+<pre><code class="language-txt">$ ./evil-0004.sh
+FILE: command-substitution-0001.sh
+FILE: command-substitution-0002.sh
+FILE: command-substitution-0003.sh
+FILE: compare.sh
+FILE: eval-0001.sh
+FILE: evil-0001.sh
+FILE: evil-0002.sh
+FILE: evil-0003.sh
+FILE: evil-0004.sh
+FILE: execution-of-commands.sh
+</code></pre>
+
+<p>If you notice, on line 3 of the script we are using “<code class="language-plaintext highlighter-rouge">eval</code>” to do an assignment of the lists files in the current folder to the variable “<code class="language-plaintext highlighter-rouge">FILES</code>” which happens to be an array.</p>
+
+<p>What would happen if we created a file with the name “<code class="language-plaintext highlighter-rouge">\"\"); date; #</code>”? Let’s see what happens.</p>
+
+<pre><code class="language-txt">$ touch "\"\"); date; #"
+$ ls
+command-substitution-0001.sh
+command-substitution-0002.sh
+command-substitution-0003.sh
+compare.sh
+""); date; #
+eval-0001.sh
+evil-0001.sh
+evil-0002.sh
+evil-0003.sh
+evil-0004.sh
+execution-of-commands.sh
+$ ./evil-0004.sh
+Sat Sep 28 08:40:44 AM CEST 2024
+FILE:
+</code></pre>
+
+<p>What happened here? Remember that the purpose of “<code class="language-plaintext highlighter-rouge">eval</code>” is to convert a string into a command and it does that in two steps, Preparation and Execution.</p>
+
+<p>In the preparation step it will expand the command substitution “<code class="language-plaintext highlighter-rouge">$(ls -t)</code>” like follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0013-Execution-of-commands/Code-Injection-2.png" />
+</div>
+
+<p>Now imagine that the name of the file contains a more harmful command like “<code class="language-plaintext highlighter-rouge">rm</code>”<a id="footnote-6-ref" href="#footnote-6" style="font-size:x-small">[6]</a>. This could cause serious trouble.</p>
+
+<p>Up till now we have explored how “<code class="language-plaintext highlighter-rouge">eval</code>” can be exploited to cause harm to our system.</p>
+
+<p>In the next section we will explore some tips to protect against users trying to abuse “<code class="language-plaintext highlighter-rouge">eval</code>” in one of our scripts.</p>
+
+<h3 id="tips-on-how-to-use-eval-safely">Tips on how to use “<code class="language-plaintext highlighter-rouge">eval</code>” safely</h3>
+
+<p>There are a few ways to make sure that “<code class="language-plaintext highlighter-rouge">eval</code>” is used properly in our scripts.</p>
+
+<p>The first way is to use literal strings (single quoted) without variables. If there are no variables at all, you protect your script from arbitrary code execution as there is no input from the user. The purpose of using single quotes is to avoid expansions, if the string contains variable references. The downside of this approach is that you are using the full power of “<code class="language-plaintext highlighter-rouge">eval</code>” (but, of course, it depends on your use case).</p>
+
+<p>The second way is to check the type of the variable before executing the “<code class="language-plaintext highlighter-rouge">eval</code>” command. To be able to do that we can use the “<code class="language-plaintext highlighter-rouge">declare</code>” built-in command with the flag “<code class="language-plaintext highlighter-rouge">-p</code>”. Let’s see an example with the script “evil-0004.sh” that we saw before.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: evil-0004-safe.sh</span>
+ 3 <span class="c"># Code used with privileges</span>
+ 4 some_important_function<span class="o">()</span> <span class="o">{</span>
+ 5     <span class="nv">_array</span><span class="o">=</span><span class="nv">$1</span>
+ 6     <span class="c"># DANGER?</span>
+ 7     <span class="nb">local </span><span class="nv">type_signature</span><span class="o">=</span><span class="si">$(</span><span class="nb">declare</span> <span class="nt">-p</span> <span class="s2">"</span><span class="nv">$_array</span><span class="s2">"</span> 2&gt;/dev/null<span class="si">)</span>
+ 8     <span class="k">if</span> <span class="o">[[</span> <span class="nv">$type_signature</span> <span class="o">=</span>~ <span class="s2">"declare -a"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>9         <span class="nb">eval echo</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">The third element is </span><span class="se">\$</span><span class="s2">{</span><span class="nv">$_array</span><span class="s2">[2]}</span><span class="se">\"</span><span class="s2">"</span>
+10     <span class="k">else
+</span>11         <span class="nb">echo</span> <span class="s2">"WRONG INPUT TYPE. ARRAY EXPECTED."</span>
+12     <span class="k">fi
+</span>13 <span class="o">}</span>
+14 <span class="nv">a</span><span class="o">=(</span>zero one two three four five<span class="o">)</span>
+15 some_important_function a
+16 some_important_function <span class="s1">'x}"; date; #'</span>
+</code></pre></div></div>
+
+<p>On line 7 we are using the command substitution that we learnt before to run a command and store the result in a variable (“<code class="language-plaintext highlighter-rouge">type_signature</code>” in our case).</p>
+
+<p>On line 8 we are using the operator “<code class="language-plaintext highlighter-rouge">=~</code>” to check if the value of the variable “<code class="language-plaintext highlighter-rouge">type_signature</code>” matches a declaration of an array. We will learn more about the “<code class="language-plaintext highlighter-rouge">=~</code>” operator in a later chapter.</p>
+
+<p>When you run the previous script you will get the following output.</p>
+
+<pre><code class="language-txt">$ ./evil-0004-safe.sh
+The third element is two
+WRONG INPUT TYPE. ARRAY EXPECTED.
+</code></pre>
+
+<p>As you can see from the execution, it works well with the expected type (an array) and it throws an error with the wrong type (a string).</p>
+
+<p>The third way to try to have a secure use of “<code class="language-plaintext highlighter-rouge">eval</code>” is to check for the values of the variables used in the string passed to “<code class="language-plaintext highlighter-rouge">eval</code>”. Although this approach is very effective, it can quickly become very cumbersome and hard to maintain when we need to check for a lot of possible allowed values. 
+The fourth, and last, way that we present here to work safely with “<code class="language-plaintext highlighter-rouge">eval</code>” is using the argument “<code class="language-plaintext highlighter-rouge">%q</code>” of the “<code class="language-plaintext highlighter-rouge">printf</code>” built-in command. As it was already mentioned, the argument “<code class="language-plaintext highlighter-rouge">%q</code>” will quote the string so that it’s reusable as input.</p>
+
+<p>Let’s see a reviewed version of the script “<code class="language-plaintext highlighter-rouge">evil-0001.sh</code>” that we saw before.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: evil-0001-safe.sh</span>
+ 3 <span class="nv">VAR1</span><span class="o">=</span><span class="s1">'$VAR2; date'</span>
+ 4 <span class="nv">VAR2</span><span class="o">=</span><span class="s1">'$VAR3'</span>
+ 5 <span class="nv">VAR3</span><span class="o">=</span><span class="s1">'Some message'</span>
+ 6 <span class="c"># Using echo directly</span>
+ 7 <span class="nb">echo</span> <span class="nv">$VAR1</span>
+ 8 <span class="c"># Using eval with echo</span>
+ 9 <span class="nb">eval echo</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">printf</span> <span class="s2">"%q "</span> <span class="nv">$VAR1</span><span class="si">)</span><span class="s2">"</span>
+10 <span class="c"># Using double eval with echo</span>
+11 <span class="nb">eval eval echo</span> <span class="s2">"</span><span class="si">$(</span> <span class="nb">printf</span> <span class="s2">"%q "</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">printf</span> <span class="s2">"%q "</span> <span class="nv">$VAR1</span><span class="si">)</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In the last script we replaced every single appearance of the variable “<code class="language-plaintext highlighter-rouge">$VAR1</code>” with a command substitution that calls to “<code class="language-plaintext highlighter-rouge">printf “%q “</code>”, per “<code class="language-plaintext highlighter-rouge">eval</code>”.</p>
+
+<p>You can see the main changes on lines 9 and 11.</p>
+
+<p>On line 9, the output of the command substitution “<code class="language-plaintext highlighter-rouge">$(printf "%q " $VAR1)</code>” will be “<code class="language-plaintext highlighter-rouge">\$VAR2\;date</code>”. When this output is used as concatenated with “<code class="language-plaintext highlighter-rouge">echo</code>” it will generate the string “<code class="language-plaintext highlighter-rouge">echo “\$VAR2\;\ date”</code>” which will be executed generating “<code class="language-plaintext highlighter-rouge">$VAR2; date</code>” as output.</p>
+
+<p>On line 11 a similar thing as the one on line 9 is happening, with the difference that is nested.</p>
+
+<p>When you execute the previous script, you get the following as output.</p>
+
+<pre><code class="language-txt">$ ./evil-0001-safe.sh
+$VAR2; date
+$VAR2; date
+$VAR2; date
+</code></pre>
+
+<p>The last script assures that you do not have arbitrary code execution while running the commands with “<code class="language-plaintext highlighter-rouge">eval</code>”. The downside of this approach is that, although you are generating the command string without being exposed to arbitrary code execution, you lose the advantage of variable expansion.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this chapter we learnt one of the most powerful tools of Bash, which is the execution of commands.</p>
+
+<p>We learnt how to execute commands via something called “Command Substitution”. There are two ways of command substitution:</p>
+<ul>
+  <li>Backticks: Legacy one that you will find in some old scripts. When using it with nested command substitution it becomes difficult to use.</li>
+  <li><code class="language-plaintext highlighter-rouge">$(...)</code> : The recommended approach.</li>
+</ul>
+
+<p>Both approaches of command substitution will generate a child process that will execute the command.</p>
+
+<p>Then we learnt about “<code class="language-plaintext highlighter-rouge">eval</code>”. This approach to execute commands, will not generate a child process but will execute the given commands in the current shell/terminal.</p>
+
+<p>About “<code class="language-plaintext highlighter-rouge">eval</code>” we also learnt some concerns about security and how to tackle them.</p>
+
+<p>You went through a lot of material in this chapter. Now it’s up to you to practice.</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li><a href="https://gist.github.com/CMCDragonkai/f1ed5e0676e53945429b">https://gist.github.com/CMCDragonkai/f1ed5e0676e53945429b</a></li>
+  <li><a href="https://mywiki.wooledge.org/BashFAQ/048">https://mywiki.wooledge.org/BashFAQ/048</a></li>
+  <li><a href="https://stackoverflow.com/questions/11065077/the-eval-command-in-bash-and-its-typical-uses">https://stackoverflow.com/questions/11065077/the-eval-command-in-bash-and-its-typical-uses</a></li>
+  <li><a href="https://stackoverflow.com/questions/17529220/why-should-eval-be-avoided-in-bash-and-what-should-i-use-instead">https://stackoverflow.com/questions/17529220/why-should-eval-be-avoided-in-bash-and-what-should-i-use-instead</a></li>
+  <li><a href="https://tecadmin.net/bash-command-substitution/">https://tecadmin.net/bash-command-substitution/</a></li>
+  <li><a href="https://tldp.org/LDP/abs/html/commandsub.html">https://tldp.org/LDP/abs/html/commandsub.html</a></li>
+  <li><a href="https://tldp.org/LDP/abs/html/internal.html#EX43">https://tldp.org/LDP/abs/html/internal.html#EX43</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/23111/what-is-the-eval-command-in-bash">https://unix.stackexchange.com/questions/23111/what-is-the-eval-command-in-bash</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/440088/what-is-command-substitution-in-a-shell">https://unix.stackexchange.com/questions/440088/what-is-command-substitution-in-a-shell</a></li>
+  <li><a href="https://www.baeldung.com/linux/bash-safe-use-eval">https://www.baeldung.com/linux/bash-safe-use-eval</a></li>
+  <li><a href="https://www.baeldung.com/linux/parameter-expansion-vs-command-substitution">https://www.baeldung.com/linux/parameter-expansion-vs-command-substitution</a></li>
+  <li><a href="https://www.computerhope.com/unix/bash/eval.htm">https://www.computerhope.com/unix/bash/eval.htm</a></li>
+  <li><a href="https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html">https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. More about this in a later chapter dedicated to processes.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. You might get a different result depending on the contents of the folder where you run the script.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. Type “<code style="font-size:10pt">man uname</code>” in your terminal for more information.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. The “<code style="font-size:10pt">date</code>” command displays the current date.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. Maybe the script is run with the user "root".<a href="#footnote-5-ref">&#8617;</a>
+</p>
+<p id="footnote-6" style="font-size:10pt">
+6. The “<code style="font-size:10pt">rm</code>” command is used to delete files and folders. We will learn about it in a later chapter.<a href="#footnote-6-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
