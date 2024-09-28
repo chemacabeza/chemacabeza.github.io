@@ -32,9 +32,11 @@ url: "https://the-engineering-corner.com" # the base hostname & protocol for you
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-minifier
+  - jekyll-paginate
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-paginate
+  - jekyll-toc
 
 collections:
   bash-in-depth:
@@ -67,3 +69,20 @@ collections:
 
 paginate: 5
 paginate_path: "/page:num/"
+
+# 
+# jekyll-toc
+#
+toc:
+  autolink: true          # Automatically adds anchor links to each section heading
+  no_toc_section_class: 'no_toc'  # Class to exclude sections from the TOC
+  min_level: 2            # Minimum heading level to include in the TOC
+  max_level: 6            # Maximum heading level to include in the TOC
+  ordered_list: false     # Use ordered lists instead of unordered
+
+#
+# jekyll-robots-txt
+#
+robots:
+  - user-agent: "*"
+    allow: "/"

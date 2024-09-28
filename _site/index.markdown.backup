@@ -74,6 +74,7 @@
 {"@context":"https://schema.org","@type":"WebPage","description":"I hope you will have fun and learn new things reading this blog.","headline":"The Engineering Corner","url":"http://localhost:4000/index.markdown.backup"}</script>
 <!-- End Jekyll SEO tag -->
 
+<link rel="robots" href="/robots.txt">
 <div class="post-list">
   <h2>Posts</h2>
   

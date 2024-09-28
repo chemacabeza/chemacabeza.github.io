@@ -35,4 +35,11 @@ gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 gem "jekyll-sitemap"
 # Plugin for pagination
 gem "jekyll-paginate"
-
+# Plugin for Table of Contents
+gem "jekyll-toc"
+# Jekyll SEO tag
+gem 'jekyll-seo-tag'
+# Jekyll robots txt
+# gem 'jekyll-robots-txt'
+# jekyll-minifier
+gem 'jekyll-minifier'
