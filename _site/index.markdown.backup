@@ -9,14 +9,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="I hope you will have fun and learn new things reading this blog." />
 <meta property="og:description" content="I hope you will have fun and learn new things reading this blog." />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<link rel="canonical" href="http://localhost:4000/index.markdown.backup" />
+<meta property="og:url" content="http://localhost:4000/index.markdown.backup" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="The Engineering Corner" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"I hope you will have fun and learn new things reading this blog.","headline":"The Engineering Corner","name":"The Engineering Corner","url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","description":"I hope you will have fun and learn new things reading this blog.","headline":"The Engineering Corner","url":"http://localhost:4000/index.markdown.backup"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -57,13 +57,29 @@
 
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="posts">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The Engineering Corner | I hope you will have fun and learn new things reading this blog.</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="The Engineering Corner" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I hope you will have fun and learn new things reading this blog." />
+<meta property="og:description" content="I hope you will have fun and learn new things reading this blog." />
+<link rel="canonical" href="http://localhost:4000/index.markdown.backup" />
+<meta property="og:url" content="http://localhost:4000/index.markdown.backup" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The Engineering Corner" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"I hope you will have fun and learn new things reading this blog.","headline":"The Engineering Corner","url":"http://localhost:4000/index.markdown.backup"}</script>
+<!-- End Jekyll SEO tag -->
+
+<div class="post-list">
+  <h2>Posts</h2>
   
-    <article>
-				<h2><a href="/jekyll/update/2024/09/14/welcome-to-jekyll.html">2024-09-14 Welcome to Jekyll!</a></h2>
-      <p><p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+	<h3><a href="/jekyll/update/2024/09/14/welcome-to-jekyll.html">2024-09-14 Welcome to Jekyll!</a></h3>
+    <p><p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
 </p>
-    </article>
   
 </div>
 
@@ -72,7 +88,6 @@
 
   
 </div>
-
 
       </div>
     </main><footer class="site-footer h-card">
