@@ -5,6 +5,43 @@ title: "Chapter 12: Arrays and loops"
 
 # Chapter 12: Arrays and loops
 
+## Index
+* [Introduction]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#introduction)
+* [Indexed Arrays]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#indexed-arrays)
+    * [How do you access items of an indexed array?]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#how-do-you-access-items-of-an-indexed-array)
+* [Associative Arrays (a.k.a. Hashes/Maps)]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#associative-arrays-aka-hashesmaps)
+    * [How do you access items of an associative array?]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#how-do-you-access-items-of-an-associative-array)
+* [Associative Arrays as Sets]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#associative-arrays-as-sets)
+* [Operations with arrays]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#operations-with-arrays)
+    * [First element of the array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#first-element-of-the-array)
+    * [Get the whole content of the array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#get-the-whole-content-of-the-array)
+    * [Get the list of indices]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#get-the-list-of-indices)
+    * [Get the length of the array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#get-the-length-of-the-array)
+    * [Adding an element to an array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#adding-an-element-to-an-array)
+    * [Delete element from a given index]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#delete-element-from-a-given-index)
+    * [Delete element from a given pattern]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#delete-element-from-a-given-pattern)
+        * [Shortest match from the front of the string]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#shortest-match-from-the-front-of-the-string)
+        * [Longest match from the front of the string]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#longest-match-from-the-front-of-the-string)
+        * [Shortest match from the back of the string]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#shortest-match-from-the-back-of-the-string)
+        * [Longest match from the back of the string]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#longest-match-from-the-back-of-the-string)
+    * [Substring replacement with regular expressions]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#substring-replacement-with-regular-expressions)
+        * [Replace first occurrence]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#replace-first-occurrence)
+        * [Replace all occurrences]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#replace-all-occurrences)
+        * [Replace beginning occurrences of string]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#replace-beginning-occurrences-of-string)
+        * [Replace ending occurrences of string]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#replace-ending-occurrences-of-string)
+    * [Delete an entire array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#delete-an-entire-array)
+    * [Consult the length of the i-th element of the array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#consult-the-length-of-the-i-th-element-of-the-array)
+    * [How to copy an array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#how-to-copy-an-array)
+    * [Slice of an array]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#slice-of-an-array)
+    * [Concatenate arrays]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#concatenate-arrays)
+* [For-Loop]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#for-loop)
+* [For-Loop (C-style)]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#for-loop-c-style)
+* [While loop]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#while-loop)
+* [Until loop]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#until-loop)
+* [`continue` and `break`]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#continue-and-break)
+* [Summary]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0012-Arrays-and-loops.html#references)
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
 ## Introduction
@@ -1401,11 +1438,358 @@ In the previous “`while`” loop, the execution continued **while the conditio
 
 In this “`until`” loop, the execution of the commands in its body will continue **until the condition evaluates to true** (so the condition **must be FALSE for this loop to execute**). At the moment of having the condition evaluated to true, the loop will stop.
 
+Let's see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-007.sh
+ 3 # Initialize counter
+ 4 i=0
+ 5 # Using the single bracket operator
+ 6 until [ $i -gt 4 ]; do
+ 7     echo "Line#$i"
+ 8     i=$(($i+1))
+ 9 done
+10 # Separator and re-initialize the counter
+11 echo "----------"
+12 i=0
+13 # Using the test operator
+14 until test $i -gt 5; do
+15     echo "Line#$i"
+16     i=$(($i+1))
+17 done
+18 # Separator and re-initialize the counter
+19 echo "----------"
+20 i=0
+21 # Using the double bracket operator
+22 until [[ $i > 6 ]]; do
+23     echo "Line#$i"
+24     i=$(($i+1))
+25 done
+```
+
+When you run the previous script you will see the following output in the terminal window.
+
+```txt
+$ ./loop-007.sh
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+----------
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+Line#5
+----------
+Line#0
+Line#1
+Line#2
+Line#3
+Line#4
+Line#5
+Line#6
+```
+
+We have learnt how to create loops in different ways. There are times on which we will want to control the execution of the loop to either skip the current iteration and go to the following one, or just end the execution of the loop.
+
+This control is done with the keywords “`continue`” and “`break`”. Those are what we are going to learn next… :) 
+
+## `continue` and `break`
+
+There are times on which we will need to modify the execution of the current loop being executed to either stop it or just cut it short. For that we do have the following keywords that will help us:
+* `break`
+* `continue`
+
+“`break`” is used to stop the execution of the current loop and to continue with the program.
+
+Let's see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-008.sh
+ 3 # Declaration of array
+ 4 declare -a MY_ARRAY=(1 2 3 4 5 6 7 8 9 10)
+ 5 # For-loop that iterates through the array
+ 6 for item in ${MY_ARRAY[@]}; do
+ 7 		# Condition to exit on item with value 5
+ 8     if [ $item -eq 5 ]; then
+ 9         echo "Exiting loop on item '$item'"
+10         break
+11     fi
+12     echo "Current item: $item"
+13 done
+```
+
+This was a very basic example. In this case, the loop will iterate over the items of “`MY_ARRAY`” until the condition matches, in that case it will break the current loop.
+
+When you execute the previous script you get the following result.
+
+```txt
+$ ./loop-008.sh
+Current item: 1
+Current item: 2
+Current item: 3
+Current item: 4
+Exiting loop on item '5'
+```
+
+But “`break`” can also be invoked with an argument (“`break n`”, being “`n`” an integer bigger or equal to 1). If this extra parameter is included, it will stop the execution of the “`n`” enclosing loops.
+
+Let’s see how it works with an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-009.sh
+ 3 # Declaring a couple of arrays
+ 4 MY_ARRAY1=( 1 2 3 4 5 6 7 8 9 10 )
+ 5 MY_ARRAY2=( a b c e f g h i j k )
+ 6 # For-loops iterating through both arrays
+ 7 for item1 in ${MY_ARRAY1[@]}; do # loop-1
+ 8     echo "Item1: $item1"
+ 9     for item2 in ${MY_ARRAY2[@]}; do # loop-2
+10         echo "Item2: $item2"
+11 		   # Exiting both loops when item1 is 5 and item2 is e
+12         if [ $item1 -eq 5 ] && [ $item2 = 'e' ]; then
+13             echo "Exiting both loops on items '$item1' and '$item2'"
+14             break 2 # Exiting both loop-1 and loop-2
+15         fi
+16     done
+17     echo "Ending execution of loop-1"
+18 done
+```
+
+When you execute the previous script you will the following in the terminal window.
+
+```txt
+$ ./loop-009.sh
+Item1: 1
+Item2: a
+Item2: b
+Item2: c
+Item2: e
+Item2: f
+Item2: g
+Item2: h
+Item2: i
+Item2: j
+Item2: k
+Ending execution of loop-1
+Item1: 2
+Item2: a
+Item2: b
+Item2: c
+Item2: e
+Item2: f
+Item2: g
+Item2: h
+Item2: i
+Item2: j
+Item2: k
+Ending execution of loop-1
+Item1: 3
+Item2: a
+Item2: b
+Item2: c
+Item2: e
+Item2: f
+Item2: g
+Item2: h
+Item2: i
+Item2: j
+Item2: k
+Ending execution of loop-1
+Item1: 4
+Item2: a
+Item2: b
+Item2: c
+Item2: e
+Item2: f
+Item2: g
+Item2: h
+Item2: i
+Item2: j
+Item2: k
+Ending execution of loop-1
+Item1: 5
+Item2: a
+Item2: b
+Item2: c
+Item2: e
+Exiting both loops on items '5' and 'e'
+```
+
+If the number specified as an extra parameter is bigger than the number of levels of loop, it will just stop the execution of the maximum number of loops and nothing will break.
+
+“`continue`”  is the other keyword to know to operate in the loops. This keyword is used for when you want to stop the current iteration of the loop and jump to the next one.
+
+Let’s see an example to better understand how it works.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-010.sh
+ 3 # Declaring a couple of arrays
+ 4 MY_ARRAY1=( 1 2 3 4 5 6 7 8 9 10 )
+ 5 MY_ARRAY2=( a b c d e f g h i j )
+ 6 # For-loop iterating through both arrays
+ 7 for item1 in ${MY_ARRAY1[@]}; do # loop-1
+ 8     echo "Item1: $item1"
+ 9     for item2 in ${MY_ARRAY2[@]}; do # loop-2
+10         echo "Item2: $item2"
+11         # Jumping to the next iteration of inner loop
+12         if [ $item2 = "d" ] && [ $item1 -eq 5 ]; then
+13             echo "Jumping on 'd' and '5'"
+14             continue
+15         fi
+16         echo "End Item2"
+17     done
+18     echo "End Item1"
+19 done
+```
+
+When you run the previous script you will get the following result in the terminal window.
+
+```txt
+$ ./loop-010.sh
+Item1: 1
+Item2: a
+End Item2
+Item2: b
+End Item2
+Item2: c
+End Item2
+Item2: d
+End Item2
+Item2: e
+End Item2
+Item2: f
+End Item2
+Item2: g
+End Item2
+...
+End Item2
+Item2: b
+End Item2
+Item2: c
+End Item2
+Item2: d
+Jumping on 'd' and '5'
+Item2: e
+End Item2
+...
+End Item2
+Item2: e
+End Item2
+Item2: f
+End Item2
+Item2: g
+End Item2
+Item2: h
+End Item2
+Item2: i
+End Item2
+Item2: j
+End Item2
+End Item1
+```
+
+Similar to “`break`”, “`continue`” is able to accept an extra parameter which will skip the execution of the loop “`n`” levels above. Let’s see how it works with the following script as an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: loop-011.sh
+ 3 # Declaring a couple of arrays
+ 4 MY_ARRAY1=( 1 2 3 4 5 6 7 8 9 10 )
+ 5 MY_ARRAY2=( a b c d e f g h i j )
+ 6 # For-loops iterating through the arrays
+ 7 for item1 in ${MY_ARRAY1[@]}; do # loop-1
+ 8     echo "Item1: $item1"
+ 9     for item2 in ${MY_ARRAY2[@]}; do # loop-2
+10         echo "Item2: $item2"
+11         # Continue to next iteration of the outer loop
+12 				# when item1 is 5 and item2 is d
+13         if [ $item2 = "d" ] && [ $item1 -eq 5 ]; then
+14             echo "Jumping on 'd' and '5'"
+15             continue 2 # go to next iteration of loop-1
+16         fi
+17         echo "End Item2"
+18     done
+19     echo "End Item1"
+20 done
+```
+
+When you run the previous script you get the following result.
+
+```txt
+$ ./loop-011.sh
+Item1: 1
+Item2: a
+End Item2
+Item2: b
+End Item2
+Item2: c
+End Item2
+Item2: d
+End Item2
+Item2: e
+End Item2
+...
+End Item1
+Item1: 5
+Item2: a
+End Item2
+Item2: b
+End Item2
+Item2: c
+End Item2
+Item2: d
+Jumping on 'd' and '5'
+Item1: 6
+Item2: a
+End Item2
+...
+End Item2
+Item2: h
+End Item2
+Item2: i
+End Item2
+Item2: j
+End Item2
+End Item1
+```
+
+Same as with “`break`” you should provide an integer number that is bigger or equal to 1. If the number provided is larger than the level of loops, the outer loop will be skipped.
 
 ## Summary
 
+In this chapter we learnt a lot about the different kinds of arrays and how to iterate them.
+
+We learnt what indexed and associative arrays are and the differences between them.
+
+We learnt what are the different operations that can be applied to the arrays (like adding elements, getting slices of the arrays, adding new elements, removing elements knowing the index or the pattern and so much more).
+
+Then we learnt how to iterate through the arrays with different kinds of loops like the for-loops, the for-loops with C-style, while-loops and until-loops.
+
+After the loops we learnt how to control the flow within the loops by using the “`continue`” and “`break`” key words.
+
+Last, but not least, we learnt how to use associative arrays to be used as sets.
+
+This was a lot of content. My recommendation for you is to practice to test the limits of your understanding.
+
 
 ## References
+1. <https://linuxhint.com/associative_arrays_bash_examples/>
+2. <https://ostechnix.com/bash-indexed-array/>
+3. <https://ryanstutorials.net/bash-scripting-tutorial/bash-loops.php>
+4. <https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-7.html>
+5. <https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_09_05.html>
+6. <https://unix.stackexchange.com/questions/417292/bash-for-loop-without-a-in-foo-bar-part>
+7. <https://unix.stackexchange.com/questions/746480/what-is-difference-between-these-two-declarations-of-associative-arrays-in-bash/>
+8. <https://www.gnu.org/software/bash/manual/html_node/Arrays.html>
+9. <https://www.shell-tips.com/bash/arrays/#gsc.tab=0>
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
