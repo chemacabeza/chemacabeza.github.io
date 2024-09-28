@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-28T20:54:50+02:00" />
+<meta property="article:published_time" content="2024-09-28T21:36:05+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 14: List constructs - Combining commands with &amp;&amp; and  " />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T20:54:50+02:00","datePublished":"2024-09-28T20:54:50+02:00","description":"Chapter 14: List constructs - Combining commands with &amp;&amp; and ||","headline":"Chapter 14: List constructs - Combining commands with &amp;&amp; and  ","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"},"url":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T21:36:05+02:00","datePublished":"2024-09-28T21:36:05+02:00","description":"Chapter 14: List constructs - Combining commands with &amp;&amp; and ||","headline":"Chapter 14: List constructs - Combining commands with &amp;&amp; and  ","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"},"url":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,15 +69,24 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-28T20:54:50+02:00" />
+<meta property="article:published_time" content="2024-09-28T21:36:05+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 14: List constructs - Combining commands with &amp;&amp; and  " />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T20:54:50+02:00","datePublished":"2024-09-28T20:54:50+02:00","description":"Chapter 14: List constructs - Combining commands with &amp;&amp; and ||","headline":"Chapter 14: List constructs - Combining commands with &amp;&amp; and  ","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"},"url":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T21:36:05+02:00","datePublished":"2024-09-28T21:36:05+02:00","description":"Chapter 14: List constructs - Combining commands with &amp;&amp; and ||","headline":"Chapter 14: List constructs - Combining commands with &amp;&amp; and  ","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"},"url":"http://localhost:4000/bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
   <h1 id="chapter-14-list-constructs---combining-commands-with--and-">Chapter 14: List constructs - Combining commands with <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> and <code class="language-plaintext highlighter-rouge">||</code></h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html#operator--double-ampersand">Operator &amp;&amp; (Double Ampersand)</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html#operator--double-vertical-bar">Operator <code class="language-plaintext highlighter-rouge">||</code> (Double Vertical Bar)</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html#combining-operators--and--with-commands">Combining operators “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” and “<code class="language-plaintext highlighter-rouge">||</code>” with commands</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0014-List-Constructs-Combining-Commands-With-And-and-OR.html#references">References</a></li>
+</ul>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
@@ -87,9 +96,256 @@
 
 <h2 id="operator--double-ampersand">Operator &amp;&amp; (Double Ampersand)</h2>
 
+<p>In the same way that we used the “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” operand to check for conditions that should be true at both sides of the operand before executing the instructions inside an IF clause, this operand can be used to execute two or more commands that must succeed in order to consider the combination of commands successful.</p>
+
+<p>The syntax of this operand is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command1 <span class="o">&amp;&amp;</span> command2
+</code></pre></div></div>
+
+<p>And the way success is calculated is as follows.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Command1</th>
+      <th style="text-align: center">Command2</th>
+      <th style="text-align: center">Is it Successful?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">YES</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">NO</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">NO</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">NO</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To illustrate the previous table we are going to write the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: double-ampersand-cases.sh</span>
+ 3 <span class="c"># Succeeds and Succeeds</span>
+ 4 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"case 1"</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">" succeeds"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Result case 1: </span><span class="nv">$?</span><span class="s2">"</span>
+ 6 <span class="c"># Succeeds and Fails</span>
+ 7 <span class="nb">echo</span> <span class="s2">"case 2"</span> <span class="o">&amp;&amp;</span> <span class="nb">rm </span>does_not_exist
+ 8 <span class="nb">echo</span> <span class="s2">"Result case 2: </span><span class="nv">$?</span><span class="s2">"</span>
+ 9 <span class="c"># Fails and Succeeds</span>
+10 <span class="nb">rm </span>does_not_exist <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"case 3, not executed"</span>
+11 <span class="nb">echo</span> <span class="s2">"Result case 3: </span><span class="nv">$?</span><span class="s2">"</span>
+12 <span class="c"># Fails and Fails</span>
+13 <span class="nb">rm </span>does_not_exist <span class="o">&amp;&amp;</span> <span class="nb">rm </span>another_file_that_does_not_exist
+14 <span class="nb">echo</span> <span class="s2">"Result case 4: </span><span class="nv">$?</span><span class="s2">"</span>
+15 <span class="c"># End</span>
+16 <span class="nb">echo</span> <span class="s2">"End of program"</span>
+</code></pre></div></div>
+
+<p>When the previous script is executed the following output will appear in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./double-ampersand-cases.sh
+case 1 succeeds
+Result case 1: 0
+case 2
+rm: cannot remove 'does_not_exist': No such file or directory
+Result case 2: 1
+rm: cannot remove 'does_not_exist': No such file or directory
+Result case 3: 1
+rm: cannot remove 'does_not_exist': No such file or directory
+Result case 4: 1
+End of program
+</code></pre>
+
+<p>As you can see from the execution of the script, the result of the execution of the commands succeeds only in the first execution (status is zero), while on the other three it fails (status is one).</p>
+
+<p>In this example we were using only two commands but that does not mean that the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” is restricted to just two commands. We could add as many commands as we wanted in the following way</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command1 <span class="o">&amp;&amp;</span> command2 <span class="o">&amp;&amp;</span> command3 <span class="o">&amp;&amp;</span> ...
+</code></pre></div></div>
+
+<p>Executing commands like this will succeed only when all commands in the list of commands to be executed succeed. If only one command fails, the whole execution will be considered as failed and will have a status code of one (failure).</p>
+
+<h2 id="operator--double-vertical-bar">Operator <code class="language-plaintext highlighter-rouge">||</code> (Double Vertical Bar)</h2>
+
+<p>In the same way that we used the “<code class="language-plaintext highlighter-rouge">||</code>” operand to check for conditions that should be true at <strong>either</strong> side of the operand before executing the instructions inside an IF clause, this operand can be used to execute commands, sequentially, until one succeeds. At the moment that a command succeeds, Bash will consider the execution successful (status code will be zero) and will stop the execution of further commands.</p>
+
+<p>The syntax of this operand is.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command1 <span class="o">||</span> command2
+</code></pre></div></div>
+
+<p>And the way success is calculated is as follows.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Command1</th>
+      <th style="text-align: center">Command2</th>
+      <th style="text-align: center">Is it Successful?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">YES</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">YES</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">Succeeds</td>
+      <td style="text-align: center">YES</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">Fails</td>
+      <td style="text-align: center">NO</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In a similar way as we did with the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>”, we are going to write a small script to illustrate the previous table.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: double-vertical-bar-cases.sh</span>
+ 3 <span class="c"># Succeeds and Succeeds</span>
+ 4 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"case 1"</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">" succeeds"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Result case 1: </span><span class="nv">$?</span><span class="s2">"</span>
+ 6 <span class="c"># Succeeds and Fails</span>
+ 7 <span class="nb">echo</span> <span class="s2">"case 2"</span> <span class="o">||</span> <span class="nb">rm </span>does_not_exist
+ 8 <span class="nb">echo</span> <span class="s2">"Result case 2: </span><span class="nv">$?</span><span class="s2">"</span>
+ 9 <span class="c"># Fails and Succeeds</span>
+10 <span class="nb">rm </span>does_not_exist <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"case 3, not executed"</span>
+11 <span class="nb">echo</span> <span class="s2">"Result case 3: </span><span class="nv">$?</span><span class="s2">"</span>
+12 <span class="c"># Fails and Fails</span>
+13 <span class="nb">rm </span>does_not_exist <span class="o">||</span> <span class="nb">rm </span>another_file_that_does_not_exist
+14 <span class="nb">echo</span> <span class="s2">"Result case 4: </span><span class="nv">$?</span><span class="s2">"</span>
+15 <span class="c"># End</span>
+16 <span class="nb">echo</span> <span class="s2">"End of program"</span>
+</code></pre></div></div>
+
+<p>When the previous script is run, you will see the following in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./double-vertical-bar-cases.sh
+case 1Result case 1: 0
+case 2
+Result case 2: 0
+rm: cannot remove 'does_not_exist': No such file or directory
+case 3, not executed
+Result case 3: 0
+rm: cannot remove 'does_not_exist': No such file or directory
+rm: cannot remove 'another_file_that_does_not_exist': No such file or directory
+Result case 4: 1
+End of program
+</code></pre>
+
+<p>As you can see from the execution of the script, the result of the execution of the commands succeeds in the first three executions (status is zero), while on the last one it fails (status is one).</p>
+
+<p>In this example we were using only two commands but that does not mean that the operator “<code class="language-plaintext highlighter-rouge">||</code>” is restricted to just two commands. We could add as many commands as we wanted in the following way.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command1 <span class="o">||</span> command2 <span class="o">||</span> command3 <span class="o">||</span> ...
+</code></pre></div></div>
+
+<p>Executing commands like this will succeed only when at least one of the commands succeeds. When a command succeeds, it will stop executing the rest of the commands.</p>
+
+<p>For example, let’s say we execute the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>command1 <span class="o">||</span> command2 <span class="o">||</span> command3 <span class="o">||</span> command4
+</code></pre></div></div>
+
+<p>In this case Bash will execute the command “<code class="language-plaintext highlighter-rouge">command1</code>”.</p>
+
+<p>If “<code class="language-plaintext highlighter-rouge">command1</code>” succeeds the result of the execution will be success and will stop executing the rest of the commands (“<code class="language-plaintext highlighter-rouge">command2</code>”, “<code class="language-plaintext highlighter-rouge">command3</code>” and “<code class="language-plaintext highlighter-rouge">command4</code>”). If “<code class="language-plaintext highlighter-rouge">command1</code>” fails, Bash will move to execute “<code class="language-plaintext highlighter-rouge">command2</code>”.</p>
+
+<p>If “<code class="language-plaintext highlighter-rouge">command2</code>” succeeds the result of the execution will be success and will stop executing the rest of the commands (“<code class="language-plaintext highlighter-rouge">command3</code>” and “<code class="language-plaintext highlighter-rouge">command4</code>”). If “<code class="language-plaintext highlighter-rouge">command2</code>” fails, Bash will move to execute “<code class="language-plaintext highlighter-rouge">command3</code>”.</p>
+
+<p>If “<code class="language-plaintext highlighter-rouge">command3</code>” succeeds the result of the execution will be success and will stop executing the rest of the commands (“<code class="language-plaintext highlighter-rouge">command4</code>”). If “<code class="language-plaintext highlighter-rouge">command3</code>” fails, Bash will move to execute “<code class="language-plaintext highlighter-rouge">command4</code>”.</p>
+
+<p>If “<code class="language-plaintext highlighter-rouge">command4</code>” succeeds the result of the execution of the whole command will be success. If “<code class="language-plaintext highlighter-rouge">command4</code>” fails, Bash will set the execution of the whole combination of commands as failure.</p>
+
+<h2 id="combining-operators--and--with-commands">Combining operators “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” and “<code class="language-plaintext highlighter-rouge">||</code>” with commands</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The operators “&amp;&amp;” and “</td>
+      <td> </td>
+      <td>” can be used together in the same command. The only thing to bear in mind when using the operators in combination is <strong>their precedence</strong>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Just to make it very clear, <strong>the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” will always be evaluated before operator “<code class="language-plaintext highlighter-rouge">||</code>”</strong>.</p>
+
+<p>We are going to write a simple Bash script to play with both operators.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: test-or-and.sh</span>
+ 3 <span class="c">#       EXECUTED                  NOT EXECUTED                  EXECUTED</span>
+ 4 <span class="c"># vvvvvvvvvvvvvvvvvvv      vvvvvvvvvvvvvvvvvvvvvvvv    vvvvvvvvvvvvvvvvvvvvvvvvv</span>
+ 5 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Is executed, "</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"It's not executed"</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"It's also executed"</span>
+ 6 <span class="nb">echo</span> <span class="s2">"Result: </span><span class="nv">$?</span><span class="s2">"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"End of program"</span>
+</code></pre></div></div>
+
+<p>When the previous script is executed the following will appear in the terminal window.</p>
+
+<pre><code class="language-txt">$ ./test-or-and.sh
+Is executed, It's also executed
+Result: 0
+End of program
+</code></pre>
+
+<p>Bash detects that there are two operands linking three commands. The first operator is “<code class="language-plaintext highlighter-rouge">||</code>” while the second operator is “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>”. As the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” <strong>has higher preference than</strong> “<code class="language-plaintext highlighter-rouge">||</code>”, the three commands will be divided into two groups.</p>
+
+<p>The first group of commands is composed of the first two “<code class="language-plaintext highlighter-rouge">echo</code>” commands. The second group is composed of the last “<code class="language-plaintext highlighter-rouge">echo</code>” command.</p>
+
+<p>Once Bash has identified the two groups (one at each side of the “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” operator) it will execute first the one on the left. As the one of the left is composed by two commands linked by the operator “<code class="language-plaintext highlighter-rouge">||</code>” Bash will execute first the one on the left.</p>
+
+<p>As the execution of the command at the left of the “<code class="language-plaintext highlighter-rouge">||</code>” operator is successful, the command at the right of the operator will not be executed.</p>
+
+<p>As the first group of commands resulted in a successful execution, Bash will go to execute the command at the right of the “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” operator. As this command also results in success the whole execution of the whole command has a status code of zero (success).</p>
+
 <h2 id="summary">Summary</h2>
 
+<p>In this chapter we learnt:</p>
+<ul>
+  <li>How to combine commands into a single one with the “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” operator. To have a successful execution of the new resulting command, all the commands chained by the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” must be successful. If only one of the commands fails, the whole set of commands will be considered as failed.</li>
+  <li>With the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” commands are executed from left to right. Bash will stop executing commands from left to right when a command fails.</li>
+  <li>How to combine commands into a single one with the “<code class="language-plaintext highlighter-rouge">||</code>” operator. To have a successful execution of the new resulting command, at least one of the chained commands must be successful. If all the commands fail, the execution of the whole command will be considered failed.</li>
+  <li>With the operator “<code class="language-plaintext highlighter-rouge">||</code>” commands are executed from left to right. If a command fails, Bash will go to the next command chained. Bash will stop executing commands from left to right when a command succeeds.</li>
+  <li>How to combine both “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” and “<code class="language-plaintext highlighter-rouge">||</code>” operators.</li>
+  <li>That operator “<code class="language-plaintext highlighter-rouge">||</code>” has lower priority than the operator “<code class="language-plaintext highlighter-rouge">&amp;&amp;</code>” and will be evaluated after.</li>
+</ul>
+
 <h2 id="references">References</h2>
+
+<ol>
+  <li><a href="https://linuxhint.com/bash-logical-and-operator">https://linuxhint.com/bash-logical-and-operator</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/24684/confusing-use-of-and-operators/24685#24685">https://unix.stackexchange.com/questions/24684/confusing-use-of-and-operators/24685#24685</a></li>
+  <li><a href="https://www.gnu.org/software/bash/manual/bash.html">https://www.gnu.org/software/bash/manual/bash.html</a></li>
+  <li><a href="https://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/ops.html">https://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/ops.html</a></li>
+</ol>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
