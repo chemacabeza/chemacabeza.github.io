@@ -263,7 +263,65 @@ Nothing to see here
 
 As you can see in the execution of the last script before line 7 of the script the actual “`ls`” command is used. After line 7 the function is the one used.
 
-## Variable associated to a function
+## Variable `$FUNCNAME` associated to a function
+
+The variable “`FUNCNAME`” is an array containing the names of all shell functions currently in the execution call stack. The element with index 0 is the name of any currently-executing shell function. The bottom-most element (the one with the highest index) is "`main`"<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a>. This variable exists only when a shell function is executing. Assignments to “`FUNCNAME`” have no effect. If “`FUNCNAME`” is unset, it loses its special properties, even if it is subsequently reset.
+
+Let's see how it works with the following example script.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: function-0010.sh
+ 3 my_custom_function() {
+ 4     echo "We are inside the function '$FUNCNAME'"
+ 5     echo "Array: ${FUNCNAME[@]}"
+ 6     my_custom_function_2
+ 7 }
+ 8 my_custom_function_2() {
+ 9     echo "Array: ${FUNCNAME[@]}"
+10     my_custom_function_3
+11 }
+12 my_custom_function_3() {
+13     echo "Array: ${FUNCNAME[@]}"
+14 }
+15 my_custom_function
+16 echo "End"
+```
+
+If you run the previous script you will see the following output in the terminal window.
+
+```txt
+$ ./function-0010.sh
+We are inside the function 'my_custom_function'
+Array: my_custom_function main
+Array: my_custom_function_2 my_custom_function main
+Array: my_custom_function_3 my_custom_function_2 my_custom_function main
+End
+```
+
+## Positional parameters
+
+This section is going to be very useful because what we will learn here is applicable to both functions and scripts.
+
+Till now we learnt how to write functions and scripts that execute a task without receiving anything from the caller. Now we are going to learn how we can pass arguments to a function/script so that it can be used as parameters.
+
+What is the difference between arguments and parameters? To be on the same page we are going to use the notions that appear on this page of Developer Mozilla<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>.
+
+Note the difference between parameters and arguments:
+* Function parameters are the names listed in the function's definition.
+* Function arguments are the real values passed to the function.
+    * An argument is a value passed as input to a function.
+* Parameters are initialized to the values of the arguments supplied.
+
+All information we can have regarding positional parameters come inside the following variables:
+* `$0`, `$1`, `$2`, etc: Positional parameters, passed from command line to script or passed to a function. 
+    * `$0` is a “*special value*” and it’s **ALWAYS** going to be the name of the script being executed in the way you wrote it (relative path, absolute path, etc) 
+* `$#`: Number of command-line arguments or positional parameters
+* `$*`: All of the positional parameters, seen as a single word (it must be quoted , “`$*`”)
+* `$@`: Same as `$*`, but each parameter is a quoted string, that is, the parameters are passed on intact, without interpretation or expansion. This means, among other things, that each parameter in the argument list is seen as a separate word.
+
+## `shift`
+
 
 
 ## Summary
@@ -275,5 +333,11 @@ As you can see in the execution of the last script before line 7 of the script t
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 <p id="footnote-1" style="font-size:10pt">
 1. The “<code style="font-size:10pt">ls</code>” command is used to list the content of the folders that you pass as arguments, or the current folder if you do not provide any argument.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. "<code style="font-size:10pt">main</code>" represents the global (non-function) execution context of the Bash script.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. <a href="https://developer.mozilla.org/en-US/docs/Glossary/Parameter">https://developer.mozilla.org/en-US/docs/Glossary/Parameter</a> <a href="#footnote-3-ref">&#8617;</a>
 </p>
 
