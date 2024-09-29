@@ -71,7 +71,7 @@ Something to notice is that a function **can NEVER have an empty body**. For exa
  7 }
 ```
 
-If you try to run the previous script you will the following error.
+If you try to run the previous script you will get the following error.
 
 ```txt
 $ ./function-0003.sh
