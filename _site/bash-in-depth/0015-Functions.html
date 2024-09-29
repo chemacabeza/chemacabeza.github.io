@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0015-Functions.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-28T21:46:27+02:00" />
+<meta property="article:published_time" content="2024-09-29T09:08:57+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 15: Functions" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T21:46:27+02:00","datePublished":"2024-09-28T21:46:27+02:00","description":"Chapter 15: Functions","headline":"Chapter 15: Functions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0015-Functions.html"},"url":"http://localhost:4000/bash-in-depth/0015-Functions.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-29T09:08:57+02:00","datePublished":"2024-09-29T09:08:57+02:00","description":"Chapter 15: Functions","headline":"Chapter 15: Functions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0015-Functions.html"},"url":"http://localhost:4000/bash-in-depth/0015-Functions.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0015-Functions.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-28T21:46:27+02:00" />
+<meta property="article:published_time" content="2024-09-29T09:08:57+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 15: Functions" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-28T21:46:27+02:00","datePublished":"2024-09-28T21:46:27+02:00","description":"Chapter 15: Functions","headline":"Chapter 15: Functions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0015-Functions.html"},"url":"http://localhost:4000/bash-in-depth/0015-Functions.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-29T09:08:57+02:00","datePublished":"2024-09-29T09:08:57+02:00","description":"Chapter 15: Functions","headline":"Chapter 15: Functions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0015-Functions.html"},"url":"http://localhost:4000/bash-in-depth/0015-Functions.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -96,6 +96,60 @@
 <div style="text-align:center">
     <img src="/assets/bash-in-depth/0015-Functions/Function-Declaration.png" width="450px" />
 </div>
+
+<p>Let’s see next a couple of examples of how to declare a function.</p>
+
+<p>The first example is by using the “<code class="language-plaintext highlighter-rouge">function</code>” keyword.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c"># Script: function-0001.sh</span>
+ 3 <span class="k">function </span>my_function<span class="o">()</span> <span class="o">{</span>
+ 4     <span class="nb">echo</span> <span class="s2">"Hello from inside the function"</span>
+ 5 <span class="o">}</span>
+ 6 my_function
+</code></pre></div></div>
+
+<p>When you run the previous script you get the following output.</p>
+
+<pre><code class="language-txt">$ ./function-0001.sh
+Hello from inside the function
+</code></pre>
+
+<p>And the second example is by declaring the function without the “<code class="language-plaintext highlighter-rouge">function</code>” keyword, like the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c"># Script: function-0002.sh</span>
+ 3 my_function<span class="o">()</span> <span class="o">{</span>
+ 4     <span class="nb">echo</span> <span class="s2">"Hello from inside the function"</span>
+ 5 <span class="o">}</span>
+ 6 my_function
+</code></pre></div></div>
+
+<p>If you run the last script you will see that it produces the same output as the “<code class="language-plaintext highlighter-rouge">function-0002.sh</code>” script.</p>
+
+<p>Although both approaches are equivalent, the second one (without the “<code class="language-plaintext highlighter-rouge">function</code>” keyword) is more portable and because of portability reasons it will be the approach that we will use in this book.</p>
+
+<p>Something to notice is that a function <strong>can NEVER have an empty body</strong>. For example, if we try to execute the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c"># Script: function-0003.sh</span>
+ 3 error_fn_1<span class="o">()</span> <span class="o">{</span>
+ 4 <span class="o">}</span>
+ 5 error_fn_2<span class="o">()</span> <span class="o">{</span>
+ 6     <span class="nb">echo</span> <span class="s2">"Some commands"</span>
+ 7 <span class="o">}</span>
+</code></pre></div></div>
+
+<p>If you try to run the previous script you will the following error.</p>
+
+<pre><code class="language-txt">$ ./function-0003.sh
+./function-0003.sh: line 4: syntax error near unexpected token `}'
+./function-0003.sh: line 4: `}'
+</code></pre>
+
+<p>The body of a function must contain any combination of commands and statements like the ones we learnt before (<code class="language-plaintext highlighter-rouge">if</code>, <code class="language-plaintext highlighter-rouge">case</code>, <code class="language-plaintext highlighter-rouge">for</code> loop, <code class="language-plaintext highlighter-rouge">while</code> loop,…). You have to write code that is clean so that you can understand it when you come back to it.</p>
+
+<p>In the next sections we will dive into different details of functions. We will start by comparing declaration vs call of a function.</p>
 
 <h2 id="summary">Summary</h2>
 
