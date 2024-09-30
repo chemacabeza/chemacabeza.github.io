@@ -43,3 +43,6 @@ gem 'jekyll-seo-tag'
 # gem 'jekyll-robots-txt'
 # jekyll-minifier
 gem 'jekyll-minifier'
+# jekyll-assets
+gem 'jekyll-assets'
+

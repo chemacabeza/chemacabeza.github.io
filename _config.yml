@@ -86,3 +86,13 @@ toc:
 robots:
   - user-agent: "*"
     allow: "/"
+#
+# jekyll-assets
+#
+assets:
+  compress:
+    css: true
+    js: true
+  cachebust: true
+  digest: true
+
