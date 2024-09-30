@@ -5,6 +5,19 @@ title: "Chapter 15: Functions"
 
 # Chapter 15: Functions
 
+## Index
+* [Declaration]({{ site.url }}//bash-in-depth/0015-Functions.html#declaration)
+* [Declaration vs Call]({{ site.url }}//bash-in-depth/0015-Functions.html#declaration-vs-call)
+* [Local variables]({{ site.url }}//bash-in-depth/0015-Functions.html#local-variables)
+* [Overriding functions and commands]({{ site.url }}//bash-in-depth/0015-Functions.html#overriding-functions-and-commands)
+* [Variable `$FUNCNAME` associated to a function]({{ site.url }}//bash-in-depth/0015-Functions.html#variable-funcname-associated-to-a-function)
+* [Positional parameters]({{ site.url }}//bash-in-depth/0015-Functions.html#positional-parameters)
+* [`shift` built-in command]({{ site.url }}//bash-in-depth/0015-Functions.html#shift-built-in-command)
+* [Return status (`$?`) and `return`]({{ site.url }}//bash-in-depth/0015-Functions.html#return-status--and-return)
+* [Returning non-integer values]({{ site.url }}//bash-in-depth/0015-Functions.html#returning-non-integer-values)
+* [Recursivity]({{ site.url }}//bash-in-depth/0015-Functions.html#recursivity)
+* [Summary]({{ site.url }}//bash-in-depth/0015-Functions.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0015-Functions.html#references)
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
@@ -320,15 +333,199 @@ All information we can have regarding positional parameters come inside the foll
 * `$*`: All of the positional parameters, seen as a single word (it must be quoted , “`$*`”)
 * `$@`: Same as `$*`, but each parameter is a quoted string, that is, the parameters are passed on intact, without interpretation or expansion. This means, among other things, that each parameter in the argument list is seen as a separate word.
 
-## `shift`
+## `shift` built-in command
 
+The “`shift`” command is one of the Bourne shell built-ins that comes with Bash. This command takes one argument, a number. The positional parameters are shifted to the left by this number, `N`. The positional parameters from `N+1` to `$#` are renamed to variable names from `$1` to `$# - N+1`.
 
+Say you have a command that takes 10 arguments, and `N` is 4, then `$4` becomes `$1`, `$5` becomes `$2` and so on. `$10` becomes `$7` and the original `$1`, `$2` and `$3` **are thrown away**.
+
+If `N` is zero or greater than `$#`, the positional parameters are not changed and the command has no effect. If `N` is not present, **it is assumed to be 1**. The return status is zero unless `N` is greater than `$#` or less than zero; otherwise it is non-zero.
+
+Let's see how the “`shift`” command works with the following example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: function-0011.sh
+ 3 args=($@)
+ 4 echo "Printing original list of arguments"
+ 5 for((index=0; index <= ${#args[@]}; index++)) {
+ 6     echo "Arg[$index]: ${!index}"
+ 7 }
+ 8 shift 4
+ 9 args=($@)
+10 echo "Printing list after shifting"
+11 for((index=0; index <= ${#args[@]}; index++)) {
+12     echo "Arg[$index]: ${!index}"
+13 }
+```
+
+When you execute the previous script with the numbers from 1 to 9 you will get the following output.
+
+```txt
+$ ./function-0011.sh
+Printing original list of arguments
+Arg[0]: ./function-0011.sh
+Arg[1]: 1
+Arg[2]: 2
+Arg[3]: 3
+Arg[4]: 4
+Arg[5]: 5
+Arg[6]: 6
+Arg[7]: 7
+Arg[8]: 8
+Arg[9]: 9
+Printing list after shifting
+Arg[0]: ./function-0011.sh
+Arg[1]: 5
+Arg[2]: 6
+Arg[3]: 7
+Arg[4]: 8
+Arg[5]: 9
+```
+
+Pay attention to a few things:
+* Parameter `$0`, as we mentioned previously, it’s always the name of the script
+* Arguments from index 1 to index 4 were **discarded**
+* Arguments from index 5 to index 9 were moved to indices 1 to 5
+
+## Return status (`$?`) and `return`
+
+In Bash, every function and script “*returns*” a value which is an integer. For that, the keyword “`return`” tends to be used.
+
+Once the result is returned from the function and the scope of the function is over, the result will be stored in the variable “`$?`” which will always contain the return value (integer) of the last statement or function or script executed.
+
+Let's see how it works with an example.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: function-0012.sh
+ 3 # Declaring a function
+ 4 my_ok_function() {
+ 5     echo "This function returns zero"
+ 6     return 0 
+ 7 }
+ 8 # Invoking the function
+ 9 my_ok_function
+10 # Printing the result of the function
+11 echo "Result: $?"
+```
+
+When you run the previous script you will have the following output in the terminal window.
+
+```txt
+$ ./function-0012.sh
+This function returns zero
+Result: 0
+```
+
+As you already saw the script printed “`Result: 0`” to the output. Something to be aware of is that the “`return`” keyword **only accepts an integer in the range [0-255]**. If an integer beyond this range is specified its binary value will be truncated to what 8 bits allow. For example:
+* If 256 is specified, the actual value will be zero
+* If 257 is specified, the actual value will be 1
+* If -1 is specified, the actual value will be 255
+* If -2 is specified, the actual value will be 254
+* And so on.
+
+If no “`return`” keyword is specified in the return of a function, the value returned will be the return value of the last command in the function.
+
+You can see “`return`” as the way to signal the exit status of a function.
+
+Once the result is returned from the function and the scope of the function is over, the result will be stored in the variable “`$?`” which will always contain the return value (integer) of the last statement or function or script executed.
+
+## Returning non-integer values
+
+As we saw before, the keyword “`return`” is used to terminate the execution of the current function with a specific status code [0-255]. “`return`” cannot be used to return other values apart from integers in the specified range. In order to “`return`” other kinds of values we need to use another builtin command we learnt already, which is the “`echo`” command.
+
+Let's see how it works with the following example.
+
+```bash
+$ ./function-0013.sh
+Result is 'NON_INTEGER_VALUE'
+```
+
+The previous script will printed “`Result is ‘NON_INTEGER_VALUE’`” to the screen. But you could be more creative by creating JSON strings, XML strings and so much more!
+
+## Recursivity
+
+In computer science, recursion is a programming technique using a function or an algorithm that calls itself one or more times until a specified condition is met, time at which the rest of each repetition is processed from the last one called to the first.
+
+Let's see how it works with the following example script that implements the Fibonacci<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a> function.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: function-0014.sh
+ 3 # Declaring the Fibonacci function
+ 4 fibonacci() {
+ 5     nthTerm=$1
+ 6     if [ $nthTerm -eq 0 ]; then # F(0)
+ 7         echo 0
+ 8     elif [ $nthTerm -eq 1 ]; then # F(1)
+ 9         echo 1
+10     else # F(N-1) + F(N-2)
+11         local n1=$(($nthTerm - 1))
+12         local fn1=$(fibonacci $n1)
+13         local n2=$(($nthTerm - 2))
+14         local fn2=$(fibonacci $n2)
+15         echo $(($fn1 + $fn2))
+16     fi
+17 }
+18 # Calling the Fibonacci function with the number 10
+19 fibonacci 10
+```
+
+When you run the previous script you will see the following the terminal window.
+
+```txt
+$ ./function-0014.sh
+55
+```
+
+Just for the record, recursivity is not only specific to functions. It’s a concept that can be used at script level.
+
+The previous function could be written as the following so that the recursion is applied to the script itself.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: function-0015.sh
+ 3 nthTerm=$1
+ 4 if [ $nthTerm -eq 0 ]; then # F(0)
+ 5     echo 0
+ 6 elif [ $nthTerm -eq 1 ]; then # F(1)
+ 7     echo 1
+ 8 else # F(N-1) + F(N-2)
+ 9     n1=$(($nthTerm - 1))
+10     fn1=$($0 $n1) # script calling itself
+11     n2=$(($nthTerm - 2))
+12     fn2=$($0 $n2) # script calling itself
+13     echo $(($fn1 + $fn2))
+14 fi
+```
+
+When you run the previous script providing 10 as input it will generate the same output as the previous script.
+
+```txt
+$ ./function-0015.sh
+55
+```
+
+You will notice that takes a bit longer for the script to be executed because it's creating different processes<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a>.
 
 ## Summary
 
+In this electrifying chapter, we dove headfirst into one of the most powerful tools in a Bash scripter's arsenal: **functions**! Functions allow us to streamline our scripts, making them more efficient, reusable, and easy to maintain. We explored how functions are declared and discovered that simply declaring them isn't enough — they only spring into action when explicitly called. This distinction is crucial for building more complex scripts, where we can define logic once and call it as many times as needed!
+
+We also uncovered the beauty of **local variables** inside functions, which keep our code clean and isolated, preventing conflicts with global variables. This not only improves readability but also ensures that our functions don't unintentionally mess up other parts of the script. Then came the mind-blowing revelation: **overriding functions** and **even commands**! That's right — with a little creativity, you can redefine how certain commands work in your script, but with great power comes great responsibility!
+
+One of the most intriguing topics covered was the **`$FUNCNAME` variable**, a hidden gem that helps you track the function call stack. It provides a look under the hood when debugging or working with nested functions. To round things off, we dove into **positional parameters** and the game-changing **`shift` built-in command**, which lets us control how arguments are passed and managed within functions. Mastering these concepts opens the door to writing flexible, adaptable scripts that can handle any input thrown their way. This chapter was a true exploration of the versatility and power of functions in Bash!
 
 ## References
 
+1. <https://linux101.hashnode.dev/bash-function-return-value-a-beginners-guide>
+2. <https://linuxize.com/post/bash-functions/>
+3. <https://phoenixnap.com/kb/bash-function>
+4. <https://ryanstutorials.net/bash-scripting-tutorial/bash-functions.php>
+5. <https://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-8.html>
+6. <https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html>
+7. <https://www.shell-tips.com/bash/functions/#gsc.tab=0>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 <p id="footnote-1" style="font-size:10pt">
@@ -339,5 +536,11 @@ All information we can have regarding positional parameters come inside the foll
 </p>
 <p id="footnote-3" style="font-size:10pt">
 3. <a href="https://developer.mozilla.org/en-US/docs/Glossary/Parameter">https://developer.mozilla.org/en-US/docs/Glossary/Parameter</a> <a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. <a href="https://en.wikipedia.org/wiki/Fibonacci_sequence">https://en.wikipedia.org/wiki/Fibonacci_sequence</a><a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. We will speak about processes in a later chapter.<a href="#footnote-5-ref">&#8617;</a>
 </p>
 
