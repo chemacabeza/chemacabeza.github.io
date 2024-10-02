@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-30T18:48:45+02:00" />
+<meta property="article:published_time" content="2024-10-02T07:37:29+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-30T18:48:45+02:00","datePublished":"2024-09-30T18:48:45+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-02T07:37:29+02:00","datePublished":"2024-10-02T07:37:29+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-09-30T18:48:45+02:00" />
+<meta property="article:published_time" content="2024-10-02T07:37:29+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-09-30T18:48:45+02:00","datePublished":"2024-09-30T18:48:45+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-02T07:37:29+02:00","datePublished":"2024-10-02T07:37:29+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -81,12 +81,72 @@
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
+<p>In Bash, navigating and managing your Linux distribution involves a variety of commands that enable you to explore directories, manipulate files, and search for specific content. At the core of navigating the file system is the <code class="language-plaintext highlighter-rouge">pwd</code> command, which prints the current working directory, and <code class="language-plaintext highlighter-rouge">cd</code>, which allows you to move between directories. The <code class="language-plaintext highlighter-rouge">ls</code> command lists the contents of a directory, helping you view files and subdirectories at your current location. Together, these commands form the basic tools for navigating your Linux system.</p>
+
+<p>Managing directories involves creating and deleting them with commands like <code class="language-plaintext highlighter-rouge">mkdir</code> (make a directory) and <code class="language-plaintext highlighter-rouge">rmdir</code> (remove an empty directory). For file creation and manipulation, <code class="language-plaintext highlighter-rouge">touch</code> creates new empty files, while <code class="language-plaintext highlighter-rouge">mv</code> moves or renames them, and <code class="language-plaintext highlighter-rouge">rm</code> removes files. If you want to view the contents of a file, the <code class="language-plaintext highlighter-rouge">cat</code> command can print it to the terminal. These commands are crucial for file and directory management, helping you control the structure and organization of your Linux environment.</p>
+
+<p>Bash also provides advanced directory navigation through <code class="language-plaintext highlighter-rouge">dirs</code>, <code class="language-plaintext highlighter-rouge">pushd</code>, and <code class="language-plaintext highlighter-rouge">popd</code>. These commands let you manage a stack of directories, allowing you to switch back and forth between locations more efficiently. With <code class="language-plaintext highlighter-rouge">pushd</code>, you add a directory to the stack and move to it, while <code class="language-plaintext highlighter-rouge">popd</code> returns you to the previous directory. This is especially useful when working on different parts of a system without losing track of where you’ve been.</p>
+
+<p>To search for files or content within files, <code class="language-plaintext highlighter-rouge">find</code> helps you locate files based on various criteria like name or modification time, while <code class="language-plaintext highlighter-rouge">grep</code> lets you search within files for specific patterns or text. These search and filtering commands are invaluable when working in larger systems or when tracking down specific information across many files. Understanding these core Bash commands equips you to efficiently navigate and manipulate your Linux environment.</p>
+
+<p>In this chapter we will go a bit deeper into the commands we mentioned and will show a little bit how to use them.</p>
+
+<p>Let’s begin!</p>
+
+<h2 id="the-pwd-command-and-the-variables-pwd-and-oldpwd">The <code class="language-plaintext highlighter-rouge">pwd</code> command and the variables <code class="language-plaintext highlighter-rouge">$PWD</code> and <code class="language-plaintext highlighter-rouge">$OLDPWD</code></h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">pwd</code> command allows you to know what is your current <strong>working directory</strong>, and will print to the terminal window the absolute path to the directory you are in.</p>
+
+<pre><code class="language-txt">$ pwd
+/home/username/Repositories/chapter16
+</code></pre>
+
+<p>The current working directory is not only avaiable via the “<code class="language-plaintext highlighter-rouge">pwd</code>” command, it’s also available through the environment variable “<code class="language-plaintext highlighter-rouge">$PWD</code>”.</p>
+
+<p>There is another environment variable named “<code class="language-plaintext highlighter-rouge">$OLDPWD</code>” which contains the path the previous working directory you were at. When you start a session in a terminal, the initial value of this variable will be empty. At the moment of moving to another directory, the value of “<code class="language-plaintext highlighter-rouge">$OLDPWD</code>” will be the previous directory you were at.</p>
+
+<p>Let’s see with a very simple example<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>.</p>
+
+<pre><code class="language-txt">$ pwd
+/home/username/Repositories/chapter16
+$ cd script
+$ pwd
+/home/username/Repositories/chapter16/script
+$ echo $OLDPWD
+/home/username/Repositories/chapter16
+</code></pre>
+
+<p>In the next section we will play with the “<code class="language-plaintext highlighter-rouge">cd</code>” command and the “<code class="language-plaintext highlighter-rouge">$HOME</code>” environment variable.</p>
+
+<h2 id="cd-and-home"><code class="language-plaintext highlighter-rouge">cd</code> and <code class="language-plaintext highlighter-rouge">$HOME</code></h2>
+
+<p>In Bash, the “<code class="language-plaintext highlighter-rouge">cd</code>” (change directory) command is used to navigate between directories. It allows you to move from your current working directory to another location in the filesystem. If you use “<code class="language-plaintext highlighter-rouge">cd</code>” without specifying a directory, it defaults to the user’s home directory, which is represented by the environment variable “<code class="language-plaintext highlighter-rouge">$HOME</code>”. The “<code class="language-plaintext highlighter-rouge">$HOME</code>” variable stores the path to the home directory of the current user, and it is where personal files and settings are typically stored.</p>
+
+<p>Here are some typical use cases so that you can use in your terminal window.</p>
+
+<p>When you use “<code class="language-plaintext highlighter-rouge">cd</code>” without arguments will take you to your home directory, which is stored in the “<code class="language-plaintext highlighter-rouge">$HOME</code>” environment variable.</p>
+
+<p>When you pass a single argument to the command “<code class="language-plaintext highlighter-rouge">cd</code>” it will get you to the directory you specified as argument. You can pass an argument that can be either an absolute path or a relative path.</p>
+
+<p><strong>What is an absolute path?</strong></p>
+
+<p>An absolute path in a Linux system is a file or directory path that starts from the root directory (<code class="language-plaintext highlighter-rouge">/</code>) and provides the full address to the location, regardless of the current working directory. It specifies the complete path to a file or directory from the top of the file system hierarchy. Absolute paths always start with a forward slash (<code class="language-plaintext highlighter-rouge">/</code>), which signifies the root directory (For example: <code class="language-plaintext highlighter-rouge">/home/username/Documents/file.txt</code>).</p>
+
+<p><strong>What is a relative path?</strong></p>
+
+<p>A relative path in a Linux system is a file or directory path that is relative to the current working directory, rather than starting from the root (<code class="language-plaintext highlighter-rouge">/</code>). Unlike absolute paths, relative paths do not begin with a <code class="language-plaintext highlighter-rouge">/</code>. Instead, they reference locations in relation to the directory you are currently in, making it a shorter and more flexible way to navigate the file system.</p>
+
+<p>For example, if you’re currently in <code class="language-plaintext highlighter-rouge">/home/username/Documents</code> and you want to access <code class="language-plaintext highlighter-rouge">file.txt</code> in the <code class="language-plaintext highlighter-rouge">Projects</code> subdirectory, the relative path would be <code class="language-plaintext highlighter-rouge">./Projects/file.txt</code>. Here, <code class="language-plaintext highlighter-rouge">./</code> refers to the current directory. Similarly, <code class="language-plaintext highlighter-rouge">../</code> is used to move up one directory level. So, if you want to reference a file located in <code class="language-plaintext highlighter-rouge">/home/username</code>, the relative path would be <code class="language-plaintext highlighter-rouge">../file.txt</code>.</p>
+
 <h2 id="summary">Summary</h2>
 
 <h2 id="references">References</h2>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;" />
 
+<p id="footnote-1" style="font-size:10pt">
+1. We will learn more about the "<code style="font-size:10pt">cd</code>" later in this chapter.<a href="#footnote-1-ref">&#8617;</a>
+</p>
 
 </div>
 
