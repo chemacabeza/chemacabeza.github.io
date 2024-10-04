@@ -140,7 +140,58 @@ How can we visualize the stack of directories?
     <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/DIRSTACK.png" width="650px"/>
 </div>
 
-### `dirs` command
+### The `pushd` command
+
+This builtin command is in charge of adding directories to `DIRSTACK`. Typically, “`pushd`” is invoked with a parameter which is the path to a directory which will be set a new current working directory and the one that will be put on top of the stack.
+
+If invoked with no arguments, it will exchange the first two items on top of the stack, and it will change as well the current working directory. Let's say that your current working directory is your home directory and that you have inside `DIRSTACK` two directories, which are your home directory (typically represented with `~`) and the `/tmp` directory.
+
+If you invoke "`pushd`" without arguments, your current working directory will become "`/tmp`". This means that the "`/tmp`" will be put on top of the `DIRSTACK` and your home folder (`~`) will be the second in the stack.
+
+If there are not enough items on the stack, it will throw an error.
+
+This command comes as well with other options that modify (or not) the stack in specific ways.
+
+| Option | Description |
+| :----: | :---- |
+| `-n` | Manipulates the stack but without changing the current working directory |
+| `+N` | Rotates the stack so that the Nth directory (counting **from the left** of the list shown by `dirs`, starting with zero) is at the top. |
+| `-N` | Rotates the stack so that the Nth directory (counting **from the right** of the list shown by `dirs`, starting with zero) is at the top. |
+
+Let's see a graphical representation of “`pushd +N`”.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/PUSHD-N.png" width="550px"/>
+</div>
+
+So... What is going on in the previous image? The `DIRSTACK` environment variable has 6 directories pushed to it being `DIR0` the first one to be pushed and being `DIR5` the last one to be pushed to the stack `DIRSTACK` (and also is the current working directory).
+
+When the command "`pushd +3`" is executed, the folder on the index 3 ("`DIR2`" in our case) will be moved to the top of the stack along with the directories that are in the following indices. Another effect of this command is that all the directories from the top of the stack **until the index before** the index that was passed to the command "`pushd`" will be sent to the bottom of the stack in the same order that they were on the top.
+
+In the following image you will see a graphical representation of “`pushd -N`”.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/PUSHD-negative-N.png" width="550px"/>
+</div>
+
+So... What is going on in the previous image? The `DIRSTACK` environment variable has the same configuration as in the previous example.
+
+When the command "`pushd -3`" is executed, the folder on the index 3 ("`DIR3`" in our case) will be moved to the top of the stack along with the directories that are in the previous indices ("`DIR2`", "`DIR1`" and "`DIR0`" in our case). Another effect of this command is that all the directories from the top of the stack **until the index after** the index that was passed to the command "`pushd`" will be sent to the bottom of the stack in the same order that they were on the top.
+
+
+### The `dirs` command
+
+This builtin command of Bash is in charge of displaying the contents of the `DIRSTACK` environment variables. This command comes with the following options.
+
+| Option | Description |
+| :-----: | :----- |
+| `-c` | Clears the directory stack by deleting all of the elements. |
+| `-l` | Do not print tilde-prefixed versions of directories relative to your home directory. Will print all the directories in the "`$DIRTACK`" environment variable with absolute paths. |
+| `-p` | Print the directory stack with one entry per line. |
+| `-v` | Print the directory stack with one entry per line prefixed with its position in the stack. |
+| `+N` | Displays the Nth entry counting **from the left** of the list shown by `dirs` when invoked without options, starting with zero. |
+| `-N` | Displays the Nth entry counting **from the right** of the list shown by `dirs` when invoked without options, starting with zero. |
+
 
 ## Summary
 

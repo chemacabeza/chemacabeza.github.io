@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-04T10:12:31+02:00" />
+<meta property="article:published_time" content="2024-10-04T21:59:17+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-04T10:12:31+02:00","datePublished":"2024-10-04T10:12:31+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-04T21:59:17+02:00","datePublished":"2024-10-04T21:59:17+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-04T10:12:31+02:00" />
+<meta property="article:published_time" content="2024-10-04T21:59:17+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-04T10:12:31+02:00","datePublished":"2024-10-04T10:12:31+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-04T21:59:17+02:00","datePublished":"2024-10-04T21:59:17+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -278,7 +278,99 @@ drwxr-xr-x  2 user group  4096 Oct  3  11:55 mydirectory
     <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/DIRSTACK.png" width="650px" />
 </div>
 
-<h3 id="dirs-command"><code class="language-plaintext highlighter-rouge">dirs</code> command</h3>
+<h3 id="the-pushd-command">The <code class="language-plaintext highlighter-rouge">pushd</code> command</h3>
+
+<p>This builtin command is in charge of adding directories to <code class="language-plaintext highlighter-rouge">DIRSTACK</code>. Typically, “<code class="language-plaintext highlighter-rouge">pushd</code>” is invoked with a parameter which is the path to a directory which will be set a new current working directory and the one that will be put on top of the stack.</p>
+
+<p>If invoked with no arguments, it will exchange the first two items on top of the stack, and it will change as well the current working directory. Let’s say that your current working directory is your home directory and that you have inside <code class="language-plaintext highlighter-rouge">DIRSTACK</code> two directories, which are your home directory (typically represented with <code class="language-plaintext highlighter-rouge">~</code>) and the <code class="language-plaintext highlighter-rouge">/tmp</code> directory.</p>
+
+<p>If you invoke “<code class="language-plaintext highlighter-rouge">pushd</code>” without arguments, your current working directory will become “<code class="language-plaintext highlighter-rouge">/tmp</code>”. This means that the “<code class="language-plaintext highlighter-rouge">/tmp</code>” will be put on top of the <code class="language-plaintext highlighter-rouge">DIRSTACK</code> and your home folder (<code class="language-plaintext highlighter-rouge">~</code>) will be the second in the stack.</p>
+
+<p>If there are not enough items on the stack, it will throw an error.</p>
+
+<p>This command comes as well with other options that modify (or not) the stack in specific ways.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Option</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-n</code></td>
+      <td style="text-align: left">Manipulates the stack but without changing the current working directory</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">+N</code></td>
+      <td style="text-align: left">Rotates the stack so that the Nth directory (counting <strong>from the left</strong> of the list shown by <code class="language-plaintext highlighter-rouge">dirs</code>, starting with zero) is at the top.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-N</code></td>
+      <td style="text-align: left">Rotates the stack so that the Nth directory (counting <strong>from the right</strong> of the list shown by <code class="language-plaintext highlighter-rouge">dirs</code>, starting with zero) is at the top.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s see a graphical representation of “<code class="language-plaintext highlighter-rouge">pushd +N</code>”.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/PUSHD-N.png" width="550px" />
+</div>
+
+<p>So… What is going on in the previous image? The <code class="language-plaintext highlighter-rouge">DIRSTACK</code> environment variable has 6 directories pushed to it being <code class="language-plaintext highlighter-rouge">DIR0</code> the first one to be pushed and being <code class="language-plaintext highlighter-rouge">DIR5</code> the last one to be pushed to the stack <code class="language-plaintext highlighter-rouge">DIRSTACK</code> (and also is the current working directory).</p>
+
+<p>When the command “<code class="language-plaintext highlighter-rouge">pushd +3</code>” is executed, the folder on the index 3 (“<code class="language-plaintext highlighter-rouge">DIR2</code>” in our case) will be moved to the top of the stack along with the directories that are in the following indices. Another effect of this command is that all the directories from the top of the stack <strong>until the index before</strong> the index that was passed to the command “<code class="language-plaintext highlighter-rouge">pushd</code>” will be sent to the bottom of the stack in the same order that they were on the top.</p>
+
+<p>In the following image you will see a graphical representation of “<code class="language-plaintext highlighter-rouge">pushd -N</code>”.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/PUSHD-negative-N.png" width="550px" />
+</div>
+
+<p>So… What is going on in the previous image? The <code class="language-plaintext highlighter-rouge">DIRSTACK</code> environment variable has the same configuration as in the previous example.</p>
+
+<p>When the command “<code class="language-plaintext highlighter-rouge">pushd -3</code>” is executed, the folder on the index 3 (“<code class="language-plaintext highlighter-rouge">DIR3</code>” in our case) will be moved to the top of the stack along with the directories that are in the previous indices (“<code class="language-plaintext highlighter-rouge">DIR2</code>”, “<code class="language-plaintext highlighter-rouge">DIR1</code>” and “<code class="language-plaintext highlighter-rouge">DIR0</code>” in our case). Another effect of this command is that all the directories from the top of the stack <strong>until the index after</strong> the index that was passed to the command “<code class="language-plaintext highlighter-rouge">pushd</code>” will be sent to the bottom of the stack in the same order that they were on the top.</p>
+
+<h3 id="the-dirs-command">The <code class="language-plaintext highlighter-rouge">dirs</code> command</h3>
+
+<p>This builtin command of Bash is in charge of displaying the contents of the <code class="language-plaintext highlighter-rouge">DIRSTACK</code> environment variables. This command comes with the following options.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Option</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td style="text-align: left">Clears the directory stack by deleting all of the elements.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-l</code></td>
+      <td style="text-align: left">Do not print tilde-prefixed versions of directories relative to your home directory. Will print all the directories in the “<code class="language-plaintext highlighter-rouge">$DIRTACK</code>” environment variable with absolute paths.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-p</code></td>
+      <td style="text-align: left">Print the directory stack with one entry per line.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-v</code></td>
+      <td style="text-align: left">Print the directory stack with one entry per line prefixed with its position in the stack.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">+N</code></td>
+      <td style="text-align: left">Displays the Nth entry counting <strong>from the left</strong> of the list shown by <code class="language-plaintext highlighter-rouge">dirs</code> when invoked without options, starting with zero.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-N</code></td>
+      <td style="text-align: left">Displays the Nth entry counting <strong>from the right</strong> of the list shown by <code class="language-plaintext highlighter-rouge">dirs</code> when invoked without options, starting with zero.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="summary">Summary</h2>
 
