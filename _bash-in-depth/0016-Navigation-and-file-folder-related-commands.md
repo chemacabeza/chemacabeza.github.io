@@ -17,7 +17,7 @@ Bash also provides advanced directory navigation through `dirs`, `pushd`, and `p
 
 To search for files or content within files, `find` helps you locate files based on various criteria like name or modification time, while `grep` lets you search within files for specific patterns or text. These search and filtering commands are invaluable when working in larger systems or when tracking down specific information across many files. Understanding these core Bash commands equips you to efficiently navigate and manipulate your Linux environment.
 
-In this chapter we will go a bit deeper into the commands we mentioned and will show a little bit how to use them.
+In this chapter we will go a bit deeper into the commands we mentioned and will show a little bit how to use them. For a full guide of the commands please refer to the manual page<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a>.
 
 Let's begin!
 
@@ -142,7 +142,7 @@ How can we visualize the stack of directories?
 
 ### The `pushd` command
 
-This builtin command is in charge of adding directories to `DIRSTACK`. Typically, “`pushd`” is invoked with a parameter which is the path to a directory which will be set a new current working directory and the one that will be put on top of the stack.
+This builtin command is in charge of **adding directories** to `DIRSTACK`. Typically, “`pushd`” is invoked with a parameter which is the path to a directory which will be set a new current working directory and the one that will be put on top of the stack.
 
 If invoked with no arguments, it will exchange the first two items on top of the stack, and it will change as well the current working directory. Let's say that your current working directory is your home directory and that you have inside `DIRSTACK` two directories, which are your home directory (typically represented with `~`) and the `/tmp` directory.
 
@@ -178,6 +178,18 @@ So... What is going on in the previous image? The `DIRSTACK` environment variabl
 
 When the command "`pushd -3`" is executed, the folder on the index 3 ("`DIR3`" in our case) will be moved to the top of the stack along with the directories that are in the previous indices ("`DIR2`", "`DIR1`" and "`DIR0`" in our case). Another effect of this command is that all the directories from the top of the stack **until the index after** the index that was passed to the command "`pushd`" will be sent to the bottom of the stack in the same order that they were on the top.
 
+### The `popd` command
+
+This builtin command is in charge of **removing directories** to `DIRSTACK`. Typically, “`popd`” is invoked without parameters which result in the removal of the item located at the top of the stack. This will result (similar to the "`pushd`" command) in updating the current working directory to the next element in the stack.
+
+This command comes as well with other options that modify (or not) the stack in specific ways.
+
+| Option | Description |
+| :----: | :---- |
+| `-n` | Manipulates the stack but without changing the current working directory. |
+| `+N` | Removes the Nth entry counting from the left of the list shown by `dirs`, starting with zero.  For example: `popd +0` removes the first directory, `popd +1` the second. |
+| `-N` | Removes the Nth entry counting from the right of the list shown by `dirs`, starting with zero.  For example: `popd -0` removes the last directory, `popd -1` the next to last. |
+
 
 ### The `dirs` command
 
@@ -193,6 +205,10 @@ This builtin command of Bash is in charge of displaying the contents of the `DIR
 | `-N` | Displays the Nth entry counting **from the right** of the list shown by `dirs` when invoked without options, starting with zero. |
 
 
+In the following sections, we will learn a little bit of how to create files and folders, how to show the content of files, how to move folders or files around, how to delete files and folders and, most importantly how to to search information in different files/folders.
+
+## File/Folder related commands
+
 ## Summary
 
 
@@ -203,3 +219,7 @@ This builtin command of Bash is in charge of displaying the contents of the `DIR
 <p id="footnote-1" style="font-size:10pt">
 1. We will learn more about the "<code style="font-size:10pt">cd</code>" later in this chapter.<a href="#footnote-1-ref">&#8617;</a>
 </p>
+<p id="footnote-2" style="font-size:10pt">
+2. Please refer to <code style="font-size:10pt">man ls</code>, <code style="font-size:10pt">man cd</code>,...<a href="#footnote-2-ref">&#8617;</a>
+</p>
+
