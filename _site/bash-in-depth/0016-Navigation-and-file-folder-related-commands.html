@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-02T07:37:29+02:00" />
+<meta property="article:published_time" content="2024-10-04T10:12:31+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-02T07:37:29+02:00","datePublished":"2024-10-02T07:37:29+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-04T10:12:31+02:00","datePublished":"2024-10-04T10:12:31+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-02T07:37:29+02:00" />
+<meta property="article:published_time" content="2024-10-04T10:12:31+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-02T07:37:29+02:00","datePublished":"2024-10-02T07:37:29+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-04T10:12:31+02:00","datePublished":"2024-10-04T10:12:31+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -110,7 +110,7 @@
 <pre><code class="language-txt">$ pwd
 /home/username/Repositories/chapter16
 $ cd script
-$ pwd
+$ echo $PWD
 /home/username/Repositories/chapter16/script
 $ echo $OLDPWD
 /home/username/Repositories/chapter16
@@ -118,7 +118,7 @@ $ echo $OLDPWD
 
 <p>In the next section we will play with the “<code class="language-plaintext highlighter-rouge">cd</code>” command and the “<code class="language-plaintext highlighter-rouge">$HOME</code>” environment variable.</p>
 
-<h2 id="cd-and-home"><code class="language-plaintext highlighter-rouge">cd</code> and <code class="language-plaintext highlighter-rouge">$HOME</code></h2>
+<h2 id="the-cd-command-and-the-home-environment-variable">The <code class="language-plaintext highlighter-rouge">cd</code> command and the <code class="language-plaintext highlighter-rouge">$HOME</code> environment variable</h2>
 
 <p>In Bash, the “<code class="language-plaintext highlighter-rouge">cd</code>” (change directory) command is used to navigate between directories. It allows you to move from your current working directory to another location in the filesystem. If you use “<code class="language-plaintext highlighter-rouge">cd</code>” without specifying a directory, it defaults to the user’s home directory, which is represented by the environment variable “<code class="language-plaintext highlighter-rouge">$HOME</code>”. The “<code class="language-plaintext highlighter-rouge">$HOME</code>” variable stores the path to the home directory of the current user, and it is where personal files and settings are typically stored.</p>
 
@@ -137,6 +137,148 @@ $ echo $OLDPWD
 <p>A relative path in a Linux system is a file or directory path that is relative to the current working directory, rather than starting from the root (<code class="language-plaintext highlighter-rouge">/</code>). Unlike absolute paths, relative paths do not begin with a <code class="language-plaintext highlighter-rouge">/</code>. Instead, they reference locations in relation to the directory you are currently in, making it a shorter and more flexible way to navigate the file system.</p>
 
 <p>For example, if you’re currently in <code class="language-plaintext highlighter-rouge">/home/username/Documents</code> and you want to access <code class="language-plaintext highlighter-rouge">file.txt</code> in the <code class="language-plaintext highlighter-rouge">Projects</code> subdirectory, the relative path would be <code class="language-plaintext highlighter-rouge">./Projects/file.txt</code>. Here, <code class="language-plaintext highlighter-rouge">./</code> refers to the current directory. Similarly, <code class="language-plaintext highlighter-rouge">../</code> is used to move up one directory level. So, if you want to reference a file located in <code class="language-plaintext highlighter-rouge">/home/username</code>, the relative path would be <code class="language-plaintext highlighter-rouge">../file.txt</code>.</p>
+
+<p>Another use case of the “<code class="language-plaintext highlighter-rouge">cd</code>” command is when you provide as argument two points like “<code class="language-plaintext highlighter-rouge">cd ..</code>”. This is telling Bash to move up one level in the directory hierarchy.</p>
+
+<p>The last use case I can come up with is providing a dash to the “<code class="language-plaintext highlighter-rouge">cd</code>” command like “<code class="language-plaintext highlighter-rouge">cd -</code>”, using this will return you to the previous directory you were on.</p>
+
+<p>Now that we played a bit with the “<code class="language-plaintext highlighter-rouge">cd</code>” command we are going to play with another command that will be one of the commands we will use the most, which is the “<code class="language-plaintext highlighter-rouge">ls</code>” command.</p>
+
+<h2 id="the-ls-command">The <code class="language-plaintext highlighter-rouge">ls</code> command</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">ls</code>” command is used to list the contents of the current directory or to list the arguments passed to it. This command is very rich in terms of flags. For a full explanation, I do recommend consulting “<code class="language-plaintext highlighter-rouge">man ls</code>” in your terminal.</p>
+
+<p>Here, we will focus on the flags I do consider more interesting. The following table contains a few flags and description for each one of them.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Flag</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-1</code></td>
+      <td style="text-align: left">(The numeric digit one) Force output to be one entry per line. This is the default when output is not to a terminal.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-A</code></td>
+      <td style="text-align: left">List all entries except for <code class="language-plaintext highlighter-rouge">.</code> and <code class="language-plaintext highlighter-rouge">..</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-a</code></td>
+      <td style="text-align: left">List all directories including those directories whose names begin with a dot (<code class="language-plaintext highlighter-rouge">.</code>).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-C</code></td>
+      <td style="text-align: left">Force multi-column output; this is the default when output is to a terminal.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td style="text-align: left">Use time when file status was last changed for sorting (<code class="language-plaintext highlighter-rouge">-t</code>) or long printing (<code class="language-plaintext highlighter-rouge">-l</code>).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-d</code></td>
+      <td style="text-align: left">Directories are listed as plain files (not searched recursively)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-G</code></td>
+      <td style="text-align: left">Enable colorized output</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-h</code></td>
+      <td style="text-align: left">When used with the <code class="language-plaintext highlighter-rouge">-l</code> option, use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte in order to reduce the number of digits to three or less using base 2 for sizes</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-l</code></td>
+      <td style="text-align: left">(The lowercase letter “ell”.)  List in long format. If the output is to a terminal, a total sum for all the file sizes is output on a line before the long listing</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-m</code></td>
+      <td style="text-align: left">Stream output format; list files across the page, separated by commas</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-R</code></td>
+      <td style="text-align: left">Recursively list subdirectories encountered.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-r</code></td>
+      <td style="text-align: left">Reverse the order of the sort to get reverse lexicographical order or the oldest entries first or largest files last, if combined with sort by size</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-S</code></td>
+      <td style="text-align: left">Sort files by size</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-T</code></td>
+      <td style="text-align: left">When used with the -l (lowercase letter “ell”) option, display complete time information for the file, including month, day, hour, minute, second, and year.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-t</code></td>
+      <td style="text-align: left">Sort by time modified (most recently modified first) before sorting the operands by lexicographical order</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-u</code></td>
+      <td style="text-align: left">Use time of last access, instead of last modification of the file for sorting (<code class="language-plaintext highlighter-rouge">-t</code>) or long printing (<code class="language-plaintext highlighter-rouge">-l</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-U</code></td>
+      <td style="text-align: left">Use time of file creation, instead of last modification for sorting (<code class="language-plaintext highlighter-rouge">-t</code>) or long output (<code class="language-plaintext highlighter-rouge">-l</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>When you use the “<code class="language-plaintext highlighter-rouge">ls</code>” command in Bash with the “<code class="language-plaintext highlighter-rouge">-l</code>” flag, it provides a detailed listing of files and directories in the current directory. Here’s a breakdown of the information printed on the terminal window.</p>
+<ol>
+  <li><strong>File Type and Permissions</strong>: The first column indicates the file type and its permissions. It consists of 10 characters.
+    <ul>
+      <li>The first character indicates the file type (<code class="language-plaintext highlighter-rouge">-</code> for a regular file, <code class="language-plaintext highlighter-rouge">d</code> for a directory, <code class="language-plaintext highlighter-rouge">l</code> for a symbolic link, etc.)</li>
+      <li>The next nine characters show the file’s permissions in three groups: owner, group, and others. For example, <code class="language-plaintext highlighter-rouge">rwxr-xr--</code> means:
+        <ul>
+          <li>Owner has read, write, and execute permissions (<code class="language-plaintext highlighter-rouge">rwx</code>)</li>
+          <li>Group has read and execute permissions (<code class="language-plaintext highlighter-rouge">r-x</code>)</li>
+          <li>Others have read-only permissions (<code class="language-plaintext highlighter-rouge">r--</code>)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Number of Links</strong>: The second column shows the number of hard links to the file or directory. For directories, this count includes the directory itself and its subdirectories.</li>
+  <li><strong>Owner</strong>: The third column displays the name of the user (owner) who owns the file.</li>
+  <li><strong>Group</strong>: The fourth column shows the name of the group that has permissions for the file.</li>
+  <li><strong>File Size</strong>: The fifth column indicates the size of the file in bytes. For large files, you may want to use the <code class="language-plaintext highlighter-rouge">-h</code> flag with <code class="language-plaintext highlighter-rouge">-l</code> to display file sizes in a human-readable format (e.g., KB, MB).</li>
+  <li><strong>Modification Date and Time</strong>: The sixth column gives the date and time when the file was last modified. The format is typically <code class="language-plaintext highlighter-rouge">MMM DD HH:MM</code> for files modified in the current year, and <code class="language-plaintext highlighter-rouge">MMM DD YYYY</code> for older files.</li>
+  <li><strong>File Name</strong>: The final column shows the name of the file or directory. If it is a symbolic link, it will also display the link target.</li>
+</ol>
+
+<p>Let’s take a look at the following example.</p>
+
+<pre><code class="language-txt">$ ls -l
+-rwxr-xr--  1 user group  4096 Oct  3  12:00 myfile.txt
+drwxr-xr-x  2 user group  4096 Oct  3  11:55 mydirectory
+</code></pre>
+
+<p>In the previous example:</p>
+<ul>
+  <li>The first entry (<code class="language-plaintext highlighter-rouge">myfile.txt</code>) is a regular file with <code class="language-plaintext highlighter-rouge">rwxr-xr--</code> permissions, owned by <code class="language-plaintext highlighter-rouge">user</code> in the <code class="language-plaintext highlighter-rouge">group</code> group, and is 4096 bytes in size.</li>
+  <li>The second entry (<code class="language-plaintext highlighter-rouge">mydirectory</code>) is a directory, with <code class="language-plaintext highlighter-rouge">rwxr-xr-x</code> permissions, and contains two links (itself and a subdirectory).</li>
+</ul>
+
+<p>This detailed view is useful for checking file permissions, ownership, and modification dates at a glance.</p>
+
+<p>In the next section we will play with “<code class="language-plaintext highlighter-rouge">pushd</code>”, “<code class="language-plaintext highlighter-rouge">popd</code>”, “<code class="language-plaintext highlighter-rouge">dirs</code>” and “<code class="language-plaintext highlighter-rouge">$DIRSTACK</code>”.</p>
+
+<h2 id="the-pop-popd-dirs-commands-and-the-dirstack-environment-variable">The <code class="language-plaintext highlighter-rouge">pop</code>, <code class="language-plaintext highlighter-rouge">popd</code>, <code class="language-plaintext highlighter-rouge">dirs</code> commands and the <code class="language-plaintext highlighter-rouge">$DIRSTACK</code> environment variable</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">pushd</code>”, “<code class="language-plaintext highlighter-rouge">popd</code>”, and “<code class="language-plaintext highlighter-rouge">dirs</code>” are shell builtins which allow you manipulate the directory stack (<code class="language-plaintext highlighter-rouge">$DIRSTACK</code>). This can be used to change directories but return to the directory from which you came.</p>
+
+<p>How can we visualize the stack of directories?</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/DIRSTACK.png" width="650px" />
+</div>
+
+<h3 id="dirs-command"><code class="language-plaintext highlighter-rouge">dirs</code> command</h3>
 
 <h2 id="summary">Summary</h2>
 

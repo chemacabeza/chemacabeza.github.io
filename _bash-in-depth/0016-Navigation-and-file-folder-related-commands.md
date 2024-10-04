@@ -40,7 +40,7 @@ Let's see with a very simple example<a id="footnote-1-ref" href="#footnote-1" st
 $ pwd
 /home/username/Repositories/chapter16
 $ cd script
-$ pwd
+$ echo $PWD
 /home/username/Repositories/chapter16/script
 $ echo $OLDPWD
 /home/username/Repositories/chapter16
@@ -48,7 +48,7 @@ $ echo $OLDPWD
 
 In the next section we will play with the “`cd`” command and the “`$HOME`” environment variable.
 
-## `cd` and `$HOME`
+## The `cd` command and the `$HOME` environment variable
 
 In Bash, the “`cd`” (change directory) command is used to navigate between directories. It allows you to move from your current working directory to another location in the filesystem. If you use “`cd`” without specifying a directory, it defaults to the user's home directory, which is represented by the environment variable “`$HOME`”. The “`$HOME`” variable stores the path to the home directory of the current user, and it is where personal files and settings are typically stored.
 
@@ -67,6 +67,80 @@ An absolute path in a Linux system is a file or directory path that starts from 
 A relative path in a Linux system is a file or directory path that is relative to the current working directory, rather than starting from the root (`/`). Unlike absolute paths, relative paths do not begin with a `/`. Instead, they reference locations in relation to the directory you are currently in, making it a shorter and more flexible way to navigate the file system.
 
 For example, if you're currently in `/home/username/Documents` and you want to access `file.txt` in the `Projects` subdirectory, the relative path would be `./Projects/file.txt`. Here, `./` refers to the current directory. Similarly, `../` is used to move up one directory level. So, if you want to reference a file located in `/home/username`, the relative path would be `../file.txt`.
+
+Another use case of the “`cd`” command is when you provide as argument two points like “`cd ..`”. This is telling Bash to move up one level in the directory hierarchy.
+
+The last use case I can come up with is providing a dash to the “`cd`” command like “`cd -`”, using this will return you to the previous directory you were on.
+
+Now that we played a bit with the “`cd`” command we are going to play with another command that will be one of the commands we will use the most, which is the “`ls`” command.
+
+## The `ls` command
+
+The “`ls`” command is used to list the contents of the current directory or to list the arguments passed to it. This command is very rich in terms of flags. For a full explanation, I do recommend consulting “`man ls`” in your terminal. 
+
+Here, we will focus on the flags I do consider more interesting. The following table contains a few flags and description for each one of them.
+
+| Flag | Description |
+| :----: | :---- |
+| `-1` | (The numeric digit one) Force output to be one entry per line. This is the default when output is not to a terminal. | 
+| `-A` | List all entries except for `.` and `..`. |
+| `-a` | List all directories including those directories whose names begin with a dot (`.`). |
+| `-C` | Force multi-column output; this is the default when output is to a terminal. | 
+| `-c` | Use time when file status was last changed for sorting (`-t`) or long printing (`-l`). |
+| `-d` | Directories are listed as plain files (not searched recursively) |
+| `-G` | Enable colorized output |
+| `-h` | When used with the `-l` option, use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte in order to reduce the number of digits to three or less using base 2 for sizes |
+| `-l` | (The lowercase letter "ell".)  List in long format. If the output is to a terminal, a total sum for all the file sizes is output on a line before the long listing |
+| `-m` | Stream output format; list files across the page, separated by commas |
+| `-R` | Recursively list subdirectories encountered. |
+| `-r` | Reverse the order of the sort to get reverse lexicographical order or the oldest entries first or largest files last, if combined with sort by size |
+| `-S` | Sort files by size |
+| `-T` | When used with the -l (lowercase letter "ell") option, display complete time information for the file, including month, day, hour, minute, second, and year. |
+| `-t` | Sort by time modified (most recently modified first) before sorting the operands by lexicographical order |
+| `-u` | Use time of last access, instead of last modification of the file for sorting (`-t`) or long printing (`-l`) |
+| `-U` | Use time of file creation, instead of last modification for sorting (`-t`) or long output (`-l`) |
+
+When you use the "`ls`" command in Bash with the "`-l`" flag, it provides a detailed listing of files and directories in the current directory. Here's a breakdown of the information printed on the terminal window.
+1. **File Type and Permissions**: The first column indicates the file type and its permissions. It consists of 10 characters.
+    * The first character indicates the file type (`-` for a regular file, `d` for a directory, `l` for a symbolic link, etc.)
+    * The next nine characters show the file's permissions in three groups: owner, group, and others. For example, `rwxr-xr--` means:
+        * Owner has read, write, and execute permissions (`rwx`)
+        * Group has read and execute permissions (`r-x`)
+        * Others have read-only permissions (`r--`)
+2. **Number of Links**: The second column shows the number of hard links to the file or directory. For directories, this count includes the directory itself and its subdirectories.
+3. **Owner**: The third column displays the name of the user (owner) who owns the file.
+4. **Group**: The fourth column shows the name of the group that has permissions for the file.
+5. **File Size**: The fifth column indicates the size of the file in bytes. For large files, you may want to use the `-h` flag with `-l` to display file sizes in a human-readable format (e.g., KB, MB).
+6. **Modification Date and Time**: The sixth column gives the date and time when the file was last modified. The format is typically `MMM DD HH:MM` for files modified in the current year, and `MMM DD YYYY` for older files.
+7. **File Name**: The final column shows the name of the file or directory. If it is a symbolic link, it will also display the link target.
+
+Let's take a look at the following example.
+
+```txt
+$ ls -l
+-rwxr-xr--  1 user group  4096 Oct  3  12:00 myfile.txt
+drwxr-xr-x  2 user group  4096 Oct  3  11:55 mydirectory
+```
+
+In the previous example:
+* The first entry (`myfile.txt`) is a regular file with `rwxr-xr--` permissions, owned by `user` in the `group` group, and is 4096 bytes in size.
+* The second entry (`mydirectory`) is a directory, with `rwxr-xr-x` permissions, and contains two links (itself and a subdirectory).
+
+This detailed view is useful for checking file permissions, ownership, and modification dates at a glance.
+
+In the next section we will play with "`pushd`", "`popd`", "`dirs`" and "`$DIRSTACK`".
+
+## The `pop`, `popd`, `dirs` commands and the `$DIRSTACK` environment variable
+
+The "`pushd`", "`popd`", and "`dirs`" are shell builtins which allow you manipulate the directory stack (`$DIRSTACK`). This can be used to change directories but return to the directory from which you came.
+
+How can we visualize the stack of directories?
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0016-Navigation-and-file-folder-related-commands/DIRSTACK.png" width="650px"/>
+</div>
+
+### `dirs` command
 
 ## Summary
 
