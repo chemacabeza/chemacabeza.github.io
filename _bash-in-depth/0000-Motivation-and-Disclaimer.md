@@ -22,6 +22,8 @@ Fast forward to 2021: I decided enough was enough. I began compiling notes—Bas
 
 Before you dive into this book, let me be clear—this is a **highly opinionated take on Bash**. Everything you’ll read here is based on how I understand and work with Bash. The concepts, tips, and explanations reflect my personal approach, shaped by years of trial and error, countless Google searches, and my own set of standards. While I’ve done my best to make this book accurate and practical, it’s possible that my interpretations may not align with yours or even differ from the official Bash documentation.
 
+In every chapter, I’ve included links to the sources that helped me learn the topics covered. These references are not just to give credit but also to offer you additional perspectives and materials to explore further. I believe it’s important to see how different people tackle the same problem, so you’ll have the chance to dig into the exact resources that shaped my understanding of Bash.
+
 If you happen to come across something in the book that seems incorrect, confusing, or just plain wrong, please don’t hesitate to reach out. I’m always open to learning and improving my understanding. You can send your feedback or corrections to me at [The Engineering Corner](mailto:the.engineering.corner.314@gmail.com). I genuinely appreciate any input that can help make this book better for everyone.
 
 Remember, Bash is a vast tool, and there are many ways to achieve the same goal. What works for one person might not work for another. This book is my take on the subject, but it’s by no means the final word on Bash!

@@ -209,6 +209,100 @@ In the following sections, we will learn a little bit of how to create files and
 
 ## File/Folder related commands
 
+In the earlier sections, we explored how to navigate the filesystem and view the contents of directories. Now, in the upcoming subsections, we will focus on essential file and folder operations, including how to:
+* Create new files and directories
+* View the contents of a file
+* Move or rename files and directories
+* Delete files and directories
+* Search for files or directories based on specific criteria
+
+These tasks form the foundation of file management in Bash and are key to efficiently working within the command-line environment.
+
+### Creation of files
+
+There are several ways to create files, but for now, we'll focus on a straightforward command that allows us to quickly generate an empty file: the "`touch`" command.
+
+Primarily, "`touch`" is designed to update the access and modification timestamps of an existing file. However, if you provide the name (or path) of a file that doesn’t already exist, "`touch`" will create that file for you automatically.
+
+One key feature of "`touch`" is its ability to handle multiple filenames at once, enabling you to create several files simultaneously by simply listing their names.
+
+The "`touch`" command makes very easy creating new files. You can also use text editors like VIM<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>, Notepad or similar ones to create text files.
+
+Let's give it a try with this command.
+
+```txt
+$ ls
+
+$ touch file.txt
+
+$ ls
+file.txt
+```
+
+In the previous example we went to a directory that had no files nor folders in it. Then we used thecommand "`ls`" to list everything in the directory (which is nothing). Then we used the command "`touch file.txt`" to create a file with the name of "`file.txt`". Then we used (again) the command "`ls`" to list (again) the contents of the current folder. This time it shows the new file that we created.
+
+### Creation of directories
+
+We’ve learned how to view the contents of a folder, but how do we create one? For that, we use the command "`mkdir`", short for "make directory."
+
+One of the great features of "`mkdir`" is its ability to accept multiple arguments, allowing you to create several directories at once. However, there's a potential complication—sometimes you might need to create a directory within another directory, or even at a deeper level. In such cases, the parent directories of your target folder must already exist.
+
+To address this limitation, "`mkdir`" provides a handy "`-p`" option. This option ensures that all necessary intermediate directories are created automatically, allowing you to build an entire directory structure in one go.
+
+Let's see a few examples in the terminal window.
+
+```txt
+$ ls
+file.txt
+$ mkdir directory1/directory2
+mkdir: cannot create directory ‘directory1/directory2’: No such file or directory
+$ mkdir -p directory1/directory2
+$ ls
+directory1  file.txt
+```
+
+As you can see in the previous example, we first used the command "`ls`" to list the contents of the current folder, which contains the file "`file.txt`" that we created previously.
+
+Then we tried to create 2 folders being "`directory1`" the first one and being "`directory2`" the second one, inside the first directory with the command "`mkdir`" (without any additional options). As you can see it failed.
+
+But if we add the option "`-p`" it works. 
+
+Last we use the command "`ls`" to show the new content of the current directory.
+
+In the next section we will learn how to use the command "`cat`".
+
+### Show content of a file (The `cat` command)
+
+We’ve learned how to create files and directories, but how do we view the contents of those files in Bash? This is where the command cat comes in handy. Its primary function is to read the contents of one or more files and print them to the standard output, which is usually your terminal screen. The basic syntax of cat is as follows:
+
+```bash
+    cat [-benstuv] [file ...]
+```
+
+With "`cat`", you can display the contents of a single file or multiple files in the order they are provided. If you pass "`-`" as an argument, "`cat`" will wait for input from the standard input (such as typing into the terminal), and it will display whatever you type. Invoking "`cat`" with no arguments is equivalent to using "`cat -`", meaning it will echo back whatever you type.
+
+There are a few useful flags with "`cat`":
+* "`-b`": Numbers only non-blank lines in the output, starting from 1.
+* "`-n`": Numbers all lines, blank or non-blank, starting from 1.
+* "`-s`": Reduces multiple consecutive blank lines in the output to a single blank line, making the output more readable if the file contains a lot of empty space.
+
+In summary, "`cat`" is a straightforward and versatile tool for quickly viewing file contents, but with a few useful flags, it can also tidy up your output for better readability.
+
+Let's say we want to display the content of the file we created before (the file "`file.txt`"). For that we can use the "`cat`" command as follows.
+
+```txt
+$ cat file.txt
+Content of line 1
+Content of line 2
+Content of line 3
+Content of line 4
+Content of line 5
+```
+
+Now that have learnt how to show the contents of a file using the "`cat`" command we are going to take a look to the "`mv`" command which will allow us to move files and directories.
+
+### Moving files and folders (The `mv` command)
+
 ## Summary
 
 
@@ -221,5 +315,8 @@ In the following sections, we will learn a little bit of how to create files and
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. Please refer to <code style="font-size:10pt">man ls</code>, <code style="font-size:10pt">man cd</code>,...<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. More about this powerful editor in its website <a href="https://www.vim.org/">https://www.vim.org/</a>.<a href="#footnote-3-ref">&#8617;</a>
 </p>
 

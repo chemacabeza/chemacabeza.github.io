@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-05T09:24:16+02:00" />
+<meta property="article:published_time" content="2024-10-06T12:49:45+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-05T09:24:16+02:00","datePublished":"2024-10-05T09:24:16+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-06T12:49:45+02:00","datePublished":"2024-10-06T12:49:45+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-05T09:24:16+02:00" />
+<meta property="article:published_time" content="2024-10-06T12:49:45+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-05T09:24:16+02:00","datePublished":"2024-10-05T09:24:16+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-06T12:49:45+02:00","datePublished":"2024-10-06T12:49:45+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -405,6 +405,100 @@ drwxr-xr-x  2 user group  4096 Oct  3  11:55 mydirectory
 
 <h2 id="filefolder-related-commands">File/Folder related commands</h2>
 
+<p>In the earlier sections, we explored how to navigate the filesystem and view the contents of directories. Now, in the upcoming subsections, we will focus on essential file and folder operations, including how to:</p>
+<ul>
+  <li>Create new files and directories</li>
+  <li>View the contents of a file</li>
+  <li>Move or rename files and directories</li>
+  <li>Delete files and directories</li>
+  <li>Search for files or directories based on specific criteria</li>
+</ul>
+
+<p>These tasks form the foundation of file management in Bash and are key to efficiently working within the command-line environment.</p>
+
+<h3 id="creation-of-files">Creation of files</h3>
+
+<p>There are several ways to create files, but for now, we’ll focus on a straightforward command that allows us to quickly generate an empty file: the “<code class="language-plaintext highlighter-rouge">touch</code>” command.</p>
+
+<p>Primarily, “<code class="language-plaintext highlighter-rouge">touch</code>” is designed to update the access and modification timestamps of an existing file. However, if you provide the name (or path) of a file that doesn’t already exist, “<code class="language-plaintext highlighter-rouge">touch</code>” will create that file for you automatically.</p>
+
+<p>One key feature of “<code class="language-plaintext highlighter-rouge">touch</code>” is its ability to handle multiple filenames at once, enabling you to create several files simultaneously by simply listing their names.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">touch</code>” command makes very easy creating new files. You can also use text editors like VIM<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>, Notepad or similar ones to create text files.</p>
+
+<p>Let’s give it a try with this command.</p>
+
+<pre><code class="language-txt">$ ls
+
+$ touch file.txt
+
+$ ls
+file.txt
+</code></pre>
+
+<p>In the previous example we went to a directory that had no files nor folders in it. Then we used thecommand “<code class="language-plaintext highlighter-rouge">ls</code>” to list everything in the directory (which is nothing). Then we used the command “<code class="language-plaintext highlighter-rouge">touch file.txt</code>” to create a file with the name of “<code class="language-plaintext highlighter-rouge">file.txt</code>”. Then we used (again) the command “<code class="language-plaintext highlighter-rouge">ls</code>” to list (again) the contents of the current folder. This time it shows the new file that we created.</p>
+
+<h3 id="creation-of-directories">Creation of directories</h3>
+
+<p>We’ve learned how to view the contents of a folder, but how do we create one? For that, we use the command “<code class="language-plaintext highlighter-rouge">mkdir</code>”, short for “make directory.”</p>
+
+<p>One of the great features of “<code class="language-plaintext highlighter-rouge">mkdir</code>” is its ability to accept multiple arguments, allowing you to create several directories at once. However, there’s a potential complication—sometimes you might need to create a directory within another directory, or even at a deeper level. In such cases, the parent directories of your target folder must already exist.</p>
+
+<p>To address this limitation, “<code class="language-plaintext highlighter-rouge">mkdir</code>” provides a handy “<code class="language-plaintext highlighter-rouge">-p</code>” option. This option ensures that all necessary intermediate directories are created automatically, allowing you to build an entire directory structure in one go.</p>
+
+<p>Let’s see a few examples in the terminal window.</p>
+
+<pre><code class="language-txt">$ ls
+file.txt
+$ mkdir directory1/directory2
+mkdir: cannot create directory ‘directory1/directory2’: No such file or directory
+$ mkdir -p directory1/directory2
+$ ls
+directory1  file.txt
+</code></pre>
+
+<p>As you can see in the previous example, we first used the command “<code class="language-plaintext highlighter-rouge">ls</code>” to list the contents of the current folder, which contains the file “<code class="language-plaintext highlighter-rouge">file.txt</code>” that we created previously.</p>
+
+<p>Then we tried to create 2 folders being “<code class="language-plaintext highlighter-rouge">directory1</code>” the first one and being “<code class="language-plaintext highlighter-rouge">directory2</code>” the second one, inside the first directory with the command “<code class="language-plaintext highlighter-rouge">mkdir</code>” (without any additional options). As you can see it failed.</p>
+
+<p>But if we add the option “<code class="language-plaintext highlighter-rouge">-p</code>” it works.</p>
+
+<p>Last we use the command “<code class="language-plaintext highlighter-rouge">ls</code>” to show the new content of the current directory.</p>
+
+<p>In the next section we will learn how to use the command “<code class="language-plaintext highlighter-rouge">cat</code>”.</p>
+
+<h3 id="show-content-of-a-file-the-cat-command">Show content of a file (The <code class="language-plaintext highlighter-rouge">cat</code> command)</h3>
+
+<p>We’ve learned how to create files and directories, but how do we view the contents of those files in Bash? This is where the command cat comes in handy. Its primary function is to read the contents of one or more files and print them to the standard output, which is usually your terminal screen. The basic syntax of cat is as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">cat</span> <span class="o">[</span><span class="nt">-benstuv</span><span class="o">]</span> <span class="o">[</span>file ...]
+</code></pre></div></div>
+
+<p>With “<code class="language-plaintext highlighter-rouge">cat</code>”, you can display the contents of a single file or multiple files in the order they are provided. If you pass “<code class="language-plaintext highlighter-rouge">-</code>” as an argument, “<code class="language-plaintext highlighter-rouge">cat</code>” will wait for input from the standard input (such as typing into the terminal), and it will display whatever you type. Invoking “<code class="language-plaintext highlighter-rouge">cat</code>” with no arguments is equivalent to using “<code class="language-plaintext highlighter-rouge">cat -</code>”, meaning it will echo back whatever you type.</p>
+
+<p>There are a few useful flags with “<code class="language-plaintext highlighter-rouge">cat</code>”:</p>
+<ul>
+  <li>”<code class="language-plaintext highlighter-rouge">-b</code>”: Numbers only non-blank lines in the output, starting from 1.</li>
+  <li>”<code class="language-plaintext highlighter-rouge">-n</code>”: Numbers all lines, blank or non-blank, starting from 1.</li>
+  <li>”<code class="language-plaintext highlighter-rouge">-s</code>”: Reduces multiple consecutive blank lines in the output to a single blank line, making the output more readable if the file contains a lot of empty space.</li>
+</ul>
+
+<p>In summary, “<code class="language-plaintext highlighter-rouge">cat</code>” is a straightforward and versatile tool for quickly viewing file contents, but with a few useful flags, it can also tidy up your output for better readability.</p>
+
+<p>Let’s say we want to display the content of the file we created before (the file “<code class="language-plaintext highlighter-rouge">file.txt</code>”). For that we can use the “<code class="language-plaintext highlighter-rouge">cat</code>” command as follows.</p>
+
+<pre><code class="language-txt">$ cat file.txt
+Content of line 1
+Content of line 2
+Content of line 3
+Content of line 4
+Content of line 5
+</code></pre>
+
+<p>Now that have learnt how to show the contents of a file using the “<code class="language-plaintext highlighter-rouge">cat</code>” command we are going to take a look to the “<code class="language-plaintext highlighter-rouge">mv</code>” command which will allow us to move files and directories.</p>
+
+<h3 id="moving-files-and-folders-the-mv-command">Moving files and folders (The <code class="language-plaintext highlighter-rouge">mv</code> command)</h3>
+
 <h2 id="summary">Summary</h2>
 
 <h2 id="references">References</h2>
@@ -416,6 +510,9 @@ drwxr-xr-x  2 user group  4096 Oct  3  11:55 mydirectory
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. Please refer to <code style="font-size:10pt">man ls</code>, <code style="font-size:10pt">man cd</code>,...<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. More about this powerful editor in its website <a href="https://www.vim.org/">https://www.vim.org/</a>.<a href="#footnote-3-ref">&#8617;</a>
 </p>
 
 
