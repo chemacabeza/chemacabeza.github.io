@@ -303,6 +303,60 @@ Now that have learnt how to show the contents of a file using the "`cat`" comman
 
 ### Moving files and folders (The `mv` command)
 
+The "`mv`" command in Bash is a versatile tool used for moving files and directories from one location to another or simply renaming them. Its basic functionality makes it essential for organizing files and directories within your Linux system. The "`mv`" command can be invoked in two common forms, depending on the task at hand.
+
+In the first form, "`mv source target`", the command is used to rename a file or folder. You specify the source (the existing file or directory) and the target (the new name or location). If the target is a new name, the source will be renamed.
+
+For example to rename a file named "`report.txt`" to "`summary.txt`" you can use the "`mv`" command as follows.
+
+```txt
+$ mv report.txt summary.txt
+```
+
+You can also use the "`mv`" command to rename directories like the following.
+
+```txt
+$ mv directory1 directory2
+```
+
+The previous example will rename a directory named "`directory1`" to "`directory2`".
+
+In the second form, "`mv source... directory`", the command moves one or more files or directories to a specified directory. Here, all the source files are relocated into the specified directory. When using this form, the last argument must always be an existing directory.
+
+Let's say you want to move a text file inside of a folder. You could do it as follows.
+
+```txt
+$ mv summary.txt Documents/
+```
+
+In the previous example you are moving the file "`summary.txt`" to the folder "`Documents`"
+
+You can also use the "`mv`" command to move several items (either files or folders) to a single folder. You can do it in the following way.
+
+```txt
+$ mv file1.txt directory1 file2.txt Documents/
+```
+
+In the previous example the files "`file1.txt`", "`file2.txt`" and the folder "`directory1`" were moved inside the directory "`Documents`".
+
+In the next section we are going to learn how to delete directories.
+
+### Deletion of files and folders (The commands `rm` and `rmdir`)
+
+To delete files and directories in Bash, you have two powerful commands at your disposal: "`rm`" and "`rmdir`". While they both serve similar purposes, there are important differences in how they function.
+
+The "`rmdir`" command is used specifically for removing empty directories. It ensures that the directory being deleted contains no files or subdirectories. If you want to delete a nested directory structure, you can use the "`-p`" option, which allows "`rmdir`" to remove the entire path of empty directories. For example, if you have a structure like "`test1/test2/test3`", using "`rmdir -p test1/test2/test3`" will remove all the directories in the path, provided they are all empty.
+
+On the other hand, the "`rm`" command is more versatile. It is mainly used to delete individual files but can also remove entire directories if used with the "`-r`" (recursive) option. This means that it will delete a directory along with all its contents, making it a much more powerful and potentially dangerous command. If you use "`rm`" with the "`-f`" (*force*) option, the command will suppress any warnings or prompts, immediately deleting files and directories without confirmation. However, this should be used with caution to avoid accidental deletion of important files. For extra security, you can use the "`-i`" (*interactive*) option, which will prompt you to confirm each file or directory deletion.
+
+In summary, use "`rmdir`" for cleanly removing empty directories and "`rm`" for more aggressive file and folder deletions. Be careful with options like "`-r`" and "`-f`" to avoid unintentional deletions!
+
+In the next section we are going to learn how to use the commands "`grep`" and "`find`" which will be the key to find anything in your file directory system.
+
+
+### Searching (The commands `grep` and `find`)
+
+
 ## Summary
 
 
