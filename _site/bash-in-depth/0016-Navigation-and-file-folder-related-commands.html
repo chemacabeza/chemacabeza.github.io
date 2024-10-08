@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-08T05:42:17+02:00" />
+<meta property="article:published_time" content="2024-10-08T05:59:01+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T05:42:17+02:00","datePublished":"2024-10-08T05:42:17+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T05:59:01+02:00","datePublished":"2024-10-08T05:59:01+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-08T05:42:17+02:00" />
+<meta property="article:published_time" content="2024-10-08T05:59:01+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T05:42:17+02:00","datePublished":"2024-10-08T05:42:17+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T05:59:01+02:00","datePublished":"2024-10-08T05:59:01+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -600,6 +600,51 @@ Content of line 5
   <li>“<code class="language-plaintext highlighter-rouge">expression -and expression</code>”: Combines two expressions, both must be true.</li>
   <li>“<code class="language-plaintext highlighter-rouge">expression -or expression</code>”: Either of the expressions must be true.</li>
 </ul>
+
+<p>The following table contains what are the different predicates you can use and the description for each one of them.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Predicate</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-empty</code></td>
+      <td style="text-align: left">True if the current file or directory is empty.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-gid gname</code> / <code class="language-plaintext highlighter-rouge">-group gname</code></td>
+      <td style="text-align: left">True if the file belongs to the group <code class="language-plaintext highlighter-rouge">gname</code>.  If <code class="language-plaintext highlighter-rouge">gname</code> is numeric and there is no such group name, then gname is treated as a group ID.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-name pattern</code></td>
+      <td style="text-align: left">True if the last component of the pathname being examined matches the pattern provided.  Special shell pattern matching characters (<code class="language-plaintext highlighter-rouge">[</code>, <code class="language-plaintext highlighter-rouge">]</code>, <code class="language-plaintext highlighter-rouge">*</code>, and <code class="language-plaintext highlighter-rouge">?</code>) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (<code class="language-plaintext highlighter-rouge">\</code>).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-iname pattern</code></td>
+      <td style="text-align: left">Like <code class="language-plaintext highlighter-rouge">-name</code>, but the match is case insensitive.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-nouser</code></td>
+      <td style="text-align: left">True if the file belongs to an unknown user.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-size n[ckMGTP]</code></td>
+      <td style="text-align: left">True if the file’s size, rounded up, in 512-byte blocks is <code class="language-plaintext highlighter-rouge">n</code>.  If <code class="language-plaintext highlighter-rouge">n</code> is followed by a <code class="language-plaintext highlighter-rouge">c</code>, then the primary is true if the file’s size is <code class="language-plaintext highlighter-rouge">n</code> bytes (characters). Similarly if n is followed by a scale indicator then the file’s size is compared to <code class="language-plaintext highlighter-rouge">n</code> scaled as follows. <code class="language-plaintext highlighter-rouge">k</code> kilobytes (1024 bytes), <code class="language-plaintext highlighter-rouge">M</code> megabytes (1024 kilobytes), <code class="language-plaintext highlighter-rouge">G</code> gigabytes (1024 megabytes), <code class="language-plaintext highlighter-rouge">T</code> terabytes (1024 gigabytes) and <code class="language-plaintext highlighter-rouge">P</code> petabytes (1024 terabytes).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-type t</code></td>
+      <td style="text-align: left">True if the file is of the specified type.  Possible file types are as follows. <code class="language-plaintext highlighter-rouge">b</code> (block special), <code class="language-plaintext highlighter-rouge">c</code> (character special), <code class="language-plaintext highlighter-rouge">d</code> (directory), <code class="language-plaintext highlighter-rouge">f</code> (regular file), <code class="language-plaintext highlighter-rouge">l</code> (symbolic link), <code class="language-plaintext highlighter-rouge">p</code> (FIFO, pipe), <code class="language-plaintext highlighter-rouge">s</code> (socket)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-uid uname</code> / <code class="language-plaintext highlighter-rouge">-user uname</code></td>
+      <td style="text-align: left">True if the file belongs to the user <code class="language-plaintext highlighter-rouge">uname</code>.  If uname is numeric and there is no such user name, then <code class="language-plaintext highlighter-rouge">uname</code> is treated as a user ID.</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 id="summary">Summary</h2>
 

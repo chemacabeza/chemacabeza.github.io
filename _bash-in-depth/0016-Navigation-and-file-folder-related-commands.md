@@ -396,6 +396,20 @@ Logical operators can be used to combine expressions for more complex queries:
 * "`expression -and expression`": Combines two expressions, both must be true.
 * "`expression -or expression`": Either of the expressions must be true.
 
+The following table contains what are the different predicates you can use and the description for each one of them.
+
+| Predicate | Description |
+| :----: | :---- |
+| `-empty` | True if the current file or directory is empty. |
+| `-gid gname` / `-group gname` | True if the file belongs to the group `gname`.  If `gname` is numeric and there is no such group name, then gname is treated as a group ID. |
+| `-name pattern` | True if the last component of the pathname being examined matches the pattern provided.  Special shell pattern matching characters (`[`, `]`, `*`, and `?`) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (`\`). |
+| `-iname pattern` | Like `-name`, but the match is case insensitive. |
+| `-nouser` | True if the file belongs to an unknown user. |
+| `-size n[ckMGTP]` | True if the file's size, rounded up, in 512-byte blocks is `n`.  If `n` is followed by a `c`, then the primary is true if the file's size is `n` bytes (characters). Similarly if n is followed by a scale indicator then the file's size is compared to `n` scaled as follows. `k` kilobytes (1024 bytes), `M` megabytes (1024 kilobytes), `G` gigabytes (1024 megabytes), `T` terabytes (1024 gigabytes) and `P` petabytes (1024 terabytes). |
+| `-type t` | True if the file is of the specified type.  Possible file types are as follows. `b` (block special), `c` (character special), `d` (directory), `f` (regular file), `l` (symbolic link), `p` (FIFO, pipe), `s` (socket) |
+| `-uid uname` / `-user uname` | True if the file belongs to the user `uname`.  If uname is numeric and there is no such user name, then `uname` is treated as a user ID. |
+
+
 
 ## Summary
 
