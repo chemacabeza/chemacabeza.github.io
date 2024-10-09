@@ -600,7 +600,52 @@ The following table contains the most popular actions that I have used.
 
 For a deeper explanation and understanding of the actions and predicates that you can use with the "`find`" command please consult the manual page<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>.
 
+In the next section we will learn how to use the "`grep`" command.
 
+#### <b>The `grep` command</b>
+
+The "`grep`" command is one of the most powerful and widely-used tools for searching through text in files. It's a versatile command that allows users to look for specific patterns within files, making it essential for tasks like filtering logs, extracting data, and debugging scripts. By understanding the basic syntax and options available, you can leverage "`grep`" to perform a variety of searches efficiently.
+
+At its core, "`grep`" searches for a given pattern of text within one or more files. The basic syntax is as follows:
+
+```bash
+    grep [options] [pattern] [file...]
+```
+
+Where:
+* **Pattern**: This is the string or regular expression you're searching for in the file(s).
+* **File**: This is the location of the file(s) where the search will be conducted. If no file is provided, "`grep`" searches through standard input (i.e., what you type in the terminal or output from another command).
+
+The following table contains the options that I have used the most.
+
+| Option | Description |
+| :----: | :---- |
+| `-A num` | Print `num` lines of trailing context **after** each match. |
+| `-B num` | Print `num` lines of leading context **before** each match. |
+| `-C [num]` | Print `num` lines of leading and trailing context surrounding each match. The default is 2 and is equivalent to `-A 2 -B 2`. |
+| `-c` | Only a count of selected lines is written to standard output. |
+| `--color` | Color the result. |
+| `-e pattern` | Specify a pattern used during the search of the input: an input line is selected if it matches any of the specified patterns.  This option is most useful when multiple -e options are used to specify multiple patterns, or when a pattern begins with a dash (`-`). |
+| `-f file`/`--file=file` | Obtain patterns from `file`, one per line. The empty file contains zero patterns, and therefore matches nothing. |
+| `-i` | Perform case insensitive matching. By default, grep is **case sensitive**. |
+| `-n` | Each output line is preceded by its relative line number in the file, starting at line 1.  The line number counter is reset for each file processed. |
+| `-r`/`--recursive` | Read all files under each directory, recursively, following symbolic links only if they are on the command line.  Note that if no  file  operand  is  given,  grep  searches  the  working directory. |
+| `-R`/`--dereference-recursive` | Read all files under each directory, recursively.  Follow all symbolic links, unlike `-r`. |
+| `-v`/`--invert-match` | Selected lines are those not matching any of the specified patterns. |
+
+Let's say that we want to find the files that contain the word "`Lorem`" and the line where this word appears in the previous working directory. For that we use the "`grep`" command as follows.
+
+```txt
+$ grep -r -n -e "Lorem" .
+./directory-3/directory-3/file-directory3-3.txt:1:Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+./file-7.txt:1:Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+```
+
+For deeper details on the "`grep`" command please check its manual page<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a>.
+
+In the next section we will learn to combine the commands "`find`" and "`grep`".
+
+#### <b>Combining the commands `find` and `grep`</b>
 
 ## Summary
 
@@ -620,5 +665,8 @@ For a deeper explanation and understanding of the actions and predicates that yo
 </p>
 <p id="footnote-4" style="font-size:10pt">
 4. Just type "<code style="font-size:10pt">man find</code>" in your terminal window.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. Just type "<code style="font-size:10pt">man grep</code>" in your terminal window.<a href="#footnote-5-ref">&#8617;</a>
 </p>
 

@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-09T05:45:55+02:00" />
+<meta property="article:published_time" content="2024-10-09T07:15:54+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T05:45:55+02:00","datePublished":"2024-10-09T05:45:55+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T07:15:54+02:00","datePublished":"2024-10-09T07:15:54+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-09T05:45:55+02:00" />
+<meta property="article:published_time" content="2024-10-09T07:15:54+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T05:45:55+02:00","datePublished":"2024-10-09T05:45:55+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T07:15:54+02:00","datePublished":"2024-10-09T07:15:54+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -854,6 +854,97 @@ Content of line 5
 
 <p>For a deeper explanation and understanding of the actions and predicates that you can use with the “<code class="language-plaintext highlighter-rouge">find</code>” command please consult the manual page<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>.</p>
 
+<p>In the next section we will learn how to use the “<code class="language-plaintext highlighter-rouge">grep</code>” command.</p>
+
+<h4 id="the-grep-command"><b>The <code class="language-plaintext highlighter-rouge">grep</code> command</b></h4>
+
+<p>The “<code class="language-plaintext highlighter-rouge">grep</code>” command is one of the most powerful and widely-used tools for searching through text in files. It’s a versatile command that allows users to look for specific patterns within files, making it essential for tasks like filtering logs, extracting data, and debugging scripts. By understanding the basic syntax and options available, you can leverage “<code class="language-plaintext highlighter-rouge">grep</code>” to perform a variety of searches efficiently.</p>
+
+<p>At its core, “<code class="language-plaintext highlighter-rouge">grep</code>” searches for a given pattern of text within one or more files. The basic syntax is as follows:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">grep</span> <span class="o">[</span>options] <span class="o">[</span>pattern] <span class="o">[</span>file...]
+</code></pre></div></div>
+
+<p>Where:</p>
+<ul>
+  <li><strong>Pattern</strong>: This is the string or regular expression you’re searching for in the file(s).</li>
+  <li><strong>File</strong>: This is the location of the file(s) where the search will be conducted. If no file is provided, “<code class="language-plaintext highlighter-rouge">grep</code>” searches through standard input (i.e., what you type in the terminal or output from another command).</li>
+</ul>
+
+<p>The following table contains the options that I have used the most.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Option</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-A num</code></td>
+      <td style="text-align: left">Print <code class="language-plaintext highlighter-rouge">num</code> lines of trailing context <strong>after</strong> each match.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-B num</code></td>
+      <td style="text-align: left">Print <code class="language-plaintext highlighter-rouge">num</code> lines of leading context <strong>before</strong> each match.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-C [num]</code></td>
+      <td style="text-align: left">Print <code class="language-plaintext highlighter-rouge">num</code> lines of leading and trailing context surrounding each match. The default is 2 and is equivalent to <code class="language-plaintext highlighter-rouge">-A 2 -B 2</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-c</code></td>
+      <td style="text-align: left">Only a count of selected lines is written to standard output.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">--color</code></td>
+      <td style="text-align: left">Color the result.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-e pattern</code></td>
+      <td style="text-align: left">Specify a pattern used during the search of the input: an input line is selected if it matches any of the specified patterns.  This option is most useful when multiple -e options are used to specify multiple patterns, or when a pattern begins with a dash (<code class="language-plaintext highlighter-rouge">-</code>).</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-f file</code>/<code class="language-plaintext highlighter-rouge">--file=file</code></td>
+      <td style="text-align: left">Obtain patterns from <code class="language-plaintext highlighter-rouge">file</code>, one per line. The empty file contains zero patterns, and therefore matches nothing.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-i</code></td>
+      <td style="text-align: left">Perform case insensitive matching. By default, grep is <strong>case sensitive</strong>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-n</code></td>
+      <td style="text-align: left">Each output line is preceded by its relative line number in the file, starting at line 1.  The line number counter is reset for each file processed.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-r</code>/<code class="language-plaintext highlighter-rouge">--recursive</code></td>
+      <td style="text-align: left">Read all files under each directory, recursively, following symbolic links only if they are on the command line.  Note that if no  file  operand  is  given,  grep  searches  the  working directory.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-R</code>/<code class="language-plaintext highlighter-rouge">--dereference-recursive</code></td>
+      <td style="text-align: left">Read all files under each directory, recursively.  Follow all symbolic links, unlike <code class="language-plaintext highlighter-rouge">-r</code>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-v</code>/<code class="language-plaintext highlighter-rouge">--invert-match</code></td>
+      <td style="text-align: left">Selected lines are those not matching any of the specified patterns.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s say that we want to find the files that contain the word “<code class="language-plaintext highlighter-rouge">Lorem</code>” and the line where this word appears in the previous working directory. For that we use the “<code class="language-plaintext highlighter-rouge">grep</code>” command as follows.</p>
+
+<pre><code class="language-txt">$ grep -r -n -e "Lorem" .
+./directory-3/directory-3/file-directory3-3.txt:1:Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+./file-7.txt:1:Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</code></pre>
+
+<p>For deeper details on the “<code class="language-plaintext highlighter-rouge">grep</code>” command please check its manual page<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a>.</p>
+
+<p>In the next section we will learn to combine the commands “<code class="language-plaintext highlighter-rouge">find</code>” and “<code class="language-plaintext highlighter-rouge">grep</code>”.</p>
+
+<h4 id="combining-the-commands-find-and-grep"><b>Combining the commands <code class="language-plaintext highlighter-rouge">find</code> and <code class="language-plaintext highlighter-rouge">grep</code></b></h4>
+
 <h2 id="summary">Summary</h2>
 
 <h2 id="references">References</h2>
@@ -871,6 +962,9 @@ Content of line 5
 </p>
 <p id="footnote-4" style="font-size:10pt">
 4. Just type "<code style="font-size:10pt">man find</code>" in your terminal window.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. Just type "<code style="font-size:10pt">man grep</code>" in your terminal window.<a href="#footnote-5-ref">&#8617;</a>
 </p>
 
 
