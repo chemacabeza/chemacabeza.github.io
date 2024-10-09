@@ -5,6 +5,27 @@ title: "Chapter 16: Navigation and file/folder related commands"
 
 # Chapter 16: Navigation and file/folder related commands
 
+## Index
+* [The `pwd` command and the variables `$PWD` and `$OLDPWD`]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-pwd-command-and-the-variables-pwd-and-oldpwd)
+* [The `cd` command and the `$HOME` environment variable]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-cd-command-and-the-home-environment-variable)
+* [The `ls` command]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-ls-command)
+* [The `pop`, `popd`, `dirs` commands and the `$DIRSTACK` environment variable]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-pop-popd-dirs-commands-and-the-dirstack-environment-variable)
+    * [The `pushd` command]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-pushd-command)
+    * [The `popd` command]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-popd-command)
+    * [The `dirs` command]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-dirs-command)
+* [File/Folder related commands]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#filefolder-related-commands)
+    * [Creation of files]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#creation-of-files)
+    * [Creation of directories]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#creation-of-directories)
+    * [Show content of a file (The `cat` command)]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#show-content-of-a-file-the-cat-command)
+    * [Moving files and folders (The `mv` command)]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#moving-files-and-folders-the-mv-command)
+    * [Deletion of files and folders (The commands `rm` and `rmdir`)]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#deletion-of-files-and-folders-the-commands-rm-and-rmdir)
+    * [Searching (The commands `grep` and `find`)]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#searching-the-commands-grep-and-find)
+        * [The `find` command]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-find-command)
+        * [The `grep` command]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#the-grep-command)
+        * [Combining the commands `find` and `grep`]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#combining-the-commands-find-and-grep)
+* [Summary]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0016-Navigation-and-file-folder-related-commands.html#references)
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
@@ -647,11 +668,76 @@ In the next section we will learn to combine the commands "`find`" and "`grep`".
 
 #### <b>Combining the commands `find` and `grep`</b>
 
+When it comes to combining the power of the "`find`" and "`grep`" commands, you’re leveraging two highly efficient tools to search for files and patterns inside those files. "`find`" excels at locating files based on various attributes (like file name, size, or modification time), while "`grep`" is perfect for identifying specific patterns within those files. By combining these two, you can narrow down your search to both file names and content, creating a highly targeted and efficient workflow.
+
+The "`find`" command has a powerful option, "`-exec`", which allows you to run another command on each file found that matches your criteria. This is where the magic happens: you can use "`find`" to locate files and then automatically pass those files to "`grep`" to search for specific patterns inside them.
+
+Here’s an example of how this combination works:
+
+```bash
+    find . -type f -name "function*.sh" -exec grep -n --color custom {} \;
+```
+
+This command does the following:
+1. "`find .`": Searches from the current directory (`.`).
+2. "`-type f`": Restricts the search to regular files (not directories).
+3. "`-name "function*.sh"`": Looks for files that start with "`function`" and end with "`.sh`".
+4. "`-exec grep -n --color custom {}`": Executes grep on each of the found files. The "`{}`" placeholder is where each file’s path will be inserted.
+5. "`\;`": Tells find to execute grep once per file.
+
+In this case, grep will search each file for the word "`custom`", display the matching line number (`-n`), and highlight the match with color (`--color`).
+
+If you want to make the process more efficient, especially when searching through a large number of files, you can use the "`+`" at the end of the "`-exec`" option to pass all the matching files to "`grep`" at once rather than executing grep separately for each file:
+
+```bash
+    find . -type f -name "function*.sh" -exec grep -n --color custom {} \+
+```
+
+This way, "`grep`" runs a single time and processes all the found files together, improving performance when you are dealing with many files.
+
+By mastering the combination of "`find`" and "`grep`", you’ll have a highly efficient method of pinpointing files and extracting useful information from them, saving you time when working in complex file structures.
+
 ## Summary
 
+In this chapter, we explored several essential commands and environment variables that help us navigate and manipulate the file system from the command line. We began by understanding how to track our current directory using "`pwd`", with the "`$PWD`" environment variable holding the present working directory and "`$OLDPWD`" keeping track of the previous one. The command "`cd`" allows you to move between directories, and "`$HOME`" serves as the shortcut to return to your home directory no matter where you are. To list files within a directory, we use the "`ls`" command, which comes with a variety of options for displaying detailed file information.
+
+We also covered how to manage directories with "`mkdir`" for creating new directories and "`rmdir`" for removing empty ones. For more complex file management tasks, the "`rm`" command can delete both files and directories, while "`mv`" is used to move or rename files. We touched on stack navigation using "`dirs`", "`pushd`", and "`popd`", which allow you to push and pop directories onto a stack for easier navigation between multiple paths.
+
+When it comes to inspecting file contents, "`cat`" enables you to quickly view the contents of a file, making it useful for examining configurations or logs. Searching for specific information within files can be efficiently done with the "`grep`" command, which matches patterns in files. Finally, the powerful "`find`" command allows you to locate files and directories based on criteria such as name, size, and timestamps, and even execute additional commands on the results, like piping them to "`grep`" for pattern searching.
+
+Remember, mastering these commands comes with practice. Every time you work in the command line, challenge yourself to use these tools more effectively. As the saying goes, "*Repetition is the mother of skill.*" So keep exploring, keep experimenting, and soon enough, these commands will become second nature.
 
 ## References
-
+1. <https://en.wikipedia.org/wiki/Ls>
+2. <https://en.wikipedia.org/wiki/Pushd_and_popd>
+3. <https://linuxize.com/post/how-to-find-files-in-linux-using-the-command-line/>
+4. <https://linuxize.com/post/linux-cd-command/>
+5. <https://opensource.com/article/19/8/navigating-bash-shell-pushd-popd>
+6. <https://phoenixnap.com/kb/create-directory-linux-mkdir-command>
+7. <https://phoenixnap.com/kb/linux-cat-command>
+8. <https://www.baeldung.com/linux/find-exec-command>
+9. <https://www.cyberciti.biz/faq/howto-use-grep-command-in-linux-unix/>
+10. <https://www.digitalocean.com/community/tutorials/grep-command-in-linux-unix>
+11. <https://www.geeksforgeeks.org/cat-command-in-linux-with-examples/>
+12. <https://www.geeksforgeeks.org/cd-command-in-linux-with-examples/>
+13. <https://www.geeksforgeeks.org/find-command-in-linux-with-examples/>
+14. <https://www.geeksforgeeks.org/grep-command-in-unixlinux/>
+15. <https://www.geeksforgeeks.org/mkdir-command-in-linux-with-examples/>
+16. <https://www.geeksforgeeks.org/rm-command-linux-examples/>
+17. <https://www.geeksforgeeks.org/rmdir-command-in-linux-with-examples/>
+18. <https://www.geeksforgeeks.org/touch-command-in-linux-with-examples/>
+19. <https://www.ibm.com/docs/bg/aix/7.2?topic=t-touch-command>
+20. <https://www.ibm.com/docs/en/aix/7.1?topic=directories-creating-mkdir-command>
+21. <https://www.ibm.com/docs/en/aix/7.1?topic=directories-deleting-removing-rmdir-command>
+22. <https://www.ibm.com/docs/en/aix/7.1?topic=files-deleting-rm-command>
+23. <https://www.ibm.com/docs/en/aix/7.1?topic=files-moving-renaming-mv-command>
+24. <https://www.ibm.com/docs/es/aix/7.1?topic=m-mv-command>
+25. <https://www.ibm.com/docs/kk/aix/7.1?topic=c-cat-command>
+26. <https://www.ibm.com/docs/ru/aix/7.2?topic=c-cd-command>
+27. <https://www.ibm.com/docs/tr/aix/7.1?topic=p-pwd-command>
+28. <https://www.maths.cam.ac.uk/computing/linux/unixinfo/ls>
+29. <https://www.redhat.com/sysadmin/linux-find-command>
+30. <https://www.serveracademy.com/blog/how-to-use-the-touch-command-in-linux/>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 <p id="footnote-1" style="font-size:10pt">
