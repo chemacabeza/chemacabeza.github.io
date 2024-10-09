@@ -401,13 +401,204 @@ The following table contains what are the different predicates you can use and t
 | Predicate | Description |
 | :----: | :---- |
 | `-empty` | True if the current file or directory is empty. |
-| `-gid gname` / `-group gname` | True if the file belongs to the group `gname`.  If `gname` is numeric and there is no such group name, then gname is treated as a group ID. |
-| `-name pattern` | True if the last component of the pathname being examined matches the pattern provided.  Special shell pattern matching characters (`[`, `]`, `*`, and `?`) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (`\`). |
+| `-group gname` | True if the file belongs to the group `gname`.  If `gname` is numeric and there is no such group name, then gname is treated as a group ID. |
+| `-name pattern` | True if the last component of the pathname being examined matches the pattern provided.  Special shell pattern matching characters (`[`, `]`, `*`, and `?`) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (`\`). It's recommended to put "`pattern`" between single quotes (`'...'`) or double quotes (`"..."`). |
 | `-iname pattern` | Like `-name`, but the match is case insensitive. |
 | `-nouser` | True if the file belongs to an unknown user. |
 | `-size n[ckMGTP]` | True if the file's size, rounded up, in 512-byte blocks is `n`.  If `n` is followed by a `c`, then the primary is true if the file's size is `n` bytes (characters). Similarly if n is followed by a scale indicator then the file's size is compared to `n` scaled as follows. `k` kilobytes (1024 bytes), `M` megabytes (1024 kilobytes), `G` gigabytes (1024 megabytes), `T` terabytes (1024 gigabytes) and `P` petabytes (1024 terabytes). |
 | `-type t` | True if the file is of the specified type.  Possible file types are as follows. `b` (block special), `c` (character special), `d` (directory), `f` (regular file), `l` (symbolic link), `p` (FIFO, pipe), `s` (socket) |
-| `-uid uname` / `-user uname` | True if the file belongs to the user `uname`.  If uname is numeric and there is no such user name, then `uname` is treated as a user ID. |
+| `-user uname` | True if the file belongs to the user `uname`.  If uname is numeric and there is no such user name, then `uname` is treated as a user ID. |
+
+Let's say that we have the following files and directories in our current working directory.
+
+```txt
+.
+├── directory-1
+│   ├── directory-1
+│   │   └── file-directory1-1.txt
+│   ├── directory-2
+│   ├── directory-3
+│   │   └── file-directory1-1.txt
+│   ├── directory-4
+│   └── directory-5
+│       └── file-directory1-1.txt
+├── directory-2
+│   ├── directory-1
+│   ├── directory-2
+│   ├── directory-3
+│   ├── directory-4
+│   └── directory-5
+├── directory-3
+│   ├── directory-1
+│   ├── directory-2
+│   ├── directory-3
+│   │   └── file-directory3-3.txt
+│   ├── directory-4
+│   │   └── file-directory3-4.txt
+│   └── directory-5
+├── directory-4
+│   ├── directory-1
+│   ├── directory-2
+│   │   └── file-directory4-2.txt
+│   ├── directory-3
+│   ├── directory-4
+│   │   └── file-directory4-4.txt
+│   └── directory-5
+│       └── file-directory4-5.txt
+├── directory-5
+│   ├── directory-1
+│   ├── directory-2
+│   │   └── file-directory5-2.txt
+│   ├── directory-3
+│   ├── directory-4
+│   │   └── file-directory5-4.txt
+│   └── directory-5
+│       └── file-directory5-5.txt
+├── directory-6
+│   ├── directory-1
+│   │   └── file-directory6-1.png
+│   ├── directory-2
+│   ├── directory-3
+│   │   └── file-directory6-3.png
+│   ├── directory-4
+│   │   └── file-directory6-4.mp4
+│   └── directory-5
+├── directory-7
+│   ├── directory-1
+│   │   └── file-directory7-1.txt
+│   ├── directory-2
+│   │   └── file-directory7-2.gif
+│   ├── directory-3
+│   ├── directory-4
+│   └── directory-5
+├── file-1.txt
+├── file-2.txt
+├── file-3.txt
+├── file-4.txt
+├── file-5.txt
+├── file-6.txt
+└── file-7.txt
+```
+
+You can see that we have TXT files, PNG files, GIF files and MP4 files.
+
+Let's say that we want to find the files that are empty. for that we could use the predicate "`-empty`" and the predicate "`-type f`" like the following.
+
+```txt
+$ find . -empty -type f
+./directory-3/directory-3/file-directory3-3.txt
+./directory-3/directory-4/file-directory3-4.txt
+./file-1.txt
+./directory-7/directory-2/file-directory7-2.gif
+./directory-7/directory-1/file-directory7-1.txt
+./directory-5/directory-5/file-directory5-5.txt
+./directory-5/directory-4/file-directory5-4.txt
+./directory-5/directory-2/file-directory5-2.txt
+./directory-6/directory-3/file-directory6-3.png
+./directory-6/directory-4/file-directory6-4.mp4
+./directory-6/directory-1/file-directory6-1.png
+./file-4.txt
+./directory-4/directory-5/file-directory4-5.txt
+./directory-4/directory-4/file-directory4-4.txt
+./directory-4/directory-2/file-directory4-2.txt
+./file-5.txt
+./file-2.txt
+./file-3.txt
+./file-6.txt
+./directory-1/directory-3/file-directory1-1.txt
+./directory-1/directory-5/file-directory1-1.txt
+./directory-1/directory-1/file-directory1-1.txt
+./file-7.txt
+```
+
+With the predicate "`-empty`" we are requesting the "`find`" command to provide the files or directories that are empty, with the predicate "`-type f`" we are requesting the "`find`" command to provide only regular files.
+
+Let's say that we want to get the files of the user with name "`username`" for that we can use the "`find`" command as follows.
+
+```txt
+$ find . -user username
+.
+./directory-3
+./directory-3/directory-3
+./directory-3/directory-3/file-directory3-3.txt
+./directory-3/directory-5
+./directory-3/directory-4
+./directory-3/directory-4/file-directory3-4.txt
+./directory-3/directory-2
+./directory-3/directory-1
+./file-1.txt
+./directory-7
+./directory-7/directory-3
+./directory-7/directory-5
+./directory-7/directory-4
+./directory-7/directory-2
+./directory-7/directory-2/file-directory7-2.gif
+./directory-7/directory-1
+./directory-7/directory-1/file-directory7-1.txt
+./directory-5
+./directory-5/directory-3
+./directory-5/directory-5
+./directory-5/directory-5/file-directory5-5.txt
+./directory-5/directory-4
+./directory-5/directory-4/file-directory5-4.txt
+./directory-5/directory-2
+./directory-5/directory-2/file-directory5-2.txt
+./directory-5/directory-1
+./directory-6
+./directory-6/directory-3
+./directory-6/directory-3/file-directory6-3.png
+./directory-6/directory-5
+./directory-6/directory-4
+./directory-6/directory-4/file-directory6-4.mp4
+./directory-6/directory-2
+./directory-6/directory-1
+./directory-6/directory-1/file-directory6-1.png
+./file-4.txt
+./directory-4
+./directory-4/directory-3
+./directory-4/directory-5
+./directory-4/directory-5/file-directory4-5.txt
+./directory-4/directory-4
+./directory-4/directory-4/file-directory4-4.txt
+./directory-4/directory-2
+./directory-4/directory-2/file-directory4-2.txt
+./directory-4/directory-1
+./file-5.txt
+./file-2.txt
+./file-3.txt
+./directory-2
+./directory-2/directory-3
+./directory-2/directory-5
+./directory-2/directory-4
+./directory-2/directory-2
+./directory-2/directory-1
+./file-6.txt
+./directory-1
+./directory-1/directory-3
+./directory-1/directory-3/file-directory1-1.txt
+./directory-1/directory-5
+./directory-1/directory-5/file-directory1-1.txt
+./directory-1/directory-4
+./directory-1/directory-2
+./directory-1/directory-1
+./directory-1/directory-1/file-directory1-1.txt
+./file-7.txt
+```
+
+As you can see the "`find`" command returns all files and directories as all of them were created by the user with name "`username`".
+
+But the "`find`" command allows you as well to execute actions on the files or directories that match the predicate provided. 
+
+The following table contains the most popular actions that I have used. 
+
+| Action | Description |
+| :----: | :---- |
+| `-delete` | Delete found files and/or directories.  Always returns true.  This executes from the current working directory as find recurses down the tree.  It will not attempt to delete a filename with a `/` character in its pathname relative to `.` for security reasons.  Depth-first traversal processing is implied by this option. **Following symlinks is incompatible with this option**. |
+| `-exec utility [argument ...] \;` | True if the program named utility returns a zero value as its exit status. Optional arguments may be passed to the utility.  The expression must be terminated by a semicolon (`;`).  If you invoke find from a shell you may need to quote the semicolon if the shell would otherwise treat it as a control operator. If the string `{}` appears anywhere in the utility name or the arguments it is replaced by the pathname of the current file.  Utility will be executed from the directory from which find was executed.  Utility and arguments are not subject to the further expansion of shell patterns and constructs. |
+| `-exec utility [argument ...] \+` | Same as the previous one, except that `{}` is replaced with as many path names as possible for each invocation of utility. |
+| `-ls` | This primary always evaluates to true.  The following information for the current file is written to standard output: inode number, size in 512-byte blocks, file permissions, number of hard links, owner, group, size in bytes, last modification time, path name. If the file is a block or character special file, the device number will be displayed instead of the size in bytes.  If the file is a symbolic link, the pathname of the linked-to file will be displayed preceded by `->`. The format is identical to that produced by "`ls -dgils`". |
+
+For a deeper explanation and understanding of the actions and predicates that you can use with the "`find`" command please consult the manual page<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>.
 
 
 
@@ -426,5 +617,8 @@ The following table contains what are the different predicates you can use and t
 </p>
 <p id="footnote-3" style="font-size:10pt">
 3. More about this powerful editor in its website <a href="https://www.vim.org/">https://www.vim.org/</a>.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. Just type "<code style="font-size:10pt">man find</code>" in your terminal window.<a href="#footnote-4-ref">&#8617;</a>
 </p>
 

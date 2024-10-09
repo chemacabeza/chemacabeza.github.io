@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-08T05:59:01+02:00" />
+<meta property="article:published_time" content="2024-10-09T05:45:55+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T05:59:01+02:00","datePublished":"2024-10-08T05:59:01+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T05:45:55+02:00","datePublished":"2024-10-09T05:45:55+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-08T05:59:01+02:00" />
+<meta property="article:published_time" content="2024-10-09T05:45:55+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 16: Navigation and file/folder related commands" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-08T05:59:01+02:00","datePublished":"2024-10-08T05:59:01+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-09T05:45:55+02:00","datePublished":"2024-10-09T05:45:55+02:00","description":"Chapter 16: Navigation and file/folder related commands","headline":"Chapter 16: Navigation and file/folder related commands","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"},"url":"http://localhost:4000/bash-in-depth/0016-Navigation-and-file-folder-related-commands.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -616,12 +616,12 @@ Content of line 5
       <td style="text-align: left">True if the current file or directory is empty.</td>
     </tr>
     <tr>
-      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-gid gname</code> / <code class="language-plaintext highlighter-rouge">-group gname</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-group gname</code></td>
       <td style="text-align: left">True if the file belongs to the group <code class="language-plaintext highlighter-rouge">gname</code>.  If <code class="language-plaintext highlighter-rouge">gname</code> is numeric and there is no such group name, then gname is treated as a group ID.</td>
     </tr>
     <tr>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-name pattern</code></td>
-      <td style="text-align: left">True if the last component of the pathname being examined matches the pattern provided.  Special shell pattern matching characters (<code class="language-plaintext highlighter-rouge">[</code>, <code class="language-plaintext highlighter-rouge">]</code>, <code class="language-plaintext highlighter-rouge">*</code>, and <code class="language-plaintext highlighter-rouge">?</code>) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (<code class="language-plaintext highlighter-rouge">\</code>).</td>
+      <td style="text-align: left">True if the last component of the pathname being examined matches the pattern provided.  Special shell pattern matching characters (<code class="language-plaintext highlighter-rouge">[</code>, <code class="language-plaintext highlighter-rouge">]</code>, <code class="language-plaintext highlighter-rouge">*</code>, and <code class="language-plaintext highlighter-rouge">?</code>) may be used as part of pattern.  These characters may be matched explicitly by escaping them with a backslash (<code class="language-plaintext highlighter-rouge">\</code>). It’s recommended to put “<code class="language-plaintext highlighter-rouge">pattern</code>” between single quotes (<code class="language-plaintext highlighter-rouge">'...'</code>) or double quotes (<code class="language-plaintext highlighter-rouge">"..."</code>).</td>
     </tr>
     <tr>
       <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-iname pattern</code></td>
@@ -640,11 +640,219 @@ Content of line 5
       <td style="text-align: left">True if the file is of the specified type.  Possible file types are as follows. <code class="language-plaintext highlighter-rouge">b</code> (block special), <code class="language-plaintext highlighter-rouge">c</code> (character special), <code class="language-plaintext highlighter-rouge">d</code> (directory), <code class="language-plaintext highlighter-rouge">f</code> (regular file), <code class="language-plaintext highlighter-rouge">l</code> (symbolic link), <code class="language-plaintext highlighter-rouge">p</code> (FIFO, pipe), <code class="language-plaintext highlighter-rouge">s</code> (socket)</td>
     </tr>
     <tr>
-      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-uid uname</code> / <code class="language-plaintext highlighter-rouge">-user uname</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-user uname</code></td>
       <td style="text-align: left">True if the file belongs to the user <code class="language-plaintext highlighter-rouge">uname</code>.  If uname is numeric and there is no such user name, then <code class="language-plaintext highlighter-rouge">uname</code> is treated as a user ID.</td>
     </tr>
   </tbody>
 </table>
+
+<p>Let’s say that we have the following files and directories in our current working directory.</p>
+
+<pre><code class="language-txt">.
+├── directory-1
+│   ├── directory-1
+│   │   └── file-directory1-1.txt
+│   ├── directory-2
+│   ├── directory-3
+│   │   └── file-directory1-1.txt
+│   ├── directory-4
+│   └── directory-5
+│       └── file-directory1-1.txt
+├── directory-2
+│   ├── directory-1
+│   ├── directory-2
+│   ├── directory-3
+│   ├── directory-4
+│   └── directory-5
+├── directory-3
+│   ├── directory-1
+│   ├── directory-2
+│   ├── directory-3
+│   │   └── file-directory3-3.txt
+│   ├── directory-4
+│   │   └── file-directory3-4.txt
+│   └── directory-5
+├── directory-4
+│   ├── directory-1
+│   ├── directory-2
+│   │   └── file-directory4-2.txt
+│   ├── directory-3
+│   ├── directory-4
+│   │   └── file-directory4-4.txt
+│   └── directory-5
+│       └── file-directory4-5.txt
+├── directory-5
+│   ├── directory-1
+│   ├── directory-2
+│   │   └── file-directory5-2.txt
+│   ├── directory-3
+│   ├── directory-4
+│   │   └── file-directory5-4.txt
+│   └── directory-5
+│       └── file-directory5-5.txt
+├── directory-6
+│   ├── directory-1
+│   │   └── file-directory6-1.png
+│   ├── directory-2
+│   ├── directory-3
+│   │   └── file-directory6-3.png
+│   ├── directory-4
+│   │   └── file-directory6-4.mp4
+│   └── directory-5
+├── directory-7
+│   ├── directory-1
+│   │   └── file-directory7-1.txt
+│   ├── directory-2
+│   │   └── file-directory7-2.gif
+│   ├── directory-3
+│   ├── directory-4
+│   └── directory-5
+├── file-1.txt
+├── file-2.txt
+├── file-3.txt
+├── file-4.txt
+├── file-5.txt
+├── file-6.txt
+└── file-7.txt
+</code></pre>
+
+<p>You can see that we have TXT files, PNG files, GIF files and MP4 files.</p>
+
+<p>Let’s say that we want to find the files that are empty. for that we could use the predicate “<code class="language-plaintext highlighter-rouge">-empty</code>” and the predicate “<code class="language-plaintext highlighter-rouge">-type f</code>” like the following.</p>
+
+<pre><code class="language-txt">$ find . -empty -type f
+./directory-3/directory-3/file-directory3-3.txt
+./directory-3/directory-4/file-directory3-4.txt
+./file-1.txt
+./directory-7/directory-2/file-directory7-2.gif
+./directory-7/directory-1/file-directory7-1.txt
+./directory-5/directory-5/file-directory5-5.txt
+./directory-5/directory-4/file-directory5-4.txt
+./directory-5/directory-2/file-directory5-2.txt
+./directory-6/directory-3/file-directory6-3.png
+./directory-6/directory-4/file-directory6-4.mp4
+./directory-6/directory-1/file-directory6-1.png
+./file-4.txt
+./directory-4/directory-5/file-directory4-5.txt
+./directory-4/directory-4/file-directory4-4.txt
+./directory-4/directory-2/file-directory4-2.txt
+./file-5.txt
+./file-2.txt
+./file-3.txt
+./file-6.txt
+./directory-1/directory-3/file-directory1-1.txt
+./directory-1/directory-5/file-directory1-1.txt
+./directory-1/directory-1/file-directory1-1.txt
+./file-7.txt
+</code></pre>
+
+<p>With the predicate “<code class="language-plaintext highlighter-rouge">-empty</code>” we are requesting the “<code class="language-plaintext highlighter-rouge">find</code>” command to provide the files or directories that are empty, with the predicate “<code class="language-plaintext highlighter-rouge">-type f</code>” we are requesting the “<code class="language-plaintext highlighter-rouge">find</code>” command to provide only regular files.</p>
+
+<p>Let’s say that we want to get the files of the user with name “<code class="language-plaintext highlighter-rouge">username</code>” for that we can use the “<code class="language-plaintext highlighter-rouge">find</code>” command as follows.</p>
+
+<pre><code class="language-txt">$ find . -user username
+.
+./directory-3
+./directory-3/directory-3
+./directory-3/directory-3/file-directory3-3.txt
+./directory-3/directory-5
+./directory-3/directory-4
+./directory-3/directory-4/file-directory3-4.txt
+./directory-3/directory-2
+./directory-3/directory-1
+./file-1.txt
+./directory-7
+./directory-7/directory-3
+./directory-7/directory-5
+./directory-7/directory-4
+./directory-7/directory-2
+./directory-7/directory-2/file-directory7-2.gif
+./directory-7/directory-1
+./directory-7/directory-1/file-directory7-1.txt
+./directory-5
+./directory-5/directory-3
+./directory-5/directory-5
+./directory-5/directory-5/file-directory5-5.txt
+./directory-5/directory-4
+./directory-5/directory-4/file-directory5-4.txt
+./directory-5/directory-2
+./directory-5/directory-2/file-directory5-2.txt
+./directory-5/directory-1
+./directory-6
+./directory-6/directory-3
+./directory-6/directory-3/file-directory6-3.png
+./directory-6/directory-5
+./directory-6/directory-4
+./directory-6/directory-4/file-directory6-4.mp4
+./directory-6/directory-2
+./directory-6/directory-1
+./directory-6/directory-1/file-directory6-1.png
+./file-4.txt
+./directory-4
+./directory-4/directory-3
+./directory-4/directory-5
+./directory-4/directory-5/file-directory4-5.txt
+./directory-4/directory-4
+./directory-4/directory-4/file-directory4-4.txt
+./directory-4/directory-2
+./directory-4/directory-2/file-directory4-2.txt
+./directory-4/directory-1
+./file-5.txt
+./file-2.txt
+./file-3.txt
+./directory-2
+./directory-2/directory-3
+./directory-2/directory-5
+./directory-2/directory-4
+./directory-2/directory-2
+./directory-2/directory-1
+./file-6.txt
+./directory-1
+./directory-1/directory-3
+./directory-1/directory-3/file-directory1-1.txt
+./directory-1/directory-5
+./directory-1/directory-5/file-directory1-1.txt
+./directory-1/directory-4
+./directory-1/directory-2
+./directory-1/directory-1
+./directory-1/directory-1/file-directory1-1.txt
+./file-7.txt
+</code></pre>
+
+<p>As you can see the “<code class="language-plaintext highlighter-rouge">find</code>” command returns all files and directories as all of them were created by the user with name “<code class="language-plaintext highlighter-rouge">username</code>”.</p>
+
+<p>But the “<code class="language-plaintext highlighter-rouge">find</code>” command allows you as well to execute actions on the files or directories that match the predicate provided.</p>
+
+<p>The following table contains the most popular actions that I have used.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Action</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-delete</code></td>
+      <td style="text-align: left">Delete found files and/or directories.  Always returns true.  This executes from the current working directory as find recurses down the tree.  It will not attempt to delete a filename with a <code class="language-plaintext highlighter-rouge">/</code> character in its pathname relative to <code class="language-plaintext highlighter-rouge">.</code> for security reasons.  Depth-first traversal processing is implied by this option. <strong>Following symlinks is incompatible with this option</strong>.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-exec utility [argument ...] \;</code></td>
+      <td style="text-align: left">True if the program named utility returns a zero value as its exit status. Optional arguments may be passed to the utility.  The expression must be terminated by a semicolon (<code class="language-plaintext highlighter-rouge">;</code>).  If you invoke find from a shell you may need to quote the semicolon if the shell would otherwise treat it as a control operator. If the string <code class="language-plaintext highlighter-rouge">{}</code> appears anywhere in the utility name or the arguments it is replaced by the pathname of the current file.  Utility will be executed from the directory from which find was executed.  Utility and arguments are not subject to the further expansion of shell patterns and constructs.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-exec utility [argument ...] \+</code></td>
+      <td style="text-align: left">Same as the previous one, except that <code class="language-plaintext highlighter-rouge">{}</code> is replaced with as many path names as possible for each invocation of utility.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">-ls</code></td>
+      <td style="text-align: left">This primary always evaluates to true.  The following information for the current file is written to standard output: inode number, size in 512-byte blocks, file permissions, number of hard links, owner, group, size in bytes, last modification time, path name. If the file is a block or character special file, the device number will be displayed instead of the size in bytes.  If the file is a symbolic link, the pathname of the linked-to file will be displayed preceded by <code class="language-plaintext highlighter-rouge">-&gt;</code>. The format is identical to that produced by “<code class="language-plaintext highlighter-rouge">ls -dgils</code>”.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For a deeper explanation and understanding of the actions and predicates that you can use with the “<code class="language-plaintext highlighter-rouge">find</code>” command please consult the manual page<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>.</p>
 
 <h2 id="summary">Summary</h2>
 
@@ -660,6 +868,9 @@ Content of line 5
 </p>
 <p id="footnote-3" style="font-size:10pt">
 3. More about this powerful editor in its website <a href="https://www.vim.org/">https://www.vim.org/</a>.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. Just type "<code style="font-size:10pt">man find</code>" in your terminal window.<a href="#footnote-4-ref">&#8617;</a>
 </p>
 
 
