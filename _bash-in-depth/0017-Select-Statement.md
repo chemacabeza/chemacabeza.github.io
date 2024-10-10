@@ -48,20 +48,20 @@ Let's give it a try with the following example script.
  2 #Script: select-0001.sh
  3 echo "Select a value from the list down here"
  4 select var in option1 option2 option3; do
- 5 	case $var in
- 6 		option1)
- 7 			echo "You selected option1"
- 8 			;;
- 9 		option2)
-10 			echo "You selected option2"
-11 			;;
-12 		option3)
-13 			echo "You selected option3"
-14 			;;
-15 		*)
-16 			echo "Invalid selection"
-17 			;;
-18   esac
+ 5    case $var in
+ 6        option1)
+ 7            echo "You selected option1"
+ 8            ;;
+ 9        option2)
+10            echo "You selected option2"
+11            ;;
+12        option3)
+13            echo "You selected option3"
+14            ;;
+15        *)
+16            echo "Invalid selection"
+17            ;;
+18    esac
 19 done
 ```
 
