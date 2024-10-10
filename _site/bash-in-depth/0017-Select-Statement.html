@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 17: The select statement | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 17: The select statement" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 17: The select statement" />
+<meta property="og:description" content="Chapter 17: The select statement" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0017-Select-Statement.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0017-Select-Statement.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-10T08:35:46+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 17: The select statement" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-10T08:35:46+02:00","datePublished":"2024-10-10T08:35:46+02:00","description":"Chapter 17: The select statement","headline":"Chapter 17: The select statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 17: The select statement | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 17: The select statement" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 17: The select statement" />
+<meta property="og:description" content="Chapter 17: The select statement" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0017-Select-Statement.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0017-Select-Statement.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-10T08:35:46+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 17: The select statement" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-10T08:35:46+02:00","datePublished":"2024-10-10T08:35:46+02:00","description":"Chapter 17: The select statement","headline":"Chapter 17: The select statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+<div class="chapter-content">
+  <h1 id="chapter-17-the-select-statement">Chapter 17: The select statement</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0017-Select-Statement.html#syntax">Syntax</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0017-Select-Statement.html#the-ps3-environment-variable">The <code class="language-plaintext highlighter-rouge">PS3</code> environment variable</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0017-Select-Statement.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0017-Select-Statement.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p>The “<code class="language-plaintext highlighter-rouge">select</code>” statement in Bash is a powerful feature for creating simple interactive menus within scripts. It allows you to present a list of choices to the user, and based on their input, the script can execute different commands. The syntax is similar to a “<code class="language-plaintext highlighter-rouge">for</code>” loop, but instead of looping through a range of values, it loops through the options you define and waits for user input.</p>
+
+<h2 id="syntax">Syntax</h2>
+
+<p>Here’s a basic structure of how the “<code class="language-plaintext highlighter-rouge">select</code>” statement works.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">select </span>var <span class="k">in </span>option1 option2 option3
+    <span class="k">do</span>
+      <span class="c"># Commands to be executed based on the selected option</span>
+      <span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+        </span>option1<span class="p">)</span>
+          <span class="nb">echo</span> <span class="s2">"You selected option1"</span>
+          <span class="p">;;</span>
+        option2<span class="p">)</span>
+          <span class="nb">echo</span> <span class="s2">"You selected option2"</span>
+          <span class="p">;;</span>
+        option3<span class="p">)</span>
+          <span class="nb">echo</span> <span class="s2">"You selected option3"</span>
+          <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+          <span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
+          <span class="p">;;</span>
+      <span class="k">esac</span>
+    <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When this script runs, it will present the user with a numbered list of options (“<code class="language-plaintext highlighter-rouge">option1</code>”, “<code class="language-plaintext highlighter-rouge">option2</code>”, “<code class="language-plaintext highlighter-rouge">option3</code>”), and prompt them to choose one by entering the corresponding number. The value of the selected option is stored in the variable “<code class="language-plaintext highlighter-rouge">var</code>”, which can then be used within a “<code class="language-plaintext highlighter-rouge">case</code>” statement to determine what action to take based on the user’s choice.</p>
+
+<p>Let’s give it a try with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: select-0001.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Select a value from the list down here"</span>
+ 4 <span class="k">select </span>var <span class="k">in </span>option1 option2 option3<span class="p">;</span> <span class="k">do
+ </span>5 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>6 				option1<span class="p">)</span>
+ 7 						<span class="nb">echo</span> <span class="s2">"You selected option1"</span>
+ 8 						<span class="p">;;</span>
+ 9 				option2<span class="p">)</span>
+10 						<span class="nb">echo</span> <span class="s2">"You selected option2"</span>
+11 						<span class="p">;;</span>
+12 				option3<span class="p">)</span>
+13 						<span class="nb">echo</span> <span class="s2">"You selected option3"</span>
+14 						<span class="p">;;</span>
+15 				<span class="k">*</span><span class="p">)</span>
+16 						<span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
+17 						<span class="p">;;</span>
+18 		<span class="k">esac</span>
+19 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script you will see something like the following.</p>
+
+<pre><code class="language-txt">$ ./select-0001.sh
+Select a value from the list down here
+1) option1
+2) option2
+3) option3
+#? 2
+You selected option2
+#? 3
+You selected option3
+#? 4
+Invalid selection
+#? 6
+Invalid selection
+#? 
+</code></pre>
+
+<p>As you can see you are kind of “<em>trapped</em>” in a loop where you need to select an option every single time. As we mentioned before the “<code class="language-plaintext highlighter-rouge">select</code>” statement works like a loop. This means that you can use the keywords “<code class="language-plaintext highlighter-rouge">continue</code>” and “<code class="language-plaintext highlighter-rouge">break</code>” that we learnt <a href="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html#continue-and-break">back in Chapter 12</a>.</p>
+
+<p>Let’s see an example with both of the keywords.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: select-0002.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Select a value from the list down here"</span>
+ 4 <span class="k">select </span>var <span class="k">in </span>option1 option2 option3 next getout<span class="p">;</span> <span class="k">do
+ </span>5 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>6 				option1<span class="p">)</span>
+ 7 						<span class="nb">echo</span> <span class="s2">"You selected option1"</span>
+ 8 						<span class="p">;;</span>
+ 9 				option2<span class="p">)</span>
+10 						<span class="nb">echo</span> <span class="s2">"You selected option2"</span>
+11 						<span class="p">;;</span>
+12 				option3<span class="p">)</span>
+13 						<span class="nb">echo</span> <span class="s2">"You selected option3"</span>
+14 						<span class="p">;;</span>
+15 				next<span class="p">)</span>
+16 						<span class="nb">echo</span> <span class="s2">"You selected next"</span>
+17 						<span class="k">continue
+</span>18 						<span class="p">;;</span>
+19 				getout<span class="p">)</span>
+20 						<span class="nb">echo</span> <span class="s2">"you selected to get out of the select statement"</span>
+21 						<span class="nb">break
+</span>22 						<span class="p">;;</span>
+23 				<span class="k">*</span><span class="p">)</span>
+24 						<span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
+25 						<span class="p">;;</span>
+26 		<span class="k">esac</span>
+27 <span class="k">done
+</span>28 <span class="nb">echo</span> <span class="s2">"We got out of the select stament"</span>
+</code></pre></div></div>
+
+<p>If you pay attention to the previous script you will notice that on line 4 we added two additional options which are “<code class="language-plaintext highlighter-rouge">next</code>” and “<code class="language-plaintext highlighter-rouge">getout</code>”.</p>
+
+<p>If you check lines 15 to 18 you will see that we “<em>mapped</em>” the option “<code class="language-plaintext highlighter-rouge">next</code>” to the keyword “<code class="language-plaintext highlighter-rouge">continue</code>”. <strong>This is the default behavior</strong> of the “<code class="language-plaintext highlighter-rouge">select</code>” statement so adding a “<code class="language-plaintext highlighter-rouge">continue</code>” keyword does not change anything in the “<code class="language-plaintext highlighter-rouge">select</code>” statement.</p>
+
+<p>Now if you check lines 19 to 22 you will see that we “<em>mapped</em>” the option “<code class="language-plaintext highlighter-rouge">getout</code>” to the keyword “<code class="language-plaintext highlighter-rouge">break</code>”. When this option is selected the “loop” will break and you will get out of the “<code class="language-plaintext highlighter-rouge">select</code>” statement.</p>
+
+<p>Let’s run the previous script and see what happens.</p>
+
+<pre><code class="language-txt">$ ./select-0002.sh
+Select a value from the list down here
+1) option1
+2) option2
+3) option3
+4) next
+5) getout
+#? 1
+You selected option1
+#? 2
+You selected option2
+#? 3
+You selected option3
+#? 4
+You selected next
+#? 5
+you selected to get out of the select statement
+We got out of the select stament
+</code></pre>
+
+<p>As you can see from the execution of the script selecting the option “<code class="language-plaintext highlighter-rouge">next</code>” has no impact at all in the “<code class="language-plaintext highlighter-rouge">select</code>” statement. The option “<code class="language-plaintext highlighter-rouge">getout</code>”, however, gets you out of the “<code class="language-plaintext highlighter-rouge">select</code>” statement and continues the execution of the script.</p>
+
+<p>Something to take into account of the “<code class="language-plaintext highlighter-rouge">select</code>” statement is that it simplifies the process of building menus compared to using multiple “<code class="language-plaintext highlighter-rouge">read</code>” commands and “<code class="language-plaintext highlighter-rouge">if-else</code>” statements or a “<code class="language-plaintext highlighter-rouge">case</code>” statement.</p>
+
+<p>For example, if you wanted to give users the option to select between several file operations (view, edit, delete), the select statement would allow for a clean and intuitive user interface.</p>
+
+<p>In the next section we will learn how to use the environment variable “<code class="language-plaintext highlighter-rouge">PS3</code>” to be able to customize the prompt offered to the user.</p>
+
+<h2 id="the-ps3-environment-variable">The <code class="language-plaintext highlighter-rouge">PS3</code> environment variable</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">PS3</code>” environment variable in Bash is used to customize the prompt displayed when using the “<code class="language-plaintext highlighter-rouge">select</code>” statement. The “<code class="language-plaintext highlighter-rouge">select</code>” statement is a feature in Bash that allows users to create simple menus. By default, when the “<code class="language-plaintext highlighter-rouge">select</code>” statement is used, the prompt is set to “<code class="language-plaintext highlighter-rouge">#?</code>”. However, you can modify this prompt by assigning a custom value to the “<code class="language-plaintext highlighter-rouge">PS3</code>” variable. This makes it easier for the user to know what kind of input is expected.</p>
+
+<p>Let’s see an example where we will write a script to select your favorite fruit.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: select-0003.sh</span>
+ 3 <span class="nv">PS3</span><span class="o">=</span><span class="s2">"Select your favorite fruit from the list: "</span>
+ 4 <span class="k">select </span>var <span class="k">in</span> <span class="s2">"Apple"</span> <span class="s2">"Banana"</span> <span class="s2">"Cherry"</span> <span class="s2">"Grapes"</span> <span class="s2">"Pear"</span><span class="p">;</span> <span class="k">do
+ </span>5 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>6 				Apple<span class="p">)</span>
+ 7 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+ 8 						<span class="p">;;</span>
+ 9 				Banana<span class="p">)</span>
+10 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+11 						<span class="p">;;</span>
+12 				Cherry<span class="p">)</span>
+13 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+14 						<span class="p">;;</span>
+15 				Grapes<span class="p">)</span>
+16 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+17 						<span class="p">;;</span>
+18 				Pear<span class="p">)</span>
+19 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+20 						<span class="p">;;</span>
+21 				<span class="k">*</span><span class="p">)</span>
+22 						<span class="nb">echo</span> <span class="s2">"Invalid choice. Please try again."</span>
+23 						<span class="p">;;</span>
+24 		<span class="k">esac</span>
+25 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will see the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./select-0003.sh
+1) Apple
+2) Banana
+3) Cherry
+4) Grapes
+5) Pear
+Select your favorite fruit from the list: 1
+You picked 'Apple' as your favorite fruit
+Select your favorite fruit from the list: 2
+You picked 'Banana' as your favorite fruit
+Select your favorite fruit from the list: 3
+You picked 'Cherry' as your favorite fruit
+Select your favorite fruit from the list: 4
+You picked 'Grapes' as your favorite fruit
+Select your favorite fruit from the list: 5
+You picked 'Pear' as your favorite fruit
+Select your favorite fruit from the list: 6
+Invalid choice. Please try again.
+Select your favorite fruit from the list:
+1) Apple
+2) Banana
+3) Cherry
+4) Grapes
+5) Pear
+Select your favorite fruit from the list: ^C
+</code></pre>
+
+<p>As you can see from the execution of the script we are using all the options and all of the work without problems. When we try to select an option that is not in the list “<code class="language-plaintext highlighter-rouge">6</code>” it will print the message “<code class="language-plaintext highlighter-rouge">Invalid choice. Please try again.</code>”.</p>
+
+<p>If you hit enter and don’t select an option the list of options will appear again.</p>
+
+<p>The last character that you see in the terminal window is “<code class="language-plaintext highlighter-rouge">^C</code>” which is the “Control+C” command so that we can end the execution of the script.</p>
+
+<p>Something you should know is that you can pass an array so that it contains all the options you can select from. Let’s rewrite the script “<code class="language-plaintext highlighter-rouge">select-0003.sh</code>” so that all the options are in an array. The result is like the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: select-0004.sh</span>
+ 3 <span class="nv">PS3</span><span class="o">=</span><span class="s2">"Select your favorite fruit from the list: "</span>
+ 4 <span class="nv">OPTIONS</span><span class="o">=(</span><span class="s2">"Apple"</span> <span class="s2">"Banana"</span> <span class="s2">"Cherry"</span> <span class="s2">"Grapes"</span> <span class="s2">"Pear"</span><span class="o">)</span>
+ 5 <span class="k">select </span>var <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">OPTIONS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+ </span>6 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>7 				Apple<span class="p">)</span>
+ 8 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+ 9 						<span class="p">;;</span>
+10 				Banana<span class="p">)</span>
+11 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+12 						<span class="p">;;</span>
+13 				Cherry<span class="p">)</span>
+14 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+15 						<span class="p">;;</span>
+16 				Grapes<span class="p">)</span>
+17 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+18 						<span class="p">;;</span>
+19 				Pear<span class="p">)</span>
+20 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+21 						<span class="p">;;</span>
+22 				<span class="k">*</span><span class="p">)</span>
+23 						<span class="nb">echo</span> <span class="s2">"Invalid choice. Please try again."</span>
+24 						<span class="p">;;</span>
+25 		<span class="k">esac</span>
+26 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>If you run the previous “<code class="language-plaintext highlighter-rouge">select-0004.sh</code>” script you will that it works exactly as the script “<code class="language-plaintext highlighter-rouge">select-0003.sh</code>”.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">select</code>” statement in Bash is a useful tool for creating interactive menus that allow users to choose from a list of options. It works similarly to a “<code class="language-plaintext highlighter-rouge">for</code>” loop, but instead of iterating over values, it presents them as a numbered list to the user and waits for their input. Once a choice is made, the value of the selected option is stored in a variable, which can then be used to execute different actions depending on the choice.</p>
+
+<p>For example, in a basic script using “<code class="language-plaintext highlighter-rouge">select</code>”, you can define a set of options, and based on the user’s selection, a corresponding action will be executed using a “<code class="language-plaintext highlighter-rouge">case</code>” statement. This simplifies menu creation in Bash scripts, making it more intuitive for users to interact with different choices.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">PS3</code>” environment variable is used to customize the prompt shown when the “<code class="language-plaintext highlighter-rouge">select</code>” statement is waiting for user input. By default, it prompts with “<code class="language-plaintext highlighter-rouge">#?</code>”, but you can modify this to provide a more descriptive message, guiding the user on what they should input next.</p>
+
+<p>Mastery comes from repetition—every time you use the “<code class="language-plaintext highlighter-rouge">select</code>” statement, you’re sharpening your Bash skills for more efficient scripting!</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li><a href="https://linux.die.net/Bash-Beginners-Guide/sect_09_06.html">https://linux.die.net/Bash-Beginners-Guide/sect_09_06.html</a></li>
+  <li><a href="https://linuxize.com/post/bash-select/">https://linuxize.com/post/bash-select/</a></li>
+  <li><a href="https://ostechnix.com/bash-select-loop/">https://ostechnix.com/bash-select-loop/</a></li>
+  <li><a href="https://rednafi.com/misc/dynamic_menu_with_select_in_bash/">https://rednafi.com/misc/dynamic_menu_with_select_in_bash/</a></li>
+  <li><a href="https://ss64.com/bash/select.html">https://ss64.com/bash/select.html</a></li>
+  <li><a href="https://superuser.com/questions/858086/bash-how-to-use-a-quoted-argument-in-select">https://superuser.com/questions/858086/bash-how-to-use-a-quoted-argument-in-select</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/20698/using-select-command-to-print-a-menu-in-bash">https://unix.stackexchange.com/questions/20698/using-select-command-to-print-a-menu-in-bash</a></li>
+  <li><a href="https://www.baeldung.com/linux/shell-script-simple-select-menu">https://www.baeldung.com/linux/shell-script-simple-select-menu</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
