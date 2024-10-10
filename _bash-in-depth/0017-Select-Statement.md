@@ -48,19 +48,19 @@ Let's give it a try with the following example script.
  2 #Script: select-0001.sh
  3 echo "Select a value from the list down here"
  4 select var in option1 option2 option3; do
- 5 		case $var in
- 6 				option1)
- 7 						echo "You selected option1"
- 8 						;;
- 9 				option2)
-10 						echo "You selected option2"
-11 						;;
-12 				option3)
-13 						echo "You selected option3"
-14 						;;
-15 				*)
-16 						echo "Invalid selection"
-17 						;;
+ 5 	case $var in
+ 6 		option1)
+ 7 			echo "You selected option1"
+ 8 			;;
+ 9 		option2)
+10 			echo "You selected option2"
+11 			;;
+12 		option3)
+13 			echo "You selected option3"
+14 			;;
+15 		*)
+16 			echo "Invalid selection"
+17 			;;
 18 		esac
 19 done
 ```
@@ -93,28 +93,28 @@ Let's see an example with both of the keywords.
  2 #Script: select-0002.sh
  3 echo "Select a value from the list down here"
  4 select var in option1 option2 option3 next getout; do
- 5 		case $var in
- 6 				option1)
- 7 						echo "You selected option1"
- 8 						;;
- 9 				option2)
-10 						echo "You selected option2"
-11 						;;
-12 				option3)
-13 						echo "You selected option3"
-14 						;;
-15 				next)
-16 						echo "You selected next"
-17 						continue
-18 						;;
-19 				getout)
-20 						echo "you selected to get out of the select statement"
-21 						break
-22 						;;
-23 				*)
-24 						echo "Invalid selection"
-25 						;;
-26 		esac
+ 5     case $var in
+ 6         option1)
+ 7             echo "You selected option1"
+ 8             ;;
+ 9         option2)
+10             echo "You selected option2"
+11             ;;
+12         option3)
+13             echo "You selected option3"
+14              ;;
+15         next)
+16             echo "You selected next"
+17             continue
+18             ;;
+19         getout)
+20             echo "you selected to get out of the select statement"
+21             break
+22             ;;
+23         *)
+24             echo "Invalid selection"
+25             ;;
+26     esac
 27 done
 28 echo "We got out of the select stament"
 ```
@@ -167,26 +167,26 @@ Let's see an example where we will write a script to select your favorite fruit.
  2 #Script: select-0003.sh
  3 PS3="Select your favorite fruit from the list: "
  4 select var in "Apple" "Banana" "Cherry" "Grapes" "Pear"; do
- 5 		case $var in
- 6 				Apple)
- 7 						echo "You picked '$var' as your favorite fruit"
- 8 						;;
- 9 				Banana)
-10 						echo "You picked '$var' as your favorite fruit"
-11 						;;
-12 				Cherry)
-13 						echo "You picked '$var' as your favorite fruit"
-14 						;;
-15 				Grapes)
-16 						echo "You picked '$var' as your favorite fruit"
-17 						;;
-18 				Pear)
-19 						echo "You picked '$var' as your favorite fruit"
-20 						;;
-21 				*)
-22 						echo "Invalid choice. Please try again."
-23 						;;
-24 		esac
+ 5   case $var in
+ 6     Apple)
+ 7         echo "You picked '$var' as your favorite fruit"
+ 8         ;;
+ 9     Banana)
+10         echo "You picked '$var' as your favorite fruit"
+11         ;;
+12     Cherry)
+13         echo "You picked '$var' as your favorite fruit"
+14         ;;
+15     Grapes)
+16         echo "You picked '$var' as your favorite fruit"
+17         ;;
+18     Pear)
+19         echo "You picked '$var' as your favorite fruit"
+20         ;;
+21     *)
+22         echo "Invalid choice. Please try again."
+23         ;;
+24   esac
 25 done
 ```
 
@@ -234,26 +234,26 @@ Something you should know is that you can pass an array so that it contains all 
  3 PS3="Select your favorite fruit from the list: "
  4 OPTIONS=("Apple" "Banana" "Cherry" "Grapes" "Pear")
  5 select var in "${OPTIONS[@]}"; do
- 6 		case $var in
- 7 				Apple)
- 8 						echo "You picked '$var' as your favorite fruit"
- 9 						;;
-10 				Banana)
-11 						echo "You picked '$var' as your favorite fruit"
-12 						;;
-13 				Cherry)
-14 						echo "You picked '$var' as your favorite fruit"
-15 						;;
-16 				Grapes)
-17 						echo "You picked '$var' as your favorite fruit"
-18 						;;
-19 				Pear)
-20 						echo "You picked '$var' as your favorite fruit"
-21 						;;
-22 				*)
-23 						echo "Invalid choice. Please try again."
-24 						;;
-25 		esac
+ 6    case $var in
+ 7        Apple)
+ 8            echo "You picked '$var' as your favorite fruit"
+ 9            ;;
+10        Banana)
+11            echo "You picked '$var' as your favorite fruit"
+12            ;;
+13        Cherry)
+14            echo "You picked '$var' as your favorite fruit"
+15            ;;
+16        Grapes)
+17            echo "You picked '$var' as your favorite fruit"
+18            ;;
+19        Pear)
+20            echo "You picked '$var' as your favorite fruit"
+21            ;;
+22        *)
+23            echo "Invalid choice. Please try again."
+24            ;;
+25    esac
 26 done
 ```
 

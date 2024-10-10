@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0017-Select-Statement.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-10T08:35:46+02:00" />
+<meta property="article:published_time" content="2024-10-10T10:08:09+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 17: The select statement" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-10T08:35:46+02:00","datePublished":"2024-10-10T08:35:46+02:00","description":"Chapter 17: The select statement","headline":"Chapter 17: The select statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-10T10:08:09+02:00","datePublished":"2024-10-10T10:08:09+02:00","description":"Chapter 17: The select statement","headline":"Chapter 17: The select statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,11 +69,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0017-Select-Statement.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-10-10T08:35:46+02:00" />
+<meta property="article:published_time" content="2024-10-10T10:08:09+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 17: The select statement" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-10T08:35:46+02:00","datePublished":"2024-10-10T08:35:46+02:00","description":"Chapter 17: The select statement","headline":"Chapter 17: The select statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-10T10:08:09+02:00","datePublished":"2024-10-10T10:08:09+02:00","description":"Chapter 17: The select statement","headline":"Chapter 17: The select statement","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"},"url":"http://localhost:4000/bash-in-depth/0017-Select-Statement.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
@@ -123,19 +123,19 @@
  2 <span class="c">#Script: select-0001.sh</span>
  3 <span class="nb">echo</span> <span class="s2">"Select a value from the list down here"</span>
  4 <span class="k">select </span>var <span class="k">in </span>option1 option2 option3<span class="p">;</span> <span class="k">do
- </span>5 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
- </span>6 				option1<span class="p">)</span>
- 7 						<span class="nb">echo</span> <span class="s2">"You selected option1"</span>
- 8 						<span class="p">;;</span>
- 9 				option2<span class="p">)</span>
-10 						<span class="nb">echo</span> <span class="s2">"You selected option2"</span>
-11 						<span class="p">;;</span>
-12 				option3<span class="p">)</span>
-13 						<span class="nb">echo</span> <span class="s2">"You selected option3"</span>
-14 						<span class="p">;;</span>
-15 				<span class="k">*</span><span class="p">)</span>
-16 						<span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
-17 						<span class="p">;;</span>
+ </span>5 	<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>6 		option1<span class="p">)</span>
+ 7 			<span class="nb">echo</span> <span class="s2">"You selected option1"</span>
+ 8 			<span class="p">;;</span>
+ 9 		option2<span class="p">)</span>
+10 			<span class="nb">echo</span> <span class="s2">"You selected option2"</span>
+11 			<span class="p">;;</span>
+12 		option3<span class="p">)</span>
+13 			<span class="nb">echo</span> <span class="s2">"You selected option3"</span>
+14 			<span class="p">;;</span>
+15 		<span class="k">*</span><span class="p">)</span>
+16 			<span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
+17 			<span class="p">;;</span>
 18 		<span class="k">esac</span>
 19 <span class="k">done</span>
 </code></pre></div></div>
@@ -166,28 +166,28 @@ Invalid selection
  2 <span class="c">#Script: select-0002.sh</span>
  3 <span class="nb">echo</span> <span class="s2">"Select a value from the list down here"</span>
  4 <span class="k">select </span>var <span class="k">in </span>option1 option2 option3 next getout<span class="p">;</span> <span class="k">do
- </span>5 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
- </span>6 				option1<span class="p">)</span>
- 7 						<span class="nb">echo</span> <span class="s2">"You selected option1"</span>
- 8 						<span class="p">;;</span>
- 9 				option2<span class="p">)</span>
-10 						<span class="nb">echo</span> <span class="s2">"You selected option2"</span>
-11 						<span class="p">;;</span>
-12 				option3<span class="p">)</span>
-13 						<span class="nb">echo</span> <span class="s2">"You selected option3"</span>
-14 						<span class="p">;;</span>
-15 				next<span class="p">)</span>
-16 						<span class="nb">echo</span> <span class="s2">"You selected next"</span>
-17 						<span class="k">continue
-</span>18 						<span class="p">;;</span>
-19 				getout<span class="p">)</span>
-20 						<span class="nb">echo</span> <span class="s2">"you selected to get out of the select statement"</span>
-21 						<span class="nb">break
-</span>22 						<span class="p">;;</span>
-23 				<span class="k">*</span><span class="p">)</span>
-24 						<span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
-25 						<span class="p">;;</span>
-26 		<span class="k">esac</span>
+ </span>5     <span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>6         option1<span class="p">)</span>
+ 7             <span class="nb">echo</span> <span class="s2">"You selected option1"</span>
+ 8             <span class="p">;;</span>
+ 9         option2<span class="p">)</span>
+10             <span class="nb">echo</span> <span class="s2">"You selected option2"</span>
+11             <span class="p">;;</span>
+12         option3<span class="p">)</span>
+13             <span class="nb">echo</span> <span class="s2">"You selected option3"</span>
+14              <span class="p">;;</span>
+15         next<span class="p">)</span>
+16             <span class="nb">echo</span> <span class="s2">"You selected next"</span>
+17             <span class="k">continue
+</span>18             <span class="p">;;</span>
+19         getout<span class="p">)</span>
+20             <span class="nb">echo</span> <span class="s2">"you selected to get out of the select statement"</span>
+21             <span class="nb">break
+</span>22             <span class="p">;;</span>
+23         <span class="k">*</span><span class="p">)</span>
+24             <span class="nb">echo</span> <span class="s2">"Invalid selection"</span>
+25             <span class="p">;;</span>
+26     <span class="k">esac</span>
 27 <span class="k">done
 </span>28 <span class="nb">echo</span> <span class="s2">"We got out of the select stament"</span>
 </code></pre></div></div>
@@ -238,26 +238,26 @@ We got out of the select stament
  2 <span class="c">#Script: select-0003.sh</span>
  3 <span class="nv">PS3</span><span class="o">=</span><span class="s2">"Select your favorite fruit from the list: "</span>
  4 <span class="k">select </span>var <span class="k">in</span> <span class="s2">"Apple"</span> <span class="s2">"Banana"</span> <span class="s2">"Cherry"</span> <span class="s2">"Grapes"</span> <span class="s2">"Pear"</span><span class="p">;</span> <span class="k">do
- </span>5 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
- </span>6 				Apple<span class="p">)</span>
- 7 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
- 8 						<span class="p">;;</span>
- 9 				Banana<span class="p">)</span>
-10 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-11 						<span class="p">;;</span>
-12 				Cherry<span class="p">)</span>
-13 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-14 						<span class="p">;;</span>
-15 				Grapes<span class="p">)</span>
-16 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-17 						<span class="p">;;</span>
-18 				Pear<span class="p">)</span>
-19 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-20 						<span class="p">;;</span>
-21 				<span class="k">*</span><span class="p">)</span>
-22 						<span class="nb">echo</span> <span class="s2">"Invalid choice. Please try again."</span>
-23 						<span class="p">;;</span>
-24 		<span class="k">esac</span>
+ </span>5   <span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>6     Apple<span class="p">)</span>
+ 7         <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+ 8         <span class="p">;;</span>
+ 9     Banana<span class="p">)</span>
+10         <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+11         <span class="p">;;</span>
+12     Cherry<span class="p">)</span>
+13         <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+14         <span class="p">;;</span>
+15     Grapes<span class="p">)</span>
+16         <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+17         <span class="p">;;</span>
+18     Pear<span class="p">)</span>
+19         <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+20         <span class="p">;;</span>
+21     <span class="k">*</span><span class="p">)</span>
+22         <span class="nb">echo</span> <span class="s2">"Invalid choice. Please try again."</span>
+23         <span class="p">;;</span>
+24   <span class="k">esac</span>
 25 <span class="k">done</span>
 </code></pre></div></div>
 
@@ -303,26 +303,26 @@ Select your favorite fruit from the list: ^C
  3 <span class="nv">PS3</span><span class="o">=</span><span class="s2">"Select your favorite fruit from the list: "</span>
  4 <span class="nv">OPTIONS</span><span class="o">=(</span><span class="s2">"Apple"</span> <span class="s2">"Banana"</span> <span class="s2">"Cherry"</span> <span class="s2">"Grapes"</span> <span class="s2">"Pear"</span><span class="o">)</span>
  5 <span class="k">select </span>var <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">OPTIONS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
- </span>6 		<span class="k">case</span> <span class="nv">$var</span> <span class="k">in
- </span>7 				Apple<span class="p">)</span>
- 8 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
- 9 						<span class="p">;;</span>
-10 				Banana<span class="p">)</span>
-11 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-12 						<span class="p">;;</span>
-13 				Cherry<span class="p">)</span>
-14 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-15 						<span class="p">;;</span>
-16 				Grapes<span class="p">)</span>
-17 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-18 						<span class="p">;;</span>
-19 				Pear<span class="p">)</span>
-20 						<span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
-21 						<span class="p">;;</span>
-22 				<span class="k">*</span><span class="p">)</span>
-23 						<span class="nb">echo</span> <span class="s2">"Invalid choice. Please try again."</span>
-24 						<span class="p">;;</span>
-25 		<span class="k">esac</span>
+ </span>6    <span class="k">case</span> <span class="nv">$var</span> <span class="k">in
+ </span>7        Apple<span class="p">)</span>
+ 8            <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+ 9            <span class="p">;;</span>
+10        Banana<span class="p">)</span>
+11            <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+12            <span class="p">;;</span>
+13        Cherry<span class="p">)</span>
+14            <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+15            <span class="p">;;</span>
+16        Grapes<span class="p">)</span>
+17            <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+18            <span class="p">;;</span>
+19        Pear<span class="p">)</span>
+20            <span class="nb">echo</span> <span class="s2">"You picked '</span><span class="nv">$var</span><span class="s2">' as your favorite fruit"</span>
+21            <span class="p">;;</span>
+22        <span class="k">*</span><span class="p">)</span>
+23            <span class="nb">echo</span> <span class="s2">"Invalid choice. Please try again."</span>
+24            <span class="p">;;</span>
+25    <span class="k">esac</span>
 26 <span class="k">done</span>
 </code></pre></div></div>
 
