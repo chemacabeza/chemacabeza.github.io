@@ -61,7 +61,7 @@ Let's give it a try with the following example script.
 15 		*)
 16 			echo "Invalid selection"
 17 			;;
-18 		esac
+18   esac
 19 done
 ```
 
