@@ -680,10 +680,10 @@ Remember that *practice makes perfect*. So, practice, practice, practice,...
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px;">
 
 <p id="footnote-1" style="font-size:10pt">
-1. https://www.python.org <a href="#footnote-1-ref">&#8617;</a>
+1. <a href="https://www.python.org">https://www.python.org</a> <a href="#footnote-1-ref">&#8617;</a>
 </p>
 <p id="footnote-2" style="font-size:10pt">
-2. https://www.perl.org <a href="#footnote-2-ref">&#8617;</a>
+2. <a href="https://www.perl.org">https://www.perl.org</a> <a href="#footnote-2-ref">&#8617;</a>
 </p>
 <p id="footnote-3" style="font-size:10pt">
 3. Will fix the mathemetical formulas at some point.<a href="#footnote-3-ref">&#8617;</a>
