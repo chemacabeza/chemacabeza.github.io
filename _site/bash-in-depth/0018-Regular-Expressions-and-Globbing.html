@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 18: Regular Expressions and Globbing | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 18: Regular Expressions and Globbing" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 18: Regular Expressions and Globbing" />
+<meta property="og:description" content="Chapter 18: Regular Expressions and Globbing" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-19T18:01:45+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 18: Regular Expressions and Globbing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-19T18:01:45+02:00","datePublished":"2024-10-19T18:01:45+02:00","description":"Chapter 18: Regular Expressions and Globbing","headline":"Chapter 18: Regular Expressions and Globbing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html"},"url":"http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 18: Regular Expressions and Globbing | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 18: Regular Expressions and Globbing" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 18: Regular Expressions and Globbing" />
+<meta property="og:description" content="Chapter 18: Regular Expressions and Globbing" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-19T18:01:45+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 18: Regular Expressions and Globbing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-10-19T18:01:45+02:00","datePublished":"2024-10-19T18:01:45+02:00","description":"Chapter 18: Regular Expressions and Globbing","headline":"Chapter 18: Regular Expressions and Globbing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html"},"url":"http://localhost:4000/bash-in-depth/0018-Regular-Expressions-and-Globbing.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+<div class="chapter-content">
+  <h1 id="chapter-18-regular-expressions-and-globbing">Chapter 18: Regular Expressions and Globbing</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#how-to-use-regular-expressions">How to use regular expressions?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#wildcard-character-and-patterns">Wildcard Character and Patterns</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#using-the--and-the-bash_rematch-array">Using the “<code class="language-plaintext highlighter-rouge">(..)</code>” and the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#posix-character-classes">POSIX Character Classes</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#globbing">Globbing</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#globignore">GLOBIGNORE</a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p>Regular expressions, or regex, in Bash are a powerful tool for pattern matching and string manipulation. They allow you to search, replace, and validate strings based on complex patterns. Learning regex is crucial for any developer working with text processing in Bash, as it enables efficient data extraction and automation of tasks like log parsing, input validation, and file manipulation. With regular expressions, you can define precise patterns to match specific parts of strings, which makes it easier to handle repetitive tasks without writing verbose code.</p>
+
+<p>Understanding regular expressions can significantly enhance your scripting capabilities in Bash, making you more efficient and enabling you to tackle complex tasks with fewer lines of code. Some key use cases include:</p>
+<ol>
+  <li><strong>Log file analysis</strong>: Regex can help identify specific error messages or extract timestamps from log files based on a pattern.</li>
+  <li><strong>Input validation</strong>: You can validate user input (e.g., checking if an email or phone number follows the correct format) to prevent errors or malicious entries.</li>
+  <li><strong>Text search and replace</strong>: Regex can simplify search-and-replace operations across multiple files by matching patterns like email addresses or dates, rather than exact strings.</li>
+</ol>
+
+<p>Mastering regular expressions allows you to automate tedious tasks and greatly enhance your problem-solving ability in Bash scripting.</p>
+
+<p>Globbing in Bash refers to the process of using wildcard characters<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> to match file names and paths in a file system. Unlike regular expressions, which allow complex pattern matching, globbing is simpler and focuses on basic filename expansion. Bash uses special characters such as “<code class="language-plaintext highlighter-rouge">*</code>”, “<code class="language-plaintext highlighter-rouge">?</code>”, and “<code class="language-plaintext highlighter-rouge">[]</code>” for globbing. For example, “<code class="language-plaintext highlighter-rouge">*</code>” matches any sequence of characters, “<code class="language-plaintext highlighter-rouge">?</code>” matches a single character, and “<code class="language-plaintext highlighter-rouge">[]</code>” matches any one of the enclosed characters.</p>
+
+<p>Globbing is particularly useful when you need to operate on multiple files at once without explicitly specifying each one. For instance, the pattern “<code class="language-plaintext highlighter-rouge">*.txt</code>” would match all files with the “<code class="language-plaintext highlighter-rouge">.txt</code>” extension, while “<code class="language-plaintext highlighter-rouge">file?.sh</code>” would match filenames like “<code class="language-plaintext highlighter-rouge">file1.sh</code>” or “<code class="language-plaintext highlighter-rouge">fileA.sh</code>”. Understanding globbing allows you to write more flexible and efficient Bash scripts for handling files.</p>
+
+<h2 id="how-to-use-regular-expressions">How to use regular expressions?</h2>
+
+<p>The way to use pattern matching with regular expressions is by using the operator “<code class="language-plaintext highlighter-rouge">=~</code>” like this.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    value <span class="o">=</span>~ RegExp
+</code></pre></div></div>
+
+<p>The “<code class="language-plaintext highlighter-rouge">value</code>” is basically the string you are trying to verify against a regular expressions this string <strong>should always be at the left of the of the operator</strong> “<code class="language-plaintext highlighter-rouge">=~</code>”.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">RegExp</code>” is the regular expression we are matching our string “<code class="language-plaintext highlighter-rouge">value</code>” against to. The regular expression <strong>should always be at the right of the operator</strong> “<code class="language-plaintext highlighter-rouge">=~</code>”.</p>
+
+<p>As you can imagine the operator “<code class="language-plaintext highlighter-rouge">=~</code>” will return either “<code class="language-plaintext highlighter-rouge">true</code>” if <strong>the string does match</strong> the pattern in the regular expression or “<code class="language-plaintext highlighter-rouge">false</code>” if <strong>the string does not match</strong> the pattern in the regular expression.</p>
+
+<p>This means that you can use the operator “<code class="language-plaintext highlighter-rouge">=~</code>” in an “<code class="language-plaintext highlighter-rouge">if</code>” statement. If you remember from <a href="http://localhost:4000/bash-in-depth/0010-If-statement.html#how-to-test-stuff">Chapter 10 we learnt different ways to test</a> in an “<code class="language-plaintext highlighter-rouge">if</code>” statement.</p>
+
+<p>Just to remember a bit of Chapter 10 we saw the following 3 ways to test conditions in an “<code class="language-plaintext highlighter-rouge">if</code>” statement.</p>
+
+<p>The first one was.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if </span><span class="nb">test</span> ...<span class="p">;</span> <span class="k">then
+        </span>commands<span class="p">;</span>
+    <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>The second one was.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="o">[</span> ... <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span>commands<span class="p">;</span>
+    <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>The limitation that exists with these two ways is that they do not support pattern matching nor the “<code class="language-plaintext highlighter-rouge">=~</code>” operator.</p>
+
+<p>To be able to use the “<code class="language-plaintext highlighter-rouge">=~</code>” operator we need to use the third way which is the one that follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">if</span> <span class="o">[[</span> <span class="nv">$value</span> <span class="o">=</span>~ RegExp <span class="o">]]</span><span class="p">;</span> <span class="k">then
+        </span>commands<span class="p">;</span>
+    <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>Now that we know what “<code class="language-plaintext highlighter-rouge">if</code>” statement we need to use we are going to learn what are the different wildcard characters and different patterns that we can use in a regular expression in Bash.</p>
+
+<h2 id="wildcard-character-and-patterns">Wildcard Character and Patterns</h2>
+
+<p>A regular expression can be formed with the elements that appear in the following table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Element</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">a..z</code></td>
+      <td style="text-align: left">Matches the lowercase alphabetical letters</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">A..Z</code></td>
+      <td style="text-align: left">Matches the uppercase alphabetical letters</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">0..9</code></td>
+      <td style="text-align: left">Matches numbers</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">*</code></td>
+      <td style="text-align: left">Special character that matches any number of repeats of the character string or RE preceding it, including zero instances</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">.</code></td>
+      <td style="text-align: left">Special character that matches any one character, except a newline</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">^</code></td>
+      <td style="text-align: left">Special character that matches the beginning of a line, but sometimes, depending on context, negates the meaning of a set of characters in a Regular Expression</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">$</code></td>
+      <td style="text-align: left">At the end of a Regular Expression this Special character matches the end of a line</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[...]</code></td>
+      <td style="text-align: left">Enclose a set of characters to match in a single Regular Expression. <ul><li>“<code class="language-plaintext highlighter-rouge">[xyz]</code>” matches any one of the characters <code class="language-plaintext highlighter-rouge">x</code>, <code class="language-plaintext highlighter-rouge">y</code>, or <code class="language-plaintext highlighter-rouge">z</code>.</li><li>“<code class="language-plaintext highlighter-rouge">[c-n]</code>” matches any one of the characters in the range <code class="language-plaintext highlighter-rouge">c</code> to <code class="language-plaintext highlighter-rouge">n</code>.</li><li>“<code class="language-plaintext highlighter-rouge">[B-Pk-y]</code>” matches any one of the characters in the ranges <code class="language-plaintext highlighter-rouge">B</code> to <code class="language-plaintext highlighter-rouge">P</code> and <code class="language-plaintext highlighter-rouge">k</code> to <code class="language-plaintext highlighter-rouge">y</code>.</li><li>“<code class="language-plaintext highlighter-rouge">[a-z0-9]</code>” matches any single lowercase letter or any digit.</li><li>“<code class="language-plaintext highlighter-rouge">[^b-d]</code>” matches any character except those in the range <code class="language-plaintext highlighter-rouge">b</code> to <code class="language-plaintext highlighter-rouge">d</code>. This is an instance of <code class="language-plaintext highlighter-rouge">^</code> negating or inverting the meaning of the following Regular Expression (taking on a role similar to <code class="language-plaintext highlighter-rouge">!</code> in a different context). “<code class="language-plaintext highlighter-rouge">[!b-d]</code>” is equivalent to the previous one, which means that in this context “<code class="language-plaintext highlighter-rouge">^</code>” and “<code class="language-plaintext highlighter-rouge">!</code>” are used to negate. Combined sequences of bracketed characters match common word patterns.</li><li>“<code class="language-plaintext highlighter-rouge">[Yy][Ee][Ss]</code>” matches <code class="language-plaintext highlighter-rouge">yes</code>, <code class="language-plaintext highlighter-rouge">Yes</code>, <code class="language-plaintext highlighter-rouge">YES</code>, <code class="language-plaintext highlighter-rouge">yEs</code>, and so forth.</li><li>“<code class="language-plaintext highlighter-rouge">[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]</code>” matches any Social Security Number in the United States of America.</li></ul></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\</code></td>
+      <td style="text-align: left">When put before a special character, it will tell Bash to interpret the special character literally without its “special” meaning.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">?</code></td>
+      <td style="text-align: left">Special character that matches zero or one of the previous character in the Regular Expression. It is generally used for matching single characters.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">+</code></td>
+      <td style="text-align: left">Special character that matches one or more of the previous RE. It serves a role similar to the <code class="language-plaintext highlighter-rouge">*</code>, but does not match zero occurrences.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">{&lt;number&gt;}</code></td>
+      <td style="text-align: left">Indicates the number of occurrences of a preceding Regular Expression to match. It is necessary to escape the curly brackets since they have only their literal character meaning otherwise. This usage is technically not part of the basic Regular Expression set.</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">(..)</code></td>
+      <td style="text-align: left">Enclose a group of Regular Expressions. They are useful with the following “<code class="language-plaintext highlighter-rouge">|</code>” operator and in substring extraction using <code class="language-plaintext highlighter-rouge">expr</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">|</code></td>
+      <td style="text-align: left">“or” Regular Expression operator matches any of a set of alternate characters.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>With the previous wildcard characters we are going to write a few scripts to practice.</p>
+
+<p>The first script is the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: regexp-0001.sh</span>
+ 3 <span class="c"># Read input</span>
+ 4 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Enter input: "</span>
+ 5 <span class="nb">read </span>input
+ 6 <span class="k">while</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"exit"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">do
+ </span>7 		<span class="nb">echo</span> <span class="s2">"Inside the loop. Input was '</span><span class="nv">$input</span><span class="s2">'"</span>
+ 8 		<span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="k">${#</span><span class="nv">input</span><span class="k">}</span><span class="s2">"</span> <span class="o">&gt;</span> 1 <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>9 				<span class="nb">echo</span> <span class="s2">"Please introduce a single character."</span>
+10 		<span class="k">else
+</span>11 				<span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">=</span>~ <span class="o">[</span>a..z] <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>12 						<span class="nb">echo</span> <span class="s2">"The input is a single lowercase character"</span>
+13 				<span class="k">elif</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">=</span>~ <span class="o">[</span>A..Z] <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>14 						<span class="nb">echo</span> <span class="s2">"The input is a single UPPERCASE character"</span>
+15 				<span class="k">elif</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">=</span>~ <span class="o">[</span>0-9] <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>16 						<span class="nb">echo</span> <span class="s2">"The input is a single number"</span>
+17 				<span class="k">else
+</span>18 						<span class="nb">echo</span> <span class="s2">"None of the previous regular expressions matched"</span>
+19 				<span class="k">fi
+</span>20 		<span class="k">fi
+</span>21 		<span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Enter input: "</span>
+22 		<span class="nb">read </span>input
+23 <span class="k">done
+</span>24 <span class="nb">echo</span> <span class="s2">"Exiting program"</span>
+</code></pre></div></div>
+
+<p>In the previous script we require the user to enter a single character as input. Once the input is introduced the execution will enter a loop (lines 6 to 19) on which it will check different patterns.</p>
+
+<p>On line 11, the script will check if the character introduced is a single lowercase alphabetical character.</p>
+
+<p>On line 13, the script will check if the character introduced is a single uppercase alphabetical character.</p>
+
+<p>On line 15, the script will check if the character introduced is a single digit number.</p>
+
+<p>Finally, on line 18, will go the rest of the character that do not match the previous regular expressions.</p>
+
+<p>Let’s see what happens when we execute the previous script.</p>
+
+<pre><code class="language-txt">$ ./regexp-0001.sh
+Enter input: a
+Inside the loop. Input was 'a'
+The input is a single lowercase character
+Enter input: Z
+Inside the loop. Input was 'Z'
+The input is a single UPPERCASE character
+Enter input: 1
+Inside the loop. Input was '1'
+The input is a single number
+Enter input: ?
+Inside the loop. Input was '?'
+None of the previous regular expressions matched
+Enter input: exit
+Exiting program
+</code></pre>
+
+<p>In the next script we are going to play with repetitions using “<code class="language-plaintext highlighter-rouge">{..}</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: regexp-0002.sh</span>
+ 3 <span class="c"># Read input</span>
+ 4 <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Enter input: "</span>
+ 5 <span class="nb">read </span>input
+ 6 <span class="k">while</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">!=</span> <span class="s2">"exit"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Inside the loop. Input was '</span><span class="nv">$input</span><span class="s2">'"</span>
+ 8     <span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">=</span>~ ^a<span class="o">{</span>1<span class="o">}</span><span class="nv">$ </span><span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>9         <span class="nb">echo</span> <span class="s2">"The input was a single 'a'"</span>
+10     <span class="k">elif</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">=</span>~ ^a<span class="o">{</span>2<span class="o">}</span><span class="nv">$ </span><span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>11         <span class="nb">echo</span> <span class="s2">"The input was a double 'a'"</span>
+12     <span class="k">elif</span> <span class="o">[[</span> <span class="s2">"</span><span class="nv">$input</span><span class="s2">"</span> <span class="o">=</span>~ ^a<span class="o">{</span>3<span class="o">}</span><span class="nv">$ </span><span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>13         <span class="nb">echo</span> <span class="s2">"The input was a triple 'a'"</span>
+14     <span class="k">else
+</span>15         <span class="nb">echo</span> <span class="s2">"None of the previous regular expressions matched"</span>
+16     <span class="k">fi
+</span>17     <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"Enter input: "</span>
+18     <span class="nb">read </span>input
+19 <span class="k">done
+</span>20 <span class="nb">echo</span> <span class="s2">"Exiting program"</span>
+</code></pre></div></div>
+
+<p>In the previous script you will notice that we are matching for either “<code class="language-plaintext highlighter-rouge">a</code>”, “<code class="language-plaintext highlighter-rouge">aa</code>” or “<code class="language-plaintext highlighter-rouge">aaa</code>”. We needed to use “<code class="language-plaintext highlighter-rouge">^</code>” and “<code class="language-plaintext highlighter-rouge">$</code>” to match exact strings. If we don’t use “<code class="language-plaintext highlighter-rouge">^</code>” and “<code class="language-plaintext highlighter-rouge">$</code>” every match will be the first “<code class="language-plaintext highlighter-rouge">if</code>” statement (lines 8 and 9).</p>
+
+<p>Let’s run the previous script and interact with it.</p>
+
+<pre><code class="language-txt">$ ./regexp-0002.sh
+Enter input: a
+Inside the loop. Input was 'a'
+The input was a single 'a'
+Enter input: aa
+Inside the loop. Input was 'aa'
+The input was a double 'a'
+Enter input: aaa
+Inside the loop. Input was 'aaa'
+The input was a triple 'a'
+Enter input: b
+Inside the loop. Input was 'b'
+None of the previous regular expressions matched
+Enter input: exit
+Exiting program
+</code></pre>
+
+<p>In the next section we will talk about “<code class="language-plaintext highlighter-rouge">(..)</code>” and the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array.</p>
+
+<h2 id="using-the--and-the-bash_rematch-array">Using the “<code class="language-plaintext highlighter-rouge">(..)</code>” and the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array</h2>
+
+<p>In Bash, parentheses “<code class="language-plaintext highlighter-rouge">(..)</code>” are used in regular expressions for <strong>capturing groups</strong>, while the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array stores the matches from a regular expression when using the “<code class="language-plaintext highlighter-rouge">[[ ]]</code>” conditional expression. These features allow you to extract specific portions of a string that match a certain pattern.</p>
+
+<p>In regular expressions, parentheses are used to group parts of a pattern. The main purpose of grouping is to capture substrings that match the pattern inside the parentheses. This enables you to extract these portions separately.</p>
+
+<p>“<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” is a special array in Bash that holds the results of the regular expression match. After you use a regular expression in a “<code class="language-plaintext highlighter-rouge">[[ ]]</code>” expression with grouping parentheses, the full match is stored in “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[0]</code>”, and each capturing group is stored in subsequent elements (“<code class="language-plaintext highlighter-rouge">BASH_REMATCH[1]</code>”, “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[2]</code>”, etc.).</p>
+
+<p>In the next script we will parse a string that contains an email.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: regexp-0003.sh</span>
+ 3 <span class="nv">email</span><span class="o">=</span><span class="s2">"myuser@mydomain.com"</span>
+ 4 <span class="k">if</span> <span class="o">[[</span> <span class="nv">$email</span> <span class="o">=</span>~ <span class="o">([</span>a-zA-Z0-9._%+-]+<span class="o">)</span>@<span class="o">([</span>a-zA-Z0-9.-]+<span class="o">)</span><span class="se">\.</span><span class="o">([</span>a-zA-Z]<span class="o">{</span>2,<span class="o">})</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>5     <span class="nb">echo</span> <span class="s2">"Full match: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[0]</span><span class="k">}</span><span class="s2">"</span>  <span class="c"># Full email</span>
+ 6     <span class="nb">echo</span> <span class="s2">"Username: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="k">}</span><span class="s2">"</span>    <span class="c"># myuser</span>
+ 7     <span class="nb">echo</span> <span class="s2">"Domain: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[2]</span><span class="k">}</span><span class="s2">"</span>      <span class="c"># mydomain</span>
+ 8     <span class="nb">echo</span> <span class="s2">"TLD: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[3]</span><span class="k">}</span><span class="s2">"</span>         <span class="c"># com</span>
+ 9 <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output.</p>
+
+<pre><code class="language-txt">$ ./regexp-0003.sh
+Full match: myuser@mydomain.com
+Username: myuser
+Domain: mydomain
+TLD: com
+</code></pre>
+
+<p>The regex breaks the email into the username, domain, and top-level domain (TLD). The entire match is in “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[0]</code>”, the username in “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[1]</code>”, the domain in “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[2]</code>”, and the TLD in “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[3]</code>”.</p>
+
+<p>In the next script we are going to parse a date.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: regexp-0004.sh</span>
+ 3 <span class="nb">date</span><span class="o">=</span><span class="s2">"2024-10-17"</span>
+ 4 <span class="k">if</span> <span class="o">[[</span> <span class="nv">$date</span> <span class="o">=</span>~ <span class="o">([</span>0-9]<span class="o">{</span>4<span class="o">})</span>-<span class="o">([</span>0-9]<span class="o">{</span>2<span class="o">})</span>-<span class="o">([</span>0-9]<span class="o">{</span>2<span class="o">})</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>5     <span class="nb">echo</span> <span class="s2">"Full match: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[0]</span><span class="k">}</span><span class="s2">"</span>  <span class="c"># Full date</span>
+ 6     <span class="nb">echo</span> <span class="s2">"Year: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="k">}</span><span class="s2">"</span>    <span class="c"># 2024</span>
+ 7     <span class="nb">echo</span> <span class="s2">"Month: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[2]</span><span class="k">}</span><span class="s2">"</span>   <span class="c"># 10</span>
+ 8     <span class="nb">echo</span> <span class="s2">"Day: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[3]</span><span class="k">}</span><span class="s2">"</span>     <span class="c"># 17</span>
+ 9 <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following result in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./regexp-0004.sh
+Full match: 2024-10-17
+Year: 2024
+Month: 10
+Day: 17
+</code></pre>
+
+<p>Knowing how to use parentheses and the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array in Bash is invaluable when working with regular expressions and string manipulation. Parentheses allow you to group parts of a regular expression, enabling you to capture specific segments of a string that match a pattern. This is extremely useful when you want to isolate particular pieces of information within a larger string. For example, if you’re processing log files and need to extract just the timestamps or usernames, you can use parentheses to capture those segments while ignoring the rest. This grouping enhances the power of regular expressions by letting you focus on specific parts rather than handling entire strings.</p>
+
+<p>The “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array complements this functionality by storing the matched portions of a string. When you perform a regular expression match in Bash using “<code class="language-plaintext highlighter-rouge">[[ ... =~ ... ]]</code>”, any subpatterns captured by parentheses are stored in the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array, where “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[0]</code>” holds the entire matched string, and subsequent indices (“<code class="language-plaintext highlighter-rouge">BASH_REMATCH[1]</code>”, “<code class="language-plaintext highlighter-rouge">BASH_REMATCH[2]</code>”, etc.) store the corresponding captured groups. This feature makes it easy to extract and work with multiple pieces of data from a single string. For instance, when dealing with file paths, you can use parentheses to capture the directory, filename, and extension separately, making string manipulation tasks more efficient and structured.</p>
+
+<p>Understanding how to leverage parentheses and “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” provides a powerful toolset for text parsing and processing tasks in Bash. By mastering these, you can reduce complexity in your scripts, avoid cumbersome manual string handling, and significantly improve performance when working with large datasets or log files. This skill also translates into cleaner, more maintainable code, especially in scenarios where precision in pattern matching is crucial.</p>
+
+<p>In the next section we will learn about the POSIX character classes.</p>
+
+<h2 id="posix-character-classes">POSIX Character Classes</h2>
+
+<p>POSIX<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> character classes in Bash are special constructs used within regular expressions to match specific sets of characters based on categories like digit, alphanumeric, or punctuation. These classes are enclosed in “<code class="language-plaintext highlighter-rouge">[:class:]</code>” and are often used in the context of pattern matching, allowing for more readable and flexible matching of character types. Unlike wildcards or simple characters, POSIX character classes provide a more comprehensive way to match predefined character groups, improving the power and clarity of your scripts.</p>
+
+<p>By using POSIX character classes, you can write more portable and readable scripts, especially when working across different systems or locales. This is because the classes are part of the POSIX standard, ensuring they work consistently across compliant Unix-like systems.</p>
+
+<p>The following table contains the POSIX classes available to Bash</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">POSIX Character Class</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:alnum:]</code></td>
+      <td style="text-align: left">Matches alphabetic or numeric characters. This is equivalent to “<code class="language-plaintext highlighter-rouge">A-Za-z0-9</code>” (for example: <code class="language-plaintext highlighter-rouge">hello123</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:alpha:]</code></td>
+      <td style="text-align: left">Matches alphabetic characters. This is equivalent to “<code class="language-plaintext highlighter-rouge">A-Za-z</code>” (for example: <code class="language-plaintext highlighter-rouge">hElLo</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:ascii:]</code></td>
+      <td style="text-align: left">Matches ASCII characters. This is equivalent to “<code class="language-plaintext highlighter-rouge">\x00-\x7F</code>” (for example: <code class="language-plaintext highlighter-rouge">Hello!</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:blank:]</code></td>
+      <td style="text-align: left">Matches a space or a tab (for example: “<code>  </code>” )</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:cntrl:]</code></td>
+      <td style="text-align: left">Matches control characters. This is equivalent to “<code class="language-plaintext highlighter-rouge">\x00-\x1F\x7F</code>” (for example: <code class="language-plaintext highlighter-rouge">\n</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:digit:]</code></td>
+      <td style="text-align: left">Matches (decimal) digits. This is equivalent to “<code class="language-plaintext highlighter-rouge">0-9</code>” (for example: <code class="language-plaintext highlighter-rouge">12345</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:graph:]</code></td>
+      <td style="text-align: left">(graphic printable characters). Matches characters in the range of ASCII 33 - 126. This is the same as “<code class="language-plaintext highlighter-rouge">[:print:]</code>”, below, but excluding the space character (for example: <code class="language-plaintext highlighter-rouge">hello!</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:lower:]</code></td>
+      <td style="text-align: left">Matches lowercase alphabetic characters. This is equivalent to “<code class="language-plaintext highlighter-rouge">a-z</code>” (for example: <code class="language-plaintext highlighter-rouge">hello</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:print:]</code></td>
+      <td style="text-align: left">(printable characters). Matches characters in the range of ASCII 32 - 126. This is the same as “<code class="language-plaintext highlighter-rouge">[:graph:]</code>”, above, but adding the space character (for example: <code class="language-plaintext highlighter-rouge">hello world</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:punct:]</code></td>
+      <td style="text-align: left">Matches all punctuation characters (all graphic characters except letters and digits). This is equivalent to <code class="language-plaintext highlighter-rouge">-!"#$%&amp;'()*+,./:;&lt;=&gt;?@[]^_{|}~</code> (for example: <code class="language-plaintext highlighter-rouge">!?.,</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:space:]</code></td>
+      <td style="text-align: left">Matches whitespace characters (space and horizontal tab) (for example: “<code class="language-plaintext highlighter-rouge"> </code>” or “<code class="language-plaintext highlighter-rouge">\t</code>”)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:upper:]</code></td>
+      <td style="text-align: left">Matches uppercase alphabetic characters. This is equivalent to “<code class="language-plaintext highlighter-rouge">A-Z</code>” (for example: <code class="language-plaintext highlighter-rouge">HELLO</code>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[:xdigit:]</code></td>
+      <td style="text-align: left">Matches hexadecimal digits. This is equivalent to “<code class="language-plaintext highlighter-rouge">0-9A-Fa-f</code>” (for example: <code class="language-plaintext highlighter-rouge">A1F2</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In Bash, you need to use “<code class="language-plaintext highlighter-rouge">[[:class:]]</code>” instead of “<code class="language-plaintext highlighter-rouge">[:class:]</code>” because “<code class="language-plaintext highlighter-rouge">[:class:]</code>” is a POSIX character class and <strong>must be enclosed within square brackets to be recognized as a pattern by the regular expression engine</strong>. Without the surrounding brackets, “<code class="language-plaintext highlighter-rouge">[:class:]</code>” would be interpreted as a literal string, not as a character class.</p>
+
+<p>We are going to rewrite the script “<code class="language-plaintext highlighter-rouge">regexp-0004.sh</code>” to use POSIX character classes instead.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: regexp-0005.sh</span>
+ 3 <span class="nb">date</span><span class="o">=</span><span class="s2">"2024-10-17"</span>
+ 4 <span class="k">if</span> <span class="o">[[</span> <span class="nv">$date</span> <span class="o">=</span>~ <span class="o">([[</span>:digit:]]<span class="o">{</span>4<span class="o">})</span>-<span class="o">([[</span>:digit:]]<span class="o">{</span>2<span class="o">})</span>-<span class="o">([[</span>:digit:]]<span class="o">{</span>2<span class="o">})</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>5     <span class="nb">echo</span> <span class="s2">"Full match: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[0]</span><span class="k">}</span><span class="s2">"</span>  <span class="c"># Full date</span>
+ 6     <span class="nb">echo</span> <span class="s2">"Year: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="k">}</span><span class="s2">"</span>    <span class="c"># 2024</span>
+ 7     <span class="nb">echo</span> <span class="s2">"Month: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[2]</span><span class="k">}</span><span class="s2">"</span>   <span class="c"># 10</span>
+ 8     <span class="nb">echo</span> <span class="s2">"Day: </span><span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[3]</span><span class="k">}</span><span class="s2">"</span>     <span class="c"># 17</span>
+ 9 <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>Now, if you run this last script you will get the exact same result as the script “<code class="language-plaintext highlighter-rouge">regexp-0004.sh</code>”.</p>
+
+<pre><code class="language-txt">$ ./regexp-0005.sh
+Full match: 2024-10-17
+Year: 2024
+Month: 10
+Day: 17
+</code></pre>
+
+<p>Mastering regular expressions empowers your scripts and command-line work, giving you a significant boost in efficiency and capability. These patterns aren’t just limited to the “<code class="language-plaintext highlighter-rouge">=~</code>” operator within an if clause; they can be leveraged in any control structure that evaluates a boolean condition, such as “<code class="language-plaintext highlighter-rouge">if</code>”, “<code class="language-plaintext highlighter-rouge">elif</code>”, “<code class="language-plaintext highlighter-rouge">for</code>”, “<code class="language-plaintext highlighter-rouge">while</code>”, and “<code class="language-plaintext highlighter-rouge">case</code>”. Beyond script logic, regular expressions seamlessly integrate with many commands you’ve already learned, such as “<code class="language-plaintext highlighter-rouge">ls</code>”, “<code class="language-plaintext highlighter-rouge">find</code>”, “<code class="language-plaintext highlighter-rouge">grep</code>”, and “<code class="language-plaintext highlighter-rouge">cp</code>”, as well as countless others you may encounter. This versatility makes regular expressions an essential skill for simplifying complex tasks and improving your overall workflow.</p>
+
+<p>In the next section we will learn about <strong>Globbing</strong>.</p>
+
+<h2 id="globbing">Globbing</h2>
+
+<p>As mentioned before, “Globbing” (also known as “<em>pathname expansion</em>”) is a Bash mechanism (it’s not done by the Linux Kernel) for matching file and directory names using “<em>wildcards</em>”.</p>
+
+<p>A <em>Wildcard</em> is a character that can be used to substitute for another character or a set of characters. As we saw already in the section dedicated to <a href="http://localhost:4000//bash-in-depth/0018-Regular-Expressions-and-Globbing.html#wildcard-character-and-patterns">Wildcard Character and Patterns</a>.</p>
+
+<h3 id="globignore">GLOBIGNORE</h3>
+
+<p>“<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” is a special environment variable in Bash that allows you to exclude certain files or patterns from being expanded by globbing. It’s a colon-separated list of <strong>patterns</strong> defining the set of filenames to be ignored by the pathname expansion. Globbing is the process by which Bash expands wildcard patterns like “<code class="language-plaintext highlighter-rouge">*</code>” or “<code class="language-plaintext highlighter-rouge">?</code>” to match filenames in the current directory. By setting “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>”, you can tell Bash to ignore certain files or directories when expanding these patterns.</p>
+
+<p>When “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” is set, any patterns or filenames listed within it will be excluded from globbing results. This is particularly useful when you want to ignore specific files (like hidden files or backup files) while using globbing patterns like “<code class="language-plaintext highlighter-rouge">*</code>” to list or work with files in a directory.</p>
+
+<p>In the following script we are going to print the contents of the current directory and we will setup the “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” to ignore the files that have the “<code class="language-plaintext highlighter-rouge">.sh</code>” extension, then we will print again the contents of the current directory.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: regexp-0006.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Printing the files in the current directory"</span>
+ 4 <span class="nb">ls</span> <span class="k">*</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Setting GLOBIGNORE to ignore '*.sh' files"</span>
+ 6 <span class="nv">GLOBIGNORE</span><span class="o">=</span><span class="s2">"*.sh"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"Printing the files in the current directory"</span>
+ 8 <span class="nb">ls</span> <span class="k">*</span>
+ 9 <span class="nb">echo</span> <span class="s2">"End of program"</span>
+</code></pre></div></div>
+
+<p>When you run the previous script you will get the following output.</p>
+
+<pre><code class="language-txt">$ ./regexp-0006.sh
+Printing the files in the current directory
+regexp-0001.sh  regexp-0002.sh  regexp-0003.sh  regexp-0004.sh  regexp-0005.sh  regexp-0006.sh
+Setting GLOBIGNORE to ignore '*.sh' files
+Printing the files in the current directory
+ls: cannot access '*': No such file or directory
+End of program
+</code></pre>
+
+<p>As you will notice in the execution of the previous script on line 4, the files of the current directory are displayed. Then on line 6 we set the environment variable “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” to ignore the files with extension “<code class="language-plaintext highlighter-rouge">.sh</code>”. Then on line 8 we try to display, again, the files of the current directory but we get the error “<code class="language-plaintext highlighter-rouge">ls: cannot access '*': No such file or directory</code>”.</p>
+
+<p>Why do we get the error in the second execution of the command “<code class="language-plaintext highlighter-rouge">ls</code>”? The reason is that when “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” is set in Bash, it triggers a feature where Bash will automatically exclude the ignored files from the result of globbing patterns (like “<code class="language-plaintext highlighter-rouge">*</code>”). However, it also triggers a side effect where only non-hidden files are matched by “<code class="language-plaintext highlighter-rouge">*</code>”, unless there are no files left after filtering. If, after applying the “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” filter, all the remaining files are hidden (like dotfiles), or if no files match, Bash treats the result as an empty list, and hence “<code class="language-plaintext highlighter-rouge">*</code>” is treated <strong>literally as a filename</strong> (which does not exist). This is why ls “<code class="language-plaintext highlighter-rouge">*</code>” fails and outputs the “<code class="language-plaintext highlighter-rouge">No such file or directory</code>” error.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Bash regular expressions and globbing are crucial for pattern matching and file manipulation. The “<code class="language-plaintext highlighter-rouge">=~</code>” operator allows you to match strings against regular expressions in conditionals like “<code class="language-plaintext highlighter-rouge">if</code>” and “<code class="language-plaintext highlighter-rouge">while</code>”, offering flexibility in validating inputs or filtering patterns. Parentheses in regular expressions create capture groups that can be accessed using the “<code class="language-plaintext highlighter-rouge">BASH_REMATCH</code>” array, making it useful for extracting specific parts of a string, such as breaking a date into components like year, month, and day. POSIX character classes, such as “<code class="language-plaintext highlighter-rouge">[:digit:]</code>” and “<code class="language-plaintext highlighter-rouge">[:alpha:]</code>”, are another feature that enhances the precision of regular expressions, ensuring easier and more readable string matching.</p>
+
+<p>In contrast, globbing is used for filename expansion, enabling file matching with wildcard characters like “<code class="language-plaintext highlighter-rouge">*</code>” and “<code class="language-plaintext highlighter-rouge">?</code>”. Although simpler than regex, it is powerful for tasks such as listing or deleting files. By using the “<code class="language-plaintext highlighter-rouge">GLOBIGNORE</code>” variable, Bash can exclude specific patterns from file expansions, making file management more streamlined. Mastering these tools allows for increased automation and flexibility in Bash scripting, leading to more efficient workflows for parsing data and managing files.</p>
+
+<p>In the world of Bash scripting, regular expressions are a superpower. Harness them to make your code not just functional, but exceptional.</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li><a href="https://kodekloud.com/blog/regex-shell-script/">https://kodekloud.com/blog/regex-shell-script/</a></li>
+  <li><a href="https://mywiki.wooledge.org/BashGuide/Patterns">https://mywiki.wooledge.org/BashGuide/Patterns</a></li>
+  <li><a href="https://stackoverflow.com/questions/1891797/capturing-groups-from-a-grep-regex">https://stackoverflow.com/questions/1891797/capturing-groups-from-a-grep-regex</a></li>
+  <li><a href="https://www.baeldung.com/linux/regex-inside-if-clause">https://www.baeldung.com/linux/regex-inside-if-clause</a></li>
+  <li><a href="https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html">https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html</a></li>
+  <li><a href="https://www.linuxjournal.com/content/pattern-matching-bash">https://www.linuxjournal.com/content/pattern-matching-bash</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. More on wildcard characters later in this chapter.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. <a href="https://en.wikipedia.org/wiki/POSIX">https://en.wikipedia.org/wiki/POSIX</a>.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
