@@ -158,22 +158,22 @@ The first script is the following.
  4 echo -n "Enter input: "
  5 read input
  6 while [[ "$input" != "exit" ]]; do
- 7 		echo "Inside the loop. Input was '$input'"
- 8 		if [[ "${#input}" > 1 ]]; then
- 9 				echo "Please introduce a single character."
-10 		else
-11 				if [[ "$input" =~ [a..z] ]]; then
-12 						echo "The input is a single lowercase character"
-13 				elif [[ "$input" =~ [A..Z] ]]; then
-14 						echo "The input is a single UPPERCASE character"
-15 				elif [[ "$input" =~ [0-9] ]]; then
-16 						echo "The input is a single number"
-17 				else
-18 						echo "None of the previous regular expressions matched"
-19 				fi
-20 		fi
-21 		echo -n "Enter input: "
-22 		read input
+ 7     echo "Inside the loop. Input was '$input'"
+ 8     if [[ "${#input}" > 1 ]]; then
+ 9         echo "Please introduce a single character."
+10     else
+11         if [[ "$input" =~ [a..z] ]]; then
+12             echo "The input is a single lowercase character"
+13         elif [[ "$input" =~ [A..Z] ]]; then
+14             echo "The input is a single UPPERCASE character"
+15         elif [[ "$input" =~ [0-9] ]]; then
+16             echo "The input is a single number"
+17         else
+18             echo "None of the previous regular expressions matched"
+19         fi
+20     fi
+21     echo -n "Enter input: "
+22     read input
 23 done
 24 echo "Exiting program"
 ```
