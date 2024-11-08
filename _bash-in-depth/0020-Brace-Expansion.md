@@ -114,7 +114,9 @@ In the previous section, we explored the basics of brace expansion, which allows
 When combining multiple brace expansions in a single expression, every possible combination of each expansion is generated. For example.
 
 ```bash
+{% raw %}
     echo {0..9}{0..9}
+{% endraw %}
 ```
 
 The previous command produces every value from "`00`" to "`99`", totaling 100 possible combinations.
@@ -140,17 +142,21 @@ All combinations of [0-9][0-9].
 Nesting brace expansions is a powerful way to concatenate multiple expansions without generating all possible combinations. This approach sums rather than multiplies the generated values. For example.
 
 ```bash
+{% raw %}
     echo {{A..Z},{0..9}}
+{% endraw %}
 ```
 
 The previous command produces every uppercase letter from "`A`" to "`Z`", followed by each digit from "`0`" to "`9`". This is an efficient way to produce sequential lists without combining all options.
 
 ```bash
+{% raw %}
  1 #!/usr/bin/env bash
  2 #Script: brace-expansion-0003.sh
  3 # Concatenating 2 lists
  4 echo "All uppercase letters followed by all single digit numbers"
  5 echo {{A..Z},{0..9}}
+{% endraw %}
 ```
 
 When you excute the previous script you will get the following output in your terminal window.
