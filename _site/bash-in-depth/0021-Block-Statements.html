@@ -13,11 +13,11 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0021-Block-Statements.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-11-09T08:06:59+01:00" />
+<meta property="article:published_time" content="2024-11-12T06:22:46+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 21: Block Statements" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-09T08:06:59+01:00","datePublished":"2024-11-09T08:06:59+01:00","description":"Chapter 21: Block Statements","headline":"Chapter 21: Block Statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"},"url":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-12T06:22:46+01:00","datePublished":"2024-11-12T06:22:46+01:00","description":"Chapter 21: Block Statements","headline":"Chapter 21: Block Statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"},"url":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
 <body><header class="site-header" role="banner">
@@ -69,28 +69,37 @@
 <meta property="og:url" content="http://localhost:4000/bash-in-depth/0021-Block-Statements.html" />
 <meta property="og:site_name" content="The Engineering Corner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-11-09T08:06:59+01:00" />
+<meta property="article:published_time" content="2024-11-12T06:22:46+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Chapter 21: Block Statements" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-09T08:06:59+01:00","datePublished":"2024-11-09T08:06:59+01:00","description":"Chapter 21: Block Statements","headline":"Chapter 21: Block Statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"},"url":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-12T06:22:46+01:00","datePublished":"2024-11-12T06:22:46+01:00","description":"Chapter 21: Block Statements","headline":"Chapter 21: Block Statements","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"},"url":"http://localhost:4000/bash-in-depth/0021-Block-Statements.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 <div class="chapter-content">
   <h1 id="chapter-21-block-statements">Chapter 21: Block Statements</h1>
 
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0021-Block-Statements.html#types-of-block-statements">Types of Block Statements</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0021-Block-Statements.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0021-Block-Statements.html#references">References</a></li>
+</ul>
+
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
 
 <p>In Bash, block statements enable you to group multiple commands or code structures together for cohesive execution. They serve a range of purposes, such as creating conditional constructs, managing loops, or executing multiple commands as a single unit. Blocks are particularly useful when you want to apply logic like conditionals or loops to more than one command without writing each command individually.</p>
+
+<h2 id="types-of-block-statements">Types of Block Statements</h2>
 
 <p>There are a few primary ways to create blocks in Bash. The most common are:</p>
 
 <ol>
   <li>
-    <p><strong>Curly Braces</strong> “<code class="language-plaintext highlighter-rouge">{ }</code>”: Commands grouped within curly braces are treated as a single compound command. This is useful for bundling several commands and executing them in contexts like conditional checks or function definitions. Commands within { } are executed sequentially, separated by semicolons or line breaks. For instance, in an if statement, { } can group multiple commands under the same conditional branch.</p>
+    <p><strong>Curly Braces</strong> “<code class="language-plaintext highlighter-rouge">{ }</code>”: Commands grouped within curly braces are treated as a single compound command. This is useful for bundling several commands and executing them in contexts like conditional checks or function definitions. Commands within “<code class="language-plaintext highlighter-rouge">{ }</code>” are executed sequentially, separated by semicolons or line breaks. For instance, in an if statement, “<code class="language-plaintext highlighter-rouge">{ }</code>” can group multiple commands under the same conditional branch.</p>
   </li>
   <li>
-    <p><strong>Parentheses</strong> “<code class="language-plaintext highlighter-rouge">( )</code>”: This syntax groups commands in a <strong>subshell</strong><a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>, meaning the commands execute in a separate process from the main shell. The primary distinction between { } and ( ) is that the latter’s use of a subshell allows for environment isolation, meaning variables or changes within ( ) do not affect the main shell environment.</p>
+    <p><strong>Parentheses</strong> “<code class="language-plaintext highlighter-rouge">( )</code>”: This syntax groups commands in a <strong>subshell</strong><a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>, meaning the commands execute in a separate process from the main shell. The primary distinction between “<code class="language-plaintext highlighter-rouge">{ }</code>” and “<code class="language-plaintext highlighter-rouge">( )</code>” is that the latter’s use of a subshell allows for environment isolation, meaning variables or changes within “<code class="language-plaintext highlighter-rouge">( )</code>” do not affect the main shell environment.</p>
   </li>
   <li>
     <p>“<code class="language-plaintext highlighter-rouge">do</code>” and “<code class="language-plaintext highlighter-rouge">done</code>” with loops<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a>: Used in “<code class="language-plaintext highlighter-rouge">for</code>”, “<code class="language-plaintext highlighter-rouge">while</code>”, or “<code class="language-plaintext highlighter-rouge">until</code>” loops, “<code class="language-plaintext highlighter-rouge">do</code>” and “<code class="language-plaintext highlighter-rouge">done</code>” delimit the start and end of the block to be repeated. Commands between these keywords will execute repeatedly according to the loop condition, enabling efficient iteration over items or repeated execution of logic until conditions are met.</p>
@@ -99,9 +108,48 @@
 
 <p>Understanding these block statements is key for writing structured and maintainable Bash scripts, as they provide control over the flow and scope of commands, enhancing readability and functionality.</p>
 
+<p>Let’s see an example script using the Curly Braces.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: block-statement-0001.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Block reading from Standard Input"</span>
+ 4 <span class="o">{</span>
+ 5    <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>6 	      <span class="nb">echo</span> <span class="s2">"Line read: '</span><span class="nv">$line</span><span class="s2">'"</span>
+ 7    <span class="k">done
+ </span>8 <span class="o">}</span>
+ 9 <span class="nb">echo</span> <span class="s2">"End of program"</span>
+</code></pre></div></div>
+
+<p>The previous script will read from the standard input<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>, stores the text in a variable named “<code class="language-plaintext highlighter-rouge">line</code>” (line 5 of the previous script) and prints it back to the screen.</p>
+
+<p>When you execute the previous script you will get the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./block-statement-0001.sh
+Block reading from Standard Input
+Line1
+Line read: 'Line1'
+Line2
+Line read: 'Line2'
+^C
+</code></pre>
+
+<p>As you can see this is a very simple script which would work the same way as not using Curly Braces, at a later chapter you will see how we can take advantage of the Curly Braces combining it with I/O Redirections<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>.</p>
+
 <h2 id="summary">Summary</h2>
 
+<p>Block statements in Bash allow multiple commands to be grouped together for cohesive execution in various contexts. They are especially useful for conditional logic (like “<code class="language-plaintext highlighter-rouge">if</code>” or “<code class="language-plaintext highlighter-rouge">case</code>” statements) and loops, enabling repeated actions across lists or conditions. With subshells, block statements can create isolated environments where variables or system states don’t affect the main shell. Additionally, they are valuable for error handling, logging, and organizing reusable code into functions or modules. By using block statements, scripts can become more modular, readable, and robust for complex workflows.</p>
+
+<p><em>“Take command of your code with block statements; every line becomes a step closer to mastery and clean logic.”</em></p>
+
 <h2 id="references">References</h2>
+
+<ol>
+  <li><a href="http://mywiki.wooledge.org/BashGuide/CompoundCommands#Command_grouping">http://mywiki.wooledge.org/BashGuide/CompoundCommands#Command_grouping</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/390329/statement-blocks-mechanism-in-shell-scripting">https://unix.stackexchange.com/questions/390329/statement-blocks-mechanism-in-shell-scripting</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/726866/curly-braces-meaning">https://unix.stackexchange.com/questions/726866/curly-braces-meaning</a></li>
+  <li><a href="https://www.gnu.org/software/bash/manual/bash.html#Command-Grouping">https://www.gnu.org/software/bash/manual/bash.html#Command-Grouping</a></li>
+</ol>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
 
@@ -110,6 +158,12 @@
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. We already talked about them in <a href="http://localhost:4000/bash-in-depth/0012-Arrays-and-loops.html">Chapter 12</a>.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. Which in our case is the keyboard.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. We will talk about I/O redirections at a later chapter.<a href="#footnote-4-ref">&#8617;</a>
 </p>
 
 

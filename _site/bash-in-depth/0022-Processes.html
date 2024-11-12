@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 22: Processes | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 22: Processes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 22: Processes" />
+<meta property="og:description" content="Chapter 22: Processes" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0022-Processes.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0022-Processes.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-12T06:22:46+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 22: Processes" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-12T06:22:46+01:00","datePublished":"2024-11-12T06:22:46+01:00","description":"Chapter 22: Processes","headline":"Chapter 22: Processes","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0022-Processes.html"},"url":"http://localhost:4000/bash-in-depth/0022-Processes.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 22: Processes | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 22: Processes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 22: Processes" />
+<meta property="og:description" content="Chapter 22: Processes" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0022-Processes.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0022-Processes.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-12T06:22:46+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 22: Processes" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-12T06:22:46+01:00","datePublished":"2024-11-12T06:22:46+01:00","description":"Chapter 22: Processes","headline":"Chapter 22: Processes","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0022-Processes.html"},"url":"http://localhost:4000/bash-in-depth/0022-Processes.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+<div class="chapter-content">
+  <h1 id="chapter-22-processes">Chapter 22: Processes</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0022-Processes.html#what-is-a-process">What is a Process?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0022-Processes.html#file-descriptors-and-their-relationship-with-processes">File Descriptors and their relationship with Processes</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0022-Processes.html#the-exec-command">The “<code class="language-plaintext highlighter-rouge">exec</code>” Command</a>
+    <ul>
+      <li><a href="http://localhost:4000//bash-in-depth/0022-Processes.html#what-does-exec-do">What does “<code class="language-plaintext highlighter-rouge">exec</code>” do?</a></li>
+    </ul>
+  </li>
+  <li><a href="http://localhost:4000//bash-in-depth/0022-Processes.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0022-Processes.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<h2 id="what-is-a-process">What is a Process?</h2>
+
+<p>In software engineering, a <strong>Process</strong> is essentially a program in action. Unlike a static program—such as a script or a binary file stored on disk—a process is dynamic, representing the live execution of that program in memory. When a program is launched, the operating system (in our case, Linux) loads the program’s code and data into memory, allocates it the necessary resources, and assigns it a unique identifier called a <strong>Process ID (PID)</strong>. The process also includes crucial execution details, such as its current state, program counter, register values, open files, and allocated memory.</p>
+
+<p>In this execution phase, a process interacts with its environment through <strong>File Descriptors</strong>, which act as conduits to manage input and output streams, access files, or communicate with other programs and scripts. A single program can even spawn multiple processes, either to run different tasks simultaneously or to handle discrete operations separately, as with web browsers that assign each tab its own process. Child processes created through system calls can either share certain resources with the parent or operate in isolation, depending on their configuration.</p>
+
+<p>As the process runs, it transitions through various states, like “running,” “waiting,” or “terminated,” based on its needs and the resources available. This state management is handled by the operating system’s scheduler, which switches between processes to balance resource usage and enable multitasking. When a process completes, it exits with a <strong>Status Code</strong> (accessible in Bash with “<code class="language-plaintext highlighter-rouge">$?</code>”), which indicates the outcome of its execution and can inform the behavior of other processes or scripts. Effective process management is crucial, as it impacts system performance, particularly in complex or multi-user environments.</p>
+
+<h2 id="file-descriptors-and-their-relationship-with-processes">File Descriptors and their relationship with Processes</h2>
+
+<p>For a process in Unix-like operating systems, nearly every interaction with its environment is handled through a <strong>File Descriptor (FD)</strong>. A file descriptor is a unique identifier, usually represented as a non-negative integer, that points to an I/O resource such as a file, keyboard, or terminal screen. Each process maintains its own local set of file descriptors, meaning multiple processes can have identical FD values (like 0, 1, 2) but refer to different resources.</p>
+
+<p>By default, every process begins with three standard file descriptors:</p>
+
+<ul>
+  <li><strong>Standard Input (FD 0)</strong>: This FD is used for reading input data, which, by default, comes from the keyboard. It is typically represented by the file “<code class="language-plaintext highlighter-rouge">/dev/stdin</code>”.</li>
+  <li><strong>Standard Output (FD 1)</strong>: This FD handles the process’s output, usually directed to the terminal screen. It corresponds to “<code class="language-plaintext highlighter-rouge">/dev/stdout</code>”.</li>
+  <li><strong>Standard Error (FD 2)</strong>: This FD is designated for error messages, which also commonly display on the terminal screen. It is represented by “<code class="language-plaintext highlighter-rouge">/dev/stderr</code>”.</li>
+</ul>
+
+<p>These default file descriptors can be expanded or modified based on the needs of the process, allowing it to handle additional resources as required. We’ll explore file descriptors in greater detail later in the course.</p>
+
+<p>A graphical representation of a process could be something like the following.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0022-Processes/Process-Graphical-Representation.png" />
+</div>
+
+<p>Why dive into the details of processes and file descriptors? Because understanding these foundational elements helps you see why combining commands works seamlessly in Bash. Grasping these “little details” gives you insight into the mechanics behind command interactions, making your work more intuitive and efficient.</p>
+
+<h2 id="the-exec-command">The “<code class="language-plaintext highlighter-rouge">exec</code>” Command</h2>
+
+<p>When you execute a command, the operating system loads the associated program into memory and runs its instructions. However, there’s a way to replace the current program mid-execution by using the exec command.</p>
+
+<p>The exec command effectively replaces the current shell process with a new program, ending the original shell instance and starting the specified command in its place. Its syntax is as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">exec</span> <span class="o">[</span><span class="nt">-c</span><span class="o">]</span> <span class="o">[</span><span class="nt">-l</span><span class="o">]</span> <span class="o">[</span><span class="nt">-a</span> NAME] <span class="o">[</span><span class="nb">command</span> <span class="o">[</span>arguments ...]] <span class="o">[</span>redirection ...]
+</code></pre></div></div>
+
+<p>The options for exec are not required but provide additional functionality:</p>
+<ul>
+  <li>”<code class="language-plaintext highlighter-rouge">-a NAME</code>”: Sets “<code class="language-plaintext highlighter-rouge">$0</code>” to “<code class="language-plaintext highlighter-rouge">NAME</code>” instead of the actual command name.</li>
+  <li>”<code class="language-plaintext highlighter-rouge">-c</code>”: Runs the command in a clean environment, without inherited variables.</li>
+  <li>”<code class="language-plaintext highlighter-rouge">-l</code>”: Marks the zeroth argument with a dash, indicating the shell should behave as a login shell (covered further in the Types of Shell chapter).</li>
+  <li>“<code class="language-plaintext highlighter-rouge">command [arguments ...]</code>”: Specifies the command and its arguments, replacing the current shell.</li>
+  <li>”<code class="language-plaintext highlighter-rouge">[redirection ...]</code>”: Allows I/O redirections, which will be explored in the I/O Redirections chapter.</li>
+</ul>
+
+<p>Using “<code class="language-plaintext highlighter-rouge">exec</code>” can streamline scripts or processes by fully replacing one command with another, saving resources by eliminating the need to launch a new shell instance.</p>
+
+<h3 id="what-does-exec-do">What does “<code class="language-plaintext highlighter-rouge">exec</code>” do?</h3>
+
+<p>The “<code class="language-plaintext highlighter-rouge">exec</code>” command <strong>replaces</strong> the current shell process with a new command passed as its argument, effectively ending the current shell instance and transferring control to the specified command. Let’s look at an example to see what this means in action.</p>
+
+<p>Consider the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: processes-0001.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Before exec"</span>
+ 4 <span class="nb">ls</span> <span class="nt">-l</span>
+ 5 <span class="nb">echo</span> <span class="s2">"After exec"</span>
+</code></pre></div></div>
+
+<p>In the script “<code class="language-plaintext highlighter-rouge">processes-0001.sh</code>”, you’ll notice that it calls external commands and programs. Once each of these commands completes, control automatically returns to the main script, resuming execution from where it left off.</p>
+
+<p>The following diagram is a graphical representation of what is happening in the previous script.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0022-Processes/Script-without-exec.png" />
+</div>
+
+<p>Here you can see that inside the script “<code class="language-plaintext highlighter-rouge">processes-0001.sh</code>” external commands/programs are called. When the execution of these commands/programs are done, the execution comes back to the main script.</p>
+
+<p>When you execute the previous script you will see the following output in your terminal.</p>
+
+<pre><code class="language-txt">$ ./processes-0001.sh
+Before exec
+total 8
+-rwxrwxr-x 1 username username 90 Nov 10 13:24 processes-0001.sh
+-rwxrwxr-x 1 username username 95 Nov 10 13:25 processes-0002.sh
+After exec
+</code></pre>
+
+<p>Now let’s consider the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: processes-0002.sh</span>
+ 3 <span class="nb">echo</span> <span class="s2">"Before exec"</span>
+ 4 <span class="nb">exec ls</span> <span class="nt">-l</span>
+ 5 <span class="nb">echo</span> <span class="s2">"After exec"</span> <span class="c"># WILL NOT BE EXECUTED</span>
+</code></pre></div></div>
+
+<p>This script closely resembles the previous one, but it adds the “<code class="language-plaintext highlighter-rouge">exec</code>” command before calling “<code class="language-plaintext highlighter-rouge">ls -l</code>”.</p>
+
+<p>As before, the script begins by printing “<code class="language-plaintext highlighter-rouge">Before exec</code>” to the screen. However, when it reaches “<code class="language-plaintext highlighter-rouge">exec ls -l</code>”, instead of simply executing “<code class="language-plaintext highlighter-rouge">ls -l</code>”, the “<code class="language-plaintext highlighter-rouge">exec</code>” command replaces the current script (“<code class="language-plaintext highlighter-rouge">processes-0002.sh</code>”) with the “<code class="language-plaintext highlighter-rouge">ls</code>” program. This means the original script is no longer active in memory; “<code class="language-plaintext highlighter-rouge">ls</code>” has taken its place. Consequently, the last line of the script isn’t executed because the script itself has effectively been terminated and replaced by the “<code class="language-plaintext highlighter-rouge">ls</code>” process.</p>
+
+<p>We can imagine this replacement visually as if the original script hands over control entirely to the ls command.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0022-Processes/Script-with-exec.png" />
+</div>
+
+<p>This illustration shows that when the “<code class="language-plaintext highlighter-rouge">exec</code>” command is executed, the current script (“<code class="language-plaintext highlighter-rouge">processes-0002.sh</code>”) halts in favor of running the “<code class="language-plaintext highlighter-rouge">ls -l</code>” command. Execution does not return to the script afterward, as “<code class="language-plaintext highlighter-rouge">exec</code>” has fully replaced it with “<code class="language-plaintext highlighter-rouge">ls -l</code>”.</p>
+
+<p>When you execute the previous script you will see the following output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./processes-0002.sh
+Before exec
+total 8
+-rwxrwxr-x 1 username username  90 Nov 10 13:24 processes-0001.sh
+-rwxrwxr-x 1 username username 118 Nov 10 13:58 processes-0002.sh
+</code></pre>
+
+<p>Which is basically the same output as the script “<code class="language-plaintext highlighter-rouge">processes-0001.sh</code>”.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this chapter, we explored the concept of a process—essentially, a program actively running in memory. We learned that each process in Bash has a set of “file descriptors” that facilitate its communication with the external world, such as files and other processes. By default, a process has three key file descriptors:</p>
+
+<ol>
+  <li><strong>Standard Input (FD 0)</strong> - manages input directed to the script, often from the keyboard.</li>
+  <li><strong>Standard Output (FD 1)</strong> - allows the script to display results, typically outputting to the screen.</li>
+  <li><strong>Standard Error (FD 2)</strong> - specifically designated for outputting error messages generated during script execution.</li>
+</ol>
+
+<p>Finally, we looked into the “<code class="language-plaintext highlighter-rouge">exec</code>” command, a powerful tool that can invoke other commands while replacing the current script entirely with the specified command. When “<code class="language-plaintext highlighter-rouge">exec</code>” is called, the original script is fully replaced, allowing the new command to run directly in its place. This ability can streamline processes and facilitate direct execution control over other programs.</p>
+
+<p><em>“When you grasp the magic of processes, you’re no longer just writing scripts. You’re architecting workflows that bring your ideas to life.”</em></p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li><a href="https://medium.com/@rodbauer/understanding-programs-processes-and-threads-fd9fdede4d88">https://medium.com/@rodbauer/understanding-programs-processes-and-threads-fd9fdede4d88</a></li>
+  <li><a href="https://stackoverflow.com/questions/39972978/option-l-of-exec-shell-command">https://stackoverflow.com/questions/39972978/option-l-of-exec-shell-command</a></li>
+  <li><a href="https://www.baeldung.com/linux/exec-command-in-shell-script">https://www.baeldung.com/linux/exec-command-in-shell-script</a></li>
+  <li><a href="https://www.computerhope.com/unix/bash/exec.htm">https://www.computerhope.com/unix/bash/exec.htm</a></li>
+  <li><a href="https://www.geeksforgeeks.org/formation-of-process-from-program/">https://www.geeksforgeeks.org/formation-of-process-from-program/</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
