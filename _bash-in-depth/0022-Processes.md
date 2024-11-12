@@ -130,7 +130,7 @@ total 8
 -rwxrwxr-x 1 username username 118 Nov 10 13:58 processes-0002.sh
 ```
 
-Which is basically the same output as the script "`processes-0001.sh`".
+Which is almost the same output as the script "`processes-0001.sh`" but in the script "`processes-0002.sh`" the second "`echo`" command will not be used as the process of the script was replaced with the process "`ls -l`".
 
 ## Summary
 
