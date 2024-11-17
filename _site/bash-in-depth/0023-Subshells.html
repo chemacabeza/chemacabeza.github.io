@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 23: Subshells | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 23: Subshells" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 23: Subshells" />
+<meta property="og:description" content="Chapter 23: Subshells" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0023-Subshells.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0023-Subshells.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-17T08:18:26+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 23: Subshells" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-17T08:18:26+01:00","datePublished":"2024-11-17T08:18:26+01:00","description":"Chapter 23: Subshells","headline":"Chapter 23: Subshells","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0023-Subshells.html"},"url":"http://localhost:4000/bash-in-depth/0023-Subshells.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 23: Subshells | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 23: Subshells" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 23: Subshells" />
+<meta property="og:description" content="Chapter 23: Subshells" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0023-Subshells.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0023-Subshells.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-17T08:18:26+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 23: Subshells" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-11-17T08:18:26+01:00","datePublished":"2024-11-17T08:18:26+01:00","description":"Chapter 23: Subshells","headline":"Chapter 23: Subshells","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0023-Subshells.html"},"url":"http://localhost:4000/bash-in-depth/0023-Subshells.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+<div class="chapter-content">
+  <h1 id="chapter-23-subshells">Chapter 23: Subshells</h1>
+
+<h2 id="index">Index</h2>
+<ul>
+  <li><a href="http://localhost:4000//bash-in-depth/0023-Subshells.html#what-is-a-subshell">What is a Subshell?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0023-Subshells.html#what-happens-when-a-subshell-is-launched">What happens when a subshell is launched?</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0023-Subshells.html#shlvl-and-bash_subshell-variables">“<code class="language-plaintext highlighter-rouge">SHLVL</code>” and “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” variables</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0023-Subshells.html#summary">Summary</a></li>
+  <li><a href="http://localhost:4000//bash-in-depth/0023-Subshells.html#references">References</a></li>
+</ul>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<h2 id="what-is-a-subshell">What is a Subshell?</h2>
+
+<p>In Bash, a <strong>Subshell</strong> is a separate shell instance launched as a child process by the current shell or a script, running independently yet within the environment of the parent script. This isolation allows it to execute commands without affecting the main shell’s variables, settings, or working directory, which is particularly useful for temporary tasks or isolated test commands. To create a subshell, enclose the commands in parentheses, like the following.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">(</span> <span class="c"># &lt;- Beginning of subshell</span>
+      command1 <span class="p">;</span>
+      command2 <span class="p">;</span>
+      ...
+    <span class="o">)</span> <span class="c"># &lt;- Ending of subshell</span>
+</code></pre></div></div>
+
+<p>When a subshell is invoked, the main script pauses, waiting for it to complete before continuing. Although a subshell inherits the parent shell’s environment, any modifications, such as variable assignments or directory changes, remain contained within the subshell. For instance, assigning a new variable or switching directories in a subshell does not impact the main script’s state once the subshell exits. This makes subshells ideal for testing, looping, temporary file manipulations, or running complex pipelines that don’t disrupt the main script’s environment.</p>
+
+<p>A unique identifier, known as a process ID (PID), distinguishes the subshell from the parent shell. You can check this using the special “<code class="language-plaintext highlighter-rouge">$BASHPID</code>” variable, which reveals the PID of the current Bash process. Within a subshell, this PID will differ from the main shell’s PID, confirming that it’s a separate process. This structure supports effective script management and allows complex scripts to handle parallel operations without altering the core environment.</p>
+
+<p>Let’s write an example script to test what we know for now.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: subshells-0001.sh</span>
+ 3 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$BASHPID</span><span class="s2"> - Before subshell..."</span>
+ 4 <span class="o">(</span> <span class="c"># &lt;= Beginning of the subshell</span>
+ 5     <span class="nb">echo</span> <span class="s2">""</span>
+ 6     <span class="nb">echo</span> <span class="s2">"Starting subshell..."</span>
+ 7     <span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>1..10<span class="o">}</span><span class="p">;</span> <span class="k">do
+ </span>8         <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$BASHPID</span><span class="s2"> - </span><span class="nv">$i</span><span class="s2">"</span><span class="p">;</span>
+ 9     <span class="k">done
+</span>10     <span class="nb">echo</span> <span class="s2">"Ending subshell..."</span>
+11     <span class="nb">echo</span> <span class="s2">""</span>
+12 <span class="o">)</span>  <span class="c"># &lt;= Ending of the subshell</span>
+13 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$BASHPID</span><span class="s2"> - After subshell..."</span>
+</code></pre></div></div>
+
+<p>In the previous script we have a subshell between lines 4 and 12.</p>
+
+<p>When you execute the previous script you will see the following output in your terminal window<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a>.</p>
+
+<pre><code class="language-txt">$ ./subshells-0001.sh
+2874475 - Before subshell...
+
+Starting subshell...
+2874478 - 1
+2874478 - 2
+2874478 - 3
+2874478 - 4
+2874478 - 5
+2874478 - 6
+2874478 - 7
+2874478 - 8
+2874478 - 9
+2874478 - 10
+Ending subshell...
+
+2874475 - After subshell...
+</code></pre>
+
+<p>The subshell code executes <em>synchronously</em>, meaning that the original script (in our example with PID 2874475) will pause and wait for the subshell to complete its tasks before continuing. Later in the book, we’ll explore ways to make this process asynchronous.</p>
+
+<h2 id="what-happens-when-a-subshell-is-launched">What happens when a subshell is launched?</h2>
+
+<p>So, what exactly occurs when a subshell is launched? When a subshell is created, it initiates a <strong>new child process</strong> that has access <strong>to all</strong> the variables, functions, and environment settings available at that specific point in the script. This ensures that the subshell has all the necessary resources while also isolating any changes it makes from the main script’s environment.</p>
+
+<p>Let’s see how it works with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: subshells-0002.sh</span>
+ 3 <span class="nv">GLOBAL_VAR</span><span class="o">=</span><span class="s2">"GLOBAL_VARIABLE"</span>
+ 4 my_test<span class="o">()</span> <span class="o">{</span>
+ 5     <span class="nb">echo</span> <span class="s2">"Testing... Testing..."</span>
+ 6 <span class="o">}</span>
+ 7 main<span class="o">()</span> <span class="o">{</span>
+ 8     <span class="nb">local </span><span class="nv">my_var</span><span class="o">=</span><span class="s2">"LOCAL_VARIABLE"</span>
+ 9     <span class="o">(</span> <span class="c"># Beginning of subshell</span>
+10         <span class="nb">echo</span> <span class="s2">"MY_VAR: </span><span class="nv">$my_var</span><span class="s2">"</span>
+11         <span class="nb">echo</span> <span class="s2">"Global: </span><span class="nv">$GLOBAL_VAR</span><span class="s2">"</span>
+12         my_test
+13         <span class="nv">subshell_var</span><span class="o">=</span><span class="s2">"Only for subshell"</span>
+14         <span class="nb">echo</span> <span class="s2">"Subshell var: </span><span class="nv">$subshell_var</span><span class="s2">"</span>
+15     <span class="o">)</span> <span class="c"># Ending of subshell</span>
+16     <span class="nb">echo</span> <span class="s2">"main - Subshell var: </span><span class="nv">$subshell_var</span><span class="s2">"</span>
+17 <span class="o">}</span>
+18 <span class="nb">echo</span> <span class="s2">"Begin"</span>
+19 main
+20 <span class="nb">echo</span> <span class="s2">"End"</span>
+</code></pre></div></div>
+
+<p>In the previous script you will see that there is a variable declared on line 3 named “<code class="language-plaintext highlighter-rouge">GLOBAL_VAR</code>” then you will see that there are 2 functions declared (“<code class="language-plaintext highlighter-rouge">my_test</code>” function on line 4 and “<code class="language-plaintext highlighter-rouge">main</code>” function on line 7).</p>
+
+<p>Inside the function “<code class="language-plaintext highlighter-rouge">main</code>” we first declare a variable named “<code class="language-plaintext highlighter-rouge">my_var</code>”.</p>
+
+<p>Last thing to notice is that we create a subshell inside the function “<code class="language-plaintext highlighter-rouge">main</code>” between lines 9 and 15.</p>
+
+<p>When you execute the previous script “<code class="language-plaintext highlighter-rouge">subshells-0002.sh</code>” you will see the following output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./subshells-0002.sh
+Begin
+MY_VAR: LOCAL_VARIABLE
+Global: GLOBAL_VARIABLE
+Testing... Testing...
+Subshell var: Only for subshell
+main - Subshell var:
+End
+</code></pre>
+
+<p>In the previous output, take note of the following:</p>
+<ul>
+  <li>The subshell can access the global variable “<code class="language-plaintext highlighter-rouge">$GLOBAL_VAR</code>”.</li>
+  <li>It can also access the local variable “<code class="language-plaintext highlighter-rouge">$my_var</code>” within the “<code class="language-plaintext highlighter-rouge">main</code>” function.</li>
+  <li>The subshell has visibility of both the “<code class="language-plaintext highlighter-rouge">main</code>” and “<code class="language-plaintext highlighter-rouge">my_test</code>” functions.</li>
+  <li>However, the parent shell <strong>cannot</strong> access the variable “<code class="language-plaintext highlighter-rouge">$subshell_var</code>”, since this variable was created within a separate, child process. The original script, running in a different process, does not have direct access to this subshell-specific variable.</li>
+</ul>
+
+<p>Each of these details highlights how the subshell inherits specific parts of the parent environment, but also remains isolated where needed.</p>
+
+<h2 id="shlvl-and-bash_subshell-variables">“<code class="language-plaintext highlighter-rouge">SHLVL</code>” and “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” variables</h2>
+
+<p>When working with subshells, two Bash variables are particularly useful:</p>
+
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">SHLVL</code>”: This variable represents the “shell level,” directly related to the Bash process itself. When a Bash process starts, “<code class="language-plaintext highlighter-rouge">SHLVL</code>” is set to 1. If another Bash instance is launched within this process, “<code class="language-plaintext highlighter-rouge">SHLVL</code>” increments by one for the new process. However, the creation of subshells does not affect this variable; each subshell, even nested ones, will inherit the same “<code class="language-plaintext highlighter-rouge">SHLVL</code>” as its parent Bash process.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>”: This variable keeps track of the depth of subshells within a given Bash process, starting at zero when the initial script runs. Each time a subshell is created, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” increments by one, reflecting the current level of subshell nesting.</li>
+</ul>
+
+<p>Let’s play with the these two variables in the following script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: subshells-0003.sh</span>
+ 3 print_variables<span class="o">()</span> <span class="o">{</span>
+ 4     <span class="nb">echo</span> <span class="s2">""</span>
+ 5     <span class="nb">echo</span> <span class="s2">"#########"</span>
+ 6     <span class="nb">echo</span> <span class="s2">"### </span><span class="nv">$1</span><span class="s2">"</span>
+ 7     <span class="nb">echo</span> <span class="s2">"#########"</span>
+ 8     <span class="nb">echo</span> <span class="s2">"BASHPID: </span><span class="nv">$BASHPID</span><span class="s2">"</span>
+ 9     <span class="nb">echo</span> <span class="s2">"BASH_SUBSHELL: </span><span class="nv">$BASH_SUBSHELL</span><span class="s2">"</span>
+10     <span class="nb">echo</span> <span class="s2">"SHLVL: </span><span class="nv">$SHLVL</span><span class="s2">"</span>
+11     <span class="nb">echo</span> <span class="s2">"#########"</span>
+12     <span class="nb">echo</span> <span class="s2">"### END - </span><span class="nv">$1</span><span class="s2">"</span>
+13     <span class="nb">echo</span> <span class="s2">"#########"</span>
+14     <span class="nb">echo</span> <span class="s2">""</span>
+15 <span class="o">}</span>
+16 custom<span class="o">()</span> <span class="o">{</span>
+17     print_variables <span class="s2">"Custom"</span>
+18 <span class="o">}</span>
+19 print_variables <span class="s2">"Main program"</span>
+20 <span class="o">(</span>
+21     print_variables <span class="s2">"Subshell"</span>
+22     <span class="o">(</span>
+23        print_variables <span class="s2">"Subshell - 2"</span>
+24        custom
+25     <span class="o">)</span>
+26 <span class="o">)</span>
+27 <span class="c"># Sub Bash Process</span>
+28 bash <span class="nt">-c</span> <span class="s1">'echo -e "Bash - SHLVL: $SHLVL\nBash - Subshell: $BASH_SUBSHELL\nBash - BASHPID:$BASHPID\n"'</span>
+</code></pre></div></div>
+
+<p>What is happening in this script?</p>
+
+<p>First of all between lines 3 and 15 there is a function declared named “<code class="language-plaintext highlighter-rouge">print_variables</code>” that takes one argument (“<code class="language-plaintext highlighter-rouge">$1</code>”) and prints the values for the variables “<code class="language-plaintext highlighter-rouge">BASHPID</code>”, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” and “<code class="language-plaintext highlighter-rouge">SHLVL</code>”. Just to summarize what we already learnt the content of those variables are as follows:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">BASHPID</code>”: the process ID of the current Bash process.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>”: the subshell level within the current Bash session.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">SHLVL</code>”: the shell level, representing how many Bash shells have been spawned in sequence.</li>
+</ul>
+
+<p>The “<code class="language-plaintext highlighter-rouge">print_variables</code>” function also includes a footer to indicate the end of each block of printed information.</p>
+
+<p>Between lines 16 and 18 we do have the “<code class="language-plaintext highlighter-rouge">custom</code>” function that calls the previous function “<code class="language-plaintext highlighter-rouge">print_variables</code>” with “<code class="language-plaintext highlighter-rouge">Custom</code>” as argument.</p>
+
+<p>On line 19 the script starts by calling “<code class="language-plaintext highlighter-rouge">print_variables</code>” with “<code class="language-plaintext highlighter-rouge">Main program</code>” as the argument, printing environment details for the main script process.</p>
+
+<p>Between lines 20 and 26 the script creates two nested subshells:</p>
+<ol>
+  <li>The outer parentheses create a new subshell, which calls “<code class="language-plaintext highlighter-rouge">print_variables</code>” with the label “<code class="language-plaintext highlighter-rouge">Subshell</code>”.</li>
+  <li>Inside this outer subshell, another subshell is created, and “<code class="language-plaintext highlighter-rouge">print_variables</code>” is called with “<code class="language-plaintext highlighter-rouge">Subshell - 2</code>” as the label.</li>
+  <li>Inside the innermost subshell, “<code class="language-plaintext highlighter-rouge">custom</code>” is called, printing the environment variables under the label “<code class="language-plaintext highlighter-rouge">Custom</code>”.</li>
+</ol>
+
+<p>Each subshell has a <strong>unique</strong> “<code class="language-plaintext highlighter-rouge">BASHPID</code>”, but all share the same “<code class="language-plaintext highlighter-rouge">SHLVL</code>” as they are part of the same Bash session. “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” increments for each level of subshell nesting.</p>
+
+<p>Finally, on line 28, a new Bash process is spawned using “<code class="language-plaintext highlighter-rouge">bash -c</code>”. This new Bash shell is entirely separate from the main script, so it resets “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” to 0 and increments “<code class="language-plaintext highlighter-rouge">SHLVL</code>” by 1. It prints values of “<code class="language-plaintext highlighter-rouge">SHLVL</code>”, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>”, and “<code class="language-plaintext highlighter-rouge">BASHPID</code>” for this new shell instance, demonstrating a distinct environment from the main script and its subshells.</p>
+
+<p>When you execute the previous “<code class="language-plaintext highlighter-rouge">subshells-0003.sh</code>” script you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ echo $SHLVL
+1 
+$ echo $BASHPID
+368474
+$ ./subshells-0003.sh
+
+#########
+### Main program
+#########
+BASHPID: 368654
+BASH_SUBSHELL: 0
+SHLVL: 2
+#########
+### END - Main program
+#########
+
+
+#########
+### Subshell
+#########
+BASHPID: 368655
+BASH_SUBSHELL: 1
+SHLVL: 2
+#########
+### END - Subshell
+#########
+
+
+#########
+### Subshell - 2
+#########
+BASHPID: 368656
+BASH_SUBSHELL: 2
+SHLVL: 2
+#########
+### END - Subshell - 2
+#########
+
+
+#########
+### Custom
+#########
+BASHPID: 368656
+BASH_SUBSHELL: 2
+SHLVL: 2
+#########
+### END - Custom
+#########
+
+Bash - SHLVL: 3
+Bash - Subshell: 0
+Bash - BASHPID:368657
+</code></pre>
+
+<p>Before running the Bash script, the value of the variable “<code class="language-plaintext highlighter-rouge">SHLVL</code>” is printed. As mentioned earlier, “<code class="language-plaintext highlighter-rouge">SHLVL</code>” starts at 1 in a fresh Bash shell and increments by 1 for each nested Bash process. Let’s analyze what happens in each section of the script:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">"Main program"</code>
+    <ul>
+      <li>A new Bash process is created with its own process ID (e.g., 368654).</li>
+      <li>Since this process is initiated from an existing Bash shell, the “<code class="language-plaintext highlighter-rouge">SHLVL</code>” variable is incremented to 2.</li>
+      <li>At this stage, no subshells have been created, so the value of “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” remains 0.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">"Subshell"</code>
+    <ul>
+      <li>Parentheses initiate a new subshell, creating a new child Bash process with a unique PID (e.g., 368655).</li>
+      <li>As this is a subshell of the main script, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” is incremented to 1.</li>
+      <li>Since no new explicit Bash process is launched, the “<code class="language-plaintext highlighter-rouge">SHLVL</code>” remains 2.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">"Subshell - 2"</code>
+    <ul>
+      <li>Another set of parentheses creates a nested subshell with a new PID (e.g., 368656).</li>
+      <li>Being a subshell within the first subshell, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” increases to 2.</li>
+      <li>Like before, “<code class="language-plaintext highlighter-rouge">SHLVL</code>” stays at 2, as no new Bash process is explicitly created.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">"Custom"</code>
+    <ul>
+      <li>The values of “<code class="language-plaintext highlighter-rouge">BASHPID</code>”, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>”, and “<code class="language-plaintext highlighter-rouge">SHLVL</code>” in this function remain identical to those in “<code class="language-plaintext highlighter-rouge">Subshell - 2</code>” since it is executed <strong>within the same environment</strong>.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">"# Sub Bash Process"</code>
+    <ul>
+      <li>A new Bash process is explicitly created using the bash -c command. This results in a new PID (e.g., 368657).</li>
+      <li>As this is an independent Bash process, “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” resets to 0.</li>
+      <li>The “<code class="language-plaintext highlighter-rouge">SHLVL</code>” value increments by 1, resulting in a value of 3, reflecting the additional Bash process level.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>This detailed breakdown shows how subshells and new Bash processes differ in behavior, particularly regarding how “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” and “<code class="language-plaintext highlighter-rouge">SHLVL</code>” are updated. Subshells are nested within the current environment, while explicit Bash processes represent entirely new instances.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In Bash, a subshell is a child process spawned by a parent shell or script to execute commands in isolation from the main environment. When a subshell is created, it inherits the environment of the parent shell, including variables, functions, and settings, but any modifications it makes, such as variable assignments or directory changes, remain local to the subshell. This isolation ensures that the main script’s environment stays unaffected, making subshells an effective tool for testing commands, running temporary tasks, or organizing complex scripts. Subshells are created by wrapping commands in parentheses, and their execution is synchronous, meaning the parent script waits for the subshell to finish before continuing.</p>
+
+<p>A subshell operates as a separate process with its own unique process ID (PID), distinct from the parent process. Key Bash variables help us understand the behavior of subshells. The “<code class="language-plaintext highlighter-rouge">BASHPID</code>” variable provides the current process ID, which changes in a subshell since it is a child process. “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” indicates the nesting level of subshells, starting at 0 for the main shell and incrementing with each subshell. Unlike these, “<code class="language-plaintext highlighter-rouge">SHLVL</code>”, which tracks the level of Bash processes, does not change when a subshell is created but increases only when a new explicit Bash process is launched.</p>
+
+<p>The relationship between a parent shell and a subshell is hierarchical but temporary. A subshell can access all variables, functions, and resources available at the time of its creation. However, any changes made within the subshell, such as setting variables or defining new functions, do not propagate back to the parent shell. For instance, creating a variable in a subshell makes it accessible only within that subshell’s scope. Similarly, commands executed within nested subshells increment the “<code class="language-plaintext highlighter-rouge">BASH_SUBSHELL</code>” variable, reflecting their deeper level of isolation.</p>
+
+<p>Subshells are valuable for managing tasks that require temporary environments. They are often used for grouping commands in pipelines, testing operations without affecting the main script, or running loops in isolation. Nested subshells are particularly useful when dealing with complex pipelines or scripts requiring multiple levels of temporary operations. For example, you can create a subshell to change directories, execute commands in the new location, and return to the original directory without impacting the parent shell’s working directory.</p>
+
+<p>Understanding subshells deepens your knowledge of Bash scripting and equips you to write more robust and efficient scripts. By isolating commands and preserving the integrity of the main script, subshells enable you to handle tasks with precision and flexibility. They are an essential tool for any advanced Bash script, allowing for better control over execution environments, resource management, and script modularity.</p>
+
+<p><em>“By understanding subshells, you gain the power to control complexity, manage tasks independently, and execute commands with precision—skills that separate a good scriptwriter from a great one.”</em></p>
+
+<h2 id="references">References</h2>
+<ol>
+  <li><a href="https://backreference.org/2010/10/23/on-pipes-subshells-and-descriptors/index.html">https://backreference.org/2010/10/23/on-pipes-subshells-and-descriptors/index.html</a></li>
+  <li><a href="https://bash.cyberciti.biz/guide/What_is_a_Subshell%3F">https://bash.cyberciti.biz/guide/What_is_a_Subshell%3F</a></li>
+  <li><a href="https://stackoverflow.com/questions/34799161/difference-between-linux-variables-bash-subshell-vs-shlvl">https://stackoverflow.com/questions/34799161/difference-between-linux-variables-bash-subshell-vs-shlvl</a></li>
+  <li><a href="https://sysxplore.com/subshells-in-bash/">https://sysxplore.com/subshells-in-bash/</a></li>
+  <li><a href="https://tldp.org/LDP/abs/html/subshells.html">https://tldp.org/LDP/abs/html/subshells.html</a></li>
+  <li><a href="https://unix.stackexchange.com/questions/442692/is-a-subshell">https://unix.stackexchange.com/questions/442692/is-a-subshell</a></li>
+  <li><a href="https://uomresearchit.github.io/shell-programming-course/04-subshells_and_functions/index.html">https://uomresearchit.github.io/shell-programming-course/04-subshells_and_functions/index.html</a></li>
+  <li><a href="https://www.geeksforgeeks.org/shell-scripting-subshell/">https://www.geeksforgeeks.org/shell-scripting-subshell/</a></li>
+  <li><a href="https://www.oreilly.com/library/view/bash-cookbook/0596526784/ch19s08.html">https://www.oreilly.com/library/view/bash-cookbook/0596526784/ch19s08.html</a></li>
+  <li><a href="https://www.shell-tips.com/bash/environment-variables/#gsc.tab=0">https://www.shell-tips.com/bash/environment-variables/#gsc.tab=0</a></li>
+</ol>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. Most likely the PIDs will be different.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
