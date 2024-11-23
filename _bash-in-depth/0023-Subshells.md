@@ -74,6 +74,14 @@ Ending subshell...
 
 The subshell code executes *synchronously*, meaning that the original script (in our example with PID 2874475) will pause and wait for the subshell to complete its tasks before continuing. Later in the book, we’ll explore ways to make this process asynchronous.
 
+The following diagram is graphic representation of what is happening in the script.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0023-Subshells/Diagram-of-subshell.png"/>
+</div><br>
+
+
+
 ## What happens when a subshell is launched?
 
 So, what exactly occurs when a subshell is launched? When a subshell is created, it initiates a **new child process** that has access **to all** the variables, functions, and environment settings available at that specific point in the script. This ensures that the subshell has all the necessary resources while also isolating any changes it makes from the main script’s environment.
