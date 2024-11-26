@@ -24,7 +24,7 @@ Before you dive into this book, let me be clear—this is a **highly opinionated
 
 In every chapter, I’ve included links to the sources that helped me learn the topics covered. These references are not just to give credit but also to offer you additional perspectives and materials to explore further. I believe it’s important to see how different people tackle the same problem, so you’ll have the chance to dig into the exact resources that shaped my understanding of Bash.
 
-If you happen to come across something in the book that seems incorrect, confusing, or just plain wrong, please don’t hesitate to reach out. I’m always open to learning and improving my understanding. You can send your feedback or corrections to me at [The Engineering Corner](mailto:the.engineering.corner.314@gmail.com). I genuinely appreciate any input that can help make this book better for everyone.
+If you happen to come across something in the book that seems incorrect, confusing, or just plain wrong, please don’t hesitate to reach out. I’m always open to learning and improving my understanding. You can send your feedback or corrections to me at "[the.engineering.corner.314@gmail.com](mailto:the.engineering.corner.314@gmail.com)". I genuinely appreciate any input that can help make this book better for everyone.
 
 Remember, Bash is a vast tool, and there are many ways to achieve the same goal. What works for one person might not work for another. This book is my take on the subject, but it’s by no means the final word on Bash!
 
