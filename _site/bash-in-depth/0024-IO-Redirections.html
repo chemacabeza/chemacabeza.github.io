@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 24: I/O Redirections | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 24: I/O Redirections" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 24: I/O Redirections" />
+<meta property="og:description" content="Chapter 24: I/O Redirections" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0024-IO-Redirections.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0024-IO-Redirections.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-12-01T09:18:37+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 24: I/O Redirections" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-12-01T09:18:37+01:00","datePublished":"2024-12-01T09:18:37+01:00","description":"Chapter 24: I/O Redirections","headline":"Chapter 24: I/O Redirections","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0024-IO-Redirections.html"},"url":"http://localhost:4000/bash-in-depth/0024-IO-Redirections.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="The Engineering Corner" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">The Engineering Corner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+						<a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/bash-in-depth/">Bash In Depth</a>
+				</div>
+      </nav></div>
+</header>
+
+<!--header class="site-header" role="banner">
+  <div class="wrapper">
+    <a class="site-title" href="/">The Engineering Corner</a>
+    <nav class="site-nav">
+      <label for="nav-trigger">
+        <svg aria-hidden="true" class="icon-menu">
+          <use xlink:href="#icon-menu"></use>
+        </svg>
+      </label>
+      <div class="trigger">
+          
+          <a href="/bash-in-depth/">Bash In Depth</a>
+      </div>
+    </nav>
+  </div>
+</header-->
+
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Chapter 24: I/O Redirections | The Engineering Corner</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Chapter 24: I/O Redirections" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Chapter 24: I/O Redirections" />
+<meta property="og:description" content="Chapter 24: I/O Redirections" />
+<link rel="canonical" href="http://localhost:4000/bash-in-depth/0024-IO-Redirections.html" />
+<meta property="og:url" content="http://localhost:4000/bash-in-depth/0024-IO-Redirections.html" />
+<meta property="og:site_name" content="The Engineering Corner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-12-01T09:18:37+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Chapter 24: I/O Redirections" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2024-12-01T09:18:37+01:00","datePublished":"2024-12-01T09:18:37+01:00","description":"Chapter 24: I/O Redirections","headline":"Chapter 24: I/O Redirections","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/bash-in-depth/0024-IO-Redirections.html"},"url":"http://localhost:4000/bash-in-depth/0024-IO-Redirections.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+<div class="chapter-content">
+  <h1 id="chapter-24-io-redirections">Chapter 24: I/O Redirections</h1>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p>In a previous chapter, we explored the concept of processes, the file descriptors associated with them, and the intricate relationship between the two. These concepts form the foundation of understanding how data flows within a Bash environment.</p>
+
+<p>In this chapter, we delve into the topic of redirection—a powerful mechanism that allows you to connect a process’s file descriptors to other programs or files. Redirection enables you to reroute standard input, output, and error streams, offering a flexible way to handle data interactions between processes and external resources.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>I/O redirection in Bash is a fundamental concept that allows you to control how a script or command interacts with its input and output. By default, when you run a command in the shell, it takes input from the standard input (stdin, usually the keyboard) and sends output to the standard output (stdout, typically the terminal screen). Errors are directed to the standard error (stderr), which also defaults to the terminal. With I/O redirection, you can modify this behavior by rerouting input and output to files, other commands, or even discard them entirely.</p>
+
+<p>At its core, I/O redirection involves three file descriptors:</p>
+
+<ol>
+  <li><strong>Standard Input (stdin - file descriptor 0)</strong>: The source of input data for a command.</li>
+  <li><strong>Standard Output (stdout - file descriptor 1)</strong>: The destination for normal command output.</li>
+  <li><strong>Standard Error (stderr - file descriptor 2)</strong>: The destination for error messages.</li>
+</ol>
+
+<p>By using symbols like “<code class="language-plaintext highlighter-rouge">&gt;</code>”, “<code class="language-plaintext highlighter-rouge">&lt;</code>”, “<code class="language-plaintext highlighter-rouge">&gt;&gt;</code>”, and “<code class="language-plaintext highlighter-rouge">2&gt;</code>”, you can perform operations such as redirecting output to a file, appending output to an existing file, or sending error messages to a separate file. For instance, “<code class="language-plaintext highlighter-rouge">ls &gt; output.txt</code>” will save the output of the “<code class="language-plaintext highlighter-rouge">ls</code>” command to a file named “<code class="language-plaintext highlighter-rouge">output.txt</code>”, while “<code class="language-plaintext highlighter-rouge">ls 2&gt; errors.txt</code>” will store any errors in the file “<code class="language-plaintext highlighter-rouge">errors.txt</code>”.</p>
+
+<p>I/O redirection is essential for tasks such as logging, filtering data, or chaining commands together for complex processing. For example, combining redirections with pipelines (“<code class="language-plaintext highlighter-rouge">|</code>”) lets you pass the output of one command as input to another, enabling efficient data transformation and processing workflows. Additionally, advanced redirection techniques, such as redirecting both stdout and stderr to the same location or creating temporary file descriptors, empower users to handle even the most intricate scenarios.</p>
+
+<p>Learning about I/O redirection not only enhances your ability to write robust and flexible scripts but also gives you greater control over how commands interact with their environment. It’s a foundational skill for any Bash user, enabling the creation of efficient and maintainable automation.</p>
+
+<p>Bash processes redirections sequentially, interpreting them <strong>from left to right before executing the command</strong>. This sequential processing means that <strong>the order in which you specify redirections significantly impacts their behavior</strong>. Throughout this chapter, we will explore examples that illustrate how the sequence of redirections can influence the outcome and demonstrate best practices for effectively managing them.</p>
+
+<p>To illustrate I/O redirections more visually, we will employ variations of the following diagram to provide a clear and graphical explanation of the concept.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Process-Graphical-Representation.png" />
+</div>
+
+<h2 id="standard-output-redirection">Standard Output Redirection</h2>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Standard-Output-Redirection.png" />
+</div>
+
+<p>There are two primary ways to redirect standard output in Bash:</p>
+
+<ol>
+  <li>“<code class="language-plaintext highlighter-rouge">command &gt; file</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">command &gt;&gt; file</code>”</li>
+</ol>
+
+<p>While both methods create the target file if it doesn’t already exist, the key difference lies in how they handle an existing file. In the first method, “<code class="language-plaintext highlighter-rouge">&gt;</code>”, the file is overwritten, erasing any existing content. Conversely, the second method, “<code class="language-plaintext highlighter-rouge">&gt;&gt;</code>”, appends new output to the end of the file, preserving its original content.</p>
+
+<p>By default, these redirections operate on the standard output, which corresponds to file descriptor 1. However, this can be explicitly specified for clarity or precision:</p>
+
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">command 1&gt; file</code>” (overwrites the file)</li>
+  <li>“<code class="language-plaintext highlighter-rouge">command 1&gt;&gt; file</code>” (appends to the file)</li>
+</ul>
+
+<p>In these explicit examples, you’re directly stating that the output from file descriptor 1 (standard output) should be redirected to the specified file. This makes the operation more deliberate and clear, particularly when working with multiple file descriptors.</p>
+
+<p>Let’s delve into a few examples to see these principles in action.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0001.sh</span>
+ 3 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/result.csv
+ 4 <span class="nb">echo</span> <span class="s2">"Id,FirstName,FamilyName,Age"</span> <span class="o">&gt;</span> <span class="nv">$OUTPUT_FILE</span>
+ 5 <span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>1..20<span class="o">}</span><span class="p">;</span> <span class="k">do
+ </span>6     <span class="nb">echo</span> <span class="s2">"</span><span class="nv">$i</span><span class="s2">,FirstName</span><span class="nv">$i</span><span class="s2">,FamilyName</span><span class="nv">$i</span><span class="s2">,</span><span class="k">$((</span><span class="nv">$i</span><span class="o">+</span><span class="m">10</span><span class="k">))</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> <span class="nv">$OUTPUT_FILE</span>
+ 7 <span class="k">done
+ </span>8 <span class="nb">echo</span> <span class="s2">"End of script"</span>
+</code></pre></div></div>
+
+<p>The previous script creates a CSV file<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> with 4 columns that are:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">Id</code>”: Unique identifier of the row.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">FirstName</code>”: First name of the entry.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">FamilyName</code>”: Family name of the entry.</li>
+  <li>“<code class="language-plaintext highlighter-rouge">Age</code>”: Age of the entry.</li>
+</ul>
+
+<p>The previous script will create 20 entries. When we execute the previous file you will see the following output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0001.sh
+End of script
+
+$ cat /tmp/result.csv
+Id,FirstName,FamilyName,Age
+1,FirstName1,FamilyName1,11
+2,FirstName2,FamilyName2,12
+3,FirstName3,FamilyName3,13
+4,FirstName4,FamilyName4,14
+5,FirstName5,FamilyName5,15
+6,FirstName6,FamilyName6,16
+7,FirstName7,FamilyName7,17
+8,FirstName8,FamilyName8,18
+9,FirstName9,FamilyName9,19
+10,FirstName10,FamilyName10,20
+11,FirstName11,FamilyName11,21
+12,FirstName12,FamilyName12,22
+13,FirstName13,FamilyName13,23
+14,FirstName14,FamilyName14,24
+15,FirstName15,FamilyName15,25
+16,FirstName16,FamilyName16,26
+17,FirstName17,FamilyName17,27
+18,FirstName18,FamilyName18,28
+19,FirstName19,FamilyName19,29
+20,FirstName20,FamilyName20,30
+
+</code></pre>
+
+<p>In the most recent example, notice how both types of standard output redirection are utilized effectively. The first redirection, using the “<code class="language-plaintext highlighter-rouge">&gt;</code>” operator in the “<code class="language-plaintext highlighter-rouge">echo</code>” command, creates a file named “<code class="language-plaintext highlighter-rouge">/tmp/result.txt</code>” and initializes it with four columns of data. This action overwrites any existing content in the file, ensuring a clean slate.</p>
+
+<p>The second redirection, marked by the “<code class="language-plaintext highlighter-rouge">&gt;&gt;</code>” operator within the “<code class="language-plaintext highlighter-rouge">for</code>” loop, appends new rows of data to the already created file. This approach preserves the file’s existing content while adding additional information, demonstrating how these two types of redirection can be combined to structure output incrementally and efficiently.</p>
+
+<h2 id="standard-error-redirection">Standard Error Redirection</h2>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Standard-Error-Redirection.png" />
+</div>
+
+<p>Redirecting standard error in Bash closely resembles the process of redirecting standard output, with one notable distinction: Bash does not have a default shorthand for redirecting standard error, so it must always be specified explicitly.</p>
+
+<p>The explicit syntax for standard error redirection is as follows:</p>
+
+<ul>
+  <li><strong>Method 1:</strong> “<code class="language-plaintext highlighter-rouge">command 2&gt; file</code>”</li>
+  <li><strong>Method 2:</strong> “<code class="language-plaintext highlighter-rouge">command 2&gt;&gt; file</code>”</li>
+</ul>
+
+<p>The difference between the two methods mirrors that of standard output redirection. In the first form, “<code class="language-plaintext highlighter-rouge">2&gt;</code>”, the file will always be created or overwritten, erasing any existing content. In the second form, “<code class="language-plaintext highlighter-rouge">2&gt;&gt;</code>”, the file’s existing content is preserved, and new error messages are appended to the end of the file. This flexibility allows for managing error outputs in a way that aligns with your specific needs, whether starting fresh or building upon previous logs.</p>
+
+<p>Let’s see how it works with the following example script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0002.sh</span>
+ 3 <span class="c"># Define the file to store standard error</span>
+ 4 <span class="nv">ERROR_FILE</span><span class="o">=</span><span class="s2">"/tmp/error_log.txt"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Beginning of Error Log file"</span> <span class="o">&gt;</span> <span class="nv">$ERROR_FILE</span>
+ 6 <span class="nb">echo</span> <span class="s2">"Demonstrating Standard Error Redirection"</span>
+ 7 <span class="nb">echo</span> <span class="s2">"---------------------------------------"</span>
+ 8 <span class="c"># Intentionally cause an error by trying to list a nonexistent directory</span>
+ 9 <span class="nb">echo</span> <span class="s2">"Attempting to list a nonexistent directory..."</span>
+10 <span class="nb">ls</span> /nonexistent_directory 2&gt;&gt; <span class="s2">"</span><span class="nv">$ERROR_FILE</span><span class="s2">"</span>
+11 <span class="c"># Check the content of the error log</span>
+12 <span class="nb">echo</span> <span class="s2">"Content of </span><span class="nv">$ERROR_FILE</span><span class="s2">:"</span>
+13 <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$ERROR_FILE</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In line 4, a variable named “<code class="language-plaintext highlighter-rouge">ERROR_FILE</code>” is defined to store the path to the file where error messages will be logged. Then, in line 10, the “<code class="language-plaintext highlighter-rouge">ls</code>” command attempts to list the contents of a non-existent directory, which generates an error. Finally, in line 13, the script reads and displays the contents of “<code class="language-plaintext highlighter-rouge">/tmp/error_log.txt</code>”, showing the captured error message.</p>
+
+<h2 id="redirecting-both-standard-output-and-standard-error">Redirecting Both Standard Output and Standard Error</h2>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Standard-Ouput-and-Error-Redirection.png" />
+</div>
+
+<p>We’ve already explored how to redirect the standard output and standard error individually. Now, let’s learn how to handle both simultaneously during the execution of a command. This can be achieved using either of the following approaches:</p>
+
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">command &gt; output.txt 2&gt; errors.txt</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">command 1&gt; output.txt 2&gt; errors.txt</code>”</li>
+</ul>
+
+<p>In both examples, the standard output is redirected to the file named “<code class="language-plaintext highlighter-rouge">output.txt</code>”, while the standard error is redirected to “<code class="language-plaintext highlighter-rouge">errors.txt</code>”. The result is a clean separation of regular output and error messages, making it easier to analyze or process them independently.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Standard-Output-and-Error-Redirection-To-The-Same-File.png" />
+</div>
+
+<p>If you want to redirect both the standard output and the standard error streams to the same file, there are several approaches you can take. One method involves explicitly specifying the same file for both streams, as shown here:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">command &gt; output.txt 2&gt; output.txt</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">command 1&gt; output.txt 2&gt; output.txt</code>”</li>
+</ul>
+
+<p>Alternatively, Bash provides a more concise syntax for redirecting both streams simultaneously using the “<code class="language-plaintext highlighter-rouge">&amp;&gt;</code>” operator:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">command &amp;&gt; output.txt</code>”</li>
+</ul>
+
+<p>If your goal is to append both the standard output and the standard error to an existing file rather than overwriting it, you can use the “<code class="language-plaintext highlighter-rouge">&amp;&gt;&gt;</code>” operator:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">command &amp;&gt;&gt; output.txt</code>”</li>
+</ul>
+
+<p>This simplifies the process and ensures that both types of output are written together in the specified file, whether you’re overwriting or appending.</p>
+
+<p>Now we are going to see several examples to try out what we learnt in the section.</p>
+
+<p>The first example is going to be redirecting the standard output and the standard error to different files.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0003.sh</span>
+ 3 <span class="c"># Define log files</span>
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span><span class="s2">"/tmp/output_log.txt"</span>
+ 5 <span class="nv">ERROR_FILE</span><span class="o">=</span><span class="s2">"/tmp/error_log.txt"</span>
+ 6 <span class="nb">echo</span> <span class="s2">"Beginning of Output file"</span> <span class="o">&gt;</span> <span class="nv">$OUTPUT_FILE</span>
+ 7 <span class="nb">echo</span> <span class="s2">"Beginning of Error file"</span> <span class="o">&gt;</span> <span class="nv">$ERROR_FILE</span>
+ 8 <span class="c"># Attempt to list multiple directories</span>
+ 9 <span class="k">for </span><span class="nb">dir </span><span class="k">in</span> /home /non_existent_dir /tmp /fake_dir<span class="p">;</span> <span class="k">do
+</span>10     <span class="nb">ls</span> <span class="s2">"</span><span class="nv">$dir</span><span class="s2">"</span> 1&gt;&gt; <span class="s2">"</span><span class="nv">$OUTPUT_FILE</span><span class="s2">"</span> 2&gt;&gt; <span class="s2">"</span><span class="nv">$ERROR_FILE</span><span class="s2">"</span>
+11 <span class="k">done
+</span>12 <span class="c"># Display the contents of the Output file</span>
+13 <span class="nb">echo</span> <span class="s2">"Contents of </span><span class="nv">$OUTPUT_FILE</span><span class="s2"> (Standard Output):"</span>
+14 <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$OUTPUT_FILE</span><span class="s2">"</span>
+15 <span class="c"># Display the contents of the Error file</span>
+16 <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">Contents of </span><span class="nv">$ERROR_FILE</span><span class="s2"> (Standard Error):"</span>
+17 <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$ERROR_FILE</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>The previous script declares two variables in lines 4 and 5, which store the file paths for the log files used to capture the output and errors generated during execution. Lines 6 and 7 ensure that these log files are initialized by either creating them anew or clearing any existing content.</p>
+
+<p>The main logic, spanning lines 8 to 11, iterates over a mix of valid and invalid directory names. For each directory, the “<code class="language-plaintext highlighter-rouge">ls</code>” command is executed, with its standard output redirected to the file “<code class="language-plaintext highlighter-rouge">/tmp/output_log.txt</code>” and its error output directed to “<code class="language-plaintext highlighter-rouge">/tmp/error_log.txt</code>”. This approach ensures a clear separation of successful outputs and errors.</p>
+
+<p>Finally, lines 12 to 17 display the contents of both log files to the terminal, providing the user with a concise overview of the results of the “<code class="language-plaintext highlighter-rouge">ls</code>” operations, including any errors encountered. This ensures transparency and makes debugging more straightforward.</p>
+
+<p>When you execute the previous script you will an output like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0003.sh
+Contents of /tmp/output_log.txt (Standard Output):
+Beginning of Output file
+username
+lost+found
+tec
+byteBuddyAgent4303673871758816542.jar
+error_log.txt
+gdm3-config-err-rLRc3P
+hsperfdata_chemacabeza
+kotlin-idea-4047041896916890883-is-running
+output_log.txt
+result.csv
+snap-private-tmp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bluetooth.service-dWX6PO
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bolt.service-WKIJbw
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-colord.service-RBL2Fp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-fwupd.service-kYk8pA
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-ModemManager.service-P94LbT
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-polkit.service-2svv10
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-power-profiles-daemon.service-A5nMl3
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-switcheroo-control.service-sjIK7R
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-logind.service-jghpna
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-oomd.service-pZLyXz
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-resolved.service-ufjpps
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-timesyncd.service-fmSMFR
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-upower.service-WmEyNS
+tmux-1000
+v8-compile-cache-1000
+vzK1Tgb
+
+Contents of /tmp/error_log.txt (Standard Error):
+Beginning of Error file
+ls: cannot access '/non_existent_dir': No such file or directory
+ls: cannot access '/fake_dir': No such file or directory
+</code></pre>
+
+<p>In the following version of the “<code class="language-plaintext highlighter-rouge">io-redirections-0003.sh</code>” script we will forward both standard output and standard error to the same file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0004.sh</span>
+ 3 <span class="c"># Define log file</span>
+ 4 <span class="nv">COMBINED_FILE</span><span class="o">=</span><span class="s2">"/tmp/combined_log.txt"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Beginning of Combined file"</span> <span class="o">&gt;</span> <span class="nv">$COMBINED_FILE</span>
+ 6 <span class="c"># Attempt to list multiple directories</span>
+ 7 <span class="k">for </span><span class="nb">dir </span><span class="k">in</span> /home /non_existent_dir /tmp /fake_dir<span class="p">;</span> <span class="k">do
+ </span>8     <span class="nb">ls</span> <span class="s2">"</span><span class="nv">$dir</span><span class="s2">"</span> 1&gt;&gt; <span class="s2">"</span><span class="nv">$COMBINED_FILE</span><span class="s2">"</span> 2&gt;&gt; <span class="s2">"</span><span class="nv">$COMBINED_FILE</span><span class="s2">"</span>
+ 9 <span class="k">done
+</span>10 <span class="c"># Display the contents of the Combined file file</span>
+11 <span class="nb">echo</span> <span class="s2">"Contents of </span><span class="nv">$COMBINED_FILE</span><span class="s2"> (Standard Output &amp; Standard Error):"</span>
+12 <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$COMBINED_FILE</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>If you execute the previous script you will see something like the following output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0004.sh
+Contents of /tmp/combined_log.txt (Standard Output &amp; Standard Error):
+Beginning of Combined file
+username
+lost+found
+tec
+ls: cannot access '/non_existent_dir': No such file or directory
+byteBuddyAgent4303673871758816542.jar
+combined_log.txt
+error_log.txt
+gdm3-config-err-rLRc3P
+hsperfdata_chemacabeza
+kotlin-idea-4047041896916890883-is-running
+output_log.txt
+result.csv
+snap-private-tmp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bluetooth.service-dWX6PO
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bolt.service-WKIJbw
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-colord.service-RBL2Fp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-fwupd.service-kYk8pA
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-ModemManager.service-P94LbT
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-polkit.service-2svv10
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-power-profiles-daemon.service-A5nMl3
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-switcheroo-control.service-sjIK7R
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-logind.service-jghpna
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-oomd.service-pZLyXz
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-resolved.service-ufjpps
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-timesyncd.service-fmSMFR
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-upower.service-WmEyNS
+tmux-1000
+v8-compile-cache-1000
+vzK1Tgb
+ls: cannot access '/fake_dir': No such file or directory
+</code></pre>
+
+<p>In the next variation of the “<code class="language-plaintext highlighter-rouge">io-redirections-0004.sh</code>” script we will use the “<code class="language-plaintext highlighter-rouge">&amp;&gt;&gt;</code>” operator to send both standard output and standard error to the same file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0005.sh</span>
+ 3 <span class="c"># Define log file</span>
+ 4 <span class="nv">COMBINED_FILE</span><span class="o">=</span><span class="s2">"/tmp/combined_log.txt"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Beginning of Combined file"</span> <span class="o">&gt;</span> <span class="nv">$COMBINED_FILE</span>
+ 6 <span class="c"># Attempt to list multiple directories</span>
+ 7 <span class="k">for </span><span class="nb">dir </span><span class="k">in</span> /home /non_existent_dir /tmp /fake_dir<span class="p">;</span> <span class="k">do
+ </span>8     <span class="nb">ls</span> <span class="s2">"</span><span class="nv">$dir</span><span class="s2">"</span> &amp;&gt;&gt; <span class="s2">"</span><span class="nv">$COMBINED_FILE</span><span class="s2">"</span>
+ 9 <span class="k">done
+</span>10 <span class="c"># Display the contents of the Combined file file</span>
+11 <span class="nb">echo</span> <span class="s2">"Contents of </span><span class="nv">$COMBINED_FILE</span><span class="s2"> (Standard Output &amp; Standard Error):"</span>
+12 <span class="nb">cat</span> <span class="s2">"</span><span class="nv">$COMBINED_FILE</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>When you execute the following script you will have an output like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0005.sh
+Contents of /tmp/combined_log.txt (Standard Output &amp; Standard Error):
+Beginning of Combined file
+username
+lost+found
+tec
+ls: cannot access '/non_existent_dir': No such file or directory
+byteBuddyAgent4303673871758816542.jar
+combined_log.txt
+error_log.txt
+gdm3-config-err-rLRc3P
+hsperfdata_username
+kotlin-idea-4047041896916890883-is-running
+output_log.txt
+result.csv
+snap-private-tmp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bluetooth.service-dWX6PO
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bolt.service-WKIJbw
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-colord.service-RBL2Fp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-fwupd.service-kYk8pA
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-ModemManager.service-P94LbT
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-polkit.service-2svv10
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-power-profiles-daemon.service-A5nMl3
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-switcheroo-control.service-sjIK7R
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-logind.service-jghpna
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-oomd.service-pZLyXz
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-resolved.service-ufjpps
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-timesyncd.service-fmSMFR
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-upower.service-WmEyNS
+tmux-1000
+v8-compile-cache-1000
+vzK1Tgb
+ls: cannot access '/fake_dir': No such file or directory
+</code></pre>
+
+<p>In the next section we will learn about the redirection of the standard input.</p>
+
+<h2 id="standard-input-redirection">Standard Input Redirection</h2>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Standard-Input-Redirection.png" />
+</div>
+
+<p>In the previous sections, we explored how to redirect both standard output and standard error, which are used to capture content produced by a script or program.</p>
+
+<p>Now, we’ll shift our focus to understanding how to <strong>“connect”</strong> an input source—typically a file—to the standard input of a command, script, or program.</p>
+
+<p>Similar to the redirection techniques we’ve already discussed, we can use the following operator to feed input into the standard input stream of a command. The syntax is straightforward:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">command</span> &lt; input_file
+</code></pre></div></div>
+
+<p>In this example, the “<code class="language-plaintext highlighter-rouge">command</code>” reads its standard input, which is connected to a file named “<code class="language-plaintext highlighter-rouge">input_file</code>”. As a result, the command processes the contents of the file.</p>
+
+<p>For instance:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">cat</span> &lt; /tmp/stuff.txt
+</code></pre></div></div>
+
+<p>Here, the “<code class="language-plaintext highlighter-rouge">cat</code>” command—when run without parameters—reads from the standard input. By using “<code class="language-plaintext highlighter-rouge">&lt;</code>”, we connect its standard input to the file “<code class="language-plaintext highlighter-rouge">/tmp/stuff.txt</code>”. Consequently, the “<code class="language-plaintext highlighter-rouge">cat</code>” command outputs the file’s content to the screen.</p>
+
+<p>Let’s write another example script to put in practice what we just learnt.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0006.sh</span>
+ 3 <span class="c"># Define log file</span>
+ 4 <span class="nv">COMBINED_FILE</span><span class="o">=</span><span class="s2">"/tmp/combined_log.txt"</span>
+ 5 <span class="nb">echo</span> <span class="s2">"Printing the contents of the '</span><span class="nv">$COMBINED_FILE</span><span class="s2">' log"</span>
+ 6 <span class="nb">cat</span> &lt; <span class="nv">$COMBINED_FILE</span>
+ 7 <span class="nb">echo</span> <span class="s2">""</span>
+ 8 <span class="nb">echo</span> <span class="s2">"End of script"</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script something like the following will be printed in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections.0006.sh
+Printing the contents of the '/tmp/combined_log.txt' log
+Beginning of Combined file
+username
+lost+found
+tec
+ls: cannot access '/non_existent_dir': No such file or directory
+byteBuddyAgent4303673871758816542.jar
+combined_log.txt
+error_log.txt
+gdm3-config-err-rLRc3P
+hsperfdata_username
+kotlin-idea-4047041896916890883-is-running
+output_log.txt
+result.csv
+snap-private-tmp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bluetooth.service-dWX6PO
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-bolt.service-WKIJbw
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-colord.service-RBL2Fp
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-fwupd.service-kYk8pA
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-ModemManager.service-P94LbT
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-polkit.service-2svv10
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-power-profiles-daemon.service-A5nMl3
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-switcheroo-control.service-sjIK7R
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-logind.service-jghpna
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-oomd.service-pZLyXz
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-resolved.service-ufjpps
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-systemd-timesyncd.service-fmSMFR
+systemd-private-f9d47cdf3d3b4b06bef78b2dbbe2935b-upower.service-WmEyNS
+tmux-1000
+v8-compile-cache-1000
+vzK1Tgb
+ls: cannot access '/fake_dir': No such file or directory
+
+End of script
+</code></pre>
+
+<p>With this foundational understanding of redirection, we’ll take a brief pause here and revisit these concepts as we explore additional commands in the following sections.</p>
+
+<h2 id="truncate-with-redirection-and-null-command">Truncate With Redirection And Null Command</h2>
+
+<p>The Null command is a special command that performs no operation—it literally does nothing. This command is represented by a single colon (“<code class="language-plaintext highlighter-rouge">:</code>”).</p>
+
+<p>Despite its simplicity, the Null command can be useful, such as for truncating an existing file or creating a new empty file of size zero. Here’s an example<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">seq </span>1 100 <span class="o">&gt;</span> numbers.txt
+<span class="nv">$ </span>: <span class="o">&gt;</span> numbers.txt
+</code></pre></div></div>
+
+<p>In the first command, we create a file named “<code class="language-plaintext highlighter-rouge">numbers.txt</code>” containing the numbers from 1 to 100.</p>
+
+<p>In the second command, “<code class="language-plaintext highlighter-rouge">: &gt; numbers.txt</code>” truncates the file, reducing its size to zero bytes. This effectively clears its content while keeping the file intact.</p>
+
+<h2 id="manipulating-file-descriptors-exec">Manipulating File Descriptors (<code class="language-plaintext highlighter-rouge">exec</code>)</h2>
+
+<p>As we’ve seen, a Bash script or program comes with three default file descriptors:</p>
+
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">0</code>” for standard input,</li>
+  <li>“<code class="language-plaintext highlighter-rouge">1</code>” for standard output, and</li>
+  <li>“<code class="language-plaintext highlighter-rouge">2</code>” for standard error.</li>
+</ul>
+
+<p>However, Bash is not limited to just these three file descriptors. Within a single Bash process, you can use <strong>up to nine file descriptors simultaneously</strong>.</p>
+
+<p>To open and manage additional file descriptors, you can use the exec built-in command. The basic syntax of “<code class="language-plaintext highlighter-rouge">exec</code>” is:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">exec</span> <span class="o">[</span><span class="nb">command</span> <span class="o">[</span>arguments ...]] <span class="o">[</span>redirection ...]
+</code></pre></div></div>
+
+<p>Originally, the primary purpose of the “<code class="language-plaintext highlighter-rouge">exec</code>” command was to replace the current Bash shell with the execution of another command (along with its arguments, if provided). We’ll explore this functionality in detail in a later section.</p>
+
+<p>For now, we’ll focus on another powerful aspect of “<code class="language-plaintext highlighter-rouge">exec</code>”: its ability to work with redirections, which is key to managing file descriptors. This is the part we’ll dive into in this section.</p>
+
+<h3 id="redirection-syntax">Redirection Syntax</h3>
+
+<p>Redirection is a mechanism that allows Bash scripts to interact with various resources on the machine. The general syntax for a redirection is:</p>
+
+<pre><code class="language-txt">    &lt;fd&gt;&lt;op&gt;&lt;rh&gt;
+</code></pre>
+
+<p>Here’s a breakdown of each component:</p>
+
+<ul>
+  <li>”<code class="language-plaintext highlighter-rouge">&lt;fd&gt;</code>”: The file descriptor, which is a number between 0 and 9.</li>
+  <li>”<code class="language-plaintext highlighter-rouge">&lt;op&gt;</code>”: The operation to perform on the file descriptor, which can be one of the following:
+    <ul>
+      <li>”<code class="language-plaintext highlighter-rouge">&lt;</code>” : Opens the file descriptor for reading.</li>
+      <li>”<code class="language-plaintext highlighter-rouge">&gt;</code>” : Opens the file descriptor for writing.</li>
+      <li>”<code class="language-plaintext highlighter-rouge">&gt;&gt;</code>” : Appends data to the file descriptor.</li>
+      <li>”<code class="language-plaintext highlighter-rouge">&lt;&gt;</code>” : Opens the file descriptor for both reading and writing.</li>
+      <li>”<code class="language-plaintext highlighter-rouge">&gt;|</code>” : Overwrites the file descriptor, bypassing certain restrictions like “<code class="language-plaintext highlighter-rouge">noclobber</code>”.</li>
+    </ul>
+  </li>
+  <li>”<code class="language-plaintext highlighter-rouge">&lt;rh&gt;</code>” : The resource that the file descriptor will point to. This can be:
+    <ul>
+      <li>The name of a file.</li>
+      <li>Another file descriptor, specified as “<code class="language-plaintext highlighter-rouge">&amp;&lt;fd&gt;</code>” (e.g., “<code class="language-plaintext highlighter-rouge">&amp;1</code>” for standard output).</li>
+      <li>”<code class="language-plaintext highlighter-rouge">&amp;-</code>” to close the file descriptor.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>By mastering this syntax, you can control how your scripts access and manage system resources efficiently.</p>
+
+<p>In the following sub-sections we are going to see some examples.</p>
+
+<h4 id="redirection-of-standard-input"><b>Redirection of Standard Input</b></h4>
+
+<p>Here’s how we can demonstrate input redirection in a script:</p>
+
+<p><strong>Step 1: Create an Input File</strong></p>
+
+<p>First, we create a file to use as input. This can be done quickly with the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="k">for </span>i <span class="k">in</span> <span class="si">$(</span><span class="nb">seq </span>1 10<span class="si">)</span><span class="p">;</span> <span class="k">do  
+    </span><span class="nb">echo</span> <span class="s2">"Line_</span><span class="nv">$i</span><span class="s2">"</span> <span class="o">&gt;&gt;</span> input_file  <span class="c"># Redirects output to the file  </span>
+<span class="k">done</span>  
+</code></pre></div></div>
+
+<p>This creates a file named “<code class="language-plaintext highlighter-rouge">input_file</code>” with 10 lines, each containing the text “<code class="language-plaintext highlighter-rouge">Line_1</code>”, “<code class="language-plaintext highlighter-rouge">Line_2</code>”, and so on.</p>
+
+<p><strong>Step 2: Create the Script</strong></p>
+
+<p>Next, we write a script to read from the file using input redirection:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0007.sh</span>
+ 3 <span class="c"># Redirect standard input to read from the file</span>
+ 4 <span class="nb">exec </span>0&lt;input_file
+ 5 <span class="c"># Read from standard input line by line</span>
+ 6 <span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> line<span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">printf</span> <span class="s2">"I read '%s' from the file</span><span class="se">\n</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span>
+ 8 <span class="k">done
+ </span>9 <span class="c"># Close the file descriptor</span>
+10 <span class="nb">exec </span>0&lt;&amp;-
+</code></pre></div></div>
+
+<p>In the previous script, line 4 redirects standard input (File Descriptor 0) to the file named “<code class="language-plaintext highlighter-rouge">input_file</code>”, effectively linking the file to the script’s input stream. Between lines 6 and 8, the script reads each line of the file and outputs it to the terminal. Finally, in line 10, the script closes File Descriptor 0 to release the resource and ensure proper cleanup.</p>
+
+<p><strong>Step 3: Execute the Script</strong></p>
+
+<p>When you run this script, the output will be:</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0007.sh
+I read 'Line_1' from the file
+I read 'Line_2' from the file
+I read 'Line_3' from the file
+I read 'Line_4' from the file
+I read 'Line_5' from the file
+I read 'Line_6' from the file
+I read 'Line_7' from the file
+I read 'Line_8' from the file
+I read 'Line_9' from the file
+I read 'Line_10' from the file
+</code></pre>
+
+<h4 id="redirection-of-standard-output"><b>Redirection of Standard Output</b></h4>
+
+<p>In this case, we will redirect Standard Output at the start of the script, eliminating the need to manage it throughout the rest of the script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0008.sh</span>
+ 3 <span class="c"># Redirection of stdout to a file</span>
+ 4 <span class="nb">exec </span>1&gt;output_file
+ 5 <span class="c"># Echoing to standard output</span>
+ 6 <span class="k">for</span> <span class="o">((</span> i <span class="o">=</span> 0 <span class="p">;</span> i &lt; 10 <span class="p">;</span> i++ <span class="o">))</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Line_</span><span class="nv">$i</span><span class="s2">"</span><span class="p">;</span>
+ 8 <span class="k">done
+ </span>9 <span class="c"># Close the file descriptor</span>
+10 <span class="nb">exec </span>1&gt;&amp;-
+</code></pre></div></div>
+
+<p>On line 4, the Standard Output (File Descriptor 1) is redirected to a file named “<code class="language-plaintext highlighter-rouge">output_file</code>”. From this point onward, anything written to standard output in the script will be saved to “<code class="language-plaintext highlighter-rouge">output_file</code>” instead of being displayed in the terminal.</p>
+
+<p>Between lines 6 and 8 there is a “<code class="language-plaintext highlighter-rouge">for</code>” loop that does 10 iterations (“<code class="language-plaintext highlighter-rouge">i</code>” ranges from 0 to 9). On each iteration, the “<code class="language-plaintext highlighter-rouge">echo</code>” command generates a line with the format “<code class="language-plaintext highlighter-rouge">Line_&lt;i&gt;</code>”. Due to the redirection set earlier, these lines are written to the file “<code class="language-plaintext highlighter-rouge">output_file</code>”.</p>
+
+<p>On line 10, the File Descriptor 1 (Standard Output) is closed, ensuring that no further output is written to the file.</p>
+
+<p>When you execute the previous script and print the contents of the “<code class="language-plaintext highlighter-rouge">output_file</code>” to your terminal you will something like the following.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0008.sh
+
+$ cat output_file
+Line_0
+Line_1
+Line_2
+Line_3
+Line_4
+Line_5
+Line_6
+Line_7
+Line_8
+Line_9
+</code></pre>
+
+<h4 id="redirection-of-standard-error"><b>Redirection of Standard Error</b></h4>
+
+<p>In this case, we will redirect Standard Error at the start of the script, eliminating the need to manage it throughout the rest of the script.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0009.sh</span>
+ 3 <span class="c"># Redirection of stderr to a file</span>
+ 4 <span class="nb">exec </span>2&gt;error_file
+ 5 <span class="c"># Echoing to standard error</span>
+ 6 <span class="k">for </span><span class="nb">dir </span><span class="k">in</span> /fake_1 /fake_2 /fake_3<span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">ls</span> <span class="nv">$dir</span>
+ 8 <span class="k">done
+ </span>9 <span class="c"># Close the file descriptor</span>
+10 <span class="nb">exec </span>2&gt;&amp;-
+</code></pre></div></div>
+
+<p>In line 4, standard error (File Descriptor 2) is redirected to a file named “<code class="language-plaintext highlighter-rouge">error_file</code>”. From this point forward, any messages sent to standard error by the script will be saved in error_file instead of appearing in the terminal.</p>
+
+<p>Lines 6 to 8 contain a for loop that iterates three times, with the variable “<code class="language-plaintext highlighter-rouge">dir</code>” taking the values “<code class="language-plaintext highlighter-rouge">/fake_1</code>”, “<code class="language-plaintext highlighter-rouge">/fake_2</code>”, and “<code class="language-plaintext highlighter-rouge">/fake_3</code>”. During each iteration, the “<code class="language-plaintext highlighter-rouge">ls</code>” command attempts to list the contents of a directory that does not exist, generating an error message. Thanks to the redirection set earlier, these error messages are captured in the “<code class="language-plaintext highlighter-rouge">error_file</code>”.</p>
+
+<p>In line 10, standard error (File Descriptor 2) is closed to prevent any further output from being written to the file.</p>
+
+<p>When you run the script and display the contents of “<code class="language-plaintext highlighter-rouge">error_file</code>”, you’ll see output similar to the following.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0009.sh
+
+$ car error_file
+ls: cannot access '/fake_1': No such file or directory
+ls: cannot access '/fake_2': No such file or directory
+ls: cannot access '/fake_3': No such file or directory
+
+</code></pre>
+
+<h4 id="redirection-of-both-standard-output-and-standard-error"><b>Redirection of both Standard Output and Standard Error</b></h4>
+
+<p>As discussed in a previous section, we can redirect both standard output and standard error using the exec command with the same syntax outlined earlier.</p>
+
+<p>Here are some ways to achieve this:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">exec 1&gt;output.txt 2&gt;output.txt</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">exec &gt;output.txt 2&gt;output.txt</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">exec 1&gt;output.txt 2&gt;&amp;1</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">exec &gt;output.txt 2&gt;&amp;1</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">exec &amp;&gt;output.txt</code>”</li>
+</ul>
+
+<p>All these examples accomplish the same goal: redirecting both standard output and standard error to the file “<code class="language-plaintext highlighter-rouge">output.txt</code>”.</p>
+
+<p>Let’s see an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0010.sh</span>
+ 3 <span class="c"># Redirection of stderr to a file</span>
+ 4 <span class="nb">exec</span> &amp;&gt;combined_file
+ 5 <span class="c"># Echoing to standard output</span>
+ 6 <span class="k">for</span> <span class="o">((</span> i <span class="o">=</span> 0 <span class="p">;</span> i &lt; 10 <span class="p">;</span> i++ <span class="o">))</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Line_</span><span class="nv">$i</span><span class="s2">"</span><span class="p">;</span>
+ 8 <span class="k">done
+ </span>9 <span class="c"># Echoing to standard error</span>
+10 <span class="k">for </span><span class="nb">dir </span><span class="k">in</span> /fake_1 /fake_2 /fake_3<span class="p">;</span> <span class="k">do
+</span>11     <span class="nb">ls</span> <span class="nv">$dir</span>
+12 <span class="k">done
+</span>13 <span class="c"># Close the Standard Output file descriptor</span>
+14 <span class="nb">exec </span>1&gt;&amp;-
+15 <span class="c"># Close the Standard Error file descriptor</span>
+16 <span class="nb">exec </span>2&gt;&amp;-
+</code></pre></div></div>
+
+<p>The “<code class="language-plaintext highlighter-rouge">io-redirections-0010.sh</code>” script combines the functionality of “<code class="language-plaintext highlighter-rouge">io-redirections-0008.sh</code>” and “<code class="language-plaintext highlighter-rouge">io-redirections-0009.sh</code>”, with the key difference being that both Standard Output (File Descriptor 1) and Standard Error (File Descriptor 2) are redirected to the same file, “<code class="language-plaintext highlighter-rouge">combined_file</code>”.</p>
+
+<ul>
+  <li><strong>Line 4:</strong> Both standard output and standard error are redirected to the file combined_file.</li>
+  <li><strong>Lines 6 to 8:</strong> The “<code class="language-plaintext highlighter-rouge">echo</code>” command is used to generate and print 10 lines to standard output.</li>
+  <li><strong>Lines 10 to 12:</strong> The script attempts to list three non-existent directories, generating error messages sent to standard error.</li>
+  <li><strong>Line 14:</strong> The standard output file descriptor is closed.</li>
+  <li><strong>Line 16:</strong> The standard error file descriptor is closed.</li>
+</ul>
+
+<p>This script demonstrates efficient handling of output and error redirection to a single file while ensuring proper resource management.</p>
+
+<p>When you execute the previous script and list the contents of the file “<code class="language-plaintext highlighter-rouge">combined_file</code>” you will see something like the following.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0010.sh
+
+$ cat combined_file
+Line_0
+Line_1
+Line_2
+Line_3
+Line_4
+Line_5
+Line_6
+Line_7
+Line_8
+Line_9
+ls: cannot access '/fake_1': No such file or directory
+ls: cannot access '/fake_2': No such file or directory
+ls: cannot access '/fake_3': No such file or directory
+
+</code></pre>
+
+<h4 id="opening-a-new-file"><b>Opening a new file</b></h4>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Opening-New-File.png" />
+</div>
+
+<p>Using the exec command, we can open a file and associate it with a file descriptor other than the standard ones (0, 1, or 2). To do this, we use the syntax “<code class="language-plaintext highlighter-rouge">exec &lt;fd&gt;&lt;filename</code>”, where “<code class="language-plaintext highlighter-rouge">&lt;fd&gt;</code>” is a file descriptor number between 3 and 9.</p>
+
+<p>For instance, suppose we have a file named “<code class="language-plaintext highlighter-rouge">lorem.txt</code>” with the following content.</p>
+
+<pre><code class="language-txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Duis varius urna erat, a facilisis mauris vehicula at.
+Phasellus imperdiet tristique mauris sit amet posuere.
+Duis molestie, purus vel sodales posuere, leo dolor tempor odio,
+vel imperdiet quam orci vel diam. Curabitur finibus dapibus gravida.
+Duis gravida iaculis condimentum.
+Sed ultricies nulla luctus, sollicitudin velit quis, maximus arcu.
+Morbi lacinia luctus urna, nec suscipit felis consequat eget.
+Vestibulum nec sodales magna, nec placerat velit.
+Mauris volutpat tellus neque, quis bibendum magna tincidunt a.
+Maecenas faucibus scelerisque enim sollicitudin molestie.
+Nunc mauris nibh, semper sit amet tellus eu, auctor egestas erat.
+Nunc non pharetra diam. Praesent nec luctus metus.
+Pellentesque in turpis nulla.
+Mauris vehicula consequat nisl, et elementum nunc dictum at.
+Sed fringilla luctus tincidunt.
+</code></pre>
+
+<p>We are going to write the following Bash script to read the contents of the “<code class="language-plaintext highlighter-rouge">lorem.txt</code>” file with the file descriptor 3.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0011.sh</span>
+ 3 <span class="c"># FD 3 associated to reading file</span>
+ 4 <span class="nb">exec </span>3&lt;lorem.txt
+ 5 <span class="o">((</span><span class="nv">i</span><span class="o">=</span>0<span class="o">))</span>
+ 6 <span class="c"># Read from file descriptor 3</span>
+ 7 <span class="k">while </span><span class="nb">read</span> <span class="nt">-u</span> 3 line<span class="p">;</span> <span class="k">do
+ </span>8     <span class="nb">printf</span> <span class="s2">"LINE_CONTENT[</span><span class="nv">$i</span><span class="s2">]: </span><span class="nv">$line</span><span class="se">\n</span><span class="s2">"</span>
+ 9     <span class="c"># Increment counter</span>
+10     <span class="o">((</span>i++<span class="o">))</span>
+11 <span class="k">done
+</span>12 <span class="c"># Close file descriptor</span>
+13 <span class="nb">exec </span>3&lt;&amp;-
+</code></pre></div></div>
+
+<p>In the previous script we are attaching the file descriptor 3 to the file “<code class="language-plaintext highlighter-rouge">lorem.txt</code>” on line 4.</p>
+
+<p>Between lines 7 and 11 we are using the “<code class="language-plaintext highlighter-rouge">read</code>” command to read from the file descriptor 3.</p>
+
+<p>Finally, on line 13 we are closing the file descriptor 3.</p>
+
+<p>When you execute the previous script you will have the following output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0011.sh
+LINE_CONTENT[0]: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+LINE_CONTENT[1]: Duis varius urna erat, a facilisis mauris vehicula at.
+LINE_CONTENT[2]: Phasellus imperdiet tristique mauris sit amet posuere.
+LINE_CONTENT[3]: Duis molestie, purus vel sodales posuere, leo dolor tempor odio,
+LINE_CONTENT[4]: vel imperdiet quam orci vel diam. Curabitur finibus dapibus gravida.
+LINE_CONTENT[5]: Duis gravida iaculis condimentum.
+LINE_CONTENT[6]: Sed ultricies nulla luctus, sollicitudin velit quis, maximus arcu.
+LINE_CONTENT[7]: Morbi lacinia luctus urna, nec suscipit felis consequat eget.
+LINE_CONTENT[8]: Vestibulum nec sodales magna, nec placerat velit.
+LINE_CONTENT[9]: Mauris volutpat tellus neque, quis bibendum magna tincidunt a.
+LINE_CONTENT[10]: Maecenas faucibus scelerisque enim sollicitudin molestie.
+LINE_CONTENT[11]: Nunc mauris nibh, semper sit amet tellus eu, auctor egestas erat.
+LINE_CONTENT[12]: Nunc non pharetra diam. Praesent nec luctus metus.
+LINE_CONTENT[13]: Pellentesque in turpis nulla.
+LINE_CONTENT[14]: Mauris vehicula consequat nisl, et elementum nunc dictum at.
+LINE_CONTENT[15]: Sed fringilla luctus tincidunt.
+</code></pre>
+
+<h4 id="appending-to-an-existing-file"><b>Appending to an existing file</b></h4>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Appending-to-an-existing-file.png" />
+</div>
+
+<p>If we want to redirect output to an existing file and append new content rather than overwriting it, we can use an append redirection. This can be done by connecting a file descriptor (in this case, File Descriptor 4) to a file named “<code class="language-plaintext highlighter-rouge">output_file.txt</code>”. The script we create will ensure that each line it generates is appended to “<code class="language-plaintext highlighter-rouge">output_file.txt</code>”, preserving any existing content in the file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0012.sh</span>
+ 3 <span class="c"># Redirect FD 4. Appending it to file</span>
+ 4 <span class="nb">exec </span>4&gt;&gt;output_file.txt
+ 5 <span class="c"># Printing to the output file</span>
+ 6 <span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>1..5<span class="o">}</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="c"># Print line to FD 4</span>
+ 8     <span class="nb">printf</span> <span class="s2">"Line_</span><span class="nv">$i</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;</span>&amp;4
+ 9 <span class="k">done
+</span>10 <span class="nb">printf</span> <span class="s2">"#######</span><span class="se">\n</span><span class="s2">"</span> <span class="o">&gt;</span>&amp;4
+11 <span class="c"># Close file descriptor</span>
+12 <span class="nb">exec </span>4&gt;&amp;-
+</code></pre></div></div>
+
+<p>In the “<code class="language-plaintext highlighter-rouge">io-redirections-0012.sh</code>” script, File Descriptor 4 is connected to the file “<code class="language-plaintext highlighter-rouge">output_file.txt</code>” on line 4. From lines 6 to 10, the script appends multiple lines to “<code class="language-plaintext highlighter-rouge">output_file.txt</code>”. Notice line 8, where the “<code class="language-plaintext highlighter-rouge">&gt;&amp;4</code>” redirection is used to send a line of output specifically to File Descriptor 4. Finally, on line 12, File Descriptor 4 is closed to release the associated file.</p>
+
+<p>If you execute the script multiple times and print the content of the file “<code class="language-plaintext highlighter-rouge">output_file.txt</code>” you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0012.sh
+
+$ ./io-redirections-0012.sh
+
+$ cat output_file.txt
+Line_1
+Line_2
+Line_3
+Line_4
+Line_5
+#######
+Line_1
+Line_2
+Line_3
+Line_4
+Line_5
+#######
+
+</code></pre>
+
+<p>With each execution of the script, additional lines are appended to the file “<code class="language-plaintext highlighter-rouge">output_file.txt</code>”.</p>
+
+<h2 id="duplicating-file-descriptors">Duplicating file descriptors</h2>
+
+<p>In one of the examples, we explored how to redirect both standard output and standard error to the same file. One way to achieve this was with the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">exec</span> <span class="o">&gt;</span>output.txt 2&gt;&amp;1
+</code></pre></div></div>
+
+<p>In this section, we will focus on the last part of this redirection, specifically 2&gt;&amp;1.</p>
+
+<p>The meaning of “<code class="language-plaintext highlighter-rouge">2&gt;&amp;1</code>” can be understood in two (equivalent) ways:</p>
+
+<ol>
+  <li>
+    <p><strong>Simplistic Explanation:</strong> It can be interpreted as, <em>“Whatever is sent to file descriptor 2 (standard error) is redirected to file descriptor 1 (standard output).”</em> This assumes the syntax is “<code class="language-plaintext highlighter-rouge">source&gt;&amp;target</code>”, where data from the “<code class="language-plaintext highlighter-rouge">source</code>” file descriptor is redirected to the “<code class="language-plaintext highlighter-rouge">target</code>”. While this explanation is useful for basic understanding, it is not entirely precise.</p>
+  </li>
+  <li>
+    <p><strong>More Accurate Explanation:</strong> A more accurate way to describe it is, <em>“Copy the destination of file descriptor 1 (standard output) to file descriptor 2 (standard error).”</em> This reflects the actual syntax of the redirection as “<code class="language-plaintext highlighter-rouge">target&gt;&amp;source</code>”, which means, <em>“Copy the destination of the <code class="language-plaintext highlighter-rouge">source</code> descriptor into the <code class="language-plaintext highlighter-rouge">target</code> descriptor.”</em></p>
+  </li>
+</ol>
+
+<p>For example, the command “<code class="language-plaintext highlighter-rouge">exec &gt;output.txt 2&gt;&amp;1</code>” can be visualized graphically to illustrate how both outputs are unified into the file “<code class="language-plaintext highlighter-rouge">output.txt</code>”.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Exec-Redirect-Both-STDOUT-STDERR.png" />
+</div>
+
+<h2 id="order-of-redirections">Order of redirections</h2>
+
+<p>At the start of this chapter, we discussed that Bash processes redirections <strong>from left to right</strong>, meaning <strong>the order of redirections is crucial</strong>.</p>
+
+<p>To illustrate this concept, let’s compare two simple redirection examples:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">exec &gt;output 2&gt;&amp;1</code>”</li>
+  <li>“<code class="language-plaintext highlighter-rouge">exec 2&gt;&amp;1 &gt;output</code>”</li>
+</ul>
+
+<p>What is the difference between these two commands? In the following subsections, we will break down each redirection step by step, just as Bash interprets them, to clarify their distinct behaviors.</p>
+
+<h3 id="redirection-exec-output-21">Redirection <b><code class="language-plaintext highlighter-rouge">exec &gt;output 2&gt;&amp;1</code></b></h3>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Process-Graphical-Representation.png" />
+</div>
+
+<p>Before the “<code class="language-plaintext highlighter-rouge">exec</code>” built-in command is executed, the state of the file descriptors is as shown in the preceding illustration.</p>
+
+<p>The first redirection, “<code class="language-plaintext highlighter-rouge">&gt;output</code>”, is processed. This redirection reassigns the standard output to the file named “<code class="language-plaintext highlighter-rouge">output</code>”, resulting in the following configuration.</p>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Output-Redirection-Part-1.png" />
+</div>
+
+<p>Once the first redirection has been successfully processed, Bash proceeds to interpret the next one.</p>
+
+<p>The second redirection, “<code class="language-plaintext highlighter-rouge">2&gt;&amp;1</code>”, instructs Bash to <em>“Copy the destination currently assigned to file descriptor 1 (standard output) to file descriptor 2 (standard error).”</em> This results in the following effect.</p>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Output-Redirection-Part-2.png" />
+</div>
+
+<p>In this sequence of redirections, the script is configured to direct both standard output and standard error to the file named “<code class="language-plaintext highlighter-rouge">output</code>”.</p>
+
+<h3 id="redirection-exec-21-output">Redirection <b><code class="language-plaintext highlighter-rouge">exec 2&gt;&amp;1 &gt;output</code></b></h3>
+
+<p>Let’s see what happens when we reverse the order of the redirections.</p>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Process-Graphical-Representation.png" />
+</div>
+
+<p>The script starts with the same initial state, where the default file descriptors are assigned to their standard destinations.</p>
+
+<p>The first redirection, “<code class="language-plaintext highlighter-rouge">2&gt;&amp;1</code>”, <em>“copies the destination currently assigned to file descriptor 1 (standard output) to file descriptor 2 (standard error),”</em> resulting in the following effect.</p>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Redirection-To-Standard-Ouput.png" />
+</div>
+
+<p>At this point, both the standard output and standard error file descriptors are directed to the original standard output.</p>
+
+<p>The second redirection, “<code class="language-plaintext highlighter-rouge">&gt;output</code>”, then reassigns the standard output to the file output. This change can be visually represented as follows.</p>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Redirection-To-Output-File.png" />
+</div>
+
+<p>As a result of processing the second redirection, standard error remains directed to the original standard output (“<code class="language-plaintext highlighter-rouge">/dev/stdout</code>”), while standard output is now redirected to the file named “<code class="language-plaintext highlighter-rouge">output</code>”.</p>
+
+<h2 id="pipes-">Pipes (<code class="language-plaintext highlighter-rouge">|</code>)</h2>
+
+<p>Up to this point, we have focused on using Bash commands independently, executing one at a time. We also explored the “<code class="language-plaintext highlighter-rouge">find</code>” command, which includes the “<code class="language-plaintext highlighter-rouge">-exec</code>” option to apply additional commands to its results. However, not all commands provide such a feature.</p>
+
+<p>Fortunately, Bash allows commands to be chained or linked together using the pipe (“<code class="language-plaintext highlighter-rouge">|</code>”) metacharacter.</p>
+
+<p>The pipe (“<code class="language-plaintext highlighter-rouge">|</code>”) serves as a tool for connecting commands, enabling them to communicate with each other. Its usage can be represented as:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command1 | command2 | command3 | …
+</code></pre></div></div>
+
+<p>This syntax works by linking:</p>
+<ul>
+  <li>The standard output of “<code class="language-plaintext highlighter-rouge">command1</code>” to the standard input of “<code class="language-plaintext highlighter-rouge">command2</code>”.</li>
+  <li>The standard output of “<code class="language-plaintext highlighter-rouge">command2</code>” to the standard input of “<code class="language-plaintext highlighter-rouge">command3</code>”.</li>
+  <li>The standard output of “<code class="language-plaintext highlighter-rouge">command3</code>” to the standard input of the following command.</li>
+  <li>And so on.</li>
+</ul>
+
+<p>The flow of data through this chain can be illustrated graphically as follows.</p>
+
+<div style="text-align:center">
+   <img src="/assets/bash-in-depth/0024-IO-Redirections/Piping-Commands.png" />
+</div>
+
+<p>Let’s explore an example using some familiar commands, such as “<code class="language-plaintext highlighter-rouge">cat</code>” and “<code class="language-plaintext highlighter-rouge">grep</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">cat</span> &lt;somefile&gt; | <span class="nb">grep</span> <span class="nt">--color</span> &lt;my term to find&gt;
+</code></pre></div></div>
+
+<p>Or with “<code class="language-plaintext highlighter-rouge">ls</code>” and “<code class="language-plaintext highlighter-rouge">cat</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nb">ls</span> <span class="nt">-la</span> | <span class="nb">cat</span> <span class="nt">--color</span> &lt;partial_filename&gt;
+</code></pre></div></div>
+
+<p>As demonstrated, pipes allow us to seamlessly chain commands together. This raises an intriguing question: can we pipe into something that isn’t a command in the traditional sense? Let’s dive deeper to find out!</p>
+
+<h3 id="pipeable-functions">Pipeable functions</h3>
+
+<p>From a technical perspective, a pipe (“<code class="language-plaintext highlighter-rouge">|</code>”) connects the Standard Output (File Descriptor 1) of the command on the left to the Standard Input (File Descriptor 0) of the command on the right.</p>
+
+<p>This implies that any function or script capable of reading from Standard Input and writing to Standard Output should, in theory, work seamlessly in a chain of commands. Let’s test this concept with an example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0013.sh</span>
+ 3 myFunction<span class="o">()</span> <span class="o">{</span>
+ 4     <span class="nb">local </span><span class="nv">INPUT</span><span class="o">=()</span>
+ 5     <span class="nb">local </span><span class="nv">index</span><span class="o">=</span>0
+ 6     <span class="nb">local </span><span class="nv">IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+ 7     <span class="c"># Read from standard input</span>
+ 8     <span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> MY_INPUT<span class="p">;</span> <span class="k">do
+ </span>9         INPUT[<span class="nv">$index</span><span class="o">]=</span><span class="s2">"</span><span class="nv">$MY_INPUT</span><span class="s2">"</span>
+10         <span class="nv">index</span><span class="o">=</span><span class="k">$((</span><span class="nv">$index</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+11     <span class="k">done
+</span>12     <span class="c"># Echo to standard output</span>
+13     <span class="k">for </span>item <span class="k">in</span> <span class="k">${</span><span class="nv">INPUT</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> <span class="k">do
+</span>14         <span class="nb">local </span><span class="nv">length</span><span class="o">=</span><span class="k">${#</span><span class="nv">item</span><span class="k">}</span>
+15         <span class="nb">echo</span> <span class="s2">"ITEM[</span><span class="nv">$item</span><span class="s2">]: </span><span class="nv">$length</span><span class="s2">"</span>
+16     <span class="k">done
+</span>17 <span class="o">}</span>
+18 <span class="c"># Piping "ls" command to "myFunction"</span>
+19 <span class="nb">ls</span> <span class="nt">-l</span> | myFunction
+</code></pre></div></div>
+
+<p>This script performs two main steps. First, it reads all input from the Standard Input and stores each line as an individual element in an array named “<code class="language-plaintext highlighter-rouge">INPUT</code>”. Next, it iterates through the array, printing each line to the Standard Output in the format: “<code class="language-plaintext highlighter-rouge">ITEM[&lt;line&gt;]: &lt;line_length&gt;</code>”.</p>
+
+<p>When you execute the previous script you will a result similar to the following.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0013.sh
+ITEM[total 60]: 8
+ITEM[-rwxrwxr-x 1 username username 242 Nov 19 06:38 io-redirections-0001.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 527 Nov 20 05:38 io-redirections-0002.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 604 Nov 21 06:27 io-redirections-0003.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 454 Nov 21 07:10 io-redirections-0004.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 433 Nov 21 07:19 io-redirections-0005.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 216 Nov 22 05:33 io-redirections-0006.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 274 Nov 23 08:35 io-redirections-0007.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 231 Nov 24 09:09 io-redirections-0008.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 225 Nov 25 05:29 io-redirections-0009.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 384 Nov 25 06:09 io-redirections-0010.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 281 Nov 25 07:01 io-redirections-0011.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 279 Nov 25 14:34 io-redirections-0012.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 452 Nov 26 07:00 io-redirections-0013.sh]: 77
+ITEM[-rwxrwxr-x 1 username username 587 Nov 27 05:42 io-redirections-0014.sh]: 77
+ITEM[-rw-rw-r-- 1 username username 890 Nov 25 06:50 lorem.txt]: 63
+</code></pre>
+
+<h3 id="pipestatus">PIPESTATUS</h3>
+
+<p>When working with pipes, it’s often helpful to determine the exit status of the commands that were executed. For this, Bash provides the internal array variable PIPESTATUS. This variable is transient and must be accessed immediately after the execution of the pipe sequence, as any subsequent command will overwrite it.</p>
+
+<p>Consider the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command1 | command2 | command3 | command4
+</code></pre></div></div>
+
+<p>Once this series of piped commands completes, the PIPESTATUS array will store the exit status of each command in the same order they were executed.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Item of PIPESTATUS</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">PIPESTATUS[0]</code></td>
+      <td style="text-align: left">Exit status for “<code class="language-plaintext highlighter-rouge">command1</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">PIPESTATUS[1]</code></td>
+      <td style="text-align: left">Exit status for “<code class="language-plaintext highlighter-rouge">command2</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">PIPESTATUS[2]</code></td>
+      <td style="text-align: left">Exit status for “<code class="language-plaintext highlighter-rouge">command3</code>”</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">PIPESTATUS[3]</code></td>
+      <td style="text-align: left">Exit status for “<code class="language-plaintext highlighter-rouge">command4</code>”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let’s write an example script to play with the array “<code class="language-plaintext highlighter-rouge">PIPESTATUS</code>”.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0014.sh</span>
+ 3 myFunction<span class="o">()</span> <span class="o">{</span>
+ 4     <span class="nb">local </span><span class="nv">INPUT</span><span class="o">=()</span>
+ 5     <span class="nb">local </span><span class="nv">index</span><span class="o">=</span>0
+ 6     <span class="nb">local </span><span class="nv">IFS</span><span class="o">=</span><span class="s1">$'</span><span class="se">\n</span><span class="s1">'</span>
+ 7     <span class="c"># Read from standard input</span>
+ 8     <span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> MY_INPUT<span class="p">;</span> <span class="k">do
+ </span>9         INPUT[<span class="nv">$index</span><span class="o">]=</span><span class="s2">"</span><span class="nv">$MY_INPUT</span><span class="s2">"</span>
+10         <span class="nv">index</span><span class="o">=</span><span class="k">$((</span><span class="nv">$index</span><span class="o">+</span><span class="m">1</span><span class="k">))</span>
+11     <span class="k">done
+</span>12     <span class="c"># Echo to standard output</span>
+13     <span class="k">for </span>item <span class="k">in</span> <span class="k">${</span><span class="nv">INPUT</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> <span class="k">do
+</span>14         <span class="nb">local </span><span class="nv">length</span><span class="o">=</span><span class="k">${#</span><span class="nv">item</span><span class="k">}</span>
+15         <span class="nb">echo</span> <span class="s2">"ITEM[</span><span class="nv">$item</span><span class="s2">]: </span><span class="nv">$length</span><span class="s2">"</span>
+16     <span class="k">done
+</span>17 <span class="o">}</span>
+18 <span class="c"># Piping "ls -l" command to "grep" command</span>
+19 <span class="c"># Piping "grep" command to "myFunction"</span>
+20 <span class="nb">ls</span> <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">".txt"</span> | myFunction
+21 <span class="c"># Echoing the full array of PIPESTATUS</span>
+22 <span class="nb">echo</span> <span class="s2">"PIPESTATUS: </span><span class="k">${</span><span class="nv">PIPESTATUS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>The previous “<code class="language-plaintext highlighter-rouge">io-redirections-0014.sh</code>” script is very similar to the script “<code class="language-plaintext highlighter-rouge">io-redirections-0013.sh</code>.</p>
+
+<p>When you execute the previous script you will a similar output in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0014.sh
+ITEM[-rw-rw-r-- 1 username username 890 Nov 25 06:50 lorem.txt]: 63
+PIPESTATUS: 0 0 0
+</code></pre>
+
+<p>The output shows only the entry for the file “<code class="language-plaintext highlighter-rouge">lorem.txt</code>” followed by the line.</p>
+
+<pre><code class="language-txt">    PIPESTATUS: 0 0 0
+</code></pre>
+
+<p>This line indicates that all the commands in the pipeline executed successfully. Specifically:</p>
+<ul>
+  <li>The first “<code class="language-plaintext highlighter-rouge">0</code>” means the “<code class="language-plaintext highlighter-rouge">ls -l</code>” command succeeded.</li>
+  <li>The second “<code class="language-plaintext highlighter-rouge">0</code>” confirms that the “<code class="language-plaintext highlighter-rouge">grep ".txt"</code>” command also succeeded.</li>
+  <li>The third “<code class="language-plaintext highlighter-rouge">0</code>” reflects the success of the “<code class="language-plaintext highlighter-rouge">myFunction</code>” execution.</li>
+</ul>
+
+<p>If any of these commands had failed, its corresponding value in the “<code class="language-plaintext highlighter-rouge">PIPESTATUS</code>” array would have been <strong>a non-zero number</strong> instead of “<code class="language-plaintext highlighter-rouge">0</code>”.</p>
+
+<p>This script performs the following steps:</p>
+<ol>
+  <li><strong>Lists the contents of the current folder</strong> using the “<code class="language-plaintext highlighter-rouge">ls</code>” command.</li>
+  <li><strong>Redirects the standard output</strong> of “<code class="language-plaintext highlighter-rouge">ls</code>” to the standard input of the “<code class="language-plaintext highlighter-rouge">grep</code>” command.</li>
+  <li><strong>Filters lines containing</strong> “<code class="language-plaintext highlighter-rouge">.txt</code>” using “<code class="language-plaintext highlighter-rouge">grep</code>”, which reads from its standard input and outputs only the matching lines.</li>
+  <li><strong>Passes the filtered lines to</strong> “<code class="language-plaintext highlighter-rouge">myFunction</code>”, which processes each line from its standard input and outputs it in a custom format.</li>
+  <li><strong>Displays the exit status of each command</strong> in the pipeline using the “<code class="language-plaintext highlighter-rouge">PIPESTATUS</code>” array on the final line of the script.</li>
+</ol>
+
+<h2 id="tee-command"><code class="language-plaintext highlighter-rouge">tee</code> command</h2>
+
+<p>The “<code class="language-plaintext highlighter-rouge">tee</code>” command is an incredibly versatile tool for managing redirections. Its name is derived from its functionality, which resembles the shape of the letter “T”.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Tee-Command.png" />
+</div>
+
+<p>The “<code class="language-plaintext highlighter-rouge">tee</code>” command reads data from its standard input and simultaneously writes it to both its standard output and any file(s) specified as arguments. This allows you to redirect the same data to multiple files, scripts, or commands all at once.</p>
+
+<p>Let’s re-use the “<code class="language-plaintext highlighter-rouge">io-redirections-0011.sh</code>” script with the “<code class="language-plaintext highlighter-rouge">tee</code>” command.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0011.sh | tee /tmp/output1.txt /tmp/output2.txt
+LINE_CONTENT[0]: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+LINE_CONTENT[1]: Duis varius urna erat, a facilisis mauris vehicula at.
+LINE_CONTENT[2]: Phasellus imperdiet tristique mauris sit amet posuere.
+LINE_CONTENT[3]: Duis molestie, purus vel sodales posuere, leo dolor tempor odio,
+LINE_CONTENT[4]: vel imperdiet quam orci vel diam. Curabitur finibus dapibus gravida.
+LINE_CONTENT[5]: Duis gravida iaculis condimentum.
+LINE_CONTENT[6]: Sed ultricies nulla luctus, sollicitudin velit quis, maximus arcu.
+LINE_CONTENT[7]: Morbi lacinia luctus urna, nec suscipit felis consequat eget.
+LINE_CONTENT[8]: Vestibulum nec sodales magna, nec placerat velit.
+LINE_CONTENT[9]: Mauris volutpat tellus neque, quis bibendum magna tincidunt a.
+LINE_CONTENT[10]: Maecenas faucibus scelerisque enim sollicitudin molestie.
+LINE_CONTENT[11]: Nunc mauris nibh, semper sit amet tellus eu, auctor egestas erat.
+LINE_CONTENT[12]: Nunc non pharetra diam. Praesent nec luctus metus.
+LINE_CONTENT[13]: Pellentesque in turpis nulla.
+LINE_CONTENT[14]: Mauris vehicula consequat nisl, et elementum nunc dictum at.
+LINE_CONTENT[15]: Sed fringilla luctus tincidunt.
+
+$ cat /tmp/output1.txt
+LINE_CONTENT[0]: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+LINE_CONTENT[1]: Duis varius urna erat, a facilisis mauris vehicula at.
+LINE_CONTENT[2]: Phasellus imperdiet tristique mauris sit amet posuere.
+LINE_CONTENT[3]: Duis molestie, purus vel sodales posuere, leo dolor tempor odio,
+LINE_CONTENT[4]: vel imperdiet quam orci vel diam. Curabitur finibus dapibus gravida.
+LINE_CONTENT[5]: Duis gravida iaculis condimentum.
+LINE_CONTENT[6]: Sed ultricies nulla luctus, sollicitudin velit quis, maximus arcu.
+LINE_CONTENT[7]: Morbi lacinia luctus urna, nec suscipit felis consequat eget.
+LINE_CONTENT[8]: Vestibulum nec sodales magna, nec placerat velit.
+LINE_CONTENT[9]: Mauris volutpat tellus neque, quis bibendum magna tincidunt a.
+LINE_CONTENT[10]: Maecenas faucibus scelerisque enim sollicitudin molestie.
+LINE_CONTENT[11]: Nunc mauris nibh, semper sit amet tellus eu, auctor egestas erat.
+LINE_CONTENT[12]: Nunc non pharetra diam. Praesent nec luctus metus.
+LINE_CONTENT[13]: Pellentesque in turpis nulla.
+LINE_CONTENT[14]: Mauris vehicula consequat nisl, et elementum nunc dictum at.
+LINE_CONTENT[15]: Sed fringilla luctus tincidunt.
+
+$ cat /tmp/output2.txt
+LINE_CONTENT[0]: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+LINE_CONTENT[1]: Duis varius urna erat, a facilisis mauris vehicula at.
+LINE_CONTENT[2]: Phasellus imperdiet tristique mauris sit amet posuere.
+LINE_CONTENT[3]: Duis molestie, purus vel sodales posuere, leo dolor tempor odio,
+LINE_CONTENT[4]: vel imperdiet quam orci vel diam. Curabitur finibus dapibus gravida.
+LINE_CONTENT[5]: Duis gravida iaculis condimentum.
+LINE_CONTENT[6]: Sed ultricies nulla luctus, sollicitudin velit quis, maximus arcu.
+LINE_CONTENT[7]: Morbi lacinia luctus urna, nec suscipit felis consequat eget.
+LINE_CONTENT[8]: Vestibulum nec sodales magna, nec placerat velit.
+LINE_CONTENT[9]: Mauris volutpat tellus neque, quis bibendum magna tincidunt a.
+LINE_CONTENT[10]: Maecenas faucibus scelerisque enim sollicitudin molestie.
+LINE_CONTENT[11]: Nunc mauris nibh, semper sit amet tellus eu, auctor egestas erat.
+LINE_CONTENT[12]: Nunc non pharetra diam. Praesent nec luctus metus.
+LINE_CONTENT[13]: Pellentesque in turpis nulla.
+LINE_CONTENT[14]: Mauris vehicula consequat nisl, et elementum nunc dictum at.
+LINE_CONTENT[15]: Sed fringilla luctus tincidunt.
+</code></pre>
+
+<p>At first glance, the output appears identical to what we observed earlier, even without using the tee command. So, what’s the real benefit? If you inspect the “<code class="language-plaintext highlighter-rouge">/tmp</code>” directory, you’ll find two newly created files: “<code class="language-plaintext highlighter-rouge">/tmp/output1.txt</code>” and “<code class="language-plaintext highlighter-rouge">/tmp/output2.txt</code>”. Upon examining their contents using the “<code class="language-plaintext highlighter-rouge">cat</code>” command or a text editor, you’ll notice that both files contain exactly the same output that was displayed during the execution of the command.</p>
+
+<h2 id="combining-pipes-and-redirections">Combining Pipes and Redirections</h2>
+
+<p>Up to this point, we’ve explored redirections and pipes (“<code class="language-plaintext highlighter-rouge">|</code>”) as separate concepts. Redirections enable us to manipulate file descriptors, allowing data to be read from or written to files. Pipes, on the other hand, facilitate the direct connection of a command’s output to the input of another command.</p>
+
+<p>By combining these two concepts, we can redirect multiple outputs from one command and feed them into the standard input of the next command, creating powerful and flexible workflows.</p>
+
+<p>To demonstrate this, we’ll create a simple script that reads data from its standard input and outputs it in a formatted style to its standard output.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0015.sh</span>
+ 3 <span class="c"># Reading from Standard Input</span>
+ 4 <span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> INPUT_LINE<span class="p">;</span> <span class="k">do
+ </span>5     <span class="nb">printf</span> <span class="s2">"Line content: </span><span class="se">\"</span><span class="nv">$INPUT_LINE</span><span class="se">\"\n</span><span class="s2">"</span>
+ 6 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>Then we are going to use the “<code class="language-plaintext highlighter-rouge">ls</code>” command to print the contents of a file that does not exist and a folder that does exist.</p>
+
+<pre><code class="language-txt">$ ls /tmp/no_bueno /tmp
+ls: cannot access '/tmp/no_bueno': No such file or directory
+/tmp:
+combined_log.txt
+error_log.txt
+gdm3-config-err-rLRc3P
+hsperfdata_chemacabeza
+kotlin-idea-4047041896916890883-is-running
+output1.txt
+output2.txt
+output_log.txt
+pulse-PKdhtXMmr18n
+qtsingleapp-FoxitR-e4d5-3e8
+qtsingleapp-FoxitR-e4d5-3e8-lockfile
+result.csv
+snap-private-tmp
+v8-compile-cache-1000
+vxr8svt
+</code></pre>
+
+<p>As you can see from the previous output, it first prints the errors (in our case indicating that the file/folder “<code class="language-plaintext highlighter-rouge">/tmp/no_bueno</code>” does not exist) and then the correct output.</p>
+
+<p>What would happen if we would pipe the previous command to our “<code class="language-plaintext highlighter-rouge">io-redirections-0015.sh</code>” script? Let’s find out!</p>
+
+<pre><code class="language-txt">$ ls /tmp/no_bueno /tmp | ./io-redirections-0015.sh
+ls: cannot access '/tmp/no_bueno': No such file or directory
+Line content: "/tmp:"
+Line content: "combined_log.txt"
+Line content: "error_log.txt"
+Line content: "gdm3-config-err-rLRc3P"
+Line content: "hsperfdata_chemacabeza"
+Line content: "kotlin-idea-4047041896916890883-is-running"
+Line content: "output1.txt"
+Line content: "output2.txt"
+Line content: "output_log.txt"
+Line content: "pulse-PKdhtXMmr18n"
+Line content: "qtsingleapp-FoxitR-e4d5-3e8"
+Line content: "qtsingleapp-FoxitR-e4d5-3e8-lockfile"
+Line content: "result.csv"
+Line content: "snap-private-tmp"
+Line content: "v8-compile-cache-1000"
+Line content: "vxr8svt"
+</code></pre>
+
+<p>In this case you can see that the error from the “<code class="language-plaintext highlighter-rouge">ls</code>” command it’s still printed to the standard error and not redirected to the standard input of our script. We could visualize this situation as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/LS-command-without-redirecting-stderr.png" />
+</div>
+
+<p>In order to be able to redirect the standard error from “<code class="language-plaintext highlighter-rouge">ls</code>” to the standard input of “io-redirections-0015.sh” we need to add “<code class="language-plaintext highlighter-rouge">2&gt;&amp;1</code>” to our “<code class="language-plaintext highlighter-rouge">ls</code>” command (<em>“Copy the destination pointed by file descriptor 1 to file descriptor 2”</em>). The effect of adding that redirection before the pipe (“<code class="language-plaintext highlighter-rouge">|</code>”) can be visualized as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/LS-command-redirecting-stderr.png" />
+</div>
+
+<pre><code class="language-txt">$ ls /tmp/no_bueno /tmp 2&gt;&amp;1 | ./io-redirections-0015.sh
+Line content: "ls: cannot access '/tmp/no_bueno': No such file or directory"
+Line content: "/tmp:"
+Line content: "combined_log.txt"
+Line content: "error_log.txt"
+Line content: "gdm3-config-err-rLRc3P"
+Line content: "hsperfdata_chemacabeza"
+Line content: "kotlin-idea-4047041896916890883-is-running"
+Line content: "output1.txt"
+Line content: "output2.txt"
+Line content: "output_log.txt"
+Line content: "pulse-PKdhtXMmr18n"
+Line content: "qtsingleapp-FoxitR-e4d5-3e8"
+Line content: "qtsingleapp-FoxitR-e4d5-3e8-lockfile"
+Line content: "result.csv"
+Line content: "snap-private-tmp"
+Line content: "v8-compile-cache-1000"
+Line content: "vxr8svt"
+</code></pre>
+
+<p>You can get the same effect as the previous example when using “<code class="language-plaintext highlighter-rouge">|&amp;</code>” as pipe.</p>
+
+<pre><code class="language-txt">$ ls /tmp/no_bueno /tmp |&amp; ./io-redirections-0015.sh
+Line content: "ls: cannot access '/tmp/no_bueno': No such file or directory"
+Line content: "/tmp:"
+Line content: "combined_log.txt"
+Line content: "error_log.txt"
+Line content: "gdm3-config-err-rLRc3P"
+Line content: "hsperfdata_chemacabeza"
+Line content: "kotlin-idea-4047041896916890883-is-running"
+Line content: "output1.txt"
+Line content: "output2.txt"
+Line content: "output_log.txt"
+Line content: "pulse-PKdhtXMmr18n"
+Line content: "qtsingleapp-FoxitR-e4d5-3e8"
+Line content: "qtsingleapp-FoxitR-e4d5-3e8-lockfile"
+Line content: "result.csv"
+Line content: "snap-private-tmp"
+Line content: "v8-compile-cache-1000"
+Line content: "vxr8svt"
+</code></pre>
+
+<h2 id="where-to-place-the-redirections">Where to place the redirections?</h2>
+
+<p>Up to this point, we have been placing redirections at the end of commands, which is considered good practice. However, redirections can actually be positioned anywhere within a command invocation.</p>
+
+<p>For instance, the following examples would produce the exact same output as demonstrated in the previous section.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">ls</span> /tmp/no_bueno /tmp 2&gt;&amp;1 | ./io-redirections-0015.sh <span class="c"># Original</span>
+<span class="nv">$ </span><span class="nb">ls</span> /tmp/no_bueno 2&gt;&amp;1 /tmp | ./io-redirections-0015.sh 
+<span class="nv">$ </span><span class="nb">ls </span>2&gt;&amp;1 /tmp/no_bueno /tmp | ./io-redirections-0015.sh 
+<span class="nv">$ </span>2&gt;&amp;1 <span class="nb">ls</span> /tmp/no_bueno /tmp | ./io-redirections-0015.sh 
+</code></pre></div></div>
+
+<p>You might assume that redirections are simply additional arguments passed to the command, but this is not the case. In fact, the script being executed is completely unaware of the redirections—they are handled by the shell itself. To illustrate this, we’ll test a script that processes and displays the arguments passed as input.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0016.sh</span>
+ 3 <span class="nv">INPUT_ARGS</span><span class="o">=(</span><span class="nv">$@</span><span class="o">)</span>
+ 4 <span class="nb">echo</span> <span class="s2">"Number of arguments: </span><span class="k">${#</span><span class="nv">INPUT_ARGS</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+ 5 <span class="nb">declare</span> <span class="nt">-i</span> <span class="nv">position</span><span class="o">=</span>0
+ 6 <span class="k">for </span>arg <span class="k">in</span> <span class="k">${</span><span class="nv">INPUT_ARGS</span><span class="p">[@]</span><span class="k">}</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">echo</span> <span class="s2">"Argument[</span><span class="nv">$position</span><span class="s2">]: </span><span class="nv">$arg</span><span class="s2">"</span>
+ 8     <span class="o">((</span>position++<span class="o">))</span>
+ 9 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>The previous “<code class="language-plaintext highlighter-rouge">io-redirections-0016.sh</code>” script is only showing the different arguments passed. We are going to use this script to show that redirections are not arguments for the script.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0016.sh
+Number of arguments: 0
+
+$ ./io-redirections-0016.sh arg1 arg2 arg3
+Number of arguments: 3
+Argument[0]: arg1
+Argument[1]: arg2
+Argument[2]: arg3
+
+$ ./io-redirections-0016.sh arg1 2&gt;&amp;1 arg2 arg3
+Number of arguments: 3
+Argument[0]: arg1
+Argument[1]: arg2
+Argument[2]: arg3
+
+</code></pre>
+
+<p>The result remains the same as before. Why is that? As explained earlier in this chapter, Bash processes redirections to configure the file descriptors as required. Once Bash <strong>interprets and applies</strong> these redirections, they are removed from the command line. This explains why our last script could not display them.</p>
+
+<h2 id="block-redirections">Block Redirections</h2>
+
+<p>In the <em>Block Statements</em> chapter, we explored how commands can be grouped using curly braces (“<code class="language-plaintext highlighter-rouge">{ ... }</code>”), allowing the logic contained within to execute as a single unit.</p>
+
+<p>These grouped blocks can also be modified using the redirection techniques we covered in this section.</p>
+
+<p>For instance, suppose we have a file named “<code class="language-plaintext highlighter-rouge">input_file</code>” with the following content.</p>
+
+<pre><code class="language-txt">Line_1
+Line_2
+Line_3
+Line_4
+Line_5
+Line_6
+Line_7
+Line_8
+Line_9
+Line_10
+</code></pre>
+
+<p>We are going to write a script where we will be assigning redirections to a block statement.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0017.sh</span>
+ 3 <span class="nv">INPUT_FILE</span><span class="o">=</span>input_file
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/output.txt
+ 5 <span class="nb">echo</span> <span class="s2">"Block reading from '</span><span class="nv">$INPUT_FILE</span><span class="s2">'"</span>
+ 6 <span class="o">{</span>
+ 7     <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>8         <span class="nb">echo</span> <span class="s2">"Line read: '</span><span class="nv">$line</span><span class="s2">'"</span>
+ 9     <span class="k">done
+</span>10 <span class="o">}</span> &lt;<span class="nv">$INPUT_FILE</span> <span class="o">&gt;</span><span class="nv">$OUTPUT_FILE</span> <span class="c"># &lt;&lt;&lt;&lt;&lt;&lt; Redirections</span>
+11 <span class="nb">echo</span> <span class="s2">"End of program"</span>
+</code></pre></div></div>
+
+<p>As you will notice on line 10 we are specifying a redirection for Standard Input to read from the file “<code class="language-plaintext highlighter-rouge">input_file</code>” and another redirection for the Standard Output to print the information to the file “<code class="language-plaintext highlighter-rouge">/tmp/output.txt</code>”.</p>
+
+<h2 id="statement-redirections">Statement Redirections</h2>
+
+<p>Just as we saw in the previous section, where we explored redirecting input and output for code blocks enclosed in curly braces, this section focuses on applying redirections to specific statements, including:</p>
+<ul>
+  <li>“<code class="language-plaintext highlighter-rouge">while</code>” loops</li>
+  <li>“<code class="language-plaintext highlighter-rouge">until</code>” loops</li>
+  <li>“<code class="language-plaintext highlighter-rouge">for</code>” loops</li>
+  <li>“<code class="language-plaintext highlighter-rouge">if/else</code>” statements</li>
+</ul>
+
+<p>Similar to block redirections, the redirections for these statements are placed immediately after the statement itself. In the following subsections, we will explore examples for each, using the same input_file from the previous section as our reference.</p>
+
+<h3 id="while-loop-redirection">“<code class="language-plaintext highlighter-rouge">while</code>” loop redirection</h3>
+
+<p>Just as we applied redirections immediately after a code block enclosed in curly braces, we follow the same approach for a “<code class="language-plaintext highlighter-rouge">while</code>” loop. In this case, the redirections are placed directly after the “<code class="language-plaintext highlighter-rouge">done</code>” keyword that concludes the loop.</p>
+
+<p>Let’s see the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0018.sh</span>
+ 3 <span class="nv">INPUT_FILE</span><span class="o">=</span>input_file
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/output.txt
+ 5 <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>6 		<span class="nb">echo</span> <span class="s2">"[while] LINE READ WAS '</span><span class="nv">$line</span><span class="s2">'"</span>
+ 7 <span class="k">done</span> &lt;<span class="nv">$INPUT_FILE</span> <span class="o">&gt;</span><span class="nv">$OUTPUT_FILE</span>
+ 8 <span class="c">#   ^^^          ^^^</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script and print the contents of the “<code class="language-plaintext highlighter-rouge">/tmp/output.txt</code>” file you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0018.sh
+
+$ cat /tmp/output.txt
+[while] LINE READ WAS 'Line_1'
+[while] LINE READ WAS 'Line_2'
+[while] LINE READ WAS 'Line_3'
+[while] LINE READ WAS 'Line_4'
+[while] LINE READ WAS 'Line_5'
+[while] LINE READ WAS 'Line_6'
+[while] LINE READ WAS 'Line_7'
+[while] LINE READ WAS 'Line_8'
+[while] LINE READ WAS 'Line_9'
+[while] LINE READ WAS 'Line_10'
+</code></pre>
+
+<h3 id="until-loop-redirection">“<code class="language-plaintext highlighter-rouge">until</code>” loop redirection</h3>
+
+<p>Similarly to how redirections were applied after the “<code class="language-plaintext highlighter-rouge">done</code>” keyword in a “<code class="language-plaintext highlighter-rouge">while</code>” loop, the same approach is used here. The redirections are placed immediately after the done keyword.</p>
+
+<p>Let’s explore how this works with the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0019.sh</span>
+ 3 <span class="nv">INPUT_FILE</span><span class="o">=</span>input_file
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/output.txt
+ 5 <span class="nv">MY_LINE</span><span class="o">=</span>
+ 6 <span class="k">until</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$MY_LINE</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"Line_10"</span> <span class="o">]</span><span class="p">;</span> <span class="k">do
+ </span>7     <span class="nb">read </span>MY_LINE
+ 8     <span class="nb">echo</span> <span class="s2">"[until] LINE READ WAS '</span><span class="nv">$MY_LINE</span><span class="s2">'"</span>
+ 9 <span class="k">done</span> &lt;<span class="nv">$INPUT_FILE</span> <span class="o">&gt;</span><span class="nv">$OUTPUT_FILE</span>
+10 <span class="c">#   ^^^          ^^^</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script and print the contents of the “<code class="language-plaintext highlighter-rouge">/tmp/output.txt</code>” file you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0019.sh
+
+$ cat /tmp/output.txt
+[until] LINE READ WAS 'Line_1'
+[until] LINE READ WAS 'Line_2'
+[until] LINE READ WAS 'Line_3'
+[until] LINE READ WAS 'Line_4'
+[until] LINE READ WAS 'Line_5'
+[until] LINE READ WAS 'Line_6'
+[until] LINE READ WAS 'Line_7'
+[until] LINE READ WAS 'Line_8'
+[until] LINE READ WAS 'Line_9'
+[until] LINE READ WAS 'Line_10'
+</code></pre>
+
+<h3 id="for-loop-redirection">“<code class="language-plaintext highlighter-rouge">for</code>” loop redirection</h3>
+
+<p>As with the other types of loops, redirections for a “<code class="language-plaintext highlighter-rouge">for</code>” loop are placed immediately after the “<code class="language-plaintext highlighter-rouge">done</code>” keyword.</p>
+
+<p>Let’s illustrate this with the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0020.sh</span>
+ 3 <span class="nv">INPUT_FILE</span><span class="o">=</span>input_file
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/output.txt
+ 5 <span class="k">for </span>i <span class="k">in</span> <span class="o">{</span>1..10<span class="o">}</span><span class="p">;</span> <span class="k">do
+ </span>6     <span class="nb">read </span>MY_LINE
+ 7     <span class="nb">echo</span> <span class="s2">"[for] LINE READ WAS '</span><span class="nv">$MY_LINE</span><span class="s2">'"</span>
+ 8 <span class="k">done</span> &lt;<span class="nv">$INPUT_FILE</span> <span class="o">&gt;</span><span class="nv">$OUTPUT_FILE</span>
+ 9 <span class="c">#   ^^^          ^^^</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script and print the contents of the “<code class="language-plaintext highlighter-rouge">/tmp/output.txt</code>” file you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0020.sh
+
+$ cat /tmo/output.txt
+[for] LINE READ WAS 'Line_1'
+[for] LINE READ WAS 'Line_2'
+[for] LINE READ WAS 'Line_3'
+[for] LINE READ WAS 'Line_4'
+[for] LINE READ WAS 'Line_5'
+[for] LINE READ WAS 'Line_6'
+[for] LINE READ WAS 'Line_7'
+[for] LINE READ WAS 'Line_8'
+[for] LINE READ WAS 'Line_9'
+[for] LINE READ WAS 'Line_10'
+</code></pre>
+
+<h3 id="ifthen-redirection">“<code class="language-plaintext highlighter-rouge">if/then</code>” redirection</h3>
+
+<p>In the case of “<code class="language-plaintext highlighter-rouge">if/then</code>” you need to put the redirections after the “<code class="language-plaintext highlighter-rouge">fi</code>” keyword.</p>
+
+<p>Let’s see how it works with the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0021.sh</span>
+ 3 <span class="nv">INPUT_FILE</span><span class="o">=</span>input_file
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/output.txt
+ 5 <span class="k">if</span> <span class="o">[</span> <span class="nb">true</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+ </span>6     <span class="k">while </span><span class="nb">read </span>MY_LINE<span class="p">;</span> <span class="k">do
+ </span>7         <span class="nb">echo</span> <span class="s2">"[if] LINE READ WAS '</span><span class="nv">$MY_LINE</span><span class="s2">'"</span>
+ 8     <span class="k">done
+ </span>9 <span class="k">fi</span> &lt;<span class="nv">$INPUT_FILE</span> <span class="o">&gt;</span><span class="nv">$OUTPUT_FILE</span>
+10 <span class="c"># ^^^          ^^^</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script and print the contents of the “<code class="language-plaintext highlighter-rouge">/tmp/output.txt</code>” file you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0021.sh
+
+$ cat /tmp/output.txt
+[if] LINE READ WAS 'Line_1'
+[if] LINE READ WAS 'Line_2'
+[if] LINE READ WAS 'Line_3'
+[if] LINE READ WAS 'Line_4'
+[if] LINE READ WAS 'Line_5'
+[if] LINE READ WAS 'Line_6'
+[if] LINE READ WAS 'Line_7'
+[if] LINE READ WAS 'Line_8'
+[if] LINE READ WAS 'Line_9'
+[if] LINE READ WAS 'Line_10'
+</code></pre>
+
+<h3 id="ifthenelse-redirection">“<code class="language-plaintext highlighter-rouge">if/then/else</code>” redirection</h3>
+
+<p>Similar to the “<code class="language-plaintext highlighter-rouge">if/then</code>” statement redirection we need to add the redirections after the “<code class="language-plaintext highlighter-rouge">fi</code>” keyword.</p>
+
+<p>Let’s see how it works with the following example.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0022.sh</span>
+ 3 <span class="nv">INPUT_FILE</span><span class="o">=</span>input_file
+ 4 <span class="nv">OUTPUT_FILE</span><span class="o">=</span>/tmp/output.txt
+ 5 <span class="k">if </span><span class="nb">false</span><span class="p">;</span> <span class="k">then
+ </span>6     <span class="nb">read </span>MY_LINE
+ 7 		<span class="nb">echo</span> <span class="s2">"[if-then] LINE READ WAS '</span><span class="nv">$MY_LINE</span><span class="s2">'"</span>
+ 8 <span class="k">else
+ </span>9     <span class="k">while </span><span class="nb">read </span>MY_LINE<span class="p">;</span> <span class="k">do
+</span>10         <span class="nb">echo</span> <span class="s2">"[else] LINE READ WAS '</span><span class="nv">$MY_LINE</span><span class="s2">'"</span>
+11     <span class="k">done
+</span>12 <span class="k">fi</span> &lt;<span class="nv">$INPUT_FILE</span> <span class="o">&gt;</span><span class="nv">$OUTPUT_FILE</span>
+13 <span class="c"># ^^^          ^^^</span>
+</code></pre></div></div>
+
+<p>When you execute the previous script and print the contents of the “<code class="language-plaintext highlighter-rouge">/tmp/output.txt</code>” file you will see something like the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0022.sh
+
+$ cat /tmp/output.txt
+[else] LINE READ WAS 'Line_1'
+[else] LINE READ WAS 'Line_2'
+[else] LINE READ WAS 'Line_3'
+[else] LINE READ WAS 'Line_4'
+[else] LINE READ WAS 'Line_5'
+[else] LINE READ WAS 'Line_6'
+[else] LINE READ WAS 'Line_7'
+[else] LINE READ WAS 'Line_8'
+[else] LINE READ WAS 'Line_9'
+[else] LINE READ WAS 'Line_10'
+</code></pre>
+
+<h2 id="pipes-statements-and-blocks">Pipes, Statements and Blocks</h2>
+
+<p>Blocks and statements, as we’ve seen, are treated similarly when it comes to redirections. This means you can modify file descriptors using the syntax we covered earlier, create pipelines by combining them in various orders, and much more.</p>
+
+<p>In this section, we’ll explore a few examples of combining statements and blocks using pipes.</p>
+
+<p>Let’s begin by chaining the output of a command (e.g., “<code class="language-plaintext highlighter-rouge">ls</code>”) with a block and a “<code class="language-plaintext highlighter-rouge">while</code>” loop.</p>
+
+<p>Assume our folder contains the following files:</p>
+
+<pre><code class="language-txt">$ ls test_dir
+File_3  File_5  File_6  File_C  File_d  File_j  File_K  File_l  File_s  File_t  File_v  File_w  File_x
+</code></pre>
+
+<p><em>(Here, the listed files are simple, empty text files.)</em></p>
+
+<p>We’ll use the “<code class="language-plaintext highlighter-rouge">ls</code>” command to generate input for our pipeline. Next, a “<code class="language-plaintext highlighter-rouge">while</code>” loop in the pipeline will extract the character (number or letter) following the underscore in each filename. Finally, this output will be passed to a block that concatenates the extracted values into a single string, separated by underscores (“<code class="language-plaintext highlighter-rouge">_</code>”).</p>
+
+<p>Here’s the code to achieve this.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0023.sh</span>
+ 3 <span class="nv">regex</span><span class="o">=</span><span class="s2">"File_([0-9a-zA-Z])"</span>
+ 4 <span class="nb">ls </span>test_dir | <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>5     <span class="k">if</span> <span class="o">[[</span> <span class="nv">$line</span> <span class="o">=</span>~ <span class="nv">$regex</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>6         <span class="nb">echo</span> <span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="k">}</span>
+ 7     <span class="k">else
+ </span>8         <span class="nb">echo</span> <span class="s2">"Error"</span>
+ 9     <span class="k">fi
+</span>10 <span class="k">done</span> | <span class="o">{</span>
+11     <span class="nv">RESULT</span><span class="o">=</span><span class="s2">"_"</span>
+12     <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+</span>13         RESULT+<span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="s2">_"</span>
+14     <span class="k">done
+</span>15     <span class="nb">echo</span> <span class="nv">$RESULT</span>
+16 <span class="o">}</span>
+</code></pre></div></div>
+
+<p>When this script is executed, Bash spawns three child processes, one for each segment of the pipeline:</p>
+
+<ol>
+  <li><strong>Child Process #1</strong>: Executes the “<code class="language-plaintext highlighter-rouge">ls</code>” command.</li>
+  <li><strong>Child Process #2</strong>: Runs the “<code class="language-plaintext highlighter-rouge">while</code>” loop.</li>
+  <li><strong>Child Process #3</strong>: Executes the block of code.</li>
+</ol>
+
+<p>This structure can be visually represented as follows.</p>
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0024-IO-Redirections/Three-Processes.png" />
+</div>
+
+<p>The first child process (“<code class="language-plaintext highlighter-rouge">ls</code>”) will produce as output the list of files of the folder and will send them to its standard output.</p>
+
+<pre><code class="language-txt">File_3
+File_5
+File_6
+File_C
+File_d
+File_j
+File_K
+File_l
+File_s
+File_t
+File_v
+File_w
+File_x
+</code></pre>
+
+<p>The second child process (“<code class="language-plaintext highlighter-rouge">while</code>” loop) will read from its standard input, use regular expressions to capture the character after the underscore and send the character to its standard output.</p>
+
+<pre><code class="language-txt">File_3 =&gt; 3
+File_5 =&gt; 5
+File_6 =&gt; 6
+File_C =&gt; C
+File_d =&gt; d
+File_j =&gt; j
+File_K =&gt; K
+File_l =&gt; l
+File_s =&gt; s
+File_t =&gt; t
+File_v =&gt; v
+File_w =&gt; w
+File_x =&gt; x
+</code></pre>
+
+<p>The last part of the pipeline (the block of code) will prepare the variable “<code class="language-plaintext highlighter-rouge">RESULT</code>”, read from its standard input appending the different characters with the variable result and, after it is done reading from its standard input, will print to its standard output the result.</p>
+
+<pre><code class="language-txt">_3_5_6_C_d_j_K_l_s_t_v_w_x_
+</code></pre>
+
+<p>When we execute the “<code class="language-plaintext highlighter-rouge">io-redirections-0023.sh</code>” script you will see the following in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0023.sh
+_3_5_6_C_d_j_K_l_s_t_v_w_x_
+</code></pre>
+
+<p>This pipeline could be decomposed in 3 different scripts and could get connected using pipes.</p>
+
+<p>The first script would be as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: command_ls.sh</span>
+ 3 <span class="nb">ls </span>test_dir
+</code></pre></div></div>
+
+<p>The second script would be as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: command_while.sh</span>
+ 3 <span class="nv">regex</span><span class="o">=</span><span class="s2">"File_([0-9a-zA-Z])"</span>
+ 4 <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>5     <span class="k">if</span> <span class="o">[[</span> <span class="nv">$line</span> <span class="o">=</span>~ <span class="nv">$regex</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+ </span>6         <span class="nb">echo</span> <span class="k">${</span><span class="nv">BASH_REMATCH</span><span class="p">[1]</span><span class="k">}</span>
+ 7     <span class="k">else
+ </span>8         <span class="nb">echo</span> <span class="s2">"Error"</span>
+ 9     <span class="k">fi
+</span>10 <span class="k">done</span>
+</code></pre></div></div>
+
+<p>Finally, the third script would be as follows.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: command_block.sh</span>
+ 3 <span class="o">{</span>
+ 4     <span class="nv">RESULT</span><span class="o">=</span><span class="s2">"_"</span>
+ 5     <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>6         RESULT+<span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="s2">_"</span>
+ 7     <span class="k">done
+ </span>8     <span class="nb">echo</span> <span class="nv">$RESULT</span>
+ 9 <span class="o">}</span>
+</code></pre></div></div>
+
+<p>When you combine the previous 3 scripts with pipes you will get the same result as script “<code class="language-plaintext highlighter-rouge">io-redirections-0023.sh</code>”.</p>
+
+<pre><code class="language-txt">$ ./command_ls.sh | ./command_while.sh | ./command_block.sh
+_3_5_6_C_d_j_K_l_s_t_v_w_x_
+</code></pre>
+
+<p>So far, we’ve explored how to combine commands with loops, such as the “<code class="language-plaintext highlighter-rouge">while</code>” loop in the previous example, using pipes. However, a natural question might have already crossed your inquisitive mind: Can I achieve the same with “<code class="language-plaintext highlighter-rouge">if/then</code>” or “<code class="language-plaintext highlighter-rouge">if/then/else</code>” statements?</p>
+
+<p>The answer is a resounding <em>YES!</em></p>
+
+<p>Let’s dive into a simple script to illustrate how this can be done with both “<code class="language-plaintext highlighter-rouge">if/then</code>” and “<code class="language-plaintext highlighter-rouge">if/then/else</code>” constructs.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> 1 <span class="c">#!/usr/bin/env bash</span>
+ 2 <span class="c">#Script: io-redirections-0024.sh</span>
+ 3 <span class="k">if </span><span class="nb">true</span><span class="p">;</span> <span class="k">then
+ </span>4     <span class="nb">echo</span> <span class="s2">"LINE 1"</span>
+ 5     <span class="nb">echo</span> <span class="s2">"LINE 2"</span>
+ 6 <span class="k">fi</span> | <span class="k">while </span><span class="nb">read </span>line<span class="p">;</span> <span class="k">do
+ </span>7    <span class="nb">echo</span> <span class="s2">"Line read is '</span><span class="nv">$line</span><span class="s2">'"</span>
+ 8 <span class="k">done
+ </span>9 <span class="nb">echo</span> <span class="s2">"HOLA"</span> | <span class="k">if</span> <span class="o">[[</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">read </span>line<span class="p">;</span> <span class="nb">echo</span> <span class="nv">$line</span><span class="si">)</span><span class="s2">"</span> <span class="o">==</span> <span class="s2">"HOLO"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+</span>10     <span class="nb">echo</span> <span class="s2">"OK"</span>
+11 <span class="k">else
+</span>12     <span class="nb">echo</span> <span class="s2">"KO"</span>
+13 <span class="k">fi</span>
+</code></pre></div></div>
+
+<p>The first example is found between lines 3 and 8. This section of code can be understood by dividing it into two parts, separated by the pipe (“<code class="language-plaintext highlighter-rouge">|</code>”). Before the pipe, there is an “<code class="language-plaintext highlighter-rouge">if-then</code>” statement that outputs two messages to its standard output. After the pipe, a loop processes this input, reading from its standard input and printing to its standard output.</p>
+
+<p>The second example is located between lines 9 and 13. Similar to the first example, it can also be divided into two parts, using the pipe as a boundary. Before the pipe, a simple “<code class="language-plaintext highlighter-rouge">echo</code>” command prints the message “<code class="language-plaintext highlighter-rouge">HOLA</code>”. After the pipe, an “<code class="language-plaintext highlighter-rouge">if-then-else</code>” statement reads input via command substitution (“<code class="language-plaintext highlighter-rouge">read line</code>”) and writes the result to the standard output (“<code class="language-plaintext highlighter-rouge">echo $line</code>”).</p>
+
+<p>In line 9, the first part of the pipeline outputs “<code class="language-plaintext highlighter-rouge">HOLA</code>”, which is sent as input to the second part of the pipeline. Here, the “<code class="language-plaintext highlighter-rouge">if-then-else</code>” statement compares the input (“<code class="language-plaintext highlighter-rouge">HOLA</code>”) to “<code class="language-plaintext highlighter-rouge">HOLO</code>”. Since this comparison fails, the output will be “<code class="language-plaintext highlighter-rouge">KO</code>”.</p>
+
+<p>When you execute the previous “<code class="language-plaintext highlighter-rouge">io-redirections-0024.sh</code>” script you will see the following result in your terminal window.</p>
+
+<pre><code class="language-txt">$ ./io-redirections-0024.sh
+Line read is 'LINE 1'
+Line read is 'LINE 2'
+KO
+</code></pre>
+
+<h2 id="fifo-files">FIFO files</h2>
+
+<p>In the previous section, we explored text processing commands and used pipes (“<code class="language-plaintext highlighter-rouge">|</code>”) to pass the output of one command to the input of another. These are called “Anonymous Pipes.” They are termed “anonymous” because they are created dynamically during execution and are discarded immediately after use.</p>
+
+<p>In this section, we will delve into “Named Pipes,” also known as FIFO (First In, First Out) files. A FIFO file is a special type of file that functions similarly to an Anonymous Pipe but is given a name within the file system, making it persistent and recognizable.</p>
+
+<p>There are two key distinctions between Anonymous Pipes and FIFO files:</p>
+
+<ol>
+  <li><strong>Direction of Communication</strong>: Anonymous Pipes support unidirectional communication, where data flows exclusively from the standard output of the command on the left of the pipe (“<code class="language-plaintext highlighter-rouge">|</code>”) to the standard input of the command on the right. In contrast, FIFO files allow bidirectional communication (also known as “full duplex”), enabling data to flow in both directions between programs, commands, or processes.</li>
+  <li><strong>Scope of Usage</strong>: Anonymous Pipes are restricted to the commands they directly connect and cannot be accessed by other processes. FIFO files, however, can be shared and accessed by any process, command, or program that knows the name of the pipe.</li>
+</ol>
+
+<p>In the following subsections, we will learn how to create FIFO files and explore their usage. Let’s dive in!</p>
+
+<h3 id="how-to-create-a-fifo-file">How to create a FIFO file?</h3>
+
+<h2 id="summary">Summary</h2>
+
+<h2 id="references">References</h2>
+
+<hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" />
+
+<p id="footnote-1" style="font-size:10pt">
+1. Comma-Separated Values file.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. Check <a href="https://linuxhandbook.com/seq-command/">https://linuxhandbook.com/seq-command/</a> or <a href="https://linux.die.net/man/1/seq">https://linux.die.net/man/1/seq</a> for more information.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+
+
+</div>
+
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">The Engineering Corner</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">The Engineering Corner</li><li><a class="u-email" href="mailto:the.engineering.corner.314@gmail.com">the.engineering.corner.314@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>I hope you will have fun and learn new things reading this blog.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
