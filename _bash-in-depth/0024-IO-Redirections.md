@@ -6,8 +6,6 @@ title: "Chapter 24: I/O Redirections"
 # Chapter 24: I/O Redirections
 
 ## Index
-
-## Index
 * [Index]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#index)
 * [Introduction]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#introduction)
 * [Standard Output Redirection]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#standard-output-redirection)
