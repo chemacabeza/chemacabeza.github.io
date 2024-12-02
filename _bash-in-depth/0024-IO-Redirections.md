@@ -6,6 +6,9 @@ title: "Chapter 24: I/O Redirections"
 # Chapter 24: I/O Redirections
 
 ## Index
+
+## Index
+* [Index]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#index)
 * [Introduction]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#introduction)
 * [Standard Output Redirection]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#standard-output-redirection)
 * [Standard Error Redirection]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#standard-error-redirection)
@@ -24,7 +27,7 @@ title: "Chapter 24: I/O Redirections"
 * [Order of redirections]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#order-of-redirections)
     * [Redirection `exec >output 2>&1`]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#redirection-exec->output-2>&1)
     * [Redirection `exec 2>&1 >output`]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#redirection-exec-2>&1->output)
-* [Pipes (`|`)]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#pipes-|)
+* [Pipes (`|`)]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#pipes-)
     * [Pipeable functions]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#pipeable-functions)
     * [PIPESTATUS]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#pipestatus)
 * [`tee` command]({{ site.url }}//bash-in-depth/0024-IO-Redirections.html#tee-command)
