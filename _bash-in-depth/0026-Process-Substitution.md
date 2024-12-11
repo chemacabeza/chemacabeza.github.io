@@ -5,6 +5,12 @@ title: "Chapter 26: Process Substitution"
 
 # Chapter 26: Process Substitution
 
+## Index
+* [Introduction]({{ site.url }}//bash-in-depth/0026-Process-Substitution.html#introduction)
+* [Reading from a Process Substitution]({{ site.url }}//bash-in-depth/0026-Process-Substitution.html#reading-from-a-process-substitution)
+* [Writing to a Process Substitution]({{ site.url }}//bash-in-depth/0026-Process-Substitution.html#writing-to-a-process-substitution)
+* [Summary]({{ site.url }}//bash-in-depth/0026-Process-Substitution.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0026-Process-Substitution.html#references)
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 
