@@ -108,6 +108,76 @@ Done calling new alias
 $ 
 </pre>
 
+The second method for making aliases available in your scripts is to transform the script into an interactive Bash script. This can be accomplished by adding the "`-i`" flag (short for "interactive") to the script's shebang. Modifying the very first line of your script achieves this, as illustrated below:
+
+```txt
+#!/usr/bin/env -S bash -i
+               ^^^    ^^^^
+OR
+
+#!/usr/bin/bash -i
+                ^^^
+```
+
+By including the "`-i`" flag in the shebang, the script runs in interactive mode. This ensures that when the "`.bashrc`" file is sourced, it recognizes the interactive flag and loads the "`.bash_aliases`" file, provided it exists.
+
+To clarify, let's look at an example:
+
+```bash
+ 1 #!/usr/bin/bash -i
+ 2 #Script: aliases-0003.sh
+ 3 echo -e "Calling new alias\n"
+ 4 llc
+ 5 echo -e "\nDone calling new alias"
+```
+
+In this example, the only modification is the inclusion of the "`-i`" flag in the first line (the shebang). When the script is executed, it will properly recognize and expand aliases, producing the expected output.
+
+<pre>
+$ ./aliases-0003.sh
+Calling new alias
+
+total 12K
+-rwxrwxr-x 1 chemacabeza chemacabeza 113 Dec 12 06:36 <strong style="color: green;">aliases-0003.sh</strong>
+-rwxrwxr-x 1 chemacabeza chemacabeza 207 Dec 12 05:38 <strong style="color: green;">aliases-0002.sh</strong>
+-rwxrwxr-x 1 chemacabeza chemacabeza 114 Dec 12 05:31 <strong style="color: green;">aliases-0001.sh</strong>
+
+Done calling new alias
+
+$ 
+</pre>
+
+As demonstrated by the output, we didn't need to enable any special shell options or manually source the aliases file in our script. Bash handled everything automatically, making the process seamless.
+
+If you haven’t already, it’s time to consolidate all your aliases in the "`.bash_aliases`" file located in your home directory. In some cases, this file might already exist; if not, create it now to organize your aliases efficiently.
+
+Let’s revisit our earlier example of the "complex" command:
+
+```bash
+    ls -l -t -h --color
+```
+
+Previously, we defined an alias called "`llc`" to simplify the execution of this command. To make it available in your current Bash session, open a new terminal or run "`source ~/.bash_aliases`" in your existing terminal. Once done, running "`llc`" will produce output similar to the following:
+
+<pre>
+$ source ~/.bash_aliases
+$ llc
+total 12K
+-rwxrwxr-x 1 username username 113 Dec 12 06:36 <strong style="color: green;">aliases-0003.sh</strong>
+-rwxrwxr-x 1 username username 207 Dec 12 05:38 <strong style="color: green;">aliases-0002.sh</strong>
+-rwxrwxr-x 1 username username 114 Dec 12 05:31 <strong style="color: green;">aliases-0001.sh</strong>
+
+$
+</pre>
+
+As shown, the output lists the contents of the current folder, sorted by modification time with the most recently modified files first, and includes color for easier readability.
+
+However, mapping a straightforward alias to a specific command is just the beginning. You can also create aliases that accept arguments, unlocking even greater flexibility. Let’s explore some examples of this in the next section!
+
+## How to create an alias that accepts arguments?
+
+
+
 ## Summary
 
 
