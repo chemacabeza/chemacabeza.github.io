@@ -96,17 +96,17 @@ To make aliases usable in scripts, you need to explicitly enable their expansion
 
 When you run the previous script you will have the following (or a similar one) output in your terminal window.
 
-```txt
+<pre>
 $ ./aliases-0002.sh
 Calling new alias
 
 total 8.0K
--rwxrwxr-x 1 username username 207 Dec 12 05:38 <strong style="color: green">aliases-0002.sh</strong>
--rwxrwxr-x 1 username username 114 Dec 12 05:31 <strong style="color: green">aliases-0001.sh</strong>
+-rwxrwxr-x 1 username username 207 Dec 12 05:38 <strong style="color: green;">aliases-0002.sh</strong>
+-rwxrwxr-x 1 username username 114 Dec 12 05:31 <strong style="color: green;">aliases-0001.sh</strong>
 
 Done calling new alias
 $ 
-```
+</pre>
 
 ## Summary
 
