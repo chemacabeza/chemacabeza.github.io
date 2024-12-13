@@ -235,20 +235,20 @@ After sourcing the "`.bash_aliases`" file or opening a new Bash shell, you can u
 
 <pre>
 $ ffwc . message
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">14003</span>:inter<strong style="color: red;">message</strong>
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">19011</span>:<strong style="color: red;">message</strong>d
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">58470</span>:<strong style="color: red;">message</strong>s
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">72346</span>:<strong style="color: red;">message</strong>
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">261308</span>:counter<strong style="color: red;">message</strong>
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">322289</span>:<strong style="color: red;">message</strong>er
-<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">355054</span>:<strong style="color: red;">message</strong>ry
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">70914</span>:counter<strong style="color: red;">message</strong>
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">155354</span>:inter<strong style="color: red;">message</strong>
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">184462</span>:<strong style="color: red;">message</strong>
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">184463</span>:<strong style="color: red;">message</strong>d
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">184464</span>:<strong style="color: red;">message</strong>er
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">184465</span>:<strong style="color: red;">message</strong>ry
-<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: cyan;">:</span><span style="color: green;">184466</span>:<strong style="color: red;">message</strong>s
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">14003</span>:inter<strong style="color: red;">message</strong>
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">19011</span>:<strong style="color: red;">message</strong>d
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">58470</span>:<strong style="color: red;">message</strong>s
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">72346</span>:<strong style="color: red;">message</strong>
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">261308</span>:counter<strong style="color: red;">message</strong>
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">322289</span>:<strong style="color: red;">message</strong>er
+<span style="color: purple;">./eval/random_words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">355054</span>:<strong style="color: red;">message</strong>ry
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">70914</span>:counter<strong style="color: red;">message</strong>
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">155354</span>:inter<strong style="color: red;">message</strong>
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">184462</span>:<strong style="color: red;">message</strong>
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">184463</span>:<strong style="color: red;">message</strong>d
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">184464</span>:<strong style="color: red;">message</strong>er
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">184465</span>:<strong style="color: red;">message</strong>ry
+<span style="color: purple;">./eval/words_alpha.txt</span><span style="color: blue;">:</span><span style="color: green;">184466</span>:<strong style="color: red;">message</strong>s
 
 $ 
 </pre>
