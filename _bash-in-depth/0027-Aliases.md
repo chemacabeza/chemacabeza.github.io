@@ -5,6 +5,16 @@ title: "Chapter 27: Aliases"
 
 # Chapter 27: Aliases
 
+## Index
+* [Introduction]({{ site.url }}//bash-in-depth/0027-Aliases.html#introduction)
+* [What is an alias?]({{ site.url }}//bash-in-depth/0027-Aliases.html#what-is-an-alias)
+* [How to create an alias?]({{ site.url }}//bash-in-depth/0027-Aliases.html#how-to-create-an-alias)
+* [How to create an alias that accepts arguments?]({{ site.url }}//bash-in-depth/0027-Aliases.html#how-to-create-an-alias-that-accepts-arguments)
+* [Reusing aliases]({{ site.url }}//bash-in-depth/0027-Aliases.html#reusing-aliases)
+* [How to get the current aliases?]({{ site.url }}//bash-in-depth/0027-Aliases.html#how-to-get-the-current-aliases)
+* [How to remove aliases?]({{ site.url }}//bash-in-depth/0027-Aliases.html#how-to-remove-aliases)
+* [Summary]({{ site.url }}//bash-in-depth/0027-Aliases.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0027-Aliases.html#references)
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 
@@ -78,7 +88,7 @@ fi
 ...
 ```
 
-This code checks whether the "`.bash_aliases`" file exists in your home directory. If it does, the aliases within it are loaded into your **interactive shell session**. However, this setup is only applied to interactive Bash instances, such as when you open a terminal, because "`.bashrc`" checks if the environment variable "`$-`" contains the interactive flag. For non-interactive sessions, like running scripts, aliases defined in "`.bash_aliases`" are not automatically loaded.
+This code checks whether the "`.bash_aliases`" file exists in your home directory. If it does, the aliases within it are loaded into your **interactive shell session**. However, this setup is only applied to interactive Bash instances, such as when you open a terminal, because "`.bashrc`" checks if the environment variable "`$-`"<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> contains the interactive flag. For non-interactive sessions, like running scripts, aliases defined in "`.bash_aliases`" are not automatically loaded.
 
 To make aliases usable in scripts, you need to explicitly enable their expansion. One way to achieve this is by sourcing the "`.bash_aliases`" file within the script and enabling a special shell option. Here’s how that can be done:
 
@@ -335,9 +345,29 @@ Once you execute this command, the specified alias will be permanently removed f
 
 ## Summary
 
+Aliases in Bash are a powerful feature that allows you to create shortcuts for complex or frequently used commands. By associating a short name with a longer command or sequence of commands, aliases improve efficiency and save time when working in the shell. They are particularly helpful for streamlining repetitive tasks and customizing your environment to better suit your workflow. Aliases can also incorporate arguments, either directly or through the use of functions, which significantly extends their flexibility and applicability.
+
+When creating aliases, they can be stored in the "`.bash_aliases`" file in your home directory for easy management and persistence. This file, if included in your "`.bashrc`" configuration, ensures that aliases are automatically available whenever you open a new Bash session. However, it’s important to note that aliases are not expanded in scripts by default, as Bash disables them for non-interactive shells. You can work around this limitation by enabling alias expansion explicitly or by running your scripts in an interactive mode.
+
+Bash also supports the creation of aliases that reuse other aliases. This hierarchical structure allows you to build more complex commands incrementally. For example, an alias designed to search for files in a specific directory can be reused to create a variant that searches only in the current directory. Such reusability promotes consistency and efficiency in managing commands and simplifies their maintenance.
+
+To manage your aliases effectively, Bash provides commands to list and remove them. Using a simple command, you can view all the currently defined aliases, which is particularly useful for auditing or troubleshooting your environment. Similarly, unwanted aliases can be removed easily when they are no longer needed. Overall, aliases are an indispensable tool in Bash that helps streamline command-line operations and enhance productivity.
+
+*"The best developers work smarter, not harder—aliases make that possible."*
 
 ## References
 
+1. <https://itnext.io/bash-aliases-are-awesome-8a76aecc96ab>
+2. <https://opensource.com/article/19/7/bash-aliases>
+3. <https://tldp.org/LDP/abs/html/aliases.html>
+4. <https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html>
+5. <https://www.shell-tips.com/bash/alias/>
+6. <https://www.warp.dev/terminus/bash-aliases>
+7. <https://zegetech.com/blog/2020/03/21/amazing-aliases.html>
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+<p id="footnote-1" style="font-size:10pt">
+1. The variable “<code style="font-size:9pt">$-</code>” contains the flags passed to a Bash instance (shell or script)<a href="#footnote-1-ref">&#8617;</a>
+</p>
 
