@@ -394,7 +394,7 @@ We will tackle them one by one.
 An **octal number** is a number expressed in the base-8 numeral system, which uses digits from `0` to `7`. Each digit in an octal number represents a power of 8, just as digits in a decimal number represent powers of 10.
 
 In the base-8 system:
-* The rightmost digit is the least significant digit (i.e., `8^{0}`)
+* The rightmost digit is the least significant digit (i.e., `8<sub>0</sup>`)
 * The next digit is multiplied by `8^{1}`, the next by `8^{2}`, and so on.
 
 For example the octal number `157`:
