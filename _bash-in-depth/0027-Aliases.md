@@ -303,7 +303,7 @@ After sourcing the "`.bash_aliases`" file (or opening a new terminal), you can u
 To view the aliases currently defined in your system, you can use the "`-p`" flag with the built-in "`alias`" command. This will display a list of all active aliases. For example, here's the output I get on my system:
 
 <pre>
-$ <strong style="color: yellow;">alias</strong> -p
+$ <strong style="color: orange;">alias</strong> -p
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias egrep='egrep --color=auto'
 alias ffwc='_ffwc'
@@ -328,7 +328,7 @@ Just as Bash lets you create custom aliases using the "`alias`" built-in command
 To remove an alias, simply type:
 
 <pre>
-    <strong style="color: yellow;">unalias</strong> <alias-name>
+    <strong style="color: orange;">unalias</strong> <alias-name>
 </pre>
 
 Once you execute this command, the specified alias will be permanently removed from the current session.
