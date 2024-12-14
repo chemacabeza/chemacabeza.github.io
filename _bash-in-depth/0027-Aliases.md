@@ -328,7 +328,7 @@ Just as Bash lets you create custom aliases using the "`alias`" built-in command
 To remove an alias, simply type:
 
 <pre>
-    <strong style="color: orange;">unalias</strong> <alias-name>
+    <strong style="color: orange;">unalias</strong> "alias-name"
 </pre>
 
 Once you execute this command, the specified alias will be permanently removed from the current session.
