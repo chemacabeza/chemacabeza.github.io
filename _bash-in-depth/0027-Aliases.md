@@ -253,6 +253,86 @@ $ ffwc . message
 $ 
 </pre>
 
+What’s happening here is that Bash expands the alias into the corresponding function, "`_ffwc`", which then takes the provided path and search content as arguments and incorporates them into the appropriate positions within the command. This process ensures that the function handles the inputs seamlessly.
+
+The diagram below illustrates how Bash processes the alias and executes the underlying logic:
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0027-Aliases/ffwc-expansion.png"/>
+</div>
+
+Using an alias tied to a function is an incredibly versatile tool. It allows you to encapsulate complex logic—such as conditional statements, loops, and piped commands—within a function, while mapping it to a simple and intuitive alias. This approach not only keeps your commands concise but also enhances productivity by abstracting away intricate details, making your workflow more efficient and elegant.
+
+## Reusing aliases
+
+
+Aliases in Bash can also be built upon one another, enabling you to create layered, reusable commands. Let’s explore this with an example.
+
+Previously, we defined an alias to search for files containing specific content:
+
+```bash
+# Find File With Content
+_ffwc() {
+    path_to_folder=$1
+    content_to_search=$2
+    grep -rn $path_to_folder -e "$content_to_search"
+}
+alias ffwc="_ffwc"
+```
+
+This alias, "`ffwc`", expects two arguments: the path to search within and the content to search for. A common scenario is searching for content within the current directory. To simplify this frequent use case, we can create another alias that reuses "`ffwc`" and passes "`.`" (representing the current folder) as the first argument.
+
+The updated "`.bash_aliases`" file would look like this:
+
+```bash
+# Find File With Content
+_ffwc() {
+    path_to_folder=$1
+    content_to_search=$2
+    grep -rn $path_to_folder -e "$content_to_search"
+}
+alias ffwc="_ffwc"
+# Find File With Content in Current Folder
+alias ffwcc="ffwc ."
+```
+
+After sourcing the "`.bash_aliases`" file (or opening a new terminal), you can use the "`ffwcc`" command to achieve the same result as running "`ffwc . message`". For instance, executing "`ffwcc message`" will efficiently search the current folder for files containing the word "`message`". This approach demonstrates the power of reusing aliases to streamline repetitive tasks further.
+
+## How to get the current aliases?
+
+To view the aliases currently defined in your system, you can use the "`-p`" flag with the built-in "`alias`" command. This will display a list of all active aliases. For example, here's the output I get on my system:
+
+<pre>
+$ <strong style="color: yellow;">alias</strong> -p
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias egrep='egrep --color=auto'
+alias ffwc='_ffwc'
+alias ffwcc='ffwc .'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias llc='ls -l -t -h --color'
+alias ls='ls --color=auto'
+
+$
+</pre>
+
+The output varies depending on the number of aliases defined in your system. The more aliases you've created, the more entries you'll see in the list. This command is a quick and effective way to review and manage your defined shortcuts.
+
+## How to remove aliases?
+
+Just as Bash lets you create custom aliases using the "`alias`" built-in command, it also provides a way to remove aliases you no longer need. This can be done easily with the "`unalias`" command.
+
+To remove an alias, simply type:
+
+<pre>
+    <strong style="color: yellow;">unalias</strong> <alias-name>
+</pre>
+
+Once you execute this command, the specified alias will be permanently removed from the current session.
+
 ## Summary
 
 
