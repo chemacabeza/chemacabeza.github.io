@@ -97,3 +97,7 @@ assets:
   cachebust: true
   digest: true
 
+#
+# MathJax
+#
+mathjax: true
