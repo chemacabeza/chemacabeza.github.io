@@ -426,4 +426,4 @@ While HereDocs are versatile, they have some strict requirements. The delimiter 
 8. <https://www.tecmint.com/use-heredoc-in-shell-scripting/>
 
 
-<!--hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px"-->
+<!--hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px" -->
