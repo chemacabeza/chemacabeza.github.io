@@ -233,6 +233,7 @@ IndentationError: unexpected indent
 $
 </pre>
 
+
 The issue arises because Python treats leading tabs as part of the input, resulting in an "`IndentationError: unexpected indent`". This happens because HereDocs in Bash include all characters exactly as they appear, including indentation with tabs or spaces.
 
 Fortunately, Bash provides a simple solution to this problem. By adding a dash ("`-`") immediately after the HereDoc operator ("`<<`"), you can instruct Bash to ignore leading tabs in the HereDoc content. For example:
