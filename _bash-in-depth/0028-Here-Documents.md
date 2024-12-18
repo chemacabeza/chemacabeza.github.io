@@ -222,7 +222,7 @@ To improve readability, we could try indenting the HereDoc content using tabs. F
 
 However, running this modified script leads to an error:
 
-<pre>
+```txt
 $ ./heredoc-0004.sh
 Introduce the radius of the circle: 2.5
 Radius: 2.5
@@ -231,8 +231,7 @@ Radius: 2.5
 IndentationError: unexpected indent
 
 $
-</pre>
-
+```
 
 The issue arises because Python treats leading tabs as part of the input, resulting in an "`IndentationError: unexpected indent`". This happens because HereDocs in Bash include all characters exactly as they appear, including indentation with tabs or spaces.
 
