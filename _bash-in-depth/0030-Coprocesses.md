@@ -239,7 +239,7 @@ How can this issue be resolved? One effective solution is to duplicate the copro
 14 exec 5<&-
 ```
 
-In this revised script, we’ve introduced logic on line 5 to duplicate the standard output of the coprocess to a new file descriptor (e.g., file descriptor 5). We also updated line 10 to read from the duplicated file descriptor and added proper resource management by closing it on line 14.
+In this revised script, we’ve introduced logic on line 6 to duplicate the standard output of the coprocess to a new file descriptor (e.g., file descriptor 5). We also updated line 10 to read from the duplicated file descriptor and added proper resource management by closing it on line 14.
 
 When this improved script is executed, the output correctly reflects all the files in the directory:
 
