@@ -5,6 +5,14 @@ title: "Chapter 30: Coprocesses"
 
 # Chapter 30: Coprocesses
 
+## Index
+* [Introduction]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#introduction)
+* [What is a Coprocess?]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#what-is-a-coprocess)
+* [How to create a Coprocess?]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#how-to-create-a-coprocess)
+* [Why is Asynchronous Tricky?]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#why-is-asynchronous-tricky)
+* [Alternatives to Coprocesses]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#alternatives-to-coprocesses)
+* [Summary]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0030-Coprocesses.html#references)
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 
@@ -180,13 +188,169 @@ As you can see this is more difficult to read than the previous execution with t
 
 ## Why is Asynchronous Tricky?
 
+As discussed in earlier sections, a coprocess is an <u>asynchronous</u> program that runs in a child process. However, its asynchronous nature means there are no guarantees about when it will complete. For instance, in previous examples, we relied on a convention to signal the end of the coprocess’s output.
 
+In those cases, the coprocess remained active and ready to receive additional input. But what happens if the coprocess finishes execution, and we attempt to read from its now-closed standard output? Let’s explore this scenario with a simple example where a coprocess lists the contents of the "coprocess" directory:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: coprocess-0003.sh
+ 3 # Creating the coprocess
+ 4 coproc MY_LS { ls -l coprocess; }
+ 5 echo "Coprocess PID: $MY_LS_PID"
+ 6 while read var <&"${MY_LS[0]}"; do
+ 7     echo $var
+ 8 done
+```
+
+When this script is executed, the output might look like this:
+
+<pre>
+$ ./coprocess-0003.sh
+Coprocess PID: 2152412
+total 0
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file10.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file1.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file2.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file3.txt
+./coprocess-0003.sh: line 6: "${MY_LS[0]}": Bad file descriptor
+
+$
+</pre>
+
+What’s going on here? Although the directory contains 10 files, the script only displays 4. This happens because the "`ls -l coprocess`" coprocess completes its execution and closes its file descriptors before the main script has a chance to fully read its output. As a result, the script encounters an error when attempting to access the standard output on line 6.
+
+How can this issue be resolved? One effective solution is to duplicate the coprocess’s standard output file descriptor. By creating a copy, we ensure that the file descriptor remains open even after the coprocess terminates, allowing the main script to process the entire output. Here’s an updated version of the script that implements this approach:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: coprocess-0004.sh
+ 3 # Creating the coprocess
+ 4 coproc MY_LS { ls -l coprocess; }
+ 5 # Copy stdout to file descriptor 5
+ 6 exec 5<&${MY_LS[0]}
+ 7 # Print Process ID of the coprocess
+ 8 echo "Coprocess PID: $MY_LS_PID"
+ 9 # Read from file descriptor 5
+10 while read -u 5 var; do
+11     echo $var
+12 done
+13 # Close file descriptor 5
+14 exec 5<&-
+```
+
+In this revised script, we’ve introduced logic on line 5 to duplicate the standard output of the coprocess to a new file descriptor (e.g., file descriptor 5). We also updated line 10 to read from the duplicated file descriptor and added proper resource management by closing it on line 14.
+
+When this improved script is executed, the output correctly reflects all the files in the directory:
+
+<pre>
+$ ./coprocess-0004.sh
+Coprocess PID: 2155393
+total 0
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file10.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file1.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file2.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file3.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file4.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file5.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file6.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file7.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file8.txt
+-rw-rw-r-- 1 username username 0 Dec 21 07:16 file9.txt
+
+$
+</pre>
+
+In the next section, we’ll explore alternatives to coprocesses for scenarios where their use may not be viable.
+
+## Alternatives to Coprocesses
+
+If, for some reason, you’re unable to use coprocesses—perhaps due to an older version of Bash—a viable alternative is to use redirections with FIFO files.
+
+Essentially, a coprocess creates a child process for a given command and connects its standard input and output to specific file descriptors in an array. The file descriptor at position zero of the array is used to read the coprocess's standard output, while the one at position one is used to write to its standard input.
+
+This behavior can be replicated using FIFO files and subshells. Let’s look at an example where we adapt the script "`coprocess-0002.sh`" to use FIFO files and subshells:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: coprocess-0005.sh
+ 3 INPUT=inputFifo
+ 4 OUTPUT=outputFifo
+ 5 #Creating fifo files
+ 6 mkfifo $INPUT
+ 7 mkfifo $OUTPUT
+ 8 # Creating subshell with python
+ 9 ( python -i ) <inputFifo >outputFifo 2>/dev/null &
+10 #Saving the PID of the python subshell
+11 PID_PYTHON_JOB=$!
+12 # Print Process ID of python subshell
+13 echo "PID Python Job: $PID_PYTHON_JOB"
+14 # Define funxtion
+15 echo $'def my_function():\n    print("Hello from a function")\n' >$INPUT
+16 # Calling the function defined
+17 echo $'my_function()\n' >$INPUT
+18 echo $'my_function()\n' >$INPUT
+19 echo $'print("EOD")\n' >$INPUT
+20 # Lopp taking care of the output of the subshell
+21 is_done=false
+22 while [[ "$is_done" != "true" ]]; do
+23   read var <$OUTPUT
+24   if [[ $var == "EOD" ]]; then
+25      is_done="true"
+26   else
+27      echo $var
+28   fi
+29 done
+30 # Cleaning
+31 exec 2>/dev/null
+32 kill -9 $PID_PYTHON_JOB
+33 rm $INPUT
+34 rm $OUTPUT
+```
+
+**What’s Happening in This Script?**
+1. **Setting Up Variables and Creating FIFOs (Lines 3–7)**: We define variables to hold the names of the FIFO files and then create them using the mkfifo command.
+2. **Creating a Subshell (Line 9)**: A subshell is launched with its standard input attached to the FIFO file "`inputFifo`" and its standard output connected to "`outputFifo`". The standard error is discarded, and the subshell is created as a background job<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>.
+3. **Storing the Subshell’s PID (Line 11)**: The PID of the background job is saved in the variable "`PID_PYTHON_JOB`".
+4. **Sending Python Code to the Subshell (Lines 15–19)**: The Python code is sent to the subshell’s standard input via the "`inputFifo`" FIFO file.
+5. **Reading Output from the Subshell (Lines 21–29)**: The output from the Python subshell is read via the "`outputFifo`" FIFO file.
+6. **Cleaning Up (Lines 31–34)**:
+    * Standard error is redirected to "`/dev/null`" to suppress any unimportant messages.
+    * The background process is terminated using the stored PID.
+    * The FIFO files created earlier are removed.
+
+When the script is executed, the output resembles the following:
+
+<pre>
+$ ./coprocess-0005.sh
+PID Python Job: 2159608
+Hello from a function
+Hello from a function
+
+$
+</pre>
+
+This demonstrates that it’s entirely possible to replicate the functionality of coprocesses using FIFO files and subshells, providing a workaround for situations where coprocesses are unavailable.
 
 ## Summary
 
+Coprocesses in Bash are a powerful feature that allows you to run an asynchronous child process and communicate with it through dedicated file descriptors. By using the "`coproc`" command, you can create a coprocess and access its standard input and output via an array of file descriptors. These file descriptors enable bidirectional communication, with the descriptor at position 0 used to read the coprocess's output and the one at position 1 used to send input. Each coprocess also automatically creates an environment variable named "`NAME_PID`" (or "`COPROC_PID`" if no name is provided) that stores the process ID of the coprocess, making it easier to manage and track.
+
+Since coprocesses run asynchronously, you must handle their completion and output carefully. A common strategy is to use a delimiter, such as a specific string, to mark the end of the coprocess's output and prevent the main script from waiting indefinitely. Additionally, if the coprocess finishes before its output is fully read, it closes its file descriptors, which can cause errors in the parent script. To avoid this, you can duplicate the coprocess's file descriptors, ensuring the parent script retains access to the output even after the coprocess terminates. Proper resource management, such as closing unused file descriptors, is also essential for efficient scripting.
+
+In situations where coprocesses cannot be used, such as with older Bash versions, FIFO files (named pipes) and subshells offer a viable alternative. This approach replicates the functionality of coprocesses by redirecting input and output through named pipes, allowing communication with a background subshell. While this method requires additional setup, such as creating and managing FIFO files, it demonstrates the flexibility of Bash scripting for interprocess communication. Whether through native coprocesses or workarounds, Bash provides robust tools for managing concurrency and asynchronous tasks.
+
+*"Learning about coprocesses is your ticket to mastering asynchronous operations in Bash."*
 
 ## References
 
+1. <https://copyconstruct.medium.com/bash-coprocess-2092a93ad912>
+2. <https://unix.stackexchange.com/questions/507786/run-command-in-background-with-foreground-terminal-access>
+3. <https://web.archive.org/web/20151221031303/http://www.ict.griffith.edu.au/anthony/info/shell/co-processes.hints>
+4. <https://wiki.bash-hackers.org/syntax/keywords/coproc>
+5. <https://www.gnu.org/software/bash/manual/html_node/Coprocesses.html>
+6. <https://www.linuxjournal.com/content/bash-co-processes>
+7. <https://www.linuxjournal.com/content/investigating-some-unexpected-bash-coproc-behavior>
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 <p id="footnote-1" style="font-size:10pt">
@@ -195,8 +359,6 @@ As you can see this is more difficult to read than the previous execution with t
 <p id="footnote-2" style="font-size:10pt">
 2. More about this Python flag in the following link <a href="https://www.python-engineer.com/posts/python-interactive-mode/">https://www.python-engineer.com/posts/python-interactive-mode/</a>. <a href="#footnote-2-ref">&#8617;</a>
 </p>
-
-
-
-
-
+<p id="footnote-3" style="font-size:10pt">
+3. Did you see the “&” character at the end of line 9? In a previous chapter we learnt that we can use that character to create jobs.<a href="#footnote-3-ref">&#8617;</a>
+</p>
