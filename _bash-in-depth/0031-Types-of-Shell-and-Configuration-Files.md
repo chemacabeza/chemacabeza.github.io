@@ -79,7 +79,7 @@ You may not encounter frequent references to the "`/etc/bash.bashrc`" file, as i
 
 In one of Debian’s README files<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a>, you might find a description similar to the following:
 
-> 5. What is /etc/bash.bashrc? It doesn't seem to be documented.
+>  5. What is /etc/bash.bashrc? It doesn't seem to be documented.
 >
 >   The Debian version of bash is compiled with a special option
 >   (-DSYS_BASHRC) that makes bash read /etc/bash.bashrc before ~/.bashrc
