@@ -20,7 +20,7 @@ Much like many other programs, Bash uses configuration files (or “config files
 
 To make the function persist across sessions and be accessible in all terminal windows, you need to include it in a configuration file. These files are automatically loaded when a terminal starts, ensuring that your customizations, like functions, aliases, and environment variables, are always ready to use.
 
-### "`/etc/profile`"
+### Configuration file "`/etc/profile`"
 
 The "`/etc/profile`" file contains system-wide environment settings and startup scripts for Linux. Its primary purpose is to configure global settings that apply to all users on the system. Typically, this script handles tasks such as:
 * Configuring the default command-line prompt
@@ -71,7 +71,7 @@ Here’s how this code works:
 
 This structure ensures modularity and makes it easier to manage system-wide configurations by allowing distinct scripts for specific tasks or applications.
 
-### "`/etc/bashrc`" or "`/etc/bash.bashrc`"
+### Configuration File "`/etc/bashrc`" or Configuration File "`/etc/bash.bashrc`"
 
 The "`/etc/bashrc`" file is a system-wide configuration file that defines functions, aliases, and other settings that apply to all users on the system. It provides a centralized way to manage configurations for Bash shells.
 
@@ -86,6 +86,78 @@ In one of Debian’s README files<a id="footnote-4-ref" href="#footnote-4" style
 >   for interactive non-login shells. So, on Debian systems,
 >   /etc/bash.bashrc is to ~/.bashrc as /etc/profile is to
 >   ~/.bash_profile.
+
+### Configuration File "`~/.bash_profile"
+
+The "`~/.bash_profile`", if it exists, is located in each user's home directory. It is used to define environment variables, ensuring they are available to all future interactive shells that the user opens.
+
+### Configuration File "`~/.bash_login`"
+
+Much like "`~/.bash_profile`", the "`~/.bash_login`" file resides in the user's home directory and is used to set environment variables, enabling future interactive shells to inherit these settings.
+
+This file originates from the *C shell's*<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a> configuration file named "`.login`", which inspired its creation.
+
+### Configuration File "`~/.profile`"
+
+Like "`~/.bash_profile`" and "`~/.bash_login`", the "`~/.profile`" file is found in the user's home directory and is used to define environment variables, ensuring they are inherited by future interactive shells.
+
+This file has its roots in the *Bourne shell*<a id="footnote-6-ref" href="#footnote-6" style="font-size:x-small">[6]</a> and *Korn shell*<a id="footnote-7-ref" href="#footnote-7" style="font-size:x-small">[7]</a>, where a similar configuration file named "`.profile`" was first introduced.
+
+### Configuration File "`~/.bashrc`"
+
+The "`~/.bashrc`" file is a user-specific script that Bash automatically executes whenever it starts in interactive<a id="footnote-8-ref" href="#footnote-8" style="font-size:x-small">[8]</a> mode. It serves the same purpose as "`/etc/bashrc`" (or "`/etc/bash.bashrc`") but is applied on a per-user basis and runs after those system-wide configuration files.
+
+### Configuration File "`~/.bash_logout`"
+
+The "`~/.bash_logout`" file, located in the user's home directory, is executed each time a login shell exits, provided the file exists. It serves as a counterpart to "`~/.bash_login`" and is designed to include commands that should run when a user logs out of the system.
+
+For example, this file can be used to define commands for deleting temporary files or logging the duration of a user's session.
+
+If the file is absent, no extra commands will be executed upon logout.
+
+## Types of Shell
+
+Bash shells can be categorized based on two key attributes:
+* Whether the shell is a login shell or not.
+* Whether the shell is interactive or not.
+
+Using these attributes, we can classify shells into four distinct types:
+1. Interactive Login Shell
+2. Interactive Non-Login Shell
+3. Non-Interactive Non-Login Shell
+4. Non-Interactive Login Shell
+
+Why is understanding this classification important? Great question! The type of shell determines which configuration files will be executed, which can significantly impact the behavior and environment of your shell session.
+
+In the following sections, I’ll delve into each shell type, explain when and where you encounter them, and provide examples of how to create them. Let’s get started!
+
+### Interactive Login Shell
+
+An **Interactive Login Shell** is initiated when you **log into a system** by providing your credentials.
+
+This type of shell is commonly encountered in the following scenarios:
+* Logging into a system without a graphical user interface.
+* Accessing a remote server via SSH.
+* Switching users with the command "`su - <username>`", which logs you in as another user.
+* Logging in through a virtual console (or virtual terminal) using `Ctrl+Alt+F1`.
+
+Interactive Login Shells are designed for direct user interaction, allowing you to input commands via the keyboard and view the resulting output on the screen.
+
+### Interactive Non-Login Shell
+
+An **Interactive Non-Login Shell** is initiated when you are already logged into a system and open a new terminal window.
+
+Like the Interactive Login Shell, this shell type allows direct interaction, enabling users to input commands and receive output in real time.
+
+### Non-Interactive Non-Login Shell
+
+A **Non-Interactive Non-Login Shell** is created whenever you **execute a script**. Each script operates within its own subshell, which functions without user interaction.
+
+While the script itself may include prompts or interactions for the user, the shell running the script remains non-interactive, handling commands silently in the background.
+
+### Non-Interactive Login Shell
+
+
 
 ## Summary
 
@@ -105,5 +177,17 @@ In one of Debian’s README files<a id="footnote-4-ref" href="#footnote-4" style
 </p>
 <p id="footnote-4" style="font-size:10pt">
 4. <a href="https://sources.debian.org/src/bash/4.3-11/debian/README/">https://sources.debian.org/src/bash/4.3-11/debian/README/</a><a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. <a href="https://en.wikipedia.org/wiki/C_shell">https://en.wikipedia.org/wiki/C_shell</a><a href="#footnote-5-ref">&#8617;</a>
+</p>
+<p id="footnote-6" style="font-size:10pt">
+6. <a href="https://en.wikipedia.org/wiki/Bourne_shell">https://en.wikipedia.org/wiki/Bourne_shell</a><a href="#footnote-6-ref">&#8617;</a>
+</p>
+<p id="footnote-7" style="font-size:10pt">
+7. <a href="https://en.wikipedia.org/wiki/KornShell">https://en.wikipedia.org/wiki/KornShell</a><a href="#footnote-7-ref">&#8617;</a>
+</p>
+<p id="footnote-8" style="font-size:10pt">
+8. More on interactive shells later in the chapter.<a href="#footnote-8-ref">&#8617;</a>
 </p>
 
