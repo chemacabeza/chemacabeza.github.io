@@ -1,9 +1,9 @@
 ---
 layout: chapter
-title: "Chapter 31: Types of Shell & Configuration Files"
+title: "Chapter 31: Configuration Files & Types of Shell"
 ---
 
-# Chapter 31: Types of Shell & Configuration Files
+# Chapter 31: Configuration Files & Types of Shell
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
