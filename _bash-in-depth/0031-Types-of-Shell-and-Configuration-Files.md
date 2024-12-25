@@ -5,6 +5,25 @@ title: "Chapter 31: Configuration Files & Types of Shell"
 
 # Chapter 31: Configuration Files & Types of Shell
 
+## Index
+* [Introduction]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#introduction)
+* [Available configuration files]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#available-configuration-files)
+    * [Configuration file "`/etc/profile`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-etcprofile)
+    * [Configuration File "`/etc/bashrc`" or Configuration File "`/etc/bash.bashrc`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-etcbashrc-or-configuration-file-etcbashbashrc)
+    * [Configuration File "`~/.bash_profile"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-~bash_profile)
+    * [Configuration File "`~/.bash_login`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-~bash_login)
+    * [Configuration File "`~/.profile`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-~profile)
+    * [Configuration File "`~/.bashrc`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-~bashrc)
+    * [Configuration File "`~/.bash_logout`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-~bash_logout)
+* [Types of Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#types-of-shell)
+    * [Interactive Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#interactive-login-shell)
+    * [Interactive Non-Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#interactive-non-login-shell)
+    * [Non-Interactive Non-Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#non-interactive-non-login-shell)
+    * [Non-Interactive Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#non-interactive-login-shell)
+* [Putting It All Together]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#putting-it-all-together)
+* [A Note on Non-Interactive Non-Login Shells]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#a-note-on-non-interactive-non-login-shells)
+* [Summary]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#summary)
+* [References]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#references)
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 
@@ -157,12 +176,73 @@ While the script itself may include prompts or interactions for the user, the sh
 
 ### Non-Interactive Login Shell
 
+A **Non-Interactive Login Shell** is a rare type of shell that logs into a system specifically to execute a script.
+
+One example of this is the "`ssh`" command, a tool designed for logging into a remote machine to run commands without initiating a full interactive session<a id="footnote-9-ref" href="#footnote-9" style="font-size:x-small">[9]</a>.
+
+## Putting It All Together
+
+In the previous sections, we explored the configuration files used by Bash and the different types of shells. Now, it's time to combine this knowledge and gain a comprehensive understanding of how these configuration files relate to the various shell types.
+
+The following diagram illustrates these relationships:
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0031-Types-of-Shell-and-Configuration-Files/Diagram-of-config-files.png"/>
+</div>
+
+This diagram applies to the following shell types:
+* Interactive Login Shells
+* Interactive Non-Login Shells
+* Non-Interactive Login Shells
+
+However, there is an exception for Non-Interactive Non-Login Shells, which we will address in the next section.
+
+## A Note on Non-Interactive Non-Login Shells
+
+Non-interactive, non-login shells have a unique behavior: they do not automatically load configuration files. This design choice is intentional and stems from two key reasons.
+
+First, it ensures independence from user-specific configurations. For instance, an alias defined by one user won’t inadvertently affect another user’s experience or scripts. Second, it prioritizes performance. A script that bypasses loading configuration files or customizations executes much faster than one that doesn’t.
+
+If you do need to load configuration files for your script, you can explicitly source them before execution. Alternatively, you can use the "`BASH_ENV`" environment variable to specify a configuration file to be loaded automatically when the script runs.
+
+For example:
+
+<pre>
+$ ssh username@targethost 'BASH_ENV=/home/username/.bash_profile /home/username/my_script.sh'
+...
+</pre>
+
+In this case, we connect to the host targethost as the user username to execute the script "`/home/username/my_script.sh`". Since the "`BASH_ENV`" variable is set to "`/home/username/.bash_profile`", Bash will source this file before running the script.
 
 
 ## Summary
 
+Bash uses several configuration files to manage environment settings, commands, and customizations. These files are executed at different times, depending on the type of shell being launched. The main configuration files include "`/etc/profile`", "`/etc/bashrc`" (or "`/etc/bash.bashrc`" on some systems), and user-specific files such as "`~/.bash_profile`", "`~/.bash_login`", "`~/.profile`", "`~/.bashrc`", and "`~/.bash_logout`". System-wide files, such as "`/etc/profile`", are run for all users, while user-specific files in the home directory apply only to the respective user. These files are essential for setting up environment variables, aliases, and other startup customizations.
+
+Bash shells can be classified based on two attributes: whether they are interactive or non-interactive, and whether they are login or non-login. Interactive shells are those where a user can input commands directly and see the output, while non-interactive shells are typically used for running scripts. Login shells require user credentials and load configuration files meant for initializing the session, while non-login shells inherit configurations without requiring authentication.
+
+The four types of shells are:
+1. **Interactive Login Shell**: This is launched when a user logs into the system (e.g., via SSH or a virtual console). It reads configuration files like "`/etc/profile`", "`~/.bash_profile`", "`~/.bash_login`", or "`~/.profile`".
+2. **Interactive Non-Login Shell**: This occurs when opening a new terminal window in an already logged-in session. It typically reads "`~/.bashrc`" for user-specific settings.
+3. **Non-Interactive Non-Login Shell**: This shell runs scripts and does not load configuration files by default to enhance performance and decouple from user-specific settings. However, configurations can be explicitly loaded by sourcing a file or setting the "`BASH_ENV`" variable.
+4. **Non-Interactive Login Shell**: This is rare and occurs when a login operation is performed solely to execute a script. For example, using ssh to log in and run a command remotely. It may load login shell configuration files like "`~/.bash_profile`".
+
+Understanding the relationship between shell types and configuration files is crucial for managing Bash effectively. Each shell type has specific behavior regarding which files it reads, allowing users to tailor configurations to optimize workflows and ensure consistency across sessions.
+
+*"With the knowledge of Bash’s types of shells and configuration files, every command becomes a step toward mastery."*
 
 ## References
+1. <https://askubuntu.com/questions/438150/why-are-scripts-in-etc-profile-d-being-ignored-system-wide-bash-aliases/438170#438170>
+2. <https://askubuntu.com/questions/879364/differentiate-interactive-login-and-non-interactive-non-login-shell>
+3. <https://effective-shell.com/part-5-building-your-toolkit/configuring-the-shell/>
+4. <https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/02%3A_User_Group_Administration/5.03%3A_System_Wide_User_Profiles/5.03.1%3A_System_Wide_User_Profiles%3A_etc-profile>
+5. <https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Linux_-_The_Penguin_Marches_On_(McClanahan)/02%3A_User_Group_Administration/5.03%3A_System_Wide_User_Profiles/5.03.3System_Wide_User_Profiles%3A_The_etc-bashrc_File#.>
+6. <https://linuxhint.com/understanding_bash_shell_configuration_startup/>
+7. <https://tecadmin.net/difference-between-login-and-non-login-shell/>
+8. <https://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell>
+9. <https://wiki.archlinux.org/title/bash>
+10. <https://www.computerhope.com/unix/ubash.htm#invocation>
+11. <https://www.cyberciti.biz/faq/unix-linux-execute-command-using-ssh/>
 
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
@@ -189,5 +269,8 @@ While the script itself may include prompts or interactions for the user, the sh
 </p>
 <p id="footnote-8" style="font-size:10pt">
 8. More on interactive shells later in the chapter.<a href="#footnote-8-ref">&#8617;</a>
+</p>
+<p id="footnote-9" style="font-size:10pt">
+9. You can learn more about this in the next link <a href="https://www.cyberciti.biz/faq/unix-linux-execute-command-using-ssh/">https://www.cyberciti.biz/faq/unix-linux-execute-command-using-ssh/</a><a href="#footnote-9-ref">&#8617;</a>
 </p>
 
