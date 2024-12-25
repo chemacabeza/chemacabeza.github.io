@@ -20,7 +20,7 @@ title: "Chapter 31: Configuration Files & Types of Shell"
     * [Interactive Non-Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#interactive-non-login-shell)
     * [Non-Interactive Non-Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#non-interactive-non-login-shell)
     * [Non-Interactive Login Shell]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#non-interactive-login-shell)
-* [Putting It All Together]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#putting-it-all-together)
+    * [Putting It All Together]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#putting-it-all-together)
 * [A Note on Non-Interactive Non-Login Shells]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#a-note-on-non-interactive-non-login-shells)
 * [Summary]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#summary)
 * [References]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#references)
@@ -180,7 +180,7 @@ A **Non-Interactive Login Shell** is a rare type of shell that logs into a syste
 
 One example of this is the "`ssh`" command, a tool designed for logging into a remote machine to run commands without initiating a full interactive session<a id="footnote-9-ref" href="#footnote-9" style="font-size:x-small">[9]</a>.
 
-## Putting It All Together
+### Putting It All Together
 
 In the previous sections, we explored the configuration files used by Bash and the different types of shells. Now, it's time to combine this knowledge and gain a comprehensive understanding of how these configuration files relate to the various shell types.
 
