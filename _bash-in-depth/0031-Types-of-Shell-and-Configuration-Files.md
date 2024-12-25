@@ -10,7 +10,7 @@ title: "Chapter 31: Configuration Files & Types of Shell"
 * [Available configuration files]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#available-configuration-files)
     * [Configuration file "`/etc/profile`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-etcprofile)
     * [Configuration File "`/etc/bashrc`" or Configuration File "`/etc/bash.bashrc`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-etcbashrc-or-configuration-file-etcbashbashrc)
-    * [Configuration File "`~/.bash_profile"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-bash_profile)
+    * [Configuration File "`~/.bash_profile`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-bash_profile)
     * [Configuration File "`~/.bash_login`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-bash_login)
     * [Configuration File "`~/.profile`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-profile)
     * [Configuration File "`~/.bashrc`"]({{ site.url }}//bash-in-depth/0031-Types-of-Shell-and-Configuration-Files.html#configuration-file-bashrc)
@@ -106,7 +106,7 @@ In one of Debian’s README files<a id="footnote-4-ref" href="#footnote-4" style
 >   /etc/bash.bashrc is to ~/.bashrc as /etc/profile is to
 >   ~/.bash_profile.
 
-### Configuration File "`~/.bash_profile"
+### Configuration File "`~/.bash_profile`"
 
 The "`~/.bash_profile`", if it exists, is located in each user's home directory. It is used to define environment variables, ensuring they are available to all future interactive shells that the user opens.
 
