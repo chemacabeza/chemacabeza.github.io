@@ -51,8 +51,8 @@ This prompt includes:
 
 The result might look like this:
 
-<pre style="background-color:#8080dd">
-<span style="color:black;">user</span><span style="color:pink;">@hostname</span><span style="color:red;">:~/projects/myapp</span> <span style="color:white;">(main)</span> <span style="color:ping;">$</span>
+<pre style="background-color:#2d2d37">
+<span style="color:white;">user</span><span style="color:pink;">@hostname</span><span style="color:red;">:~/projects/myapp</span> <span style="color:white;">(main)</span> <span style="color:ping;">$</span>
 </pre>
 
 ## Summary
