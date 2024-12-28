@@ -173,6 +173,25 @@ As shown, each command in the array is executed in the order it is defined, enri
 
 ## Prompt String 1
 
+The environment variable "`PS1`" is used to define the format of your command prompt. By assigning it a specific string, you can customize how your prompt looks.
+
+For example, let’s create a simple prompt that displays the text "`---Introduce Command--->`" like this:
+
+```shell
+$ PS1="---Introduce Command---> "
+---Introduce Command---> 
+```
+
+In the first line of the example, we assign the value "`---Introduce Command--->`" to the "`PS1`" variable. From that point on, the prompt changes to display this string instead of the default prompt ("`$`").
+
+While this is a basic example, the possibilities with "`PS1`" are virtually endless!
+
+The "`PS1`" variable supports special characters that can dynamically display information such as the current date, username, hostname, and more. You can even customize colors, including both the background and font. And if you want to go further, you can introduce custom functionality by defining your own functions and incorporating them into the prompt using command substitution.
+
+In the upcoming sections, we’ll explore:
+* Special characters
+* Changing colors (background and font)
+* Using command substitution to enhance your prompt with additional information
 
 ## Summary
 
