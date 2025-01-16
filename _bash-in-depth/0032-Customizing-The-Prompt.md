@@ -291,6 +291,7 @@ username@hostname:directory $(echo "hello there!")$
 ```
 
 <strong>Step 2: Perform Expansions and Substitutions</strong>
+
 Next, Bash processes the remaining parts of the string:
 * Parameter expansion
 * Command substitution
