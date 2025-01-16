@@ -197,6 +197,7 @@ In the upcoming sections, we’ll explore:
 
 The Bash shell is able to recognize special characters that provide information about your system. The following table provides an overview of the special characters available to you:
 
+{% raw %}
 | Special Character | Description |
 | :----: | :----- |
 | `\A` | The current time with the format `HH:MM` and 24-hour. For example: `15:23` |
@@ -226,6 +227,7 @@ The Bash shell is able to recognize special characters that provide information 
 | `\\` | A "`\`" backslash character. |
 | `\[` | The 'start of non-printing characters' sequence. |
 | `\]` | The 'end of non-printing characters' sequence. |
+{% endraw %}
 
 Now we are going to use some of these special characters to create a custom prompt string.
 
