@@ -161,11 +161,11 @@ Once the script is sourced into the current terminal session, the prompt behaves
 
 ```shell
 $ source prompt-0002.sh
-[2023/02/28-06:29:36] [Last command: OK]
+[2024/02/28-06:29:36] [Last command: OK]
 $ ls /tmp &>/dev/null
-[2023/02/28-06:30:01] [Last command: OK]
+[2024/02/28-06:30:01] [Last command: OK]
 $ ls does-not-exist
-[2023/02/28-06:30:11] [Last command: KO]
+[2024/02/28-06:30:11] [Last command: KO]
 $
 ```
 
@@ -193,10 +193,137 @@ In the upcoming sections, we’ll explore:
 * Changing colors (background and font)
 * Using command substitution to enhance your prompt with additional information
 
+### Special Characters
+
+The Bash shell is able to recognize special characters that provide information about your system. The following table provides an overview of the special characters available to you:
+
+| Special Character | Description |
+| :----: | :----- |
+| `\A` | The current time with the format `HH:MM` and 24-hour. For example: `15:23` |
+| `\a` | This character tells the shell to play a beep sound through the speakers. | 
+| `\D{format}` | This will show the current date in the specified format given. “format” should be replaced by any format code that “strftime”<a id="footnote-1-ref" href="#footnote-1" style="font-size:x-small">[1]</a> admits. For example, “`\D{%d.%m.%Y}`” will display the day of the month followed by the month followed by the year (e.g: “`08.02.2012`”) |
+| `\d` | Shows the current date with the format “Weekday Month Day-of-the-month”. For example: '`Tue Feb 21`' | 
+| `\e` | An ASCII escape character. This is used to print special characters. It is equivalent to “`\033`” but in octal representation. |
+| `\H` | The full hostname |
+| `\h` | The hostname up to the first `.` dot. |
+| `\j` | The number of jobs currently managed by the shell. |
+| `\l` | The basename of the shell's terminal device. |
+| `\n` | A newline character. |
+| `\r` | A carriage return character. | 
+| `\s` | The name of the shell, the basename of `$0`. For example: “`-bash`” (in the case of a **login shell**) or ”`bash`” (in the case of a **non-login shell**) |
+| `\T` | The current time in 12-hour "`HH:MM:SS`" format. | 
+| `\t` | The current time in 24-hour "`HH:MM:SS`" format. |
+| `\u` | The username of the current user. |
+| `\V` | The release of bash, with the patch level. For example: “`5.1.16`”. |
+| `\v` | The version of Bash. For example: “`5.1`”. |
+| `\W` | The current working directory name (rather than the entire path as is used for "`\w`"). For example: “`Pictures`”. |
+| `\w` | The current working directory, with `$HOME` abbreviated with a “`~`” tilde symbol. For example: “`~/Pictures`”. |
+| `\@` | The current time in 12-hour am/pm format. |
+| `\!` | The history number of this command. |
+| `\#` | The command number of this command. | 
+| `\$` | The `$` dollar symbol, unless we are a super-user, in which case the `#` hash symbol is used. |
+| `\nnn` | The character corresponding to the octal number “`nnn`”, used to show special characters. |
+| `\\` | A "`\`" backslash character. |
+| `\[` | The 'start of non-printing characters' sequence. |
+| `\]` | The 'end of non-printing characters' sequence. |
+
+Now we are going to use some of these special characters to create a custom prompt string.
+
+Our custom format is going to contain:
+* Time with hours minutes and seconds
+* The username of the current user
+* The full hostname
+* The “`@`” character
+* The path of the current working directory
+* The dollar sign before the command to be run
+* A space
+
+As this is quite a lot of information to be shown in one single line along with the command to be run, we will put the dollar sign and the command in a separate line.
+
+To accomplish this we are going to create a small script that we will source into our shell.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: prompt-0003.sh
+ 3 PS1="\n\t \u@\H \w\n\$ "
+```
+
+<pre>
+$ source prompt-0003.sh
+
+06:23:25 username@hostname ~/Repositories/bash_in_depth/_bash-in-depth/chapters/0032-Customizing-The-Prompt/script
+$ 
+</pre>
+
+### How does PS1 get evaluated?
+
+When Bash reads the value of the PS1 variable from its declaration (e.g., in the "`.bashrc`" file), it interprets the string and processes it to produce the desired result. This involves several steps of decoding and evaluation.
+
+Let’s explore this process with a specific example. Suppose the "`PS1`" variable is set as follows:
+
+```bash
+PS1="\u@\h:\W \$(echo "hello there!")\$ "
+              ^______________________^
+              Note the use of escape characters
+```
+
+When Bash sources the file containing this line, it initially interprets the string and produces the following intermediate value:
+
+```txt
+\u@\h:\W $(echo "hello there!")$
+```
+
+Notice that the escape characters preceding the dollar signs are removed. This interpreted string will then be evaluated by Bash every time the prompt is displayed. Before the prompt appears, Bash performs a series of substitutions to produce the final output.
+
+<strong>Step 1: Replace Special Characters</strong>
+
+Bash begins by replacing the special placeholders in the string:
+* "`\u`" is replaced with the current username.
+* "`\h`" is replaced with the hostname, truncated at the first dot.
+* "`\W`" is replaced with the name of the current working directory.
+
+For example, this could result in:
+
+```txt
+username@hostname:directory $(echo "hello there!")$
+```
+
+<strong>Step 2: Perform Expansions and Substitutions</strong>
+Next, Bash processes the remaining parts of the string:
+* Parameter expansion
+* Command substitution
+* Arithmetic expansion
+* Quote removal
+
+In this example, "`$(echo "hello there!")`" is evaluated, resulting in:
+
+```txt
+username@hostname:directory hello there!$
+```
+
+This final output represents the customized prompt displayed in the terminal.
+
+<strong>Summary of the Process</strong>
+
+To summarize, here’s what happens step by step:
+1. Bash sources the file containing the "`PS1`" variable.
+2. It decodes the value of "`PS1`".
+3. Each time the prompt is about to be displayed, Bash performs the following:
+    * **Special character replacement** (e.g., "`\u`", "`\h`", "`\W`").
+    * **Expansions and substitutions**, including parameter expansion, command substitution, arithmetic expansion, and quote removal.
+4. Finally, the processed value of "`PS1`" is printed as the prompt.
+
+<strong>Beyond Special Characters</strong>
+
+In addition to special placeholders, you can further customize your prompt by adding colors, changing the background, or even including emojis. The next section will explore these advanced customizations.
+
 ## Summary
 
 
 ## References
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
+<p id="footnote-1" style="font-size:10pt">
+1. For more information about the available formats consult “<code style="font-size:10pt">man strftime</code>” in your command line.<a href="#footnote-1-ref">&#8617;</a>
+</p>
 
