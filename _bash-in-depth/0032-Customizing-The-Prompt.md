@@ -320,6 +320,37 @@ To summarize, here’s what happens step by step:
 
 In addition to special placeholders, you can further customize your prompt by adding colors, changing the background, or even including emojis. The next section will explore these advanced customizations.
 
+
+## Changing the color and text formatting
+
+In the earlier sections of this chapter, we explored how to customize various prompt strings by modifying the values of the "`PS0`", "`PS1`", "`PS2`", "`PS3`", and "`PS4`" variables.
+
+Beyond altering the content of these prompts, Bash also allows us to customize their appearance by changing the text color and formatting. This is achieved using special sequences of characters that Bash interprets to apply the desired styling.
+
+<strong>The Special Formatting Sequence</strong>
+
+To apply formatting, you use a specific sequence of characters that begins the desired style. For example:
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0032-Customizing-The-Prompt/Escape-Sequence-For-Formatting-The-Text.png"/>
+</div>
+
+Once this sequence is inserted into the prompt, the specified format will remain active until you explicitly stop it. To reset the formatting, a separate special sequence is used, as shown below:
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0032-Customizing-The-Prompt/Equivalent-Escape-Sequences.png" width="300"/>
+</div>
+
+<strong>Formatting Rules and Order of Application</strong>
+
+When using these special sequences to style your prompt, the order of application is important. Follow these steps to ensure the formatting is applied correctly:
+1. **Set the Background Color**: Apply the desired background color first, if needed.
+2. **Set the Text Color**: Specify the foreground (text) color next.
+3. **Print the Styled Text**: Display the text using the applied formatting.
+4. **Reset the Format**: Use the reset sequence to revert to the default formatting.
+
+By following this order, you can ensure that your prompt's appearance is styled as intended.
+
 ## Summary
 
 
