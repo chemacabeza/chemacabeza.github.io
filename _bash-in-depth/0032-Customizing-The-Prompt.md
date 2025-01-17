@@ -361,7 +361,7 @@ The new script is as follows:
  3 TIME="\e[0;47m\e[1;34m\t\e[0m"
  4 USER="\e[1;31m\u\e[0m"
  5 HOST="\e[0;44m\e[4;32m\H\e[0m"
- 6 CURRENT_DIR="\e[1;33m\w\e[0m"
+ 6 CURRENT_DIR="\e[1;33m\e[1;40\w\e[0m"
  7 PS1="\n${TIME} ${USER}@${HOST} ${CURRENT_DIR}\n$ "
 ```
 
@@ -369,14 +369,14 @@ In the previous script, we assigned the different fields we wanted to style to s
 * "`TIME`": White background with bold blue text.
 * "`USER`": Bold red text.
 * "`HOST`": Blue background with underlined green text.
-* "`CURRENT_DIR`": Bold yellow text.
+* "`CURRENT_DIR`": Bold yellow text with black background.
 
 When you source the "`prompt-0004.sh`" into your Bash terminal you will see something like the following:
 
 <pre>
 $ source prompt-0004.sh
 
-<span style="background-color: white; color: blue; font-weight: bold;">05:53:09</span> <span style="color: red; font-weight: bold;">username</span>@<span style="background-color: blue; color: green; text-decoration: underline;">hostname</span> <span style="color: yellow; font-weight: bold;">~/Repositories/bash-in-depth/_bash-in-depth/chapters/0032-Customizing-The-Prompt/script</span>
+<span style="background-color: white; color: blue; font-weight: bold;">05:53:09</span> <span style="color: red; font-weight: bold;">username</span>@<span style="background-color: blue; color: green; text-decoration: underline;">hostname</span> <span style="background-color: black; color: yellow; font-weight: bold;">~/Repositories/bash-in-depth/_bash-in-depth/chapters/0032-Customizing-The-Prompt/script</span>
 $
 </pre>
 
