@@ -373,8 +373,8 @@ In the previous script, we assigned the different fields we wanted to style to s
 
 When you source the "`prompt-0004.sh`" into your Bash terminal you will see something like the following:
 
-<pre>
-$ source prompt-0004.sh
+<pre style="background-color:black">
+$ <span style="font-weight: bold; color: yellow">source</span> <span style="color: white">prompt-0004.sh</span>
 
 <span style="background-color: white; color: blue; font-weight: bold;">05:53:09</span> <span style="color: red; font-weight: bold;">username</span>@<span style="background-color: blue; color: green; text-decoration: underline;">hostname</span> <span style="background-color: black; color: yellow; font-weight: bold;">~/Repositories/bash-in-depth/_bash-in-depth/chapters/0032-Customizing-The-Prompt/script</span>
 $
