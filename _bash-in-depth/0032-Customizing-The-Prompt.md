@@ -374,10 +374,10 @@ In the previous script, we assigned the different fields we wanted to style to s
 When you source the "`prompt-0004.sh`" into your Bash terminal you will see something like the following:
 
 <pre style="background-color:black">
-$ <span style="font-weight: bold; color: yellow">source</span> <span style="color: white">prompt-0004.sh</span>
+<span style="font-weight: bold; color: white">$</span> <span style="font-weight: bold; color: yellow">source</span> <span style="color: white">prompt-0004.sh</span>
 
 <span style="background-color: white; color: blue; font-weight: bold;">05:53:09</span> <span style="color: red; font-weight: bold;">username</span>@<span style="background-color: blue; color: green; text-decoration: underline;">hostname</span> <span style="background-color: black; color: yellow; font-weight: bold;">~/Repositories/bash-in-depth/_bash-in-depth/chapters/0032-Customizing-The-Prompt/script</span>
-$
+<span style="font-weight: bold; color: white">$</span>
 </pre>
 
 Configuring prompt strings is both simple and highly flexible. Not only can you customize their color and formatting, but you can also enhance them by incorporating additional information. This is achieved by executing commands and using their output directly in the prompt string.
