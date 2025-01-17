@@ -351,6 +351,41 @@ When using these special sequences to style your prompt, the order of applicatio
 
 By following this order, you can ensure that your prompt's appearance is styled as intended.
 
+Now we are going to create a version of the script "`prompt-0003.sh`" to color the output.
+
+The new script is as follows:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: prompt-0004.sh
+ 3 TIME="\e[0;47m\e[1;34m\t\e[0m"
+ 4 USER="\e[1;31m\u\e[0m"
+ 5 HOST="\e[0;44m\e[4;32m\H\e[0m"
+ 6 CURRENT_DIR="\e[1;33m\w\e[0m"
+ 7 PS1="\n${TIME} ${USER}@${HOST} ${CURRENT_DIR}\n$ "
+```
+
+In the previous script, we assigned the different fields we wanted to style to separate variables. This approach made the code more readable and avoided a long, hard-to-decipher string of characters. Each variable was configured with its desired color and formatting. Here's how we set them up:
+* "`TIME`": White background with bold blue text.
+* "`USER`": Bold red text.
+* "`HOST`": Blue background with underlined green text.
+* "`CURRENT_DIR`": Bold yellow text.
+
+When you source the "`prompt-0004.sh`" into your Bash terminal you will see something like the following:
+
+<pre>
+$ source prompt-0004.sh
+
+<span style="background-color: white; color: blue; font-weight: bold;">05:53:09</span> <span style="color: red; font-weight: bold;">username</span>@<span style="background-color: blue; color: green; text-decoration: underline;">hostname</span> <span style="color: yellow; font-weight: bold;">~/Repositories/bash-in-depth/_bash-in-depth/chapters/0032-Customizing-The-Prompt/script</span>
+$
+</pre>
+
+Configuring prompt strings is both simple and highly flexible. Not only can you customize their color and formatting, but you can also enhance them by incorporating additional information. This is achieved by executing commands and using their output directly in the prompt string.
+
+Shall we explore some examples in the next section?
+
+## Using command substitution in the prompt string
+
 ## Summary
 
 
