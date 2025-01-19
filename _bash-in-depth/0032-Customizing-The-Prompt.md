@@ -386,6 +386,69 @@ Shall we explore some examples in the next section?
 
 ## Using command substitution in the prompt string
 
+Sometimes, you may need a more advanced configuration for your "`PS1`" prompt. For instance, you might want to:
+* Display the current branch of your Git repository.
+* Show the current date in a custom format.
+* Include additional information about the current directory, such as its total size.
+* And much more!
+
+These and countless other use cases can be achieved by incorporating command substitution into your "`PS1`".
+
+The approach you take will depend on the complexity of the desired behavior:
+* For **simple tasks**, you can use commands directly within command substitution.
+* For **more complex tasks**, it's better to define a function in one of Bash's configuration files and source it.
+
+Let’s explore examples of both methods in the following subsections!
+
+### Simple behavior with command substitution
+
+Imagine you want your "`PS1`" prompt to display the number of files in the current working directory. To achieve this, you can use the command "`ls`" (to list files) and pipe its output to "`wc -l`" (to count the number of lines). This results in the command:
+
+```bash
+    ls | wc -l
+```
+
+<strong>How to Include This in Your `PS1`</strong>
+
+It’s simple! Modify your "`PS1`" definition in the configuration file to include command substitution for counting files. Suppose your current "`PS1`" is:
+
+
+```bash
+    PS1="\u@\H:\w\$ "
+```
+
+This displays:
+* The username ("`\u`")
+* The full hostname ("`\H`")
+* The current working directory ("`\w`")
+* A dollar symbol ("`\$`") followed by a space
+
+For example:
+
+<pre>
+username@hostname:~$ 
+</pre>
+
+To include the file count in the format like the following:
+
+<pre>
+username@hostname:~[NumFiles:123]$ 
+</pre>
+
+
+Yo need to update "`PS1`" as follows:
+
+```bash
+PS1="\u@\H:\w[NumFiles:\$(ls | wc -l)]\$ "
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+Once you source this configuration, the terminal will display the expected result with the file count dynamically updated.
+
+### Not so simple behavior with command substitution
+
+
+
 ## Summary
 
 
