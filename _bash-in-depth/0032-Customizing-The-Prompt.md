@@ -447,15 +447,95 @@ Once you source this configuration, the terminal will display the expected resul
 
 ### Not so simple behavior with command substitution
 
+When the desired behavior for your "`PS1`" is too complex for a simple command substitution, the best solution is to create a function and call it within the substitution.
 
+For example, suppose you want your prompt to display the number of items (files and folders) in the current directory, but only if there are 10 or fewer. If there are more than 10, it should display "`TOO MANY`." To achieve this, you can write a function to handle the logic and ensure it’s available to your shell<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a>.
+
+Add the following snippet to your "`.bashrc`" file:
+
+```bash
+...
+_number_of_items_in_folder() {
+    local numberItems=$(ls | wc -l)
+    if (( numberItems > 10 )); then
+        echo "[ TOO MANY ]"
+    else
+        echo "[ NumFiles: $numberItems ]"
+    fi
+}
+
+PS1="\u@\H:\w\$(_number_of_items_in_folder)\$ "
+      #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      #           Calls the function
+
+```
+
+After sourcing this file, the prompt will adapt based on the number of items:
+
+* If 10 or fewer:
+
+```shell
+username@hostname:~[ NumFiles:7 ]$
+```
+
+* If more than 10:
+
+```shell
+username@hostname:~[ TOO MANY ]$
+```
+
+This approach allows you to implement as much complexity as needed within the function. However, keep in mind that the function will execute every time the prompt is rendered. For a better user experience, aim to keep the function lightweight and fast.
+
+
+## Where to put the configuration
+
+So far, we've explored how to configure the various prompt strings available in Bash.
+
+Now, let’s discuss where you should place these configurations for the best results. The choice depends on a few key questions:
+1. **Are you the administrator of the machine?**
+    * **Yes** (You have full access to the operating system):
+        * Do you want the same prompt for all users?
+            * Use "`/etc/profile`" or "`/etc/bashrc`".
+            * Keep in mind, users can override the default prompt by customizing their own "`.bashrc`".
+    * **No** (You only have access to your own configuration):
+        * Use "`~/.bash_profile`" or "`~/.bashrc`".
+
+By placing your prompt configuration in the appropriate file, you can ensure it applies at the correct scope—either system-wide or just for your user account.
 
 ## Summary
 
+Customizing the Bash prompt involves configuring several prompt variables to personalize and enhance your command-line experience. These variables include "`PROMPT_COMMAND`", "`PS0`", "`PS1`", "`PS2`", "`PS3`", and "`PS4`", each serving a distinct purpose. "`PS1`" is the primary prompt string, displayed before every command, while "`PS0`" appears before each interactive line of input. "`PS2`" is shown when a command spans multiple lines, and "`PS3`" is used when prompting for input in a select command. Lastly, "`PS4`" helps in debugging scripts by showing trace output for commands executed in the shell. The "`PROMPT_COMMAND`" variable, on the other hand, allows you to execute a command before displaying the "`PS1`" prompt, offering an additional layer of customization.
+
+Special characters can be used within prompt strings to display dynamic information. For instance, "`\u`" represents the current username, "`\h`" displays the hostname, "`\w`" shows the current working directory, and "`\$`" indicates the user’s privilege level ("`$`" for regular users and "`#`" for root). These placeholders make it easy to construct informative and meaningful prompts without requiring additional commands or scripts.
+
+To further enrich your prompt, you can incorporate **command substitution**. This allows you to dynamically execute and display the output of commands directly within the prompt. For example, you can display the current Git branch, the number of files in the working directory, or the current date in a specific format. If the logic for the command substitution is simple, you can embed it directly into the prompt string. For more complex behaviors, defining a function in your Bash configuration file and calling it from within the prompt ensures better readability and maintainability. It’s important to keep these functions efficient, as they are executed every time the prompt is displayed.
+
+Customizing the colors and text formatting of your prompt adds an aesthetic and functional element to its design. Using ANSI escape sequences, you can change text and background colors, apply bold or underlined styles, and even reset formatting at specific points. For example, you can highlight the time with a bold blue font on a white background, underline the hostname with a blue background, or emphasize the current working directory with bold yellow text. Proper use of escape sequences ensures that formatting applies only where intended and does not interfere with command output.
+
+Finally, the placement of your prompt configuration determines its scope. If you are an administrator and want system-wide settings, you can place the configuration in files like "`/etc/profile`" or "`/etc/bashrc`". Individual users can override these settings in their personal files, such as "`~/.bashrc`" or "`~/.bash_profile`", if they only wish to customize their own shell. By understanding these tools and approaches, you can create a highly functional and visually appealing Bash prompt tailored to your preferences and workflow.
+
+
+*"Master your prompt, and you'll master the rhythm of your workday."*
 
 ## References
+
+1. <https://apps.timwhitlock.info/emoji/tables/unicode>
+2. <https://effective-shell.com/part-5-building-your-toolkit/customising-your-command-prompt/>
+3. <https://linux.101hacks.com/ps1-examples/change-prompt-background-color/>
+4. <https://stackoverflow.com/questions/3058325/what-is-the-difference-between-ps1-and-prompt-command>
+5. <https://stackoverflow.com/questions/55235564/command-substitution-in-ps1-doesnt-update-when-it-should-cached-output>
+6. <https://tldp.org/HOWTO/Bash-Prompt-HOWTO/bash-prompt-escape-sequences.html>
+7. <https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html>
+8. <https://www.howtogeek.com/307701/how-to-customize-and-colorize-your-bash-prompt/>
+9. <https://www.thegeekstuff.com/2008/09/bash-shell-take-control-of-ps1-ps2-ps3-ps4-and-prompt_command/>
+10. <https://www.unicode.org/emoji/charts/full-emoji-list.html>
+
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 <p id="footnote-1" style="font-size:10pt">
 1. For more information about the available formats consult “<code style="font-size:10pt">man strftime</code>” in your command line.<a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. You could declare this function inside one of the configuration files. For instance inside “<code style="font-size:10pt">.bashrc</code>” in your home folder.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 
