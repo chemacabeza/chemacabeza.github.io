@@ -99,6 +99,121 @@ The following table outlines the initial and most straightforward flags of the c
 
 While these flags provide a solid foundation, "`compgen`" also includes more advanced options for generating and modifying suggestions. These capabilities make it an indispensable tool for developing sophisticated programmable completion scripts. Typically, "`compgen`" is invoked within shell functions specifically designed to generate the possible completions, ensuring precise and context-appropriate suggestions.
 
+#### <b>Actions (the "`-A`" flag)</b>
+
+The “`-A`” flag is part of the compspec. In a nutshell, this flag admits an action as an argument. Depending on the value passed, you will have one or another suggestion.
+
+The following table provides an overview of the different values you can pass as action to the “`-A`” flag, with a description of the behavior.
+
+<table border="1" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="text-align: center; padding: 10px;">Flag</th>
+            <th style="text-align: center; padding: 10px;">Action</th>
+            <th style="text-align: left; padding: 10px;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="24" style="text-align: center; vertical-align: middle; padding: 10px;"><code>-A</code></td>
+            <td style="text-align: center; padding: 10px;"><code>alias</code></td>
+            <td style="text-align: left; padding: 10px;">Aliases as suggestions. Same as with “<code>-a</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>arrayvar</code></td>
+            <td style="text-align: left; padding: 10px;">Names of array variables as suggestions</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>binding</code></td>
+            <td style="text-align: left; padding: 10px;">Key binding names as suggestions</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>builtin</code></td>
+            <td style="text-align: left; padding: 10px;">Names of shell built-ins as suggestions. Same as with “<code>-b</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>command</code></td>
+            <td style="text-align: left; padding: 10px;">Names of commands as suggestions. Same as with “<code>-c</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>directory</code></td>
+            <td style="text-align: left; padding: 10px;">Names of directory as suggestions. Same as “<code>-d</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>disabled</code></td>
+            <td style="text-align: left; padding: 10px;">Names of disabled shell built-ins as suggestions</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>enabled</code></td>
+            <td style="text-align: left; padding: 10px;">Names of enabled shell built-ins as suggestions</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>export</code></td>
+            <td style="text-align: left; padding: 10px;">Names of exported shell variables. Same as “<code>-e</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>file</code></td>
+            <td style="text-align: left; padding: 10px;">Names of files. Same as “<code>-f</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>function</code></td>
+            <td style="text-align: left; padding: 10px;">Names of shell functions</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>group</code></td>
+            <td style="text-align: left; padding: 10px;">Names of user groups. Same as “<code>-g</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>helptopic</code></td>
+            <td style="text-align: left; padding: 10px;">Names of help topics as accepted by the “<code>help</code>” built-in command</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>hostname</code></td>
+            <td style="text-align: left; padding: 10px;">Names of hosts as suggestions</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>job</code></td>
+            <td style="text-align: left; padding: 10px;">If job control is active it will provide the names of jobs. Same as “<code>-j</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>keyword</code></td>
+            <td style="text-align: left; padding: 10px;">Names of reserved words. Sames as “<code>-k</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>running</code></td>
+            <td style="text-align: left; padding: 10px;">If job control is active it will provide the names of running jobs</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>service</code></td>
+            <td style="text-align: left; padding: 10px;">Names of services. Same as “<code>-s</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>setopt</code></td>
+            <td style="text-align: left; padding: 10px;">Names of valid arguments for the “<code>-o</code>” option of the “<code>set</code>” built-in command</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>shopt</code></td>
+            <td style="text-align: left; padding: 10px;">Names of shell options accepted by the “<code>shopt</code>” built-in command</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>signal</code></td>
+            <td style="text-align: left; padding: 10px;">Names of signals</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>stopped</code></td>
+            <td style="text-align: left; padding: 10px;">If job control is active it will provide the names of stopped jobs</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>user</code></td>
+            <td style="text-align: left; padding: 10px;">Names of users. Same as “<code>-u</code>”</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>variable</code></td>
+            <td style="text-align: left; padding: 10px;">Names of shell variables. Same as “<code>-v</code>”</td>
+        </tr>
+    </tbody>
+</table>
+
 ## Summary
 
 
