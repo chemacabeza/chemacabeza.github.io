@@ -214,6 +214,86 @@ The following table provides an overview of the different values you can pass as
     </tbody>
 </table>
 
+#### <b>Function (the "`-F`" flag)</b>
+
+Using the "`-F`" flag, you can specify the name of a function to generate a custom list of suggestions for your command.
+
+Within this function, you'll have access to various environment variables described in the section on programmable completion environment variables.
+
+The sole requirement for the function is to populate the "`COMPREPLY`" array with the desired suggestions. As we've learned earlier, Bash uses this array to display the suggestions for your command.
+
+#### <b>Globbing (the “`-G`” flag)</b>
+
+The "`-G`" flag enables you to provide an expression as its argument, which will be expanded to match file names. This expression supports various wildcards, allowing for more flexible and dynamic pattern matching.
+
+#### <b>Word list (the “`-W`” flag)</b>
+
+The "`-W`" flag allows you to specify a string containing a list of items that will serve as suggestions for your command when using programmable completion. This means you can directly define a set of predefined options that Bash will present as autocompletion suggestions. By including this flag, you can ensure that users of your command are guided toward selecting from a specific range of values, making the interaction more intuitive and efficient. This approach is particularly useful when the list of potential options is fixed or easily determined in advance.
+
+#### <b>Filter out (the “`-X`” flag)</b>
+
+The "`-X`" flag provides a way to refine the suggestions generated for your command by excluding specific options that match a pattern you specify as its argument. This pattern serves as a filter, ensuring that any suggestions aligning with it are removed from the list of completions presented to the user.
+
+However, the "`-X`" flag does not generate suggestions on its own. Instead, it works in conjunction with other flags, serving as a complementary tool to exclude unwanted matches from an existing set of completions. By using this flag effectively, you can create a more tailored and user-friendly set of suggestions, ensuring that irrelevant or redundant options are omitted.
+
+#### <b>Suffix (the “`-S`” flag)</b>
+
+The "`-S`"<a id="footnote-2-ref" href="#footnote-2" style="font-size:x-small">[2]</a> flag enables you to append a specified suffix to every suggestion generated during programmable completion. By providing the suffix as an argument to this flag, you can ensure that each suggestion includes the desired text appended to the end, enhancing the clarity or functionality of the completion results.
+
+It’s important to note that the "`-S`" flag does not operate independently. Instead, it works in tandem with other flags that generate the actual suggestions. Its role is purely to modify these existing suggestions by adding the specified suffix. This feature can be particularly useful in scenarios where a consistent format or additional context is needed for each suggestion.
+
+#### <b>Options (the “`-o`” flag)</b>
+
+The "`-o`" flag introduces specific behaviors that take effect once the completion specification (compspec) has been evaluated. This flag allows you to fine-tune how the completion system behaves, adding flexibility and control to the overall completion process.
+
+To help you better understand its functionality, the table below outlines the various option values you can pass to the "`-o`" flag. Each value is accompanied by a description detailing the corresponding behavior it activates, making it easier to determine the most appropriate choice for your needs.
+
+<table border="1" style="border-collapse: collapse; width: 100%;">
+    <thead>
+        <tr>
+            <th style="text-align: center; padding: 10px;">Flag</th>
+            <th style="text-align: center; padding: 10px;">Option</th>
+            <th style="text-align: left; padding: 10px;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="8" style="text-align: center; vertical-align: middle; padding: 10px;"><code>-o</code></td>
+            <td style="text-align: center; padding: 10px;"><code>bashdefault</code></td>
+            <td style="text-align: left; padding: 10px;">If the compspec generates no suggestions, Bash will perform the rest of default completions</td>
+        </tr>
+        <!-- Repeat rows for additional options -->
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>default</code></td>
+            <td style="text-align: left; padding: 10px;">If the compspec generates no suggestions, Bash will use Readline’s default filename completion</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>dirnames</code></td>
+            <td style="text-align: left; padding: 10px;">If the compspec generates no suggestions, Bash will use directory names</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>filenames</code></td>
+            <td style="text-align: left; padding: 10px;">Suggests names of files and folders</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>noquote</code></td>
+            <td style="text-align: left; padding: 10px;">Not to quote the suggestions if they are file names</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>nosort</code></td>
+            <td style="text-align: left; padding: 10px;">Not to sort the suggestions alphabetically</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>nospace</code></td>
+            <td style="text-align: left; padding: 10px;">Not to append a space to words completed at the end of the line.</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; padding: 10px;"><code>plusdirs</code></td>
+            <td style="text-align: left; padding: 10px;">After any matches defined by the compspec are generated, directory name completion is attempted and any matches are added to the results of the other actions.</td>
+        </tr>
+    </tbody>
+</table>
+
 ## Summary
 
 
@@ -222,5 +302,8 @@ The following table provides an overview of the different values you can pass as
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 <p id="footnote-1" style="font-size:10pt">
 1. <a href="https://www.ascii-code.com/">https://www.ascii-code.com/</a><a href="#footnote-1-ref">&#8617;</a>
+</p>
+<p id="footnote-2" style="font-size:10pt">
+2. There is another flag that is supposed to have a similar behavior to attach prefixes. The flag is “<code style="font-size:10pt">-P</code>”. But every time I tried to use it does not behave consistently as the “<code style="font-size:10pt">-S</code>” flag. Funny thing is that if you use the “<code style="font-size:10pt">-P</code>” flag from Zsh it provides the expected behavior.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 
