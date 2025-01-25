@@ -294,6 +294,56 @@ To help you better understand its functionality, the table below outlines the va
     </tbody>
 </table>
 
+### The "`complete`" Command
+
+The "`complete`" command serves as the primary tool for implementing programmable completion in Bash. It can be used on its own or in conjunction with the "`compgen`" command, which we explored in the previous section.
+
+The "`complete`" command offers the same options as "`compgen`", with the addition of two unique flags: "`-p`" and "`-r`".
+
+| Flag | Description of completion suggested |
+| :----: | :---- |
+| `-p` | Prints existing compspec in a reusable format |
+| `-r` | If a name is provided to the “`complete`” command, it removes the compspec associated. If no name is provided to the “`complete`” command, it removes all compspecs. |
+
+Now that you understand the roles of both "`compgen`" and "`complete`", it’s time to delve into how these commands can be effectively combined. This topic will be the focus of the next section.
+
+### How to use “`compgen`” and “`complete`” together?
+
+So far, we have explored the purpose of the compgen and complete commands, understanding their roles in programmable completion. However, to enable programmable completion effectively, these commands must be used together.
+
+In this section, we will learn how to combine these two commands to implement programmable completion. But before diving into the details, let’s start by creating a very simple script as the basis for our example. This lightweight script will be the target for which we’ll provide programmable completion.
+
+Here’s the script:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: programmable-completion-0001.sh
+ 3 echo "COMMAND: $0 $@"
+```
+
+As you can see, the script’s sole purpose is to print the string "`COMMAND: `" followed by the script’s name and any arguments passed to it. It’s minimal by design, serving as a straightforward example for our completion logic.
+
+Now, how do we add programmable completion to this script? As mentioned earlier, we need to leverage the built-in "`compgen`" and "`complete`" commands. To achieve this, we’ll create a separate script that contains the logic for handling programmable completion.
+
+Here’s the completion script:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: programmable-completion-0001-completion.bash
+ 3 _mucommand_completions() {
+ 4 		"[[LOGIC_TAKING_CARE_OF_PROGRAMMABLE_COMPLETION]]"
+ 5 }
+ 6 complete -F _mycommand_completions programmable-completion-0001
+```
+
+In this script, pay close attention to line 6, where the "`complete`" command is used. This command employs the "`-F`" flag to associate a specific function—named "`_mycommand_completions`" in our example—with the command "`programmable-completion-0001`". By sourcing this file, Bash is informed that whenever "`programmable-completion-0001`" is invoked, it must call the "`_mycommand_completions`" function to generate a list of suggestions.
+
+After the "`_mycommand_completions`" function executes, Bash retrieves the suggestions stored in the "`COMPREPLY`" array and presents them to the user.
+
+Within the "`_mycommand_completions`" function, you’ll define the logic for generating suggestions. This typically involves using the "`compgen`" command to dynamically build the list of possible completions<a id="footnote-3-ref" href="#footnote-3" style="font-size:x-small">[3]</a>.
+
+In the subsections that follow, we’ll explore a series of examples to help you become comfortable with programmable completion. Each example will introduce progressively more advanced concepts, ensuring a clear learning path. I hope you find this journey both engaging and enjoyable!
+
 ## Summary
 
 
@@ -305,5 +355,8 @@ To help you better understand its functionality, the table below outlines the va
 </p>
 <p id="footnote-2" style="font-size:10pt">
 2. There is another flag that is supposed to have a similar behavior to attach prefixes. The flag is “<code style="font-size:10pt">-P</code>”. But every time I tried to use it does not behave consistently as the “<code style="font-size:10pt">-S</code>” flag. Funny thing is that if you use the “<code style="font-size:10pt">-P</code>” flag from Zsh it provides the expected behavior.<a href="#footnote-2-ref">&#8617;</a>
+</p>
+<p id="footnote-3" style="font-size:10pt">
+3. or the record, using the "<code style="font-size:10pt">compgen</code>" command is not mandatory. However, it is an incredibly powerful tool designed to simplify your work and enhance efficiency.<a href="#footnote-3-ref">&#8617;</a>
 </p>
 
