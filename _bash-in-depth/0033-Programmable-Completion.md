@@ -344,6 +344,45 @@ Within the "`_mycommand_completions`" function, you’ll define the logic for ge
 
 In the subsections that follow, we’ll explore a series of examples to help you become comfortable with programmable completion. Each example will introduce progressively more advanced concepts, ensuring a clear learning path. I hope you find this journey both engaging and enjoyable!
 
+#### <b>Adding static values to the "`COMPREPLY`" array variable</b>
+
+In our first example, we will start by adding static values to the "`COMPREPLY`" array.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: programmable-completion-0002-completion.bash
+ 3 _mycommand_completions(){
+ 4     COMPREPLY=("opt1" "opt2" "opt3")
+ 5 }
+ 6 complete -F _mycommand_completions programmable-completion-0001
+```
+
+In this version of the script, we are manually defining three fixed suggestions: "`opt1`", "`opt2`", and "`opt3`". Once you source<a id="footnote-4-ref" href="#footnote-4" style="font-size:x-small">[4]</a> this script in your current terminal session, you can test it by typing "`programmable-completion-0001`"<a id="footnote-5-ref" href="#footnote-5" style="font-size:x-small">[5]</a> and pressing the **Tab** key.
+
+When you press **Tab** for the first time, Bash will suggest "`opt`", as all available completions share this common prefix. Pressing **Tab** twice more will reveal the full list of suggestions:
+
+<pre>
+$ programmable-completion-0001 opt
+opt1  opt2  opt3
+
+</pre>
+
+At this point, you can choose the option you want. For example, if you select "`opt2`" and press **Enter**, the command will execute with the following output:
+
+<pre>
+$ programmable-completion-0001 opt2
+COMMAND: programmable-completion-0001 opt2
+$
+</pre>
+
+With this approach, Bash will always provide the static values stored in the "`COMPREPLY`" array as suggestions.
+
+In the next section, we’ll explore how to use the "`compgen`" command along with its various flags to dynamically generate completions.
+
+#### <b>Adding static values with “`compgen`”</b>
+
+
+
 ## Summary
 
 
@@ -357,6 +396,12 @@ In the subsections that follow, we’ll explore a series of examples to help you
 2. There is another flag that is supposed to have a similar behavior to attach prefixes. The flag is “<code style="font-size:10pt">-P</code>”. But every time I tried to use it does not behave consistently as the “<code style="font-size:10pt">-S</code>” flag. Funny thing is that if you use the “<code style="font-size:10pt">-P</code>” flag from Zsh it provides the expected behavior.<a href="#footnote-2-ref">&#8617;</a>
 </p>
 <p id="footnote-3" style="font-size:10pt">
-3. or the record, using the "<code style="font-size:10pt">compgen</code>" command is not mandatory. However, it is an incredibly powerful tool designed to simplify your work and enhance efficiency.<a href="#footnote-3-ref">&#8617;</a>
+3. For the record, using the "<code style="font-size:10pt">compgen</code>" command is not mandatory. However, it is an incredibly powerful tool designed to simplify your work and enhance efficiency.<a href="#footnote-3-ref">&#8617;</a>
+</p>
+<p id="footnote-4" style="font-size:10pt">
+4. You can use the command “<code style="font-size:10pt">source programmable-completion-0002-completion.bash</code>” to make the changes effective in the current terminal.<a href="#footnote-4-ref">&#8617;</a>
+</p>
+<p id="footnote-5" style="font-size:10pt">
+5. “<code style="font-size:10pt">./programmable-completion-0001</code>” because it is in the current folder. If have the script in a folder that is the “<code style="font-size:10pt">PATH</code>” variable you can remove the “<code style="font-size:10pt">./</code>” and just use “<code style="font-size:10pt">programmable-completion-0001</code>”.<a href="#footnote-5-ref">&#8617;</a>
 </p>
 
