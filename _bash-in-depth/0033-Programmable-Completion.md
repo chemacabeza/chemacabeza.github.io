@@ -381,7 +381,68 @@ In the next section, we’ll explore how to use the "`compgen`" command along wi
 
 #### <b>Adding static values with “`compgen`”</b>
 
+In this section, we will explore how to use the "`compgen`" command to generate static suggestions for programmable completion.
 
+For this example, our completion script will provide suggestions for file names (using the "`-f`" flag), group names ("`-g`" flag), and user names ("`-u`" flag).
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: programmable-completion-0003-completion.bash
+ 3 _mycommand_completions(){
+ 4 		COMPREPLY=($(compgen -f -g -u))
+ 5 }
+ 6 complete -F _mycommand_completions programmable-completion-0001
+```
+
+After saving the script, source it in your terminal as you did previously, and then test it by typing the command followed by the Tab key. You should see output similar to the following:
+
+<pre>
+$ programmable-completion-0001 <Tab><Tab>
+adm              gnome-initial-setup             sgx
+_apt             hplip                           shadow
+audio            input                           speech-dispatcher
+...
+</pre>
+
+Keep in mind that the actual output will vary depending on your system's files, users, and groups.
+
+While this script improves upon the previous example by generating dynamic suggestions, it still has a limitation: it suggests the same options repeatedly, without considering what the user has already typed.
+
+In the next section, we’ll address this issue and refine our completion logic to make it more intelligent and context-aware.
+
+#### <b>Dynamic completion based on what has been typed so far</b>
+
+Building upon the previous section, we will once again use the "`compgen`" command—this time incorporating the user’s input so that the suggestions provided are more relevant to what has been typed so far.
+
+To achieve this, we need to utilize the "`COMP_WORDS`" array variable. As a reminder, this array holds the individual words in the current command line, where each word is indexed sequentially.
+
+Since we want to provide autocompletion for the first argument after the command itself, we need to reference index "`1`" of the "`COMP_WORDS`" array. This is because index "`0`" contains the command name ("`programmable-completion-0001`"), while index "`1`" represents the first argument the user is typing.
+
+Here’s how our improved completion script looks:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: programmable-completion-0004-completion.bash
+ 3 _mycommand_completions(){
+ 4 		COMPREPLY=($(compgen -f -g -u ${COMP_WORDS[1]}))
+ 5 }
+ 6 complete -F _mycommand_completions programmable-completion-0001
+```
+
+With this approach, Bash will only suggest options that begin with the characters you have already typed. For example, after sourcing the script, if you start typing the command and enter the letter "`v`", then press **Tab**, Bash will filter the suggestions to display only those that start with "`v`":
+
+<pre>
+$ programmable-completion-0001 v<Tab><Tab>
+vboxusers  video      voice
+</pre>
+
+Now, let’s say you select "`video`" from the suggestions. If you press **Tab** again, you might notice an unusual behavior—Bash will repeatedly suggest "`video`" without offering any new completions.
+
+This happens because our script is always referencing the same position in the "`COMP_WORDS`" array, which now permanently holds the value "`video`". As a result, it keeps generating the same suggestion repeatedly.
+
+To fix this issue, we need to dynamically determine which position in the command line we are providing suggestions for.
+
+In the next section, we’ll explore how to refine our script to handle this scenario more effectively.
 
 ## Summary
 
