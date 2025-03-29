@@ -444,6 +444,124 @@ To fix this issue, we need to dynamically determine which position in the comman
 
 In the next section, we’ll explore how to refine our script to handle this scenario more effectively.
 
+#### <b>Dynamic completion with several arguments and sub-arguments</b>
+
+In this section, we will create a programmable completion script for a command that takes three main arguments, each with two corresponding sub-arguments.
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0033-Programmable-Completion/3-arguments-and-2-subarguments.png"/>
+</div>
+
+To implement this feature correctly, we must clearly identify which "`COMP_CWORD`" values need to be checked. The diagram below illustrates this concept:
+
+<div style="text-align:center">
+    <img src="/assets/bash-in-depth/0033-Programmable-Completion/COMP_CWORD_with_the_command.png"/>
+</div>
+
+From the diagram, we can see that:
+* To provide argument suggestions, we check the "`COMP_CWORD`" value.
+* To suggest sub-arguments, we check both "`COMP_CWORD`" and the selected argument.
+
+**Step 1: Suggesting Arguments**
+
+Let's begin by implementing argument suggestions using the "`-W`" option of the "`compgen`" built-in command.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 # Script: mycommand-completion.bash
+ 3 _mycommand_completions() {
+ 4    if [[ "$COMP_CWORD" == 1 ]]; then
+ 5       COMPREPLY=($(compgen -W "user video image" ${COMP_WORDS[1]}))
+ 6       return
+ 7    fi
+ 8 }
+ 9 complete -F _mycommand_completions mycommand
+```
+
+Now, source the script and test it:
+
+```shell
+$ ./mycommand <Tab><Tab>
+image  user   video
+```
+
+At this stage, selecting an argument and pressing **Tab** again should not produce any further suggestions:
+
+```shell
+$ ./mycommand image <Tab><Tab>
+```
+
+Great job! We have successfully provided argument completion. Now, let's move on to sub-arguments.
+
+**Step 2: Suggesting Sub-Arguments**
+
+As mentioned earlier, to provide sub-argument suggestions, we need to:
+1. Ensure "`COMP_CWORD`" is set to "`2`".
+2. Identify which argument is currently selected.
+
+To achieve this, we store the argument in a variable and use conditional checks to provide appropriate sub-argument suggestions.
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 # Script: mycommand-completion.bash
+ 3 _mycommand_completions() {
+ 4    if [[ "$COMP_CWORD" == 1 ]]; then
+ 5       COMPREPLY=($(compgen -W "user video image" ${COMP_WORDS[1]}))
+ 6       return
+ 7    fi
+ 8    local argument=${COMP_WORDS[ (( COMP_CWORD - 1 )) ]}
+ 9    if [[ "$COMP_CWORD" == 2 ]]; then
+10       case "$argument" in
+11          image) COMPREPLY=($(compgen -W "resize rotate" ${COMP_WORDS[2]})) ;;
+12          user)  COMPREPLY=($(compgen -W "add remove" ${COMP_WORDS[2]})) ;;
+13          video) COMPREPLY=($(compgen -W "compress record" ${COMP_WORDS[2]})) ;;
+14       esac
+15       return
+16    fi
+17 }
+18 complete -F _mycommand_completions mycommand
+```
+
+**Testing Sub-Argument Completion**
+
+Source the script again and test the completion process:
+
+```shell
+$ ./mycommand <Tab><Tab>
+image  user   video
+```
+
+Now select "`image`" and press **Tab** again:
+
+```shell
+$ ./mycommand image <Tab><Tab>
+
+```
+
+At first, you’ll only see the letter "`r`", as both available sub-arguments ("`resize`" and "`rotate`") start with this letter.
+
+```shell
+$ ./mycommand image r
+
+```
+
+Pressing **Tab** again will display the full options:
+
+```shell
+$ ./mycommand image r<Tab><Tab>
+resize  rotate
+```
+
+**Wrapping Up**
+
+If everything is working as expected, congratulations! You’ve successfully implemented programmable completion for both arguments and sub-arguments.
+
+If you encounter issues, don't worry—double-check your script and try again. Debugging is a natural part of the learning process.
+
+While we could explore more advanced examples, you now have a solid understanding of how to create programmable completion scripts.
+
+In the following section, we'll learn where to place these scripts so that Bash loads them automatically when you start a new terminal session.
+
 ## Summary
 
 
