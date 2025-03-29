@@ -396,14 +396,15 @@ For this example, our completion script will provide suggestions for file names 
 
 After saving the script, source it in your terminal as you did previously, and then test it by typing the command followed by the Tab key. You should see output similar to the following:
 
+{% raw %}
 <pre>
-$ programmable-completion-0001 \<Tab\>\<Tab\>
+$ programmable-completion-0001 <Tab><Tab>
 adm              gnome-initial-setup             sgx
 _apt             hplip                           shadow
 audio            input                           speech-dispatcher
 ...
 </pre>
-
+{% endraw %}
 
 Keep in mind that the actual output will vary depending on your system's files, users, and groups.
 
