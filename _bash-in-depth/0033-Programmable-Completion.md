@@ -404,6 +404,7 @@ audio            input                           speech-dispatcher
 ...
 </pre>
 
+
 Keep in mind that the actual output will vary depending on your system's files, users, and groups.
 
 While this script improves upon the previous example by generating dynamic suggestions, it still has a limitation: it suggests the same options repeatedly, without considering what the user has already typed.
