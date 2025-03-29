@@ -431,10 +431,10 @@ Here’s how our improved completion script looks:
 
 With this approach, Bash will only suggest options that begin with the characters you have already typed. For example, after sourcing the script, if you start typing the command and enter the letter "`v`", then press **Tab**, Bash will filter the suggestions to display only those that start with "`v`":
 
-<pre>
+```
 $ programmable-completion-0001 v<Tab><Tab>
 vboxusers  video      voice
-</pre>
+```
 
 Now, let’s say you select "`video`" from the suggestions. If you press **Tab** again, you might notice an unusual behavior—Bash will repeatedly suggest "`video`" without offering any new completions.
 
