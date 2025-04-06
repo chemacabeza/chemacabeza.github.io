@@ -5,6 +5,38 @@ title: "Chapter 33: Programmable Completion"
 
 # Chapter 33: Programmable Completion
 
+## Index
+* [Introduction]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#introduction)
+* [Programmable completion environment variables]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#programmable-completion-environment-variables)
+    * [The "`COMP_CWORD`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_cword-variable)
+    * [The "`COMP_KEY`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_key-variable)
+    * [The "`COMP_LINE`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_line-variable)
+    * [The "`COMP_POINT`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_point-variable)
+    * [The "`COMP_TYPE`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_type-variable)
+    * [The "`COMP_WORDBREAKS`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_wordbreaks-variable)
+    * [The "`COMPREPLY`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-compreply-variable)
+    * [The "`COMP_WORDS`" variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-comp_words-variable)
+* [Programmable completion built-in commands]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#programmable-completion-built-in-commands)
+    * [The "`compgen`" Command]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-compgen-command)
+        * [Actions (the "`-A`" flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#actions-the--a-flag)
+        * [Function (the "`-F`" flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#function-the--f-flag)
+        * [Globbing (the “`-G`” flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#globbing-the--g-flag)
+        * [Word list (the “`-W`” flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#word-list-the--w-flag)
+        * [Filter out (the “`-X`” flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#filter-out-the--x-flag)
+        * [Suffix (the “`-S`” flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#suffix-the--s-flag)
+        * [Options (the “`-o`” flag)]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#options-the--o-flag)
+    * [The "`complete`" Command]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#the-complete-command)
+    * [How to use “`compgen`” and “`complete`” together?]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#how-to-use-compgen-and-complete-together)
+        * [Adding static values to the "`COMPREPLY`" array variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#adding-static-values-to-the-compreply-array-variable)
+        * [Adding static values with “`compgen`”]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#adding-static-values-with-compgen)
+        * [Dynamic completion based on what has been typed so far]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#dynamic-completion-based-on-what-has-been-typed-so-far)
+        * [Dynamic completion using “`COMP_CWORD`” variable]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#dynamic-completion-using-comp_cword-variable)
+        * [Dynamic completion with several arguments and sub-arguments]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#dynamic-completion-with-several-arguments-and-sub-arguments)
+* [Where to place the programmable completion scripts?]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#where-to-place-the-programmable-completion-scripts)
+* [What happens with ZSH users?]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#what-happens-with-zsh-users)
+* [Summary]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#summary)
+
+`
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 
@@ -444,6 +476,50 @@ To fix this issue, we need to dynamically determine which position in the comman
 
 In the next section, we’ll explore how to refine our script to handle this scenario more effectively.
 
+
+#### <b>Dynamic completion using “`COMP_CWORD`” variable</b>
+
+In the previous section, we encountered an odd behavior: the programmable completion kept suggesting the same option repeatedly.
+
+This happened because our script was always checking index "`1`" of the "`COMP_WORDS`" array. After selecting the option video, that position still held the same value. So, when we tried to get suggestions for the next word, the script simply returned video again—because that’s what was stored at index "`1`".
+
+To solve this, we can use the "`COMP_CWORD`" variable. As we’ve seen earlier, "`COMP_CWORD`" represents the index in the "`COMP_WORDS`" array that corresponds to the word currently being completed.
+
+In our case, since we want to provide suggestions specifically for the first argument of the command, we need to check whether "`COMP_CWORD`" equals "`1`".
+
+Let’s take a look at how this works in the example below:
+
+```bash
+ 1 #!/usr/bin/env bash
+ 2 #Script: mycommand-completion.bash
+ 3 _mycommand_completions(){
+ 4     if [[ "$COMP_CWORD" == 1 ]]; then
+ 5         COMPREPLY=($(compgen -f -g -u ${COMP_WORDS[1]}))
+ 6         return
+ 7     fi
+ 8 }
+ 9 complete -F _mycommand_completions mycommand
+```
+
+Now, source the "`mycommand-completion.bash`" script and try it again. When you type the character "`v`" and press "`<Tab><Tab>`", the behavior will appear the same as before:
+
+```shell
+$ ./mycommand v<Tab><Tab>
+vboxusers  video      voice
+```
+
+Next, complete the input to video and press "`<Tab>`" a couple more times. You should now see something like this:
+
+```shell
+$ ./mycommand video <Tab><Tab>
+
+```
+
+Notice that the strange behavior from before is no longer present.
+
+In the next section, we’ll take a deeper look into this approach for writing programmable completion scripts.
+
+
 #### <b>Dynamic completion with several arguments and sub-arguments</b>
 
 In this section, we will create a programmable completion script for a command that takes three main arguments, each with two corresponding sub-arguments.
@@ -562,8 +638,72 @@ While we could explore more advanced examples, you now have a solid understandin
 
 In the following section, we'll learn where to place these scripts so that Bash loads them automatically when you start a new terminal session.
 
+## Where to place the programmable completion scripts?
+
+To make Bash automatically recognize and load your programmable completion scripts, the standard location to place them is in the "`/etc/bash_completion.d/`" directory.
+
+You have two options:
+1. Copy your script directly into that directory, or
+2. Create a symbolic link in "`/etc/bash_completion.d/`" that points to the script stored elsewhere, such as in your home directory.
+
+Once the script is in that location—either as a file or a symbolic link—Bash will automatically load it each time a new shell session starts. This eliminates the need to manually source the script.
+
+If you don’t have administrative permissions to write to "`/etc/bash_completion.d/`", that’s not a problem. You can keep your completion scripts in a folder within your home directory and configure your "`.bashrc`" file to load them when your shell starts.
+
+```bash
+# Inside your ~/.bashrc
+for file in ~/.bash_completions/*; do
+  [ -f "$file" ] && . "$file"
+done
+```
+
+In the next section, you’ll find a script snippet that you can add to your "`.bashrc`". Just make sure to update it with the path to the folder where you’ve stored your completion scripts.
+
+## What happens with ZSH users?
+
+Believe it or not, even Zsh users can take advantage of Bash's programmable completion scripts.
+
+To enable this functionality in Zsh, simply add the following lines to your "`.zshrc`" file:
+
+```bash
+ 1 if [[ -e /etc/bash_completion.d/ ]]; then
+ 2     for file in /etc/bash_completion.d/*; do
+ 3         if [[ -r $file ]]; then
+ 4             . $file
+ 5         fi
+ 6     done
+ 7 fi
+```
+
+Let’s break down what this snippet does:
+* **Line 1**: It checks whether the specified directory exists.
+* **Line 2**: If the directory is found, the script loops through each file inside it.
+* **Line 3**: For every file, it checks if the file is readable.
+* **Line 4**: If the file passes the check, it is sourced—this activates the completion definitions within it.
+
+With this simple setup, Zsh can reuse Bash’s completion logic, allowing you to enjoy intelligent tab completions without rewriting scripts.
+
 ## Summary
 
+In this chapter, we explored one of the most powerful features available in Bash: **programmable completion**.
+
+We began by examining the advantages of programmable completion and how it can significantly enhance command-line productivity by offering intelligent, context-aware suggestions.
+
+We introduced key environment variables used in completion scripts, including "`COMP_WORDS`" and "`COMP_CWORD`", which help identify the user's input context. We also discussed the "`COMPREPLY`" array, where custom suggestions are populated for Bash to display during tab completion.
+
+Next, we examined the "`compgen`" command, which provides a flexible way to generate dynamic completion options. With various built-in flags, "`compgen`" can produce common suggestions efficiently and with minimal configuration.
+
+We then introduced the "`complete`" command, which acts as the bridge between a user-defined command and its completion logic. By using the "`-F`" flag, developers can register a custom function to supply the desired completions.
+
+By combining "`compgen`" and "`complete`", we demonstrated how to build tailored completion behavior for specific commands.
+
+We also covered how to make these completion scripts persistently available by placing them in the "`/etc/bash_completion.d/`" directory or, alternatively, sourcing them from a custom directory via "`.bashrc`" when system-level access is not available. Furthermore, we showed how Zsh users can also take advantage of Bash completion scripts by sourcing them conditionally in their "`.zshrc`" files.
+
+While not strictly necessary, programmable completion can be a powerful addition to any developer’s workflow, providing a smoother and more efficient terminal experience.
+
+As with any technical topic, practice is essential. If something doesn't work as expected, reviewing the logic and trying again will often lead to a solution.
+
+" *Behind every efficient command-line wizard is a collection of custom scripts, clever completions, and years of tinkering.*"
 
 ## References
 
