@@ -6,7 +6,6 @@ title: "Chapter 33: Programmable Completion"
 # Chapter 33: Programmable Completion
 
 ## Index
-* [Index]({{ site.url }}//bash-in-depth/0033-Programmable-Completion.md#index)
 * [Introduction]({{ site.url }}//bash-in-depth/0033-Programmable-Completion.md#introduction)
 * [Programmable completion environment variables]({{ site.url }}//bash-in-depth/0033-Programmable-Completion.md#programmable-completion-environment-variables)
     * [The "`COMP_CWORD`" variable]({{ site.url }}//bash-in-depth/0033-Programmable-Completion.md#the-comp_cword-variable)
