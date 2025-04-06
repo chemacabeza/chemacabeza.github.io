@@ -36,7 +36,6 @@ title: "Chapter 33: Programmable Completion"
 * [What happens with ZSH users?]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#what-happens-with-zsh-users)
 * [Summary]({{ site.url }}//bash-in-depth/0032-Customizing-The-Prompt.html#summary)
 
-`
 
 <hr style="width:100%;text-align:center;margin-left:0;margin-bottom:10px">
 
